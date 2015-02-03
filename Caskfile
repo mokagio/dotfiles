@@ -1,6 +1,7 @@
 cask install iterm2
 cask install google-chrome
 cask install alfred
+cask install spectacle
 cask install flux
 cask install shortcat
 cask install mailbox
@@ -9,10 +10,17 @@ cask install mou
 cask install spotify
 cask install skype
 cask install tubbler
-
+cask install 1password
+cask install atom
+cask install fauxpas
+cask install exernote
+cask install dash
+cask install seil
+cask install sixtyforce
 
 # Quick Look plugins
 cask install qlcolorcode
 cask install qlstephen
 cask install qlmarkdown
 cask install quicklook-json
+
