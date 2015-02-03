@@ -1,0 +1,18 @@
+cask install iterm2
+cask install google-chrome
+cask install alfred
+cask install flux
+cask install shortcat
+cask install mailbox
+cask install dropbox
+cask install mou
+cask install spotify
+cask install skype
+cask install tubbler
+
+
+# Quick Look plugins
+cask install qlcolorcode
+cask install qlstephen
+cask install qlmarkdown
+cask install quicklook-json
