@@ -23,3 +23,18 @@ Open a new shell instance and type `echo $SHELL` to make sure zsh is the current
 ### vim and Vundle
 
 You'll need to install [Vundle](https://github.com/gmarik/Vundle.vim) manually, then load the plugins from inside vim with `:PluginInstall`
+
+### Alfred 
+
+If Alfred doesn't find the apps installed through Homebrew Cask, you'll need to add the casks' locations to Alfred's scope.
+
+```
+vim "~/Library/Application Support/Alfred 2/Alfred.alfredpreferences/preferences/local/$(ls ~/Library/Application\ Support/Alfred\ 2/Alfred.alfredpreferences/preferences/local)features/defaultresults/prefs.plist"
+```
+
+```
+<string>/usr/local/Cellar/</string>
+<string>/opt/homebrew-cask/Caskroom</string>
+```
+
+
