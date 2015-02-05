@@ -1,6 +1,15 @@
 #!/bin/bash
 
-dotfiles=('gitconfig' 'vimrc' 'vimrc.bundles' 'xvimrc' 'zshrc' 'zshenv')
+dotfiles=(
+  'aliases'
+  'gitconfig' 
+  'vimrc' 
+  'vimrc.bundles' 
+  'xvimrc' 
+  'zshrc' 
+  'zshenv'
+  'zshprompt'
+)
 
 pwd=`pwd`
 

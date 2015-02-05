@@ -4,7 +4,10 @@
 # Source Prezto.
 if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
   source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
+else
+  echo "\033[1;31mMissing zprezto folder. Have a look inside the zshrc.\033[0m"
 fi
+echo "\033[1;31mTODO: Make the shell setup independent from zprezto!\033[0m"
 
 # autojump configs
 [[ -s `brew --prefix`/etc/autojump.sh ]] && . `brew --prefix`/etc/autojump.sh
@@ -21,13 +24,20 @@ alias bower='noglob bower'
 path_to_zsh_powerups=~/Developer/mokagio/zsh
 
 # fancy git status on prompt
-source $path_to_zsh_powerups/mokagio-zsh-git-prompt/mokagio-zsh-git-prompt.zsh
+if [[ -s "${HOME}/.zshprompt" ]]; then
+  source "${HOME}/.zshprompt"
+else
+  echo "\033[1;31mMissing custom prompt file. Have a look inside the zshrc.\033[0m"
+fi
 
-# mokagio aliases
-path_to_aliases_folder=$path_to_zsh_powerups/zsh-moka-aliases
-source $path_to_zsh_powerups/zsh-moka-aliases/zsh_moka_aliases.zsh
-
-source $HOME/.bizzby-aws-keys.zsh
+# Aliases
+if [[ -s "${HOME}/.aliases" ]]; then
+  source "${HOME}/.aliases"
+else
+  echo "\033[1;31mMissing aliases file. Have a look inside the zshrc.\033[0m"
+fi
+#path_to_aliases_folder=$path_to_zsh_powerups/zsh-moka-aliases
+#source $path_to_zsh_powerups/zsh-moka-aliases/zsh_moka_aliases.zsh
 
 alias showFiles='defaults write com.apple.finder AppleShowAllFiles YES; killall Finder /System/Library/CoreServices/Finder.app'
 alias hideFiles='defaults write com.apple.finder AppleShowAllFiles NO; killall Finder /System/Library/CoreServices/Finder.app'
