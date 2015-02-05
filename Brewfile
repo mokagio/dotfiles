@@ -1,10 +1,11 @@
-install zsh
-install git
-install rbenv
-install ruby-build
-install vim --override-system-vi
-install node
-install python
-install brew-cask
-install imagemagick
+brew 'zsh'
+brew 'git'
+brew 'rbenv'
+brew 'ruby-build'
+brew 'vim', args: ['override-system-vi']
+brew 'node'
+brew 'python'
+brew 'brew-cask'
+brew 'imagemagick'
 
+tap 'caskroom/cask'
