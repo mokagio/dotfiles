@@ -11,8 +11,15 @@ endif
 " Turn on syntax highlighting
 syntax on
 
-" Relative line numbers, 0 on the current line, 1 for the on above and below, and so on
+" Relative line numbers, line_number on the current line, 1 for the on above and below, and so on
 set relativenumber
+" Remove this to show 0 instead of line_number on the current line
+set number
+" This will make relative line numbers work on Netrw too
+let g:netrw_bufsettings = 'noma nomod nu nobl nowrap ro'
+
+" Highlight current line
+set cursorline
 
 " Use spaces instead of tabs, and default tab to 2 spaces
 " See http://stackoverflow.com/questions/234564/tab-key-4-spaces-and-auto-indent-after-curly-braces-in-vim
