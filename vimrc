@@ -39,3 +39,7 @@ set autochdir
 " Allow file renames from Netrw Directory Listing
 set modifiable
 
+" Allow erase to delete characters insert in previous insert sessions
+" http://vim.wikia.com/wiki/Erasing_previously_entered_characters_in_insert_mode
+set backspace=indent,eol,start
+
