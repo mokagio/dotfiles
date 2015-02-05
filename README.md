@@ -11,3 +11,15 @@ These are my dotfiles, in the hope to simplify the transiction to any new machin
 2. [Homebrew](http://brew.sh), to install basically all the rest
 3. [Brewdler](https://github.com/Homebrew/homebrew-brewdler), to install all the other tools and apps
 4. Run the `setup.sh` script, which will symlink all the dotfiles to `$HOME`
+
+### zsh
+
+zsh will be installed through homebrew, but it needs to be set as the default shell: `chsh -s $(which zsh)`
+
+If the command errors saying `chsh: <# path #>: non-standard shell` make sure that the path is listed in `/etc/shells`, if not `sudo vim /etc/shells` and add it. Now run `chsh` again.
+
+Open a new shell instance and type `echo $SHELL` to make sure zsh is the current shell. If it isn't maybe try logging in and out.
+
+### vim and Vundle
+
+You'll need to install [Vundle](https://github.com/gmarik/Vundle.vim) manually, then load the plugins from inside vim with `:PluginInstall`
