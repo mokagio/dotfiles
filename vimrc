@@ -19,7 +19,10 @@ set number
 let g:netrw_bufsettings = 'noma nomod nu nobl nowrap ro'
 
 " Highlight current line
-set cursorline
+hi CursorLine cterm=NONE ctermbg=darkgray ctermfg=green
+" Highlight extra whitespace(s) at the end of a line
+hi ExtraWhitespace ctermbg=red guibg=red
+match ExtraWhitespace /\s\+$/
 
 " Use spaces instead of tabs, and default tab to 2 spaces
 " See http://stackoverflow.com/questions/234564/tab-key-4-spaces-and-auto-indent-after-curly-braces-in-vim
