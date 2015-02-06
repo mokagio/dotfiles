@@ -24,7 +24,7 @@ Open a new shell instance and type `echo $SHELL` to make sure zsh is the current
 
 You'll need to install [Vundle](https://github.com/gmarik/Vundle.vim) manually, then load the plugins from inside vim with `:PluginInstall`
 
-### Alfred 
+### Alfred
 
 If Alfred doesn't find the apps installed through Homebrew Cask, you'll need to add the casks' locations to Alfred's scope.
 
@@ -37,4 +37,11 @@ vim "~/Library/Application Support/Alfred 2/Alfred.alfredpreferences/preferences
 <string>/opt/homebrew-cask/Caskroom</string>
 ```
 
+### Xcode
+
+Install the [Alcatraz](https://github.com/supermarin/alcatraz) plugin.
+
+You can get your snippets using [xcsnippets](https://github.com/mokagio/xcsnippet).
+
+Also don't forget to download the documentation, so that it can be used by Dash.
 
