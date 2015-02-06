@@ -19,6 +19,7 @@ set number
 let g:netrw_bufsettings = 'noma nomod nu nobl nowrap ro'
 
 " Highlight current line
+set cursorline
 hi CursorLine cterm=NONE ctermbg=darkgray ctermfg=green
 " Highlight extra whitespace(s) at the end of a line
 hi ExtraWhitespace ctermbg=red guibg=red
