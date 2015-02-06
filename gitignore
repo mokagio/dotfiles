@@ -1,0 +1,7 @@
+#
+# Use with extreme caution!
+# Only ignore files such as vim's *.swp or OS X's .DS_Store, which are system specific
+# Never ignore files that are specific to a project or framework in here! That's what the repo's gitignore is for!
+#
+*.swp
+.DS_Store

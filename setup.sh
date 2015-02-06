@@ -2,11 +2,12 @@
 
 dotfiles=(
   'aliases'
-  'gitconfig' 
-  'vimrc' 
-  'vimrc.bundles' 
-  'xvimrc' 
-  'zshrc' 
+  'gitconfig'
+  'gitignore'
+  'vimrc'
+  'vimrc.bundles'
+  'xvimrc'
+  'zshrc'
   'zshenv'
   'zshprompt'
 )

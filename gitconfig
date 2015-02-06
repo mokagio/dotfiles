@@ -3,3 +3,5 @@
 	email = "giovanni.lodi42@gmail.com"
 [push]
 	default = simple
+[core]
+	excludesfile = /Users/giovannilodi/.gitignore
