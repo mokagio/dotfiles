@@ -8,6 +8,7 @@ brew 'node'
 brew 'python'
 brew 'brew-cask'
 brew 'imagemagick'
+brew 'autojump'
 
 # Apps
 tap 'caskroom/cask'
@@ -32,6 +33,7 @@ cask 'evernote'
 cask 'dash'
 cask 'seil'
 cask 'sixtyforce'
+cask 'calibre'
 
 # Quick Look Plugins
 cask 'qlcolorcode'
