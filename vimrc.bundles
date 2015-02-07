@@ -14,5 +14,7 @@ Plugin 'tpope/vim-cucumber'
 Plugin 'godlygeek/tabular'
 Plugin 'plasticboy/vim-markdown'
 
+Plugin 'digitaltoad/vim-jade'
+
 call vundle#end()
 filetype on
