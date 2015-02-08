@@ -20,13 +20,13 @@ let g:netrw_bufsettings = 'noma nomod nu nobl nowrap ro'
 
 " Highlight current line
 set cursorline
-hi CursorLine cterm=NONE ctermbg=darkgray ctermfg=green
+hi CursorLine cterm=NONE ctermbg=darkgray
 " Highlight extra whitespace(s) at the end of a line
 hi ExtraWhitespace ctermbg=red guibg=red
 match ExtraWhitespace /\s\+$/
 
 " Visual mode selection color
-hi Visual term=NONE cterm=NONE ctermbg=darkgray ctermfg=red
+hi Visual term=NONE cterm=NONE ctermbg=darkgray
 
 " Use spaces instead of tabs, and default tab to 2 spaces
 " See http://stackoverflow.com/questions/234564/tab-key-4-spaces-and-auto-indent-after-curly-braces-in-vim
