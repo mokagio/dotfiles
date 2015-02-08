@@ -28,14 +28,9 @@ You'll need to install [Vundle](https://github.com/gmarik/Vundle.vim) manually, 
 
 If Alfred doesn't find the apps installed through Homebrew Cask, you'll need to add the casks' locations to Alfred's scope.
 
-```
-vim "~/Library/Application Support/Alfred 2/Alfred.alfredpreferences/preferences/local/$(ls ~/Library/Application\ Support/Alfred\ 2/Alfred.alfredpreferences/preferences/local)features/defaultresults/prefs.plist"
-```
+![Add Cask to Alfred's scope from the Alfred > Preferences > Features > Search Results](https://s3.amazonaws.com/gio-stuff/add-cask-scope-to-alfred)
 
-```
-<string>/usr/local/Cellar/</string>
-<string>/opt/homebrew-cask/Caskroom</string>
-```
+_This should not be necessary with Alfred 2.6.1+_, see: http://www.alfredforum.com/topic/5489-fresh-install-doesnt-have-homebrew-cask-in-search-scope-until-reset-is-hit-accepted/
 
 ### Xcode
 
