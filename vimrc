@@ -46,7 +46,7 @@ set autoindent
 " Load indent file for the current filetype
 filetype indent on
 
-" Make vim chdir into the dir of the current open file. 
+" Make vim chdir into the dir of the current open file.
 " Makes working with :e easier for me
 set autochdir
 
@@ -57,3 +57,6 @@ set modifiable
 " http://vim.wikia.com/wiki/Erasing_previously_entered_characters_in_insert_mode
 set backspace=indent,eol,start
 
+" Keep text selected after indentation.
+vnoremap < <gv
+vnoremap > >gv
