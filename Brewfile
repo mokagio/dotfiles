@@ -11,6 +11,7 @@ brew 'imagemagick'
 brew 'autojump'
 brew 'lua'
 brew 'luarocks'
+brew 'leiningen'
 
 # Apps
 tap 'caskroom/cask'
@@ -36,6 +37,7 @@ cask 'dash'
 cask 'seil'
 cask 'sixtyforce'
 cask 'calibre'
+cask 'java'
 
 # Quick Look Plugins
 cask 'qlcolorcode'
