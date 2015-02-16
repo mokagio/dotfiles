@@ -60,3 +60,13 @@ set backspace=indent,eol,start
 " Keep text selected after indentation.
 vnoremap < <gv
 vnoremap > >gv
+
+" Keep pasted pieces of code "in the buffer" to paste multiple times
+xnoremap p pgvy
+
+" Spell check markdown files
+au BufRead *.md setlocal spell spelllang=en_au
+
+" Highlight Podfile as a Ruby file
+au BufRead,BufNewFile Podfile set filetype=ruby
+
