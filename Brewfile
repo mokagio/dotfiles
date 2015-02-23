@@ -38,6 +38,7 @@ cask 'seil'
 cask 'sixtyforce'
 cask 'calibre'
 cask 'java'
+cask 'vlc'
 
 # Quick Look Plugins
 cask 'qlcolorcode'
