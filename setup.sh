@@ -4,6 +4,7 @@ dotfiles=(
   'aliases'
   'gitconfig'
   'gitignore'
+  'ideavimrc'
   'lldbinit'
   'mjolnir'
   'vimrc'
