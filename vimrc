@@ -23,16 +23,6 @@ set number
 " This will make relative line numbers work on Netrw too
 let g:netrw_bufsettings = 'noma nomod nu nobl nowrap ro'
 
-" Highlight current line
-set cursorline
-hi CursorLine cterm=NONE ctermbg=darkgray
-" Highlight extra whitespace(s) at the end of a line
-hi ExtraWhitespace ctermbg=red guibg=red
-match ExtraWhitespace /\s\+$/
-
-" Visual mode selection color
-hi Visual term=NONE cterm=NONE ctermbg=darkgray
-
 " Use spaces instead of tabs, and default tab to 2 spaces
 " See http://stackoverflow.com/questions/234564/tab-key-4-spaces-and-auto-indent-after-curly-braces-in-vim
 " Not sure about this combo from what I read from the help of the single settings, but hey the answer had 740 upvodes at the time of writing
@@ -40,8 +30,23 @@ set smartindent
 set tabstop=2
 set shiftwidth=2
 set expandtab
+" Keep tabs active for Makefiles
+autocmd FileType make setlocal noexpandtab
 
-"
+" Color schemes are managed through the https://github.com/flazz/vim-colorschemes plugin
+" See all available schemes in ~/.vim/bundle/vim-colorschemes/colors
+colorscheme grb256
+
+" If the color scheme won't work for some reason, these settings will be applied
+" Highlight current line
+set cursorline
+hi CursorLine cterm=NONE ctermbg=darkgray
+" Highlight extra whitespace(s) at the end of a line
+hi ExtraWhitespace ctermbg=red guibg=red
+match ExtraWhitespace /\s\+$/
+" Visual mode selection color
+hi Visual term=NONE cterm=NONE ctermbg=darkgray
+
 " Type-based indentation
 "
 "See http://stackoverflow.com/questions/8536711/how-to-autoindent-ruby-source-code-in-vim

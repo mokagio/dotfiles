@@ -18,5 +18,7 @@ Plugin 'plasticboy/vim-markdown'
 
 Plugin 'digitaltoad/vim-jade'
 
+Plugin 'flazz/vim-colorschemes'
+
 call vundle#end()
 filetype on
