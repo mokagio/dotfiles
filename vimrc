@@ -10,6 +10,9 @@ if filereadable(expand("~/.vimrc.bundles"))
   source ~/.vimrc.bundles
 endif
 
+" Remap ESC and save on pinky travel time :)
+inoremap kk <esc>
+
 " Turn on syntax highlighting
 syntax on
 
