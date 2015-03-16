@@ -9,6 +9,12 @@ else
 fi
 echo "\033[1;31mTODO: Make the shell setup independent from zprezto!\033[0m"
 
+# Use vim keybindings
+bindkey -v
+# Re-enable Ctrl-r to search history (vim keybindning disabled it)
+bindkey '^R' history-incremental-search-backward
+
+
 # autojump configs
 [[ -s `brew --prefix`/etc/autojump.sh ]] && . `brew --prefix`/etc/autojump.sh
 
