@@ -1,3 +1,5 @@
+let mapleader = "\<Space>"
+
 " Turn off vi compatibility
 set nocompatible
 
@@ -69,4 +71,9 @@ au BufRead *.md setlocal spell spelllang=en_au
 
 " Highlight Podfile as a Ruby file
 au BufRead,BufNewFile Podfile set filetype=ruby
+
+" pick plugin keybindings (https://github.com/thoughtbot/pick.vim)
+nnoremap <Leader>p :call PickFile()<CR>
+nnoremap <Leader>s :call PickFileSplit()<CR>
+nnoremap <Leader>v :call PickFileVerticalSplit()<CR>
 

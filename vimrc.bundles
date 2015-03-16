@@ -9,6 +9,8 @@ call vundle#begin()
 " Let Vundle manage Vundle
 Plugin 'gmarik/Vundle.vim'
 
+Plugin 'thoughtbot/pick.vim'
+
 Plugin 'tpope/vim-cucumber'
 
 Plugin 'godlygeek/tabular'

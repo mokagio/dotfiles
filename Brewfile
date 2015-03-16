@@ -13,6 +13,9 @@ brew 'lua'
 brew 'luarocks'
 brew 'leiningen'
 
+tap 'thoughtbots/formulae'
+brew 'pick'
+
 # Apps
 tap 'caskroom/cask'
 
