@@ -14,6 +14,7 @@ brew 'luarocks'
 brew 'leiningen'
 
 tap 'thoughtbots/formulae'
+brew 'liftoff'
 brew 'pick'
 
 # Apps
@@ -34,6 +35,7 @@ cask 'skype'
 cask 'tubbler'
 cask '1password'
 cask 'atom'
+cask 'appcode'
 cask 'fauxpas'
 cask 'evernote'
 cask 'dash'
@@ -42,6 +44,7 @@ cask 'sixtyforce'
 cask 'calibre'
 cask 'java'
 cask 'vlc'
+cask 'rescuetime'
 
 # Quick Look Plugins
 cask 'qlcolorcode'
