@@ -22,26 +22,24 @@ local set_current_window_grid = function(x, y, w, h)
   )
 end
 
-local loop_push_current_window_left = function()
+local resize_current_window_to_half_screen_left = function()
   return function()
     cur_window_grid = grid.get(current_window())
-    width = cur_window_grid.w - 1
-    if width == 0 then width = grid.GRIDWIDTH end
+    width = grid.GRIDWIDTH / 2
     set_current_window_grid(0, 0, width, grid.GRIDHEIGHT)
   end
 end
 
-local loop_push_current_window_right = function()
+local resize_current_window_to_half_screen_right = function()
   return function()
     cur_window_grid = grid.get(current_window())
-    x = cur_window_grid.x + 1
-    if x == grid.GRIDWIDTH then x = 0 end
-    width = grid.GRIDWIDTH - x
+    x = grid.GRIDWIDTH / 2
+    width = grid.GRIDWIDTH / 2
     set_current_window_grid(x, 0, width, grid.GRIDHEIGHT)
   end
 end
 
-hotkey.bind(mash, "left", loop_push_current_window_left())
-hotkey.bind(mash, "right", loop_push_current_window_right())
+hotkey.bind(mash, "left", resize_current_window_to_half_screen_left())
+hotkey.bind(mash, "right", resize_current_window_to_half_screen_right())
 hotkey.bind(mash, "b", function() set_current_window_grid(0, 0, grid.GRIDWIDTH, grid.GRIDHEIGHT) end)
 
