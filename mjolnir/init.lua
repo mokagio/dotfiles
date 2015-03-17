@@ -4,6 +4,7 @@ local grid = require "mjolnir.bg.grid"
 
 -- Define hotkey combo
 local mash = { "cmd", "alt" }
+local powermash = { "cmd", "alt", "ctrl" }
 
 grid.MARGINX = 0
 grid.MARGINY = 0
@@ -42,4 +43,7 @@ end
 hotkey.bind(mash, "left", resize_current_window_to_half_screen_left())
 hotkey.bind(mash, "right", resize_current_window_to_half_screen_right())
 hotkey.bind(mash, "b", grid.maximize_window)
+
+hotkey.bind(powermash, "right", grid.pushwindow_nextscreen)
+hotkey.bind(powermash, "left", grid.pushwindow_prevscreen)
 
