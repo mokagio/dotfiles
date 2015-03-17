@@ -85,3 +85,10 @@ nnoremap <Leader>p :call PickFile()<CR>
 nnoremap <Leader>s :call PickFileSplit()<CR>
 nnoremap <Leader>v :call PickFileVerticalSplit()<CR>
 
+" netrw settings
+"
+" no banner
+let g:netrw_banner=0
+" tree style
+let g:netrw_liststyle=3
+
