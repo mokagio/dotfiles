@@ -41,5 +41,5 @@ end
 
 hotkey.bind(mash, "left", resize_current_window_to_half_screen_left())
 hotkey.bind(mash, "right", resize_current_window_to_half_screen_right())
-hotkey.bind(mash, "b", function() set_current_window_grid(0, 0, grid.GRIDWIDTH, grid.GRIDHEIGHT) end)
+hotkey.bind(mash, "b", grid.maximize_window)
 
