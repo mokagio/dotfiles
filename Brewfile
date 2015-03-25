@@ -12,6 +12,7 @@ brew 'autojump'
 brew 'lua'
 brew 'luarocks'
 brew 'leiningen'
+brew 'chisel'
 
 tap 'thoughtbots/formulae'
 brew 'liftoff'
