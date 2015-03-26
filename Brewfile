@@ -14,7 +14,7 @@ brew 'luarocks'
 brew 'leiningen'
 brew 'chisel'
 
-tap 'thoughtbots/formulae'
+tap 'thoughtbot/formulae'
 brew 'liftoff'
 brew 'pick'
 
