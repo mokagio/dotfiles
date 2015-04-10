@@ -20,6 +20,8 @@ If the command errors saying `chsh: <# path #>: non-standard shell` make sure th
 
 Open a new shell instance and type `echo $SHELL` to make sure zsh is the current shell. If it isn't maybe try logging in and out.
 
+The setup is currently depending on [prezto](https://github.com/sorin-ionescu/prezto), have a look at the **entire** installation section of the README.
+
 ### vim and Vundle
 
 You'll need to install [Vundle](https://github.com/gmarik/Vundle.vim) manually, then load the plugins from inside vim with `:PluginInstall`
