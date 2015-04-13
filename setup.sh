@@ -6,6 +6,7 @@ dotfiles=(
   'gitignore'
   'ideavimrc'
   'lldbinit'
+  'luarocks'
   'mjolnir'
   'vimrc'
   'vimrc.bundles'
@@ -23,3 +24,7 @@ do
   ln -s $pwd/$dot ~/.$dot
 done
 
+# install lua plugins for Mjolnir
+luarocks install mjolnir.bg.grid
+luarocks install mjolnir.application
+luarocks install mjolnir.hotkey
