@@ -3,5 +3,12 @@
 # Only ignore files such as vim's *.swp or OS X's .DS_Store, which are system specific
 # Never ignore files that are specific to a project or framework in here! That's what the repo's gitignore is for!
 #
-*.swp
 .DS_Store
+
+# Vim - See https://github.com/github/gitignore/blob/master/Global/Vim.gitignore
+[._]*.s[a-w][a-z]
+[._]s[a-w][a-z]
+*.un~
+Session.vim
+.netrwhist
+*~
