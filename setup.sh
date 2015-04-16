@@ -24,6 +24,9 @@ do
   ln -s $pwd/$dot ~/.$dot
 done
 
+# install system wide gems
+bundle install --system
+
 # install lua plugins for Mjolnir
 luarocks install mjolnir.bg.grid
 luarocks install mjolnir.application
