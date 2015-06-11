@@ -71,6 +71,8 @@ cask 'java'
 cask 'vlc'
 # background app that tracks how you spend your time on the computer
 cask 'rescuetime'
+# explode and debug iOS app's view hierarchy in 3D
+cask 'reveal'
 
 # Quick Look Plugins
 cask 'qlcolorcode'
