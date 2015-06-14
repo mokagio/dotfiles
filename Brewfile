@@ -12,6 +12,8 @@ brew 'python'
 brew 'imagemagick'
 # imagemagick needs ghostscript to convert pdfs
 brew 'ghostscript'
+# ffmpeg is a CLI tool for video editing
+brew 'ffmpeg'
 # to jump between folders without going through the filesystem hierarchy
 brew 'autojump'
 brew 'lua'
