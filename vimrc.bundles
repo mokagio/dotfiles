@@ -17,6 +17,7 @@ Plugin 'godlygeek/tabular'
 Plugin 'plasticboy/vim-markdown'
 
 Plugin 'digitaltoad/vim-jade'
+Plugin 'cfdrake/vim-carthage'
 
 Plugin 'flazz/vim-colorschemes'
 
