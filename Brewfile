@@ -32,8 +32,8 @@ brew 'pick'
 # Apps
 
 # brew-cask and the caskroom formulae allows us to install Mac apps through homebrew
-brew 'brew-cask'
 tap 'caskroom/cask'
+brew 'brew-cask'
 
 # a Terminal.app replacement
 cask 'iterm2'
