@@ -5,3 +5,5 @@
 	default = simple
 [core]
 	excludesfile = ~/.gitignore
+[rebase]
+	autosquash = true
