@@ -28,6 +28,8 @@ tap 'thoughtbot/formulae'
 brew 'liftoff'
 # tool to do fuzzy searches, used by the vim plugin with the same name
 brew 'pick'
+# hub is a tool to work with GitHub wfrom the command line
+brew 'hub'
 
 # Apps
 
