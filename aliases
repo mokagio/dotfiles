@@ -25,6 +25,8 @@ alias gt='git tag'
 # merge by always making a new commit (--no-ff) and open editor for the commit message (-e)
 alias gmm='git merge --no-ff -e'
 
+alias gpr='hub pull-request'
+
 # See https://coderwall.com/p/euwpig
 alias glg="git log \
   --graph \
