@@ -24,6 +24,7 @@ alias gf='git fetch'
 alias gt='git tag'
 # merge by always making a new commit (--no-ff) and open editor for the commit message (-e)
 alias gmm='git merge --no-ff -e'
+alias gsp='git submodule foreach git pull'
 
 alias gpr='hub pull-request'
 
