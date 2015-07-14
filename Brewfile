@@ -30,6 +30,9 @@ brew 'liftoff'
 brew 'pick'
 # hub is a tool to work with GitHub wfrom the command line
 brew 'hub'
+# EditorConfig is a tool to keep coding styles consistent across IDEs
+brew 'editorconfig'
+
 
 # Apps
 

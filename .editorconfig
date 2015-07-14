@@ -1,0 +1,12 @@
+# See http://editorconfig.org/
+
+# Objective-C
+[*{.h,.m,.mm}]
+indent_style = space
+indent_size = 2
+
+# Swift
+[*{.swift}]
+indent_style = space
+indent_size = 2
+
