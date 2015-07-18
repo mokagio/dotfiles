@@ -21,5 +21,8 @@ Plugin 'cfdrake/vim-carthage'
 
 Plugin 'flazz/vim-colorschemes'
 
+" Languages plugins
+Plugin 'keith/swift.vim'
+
 call vundle#end()
 filetype on
