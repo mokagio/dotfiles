@@ -32,6 +32,8 @@ brew 'pick'
 brew 'hub'
 # EditorConfig is a tool to keep coding styles consistent across IDEs
 brew 'editorconfig'
+# send user notifcations from the terminal
+brew 'terminal-notifier'
 
 
 # Apps
