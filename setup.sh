@@ -6,6 +6,7 @@ dotfiles=(
   'gitignore'
   'ideavimrc'
   'lldbinit'
+  'liftoffrc'
   'luarocks'
   'mjolnir'
   'vimrc'
