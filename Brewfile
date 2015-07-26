@@ -34,6 +34,8 @@ brew 'hub'
 brew 'editorconfig'
 # send user notifcations from the terminal
 brew 'terminal-notifier'
+# linter for Swift
+brew 'swiftlint'
 
 
 # Apps
