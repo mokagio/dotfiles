@@ -96,3 +96,7 @@ alias a='atom'
 # Utils
 # (You can download the "Lee" voice from the Voice Utility app)
 alias sey="say -v Oliver \"Joe, I've completed the task you gave me\""
+
+# Carthage
+# using tu because cu is already taken by a system command
+alias tu='carthage update'
