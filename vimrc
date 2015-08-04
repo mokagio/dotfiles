@@ -47,6 +47,11 @@ match ExtraWhitespace /\s\+$/
 " Visual mode selection color
 hi Visual term=NONE cterm=NONE ctermbg=darkgray
 
+" ctrlp settings
+" ctrlp is a fuzzy file finder and opener
+let g:ctrlp_map = '<c-p>'
+let g:ctrlp_cmd = 'CtrlP'
+
 " Type-based indentation
 "
 "See http://stackoverflow.com/questions/8536711/how-to-autoindent-ruby-source-code-in-vim
@@ -79,11 +84,6 @@ au BufRead *.md setlocal spell spelllang=en_au
 
 " Highlight Podfile as a Ruby file
 au BufRead,BufNewFile Podfile set filetype=ruby
-
-" pick plugin keybindings (https://github.com/thoughtbot/pick.vim)
-nnoremap <Leader>p :call PickFile()<CR>
-nnoremap <Leader>s :call PickFileSplit()<CR>
-nnoremap <Leader>v :call PickFileVerticalSplit()<CR>
 
 " netrw settings
 "

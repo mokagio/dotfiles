@@ -9,7 +9,7 @@ call vundle#begin()
 " Let Vundle manage Vundle
 Plugin 'gmarik/Vundle.vim'
 
-Plugin 'thoughtbot/pick.vim'
+Plugin 'kien/ctrlp.vim'
 
 Plugin 'tpope/vim-cucumber'
 

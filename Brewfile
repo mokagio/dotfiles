@@ -26,8 +26,6 @@ brew 'chisel'
 tap 'thoughtbot/formulae'
 # tool to create Xcode projects from command line
 brew 'liftoff'
-# tool to do fuzzy searches, used by the vim plugin with the same name
-brew 'pick'
 # hub is a tool to work with GitHub wfrom the command line
 brew 'hub'
 # EditorConfig is a tool to keep coding styles consistent across IDEs
