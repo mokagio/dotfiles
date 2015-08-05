@@ -9,20 +9,24 @@ call vundle#begin()
 " Let Vundle manage Vundle
 Plugin 'gmarik/Vundle.vim'
 
+" ctrlp is a fuzzy file finder and opener
 Plugin 'kien/ctrlp.vim'
 
-Plugin 'tpope/vim-cucumber'
+" Automatically add closing braket
+Plugin 'jiangmiao/auto-pairs'
 
+" A plugin to make text alignement easier
 Plugin 'godlygeek/tabular'
-Plugin 'plasticboy/vim-markdown'
-
-Plugin 'digitaltoad/vim-jade'
-Plugin 'cfdrake/vim-carthage'
-
-Plugin 'flazz/vim-colorschemes'
 
 " Languages plugins
+Plugin 'cfdrake/vim-carthage'
+Plugin 'tpope/vim-cucumber'
+Plugin 'digitaltoad/vim-jade'
+Plugin 'plasticboy/vim-markdown'
 Plugin 'keith/swift.vim'
+
+" A collection of colorschemes
+Plugin 'flazz/vim-colorschemes'
 
 call vundle#end()
 filetype on
