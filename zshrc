@@ -29,13 +29,6 @@ alias bower='noglob bower'
 # zsh powerups folder
 path_to_zsh_powerups=~/Developer/mokagio/zsh
 
-# fancy git status on prompt
-if [[ -s "${HOME}/.zshprompt" ]]; then
-  source "${HOME}/.zshprompt"
-else
-  echo "\033[1;31mMissing custom prompt file. Have a look inside the zshrc.\033[0m"
-fi
-
 # Aliases
 if [[ -s "${HOME}/.aliases" ]]; then
   source "${HOME}/.aliases"
@@ -47,4 +40,12 @@ fi
 
 alias showFiles='defaults write com.apple.finder AppleShowAllFiles YES; killall Finder /System/Library/CoreServices/Finder.app'
 alias hideFiles='defaults write com.apple.finder AppleShowAllFiles NO; killall Finder /System/Library/CoreServices/Finder.app'
+
+# fancy git status on prompt
+# note: loading this at the end so all the aliases and imported things are available in there
+if [[ -s "${HOME}/.zshprompt" ]]; then
+  source "${HOME}/.zshprompt"
+else
+  echo "\033[1;31mMissing custom prompt file. Have a look inside the zshrc.\033[0m"
+fi
 

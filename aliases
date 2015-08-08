@@ -1,3 +1,8 @@
+# TODO remove this
+alias t='~/Developer/Personal/forget-me-not/fmn list'
+alias ta='~/Developer/Personal/forget-me-not/fmn add'
+alias td='~/Developer/Personal/forget-me-not/fmn done'
+
 # Navigation
 alias ~='cd ~'
 alias c='clear'
