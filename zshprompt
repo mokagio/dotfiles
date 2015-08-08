@@ -140,3 +140,5 @@ git_prompt_string() {
 }
 
 PROMPT='%F{cyan}${_prompt_sorin_pwd}%f%(!. %B%F{red}#%f%b.)$(git_prompt_string)${editor_info[keymap]} '
+
+RPROMPT='%F{cyan}%t'
