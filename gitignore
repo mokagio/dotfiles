@@ -12,3 +12,6 @@
 Session.vim
 .netrwhist
 *~
+
+# Forget Me Not - See https://github.com/mokagio/forget-me-not
+.fmn.yml
