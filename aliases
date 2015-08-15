@@ -1,7 +1,6 @@
-# TODO remove this
-alias t='~/Developer/Personal/forget-me-not/fmn list'
-alias ta='~/Developer/Personal/forget-me-not/fmn add'
-alias td='~/Developer/Personal/forget-me-not/fmn done'
+alias t='fmn list'
+alias ta='fmn add'
+alias td='fmn done'
 
 # Navigation
 alias ~='cd ~'
