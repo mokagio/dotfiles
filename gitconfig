@@ -7,3 +7,5 @@
 	excludesfile = ~/.gitignore
 [rebase]
 	autosquash = true
+[github]
+	user = mokagio
