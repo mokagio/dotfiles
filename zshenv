@@ -56,5 +56,3 @@ PATH=$PATH:$HOME/Scripts
 PATH=$PATH:/Applications/Postgres.app/Contents/MacOS/bin
 # OCLint
 PATH=$PATH:$HOME/Executables/oclint/bin
-
-export RBENV_VERSION="2.1.3"
