@@ -9,6 +9,9 @@ call vundle#begin()
 " Let Vundle manage Vundle
 Plugin 'gmarik/Vundle.vim'
 
+" Explore filesystem and open files and directories
+Plugin 'scrooloose/nerdtree'
+
 " ctrlp is a fuzzy file finder and opener
 Plugin 'kien/ctrlp.vim'
 

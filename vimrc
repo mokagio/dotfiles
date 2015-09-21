@@ -92,3 +92,6 @@ let g:netrw_banner=0
 " tree style
 let g:netrw_liststyle=3
 
+" NerdTree
+"
+map <C-n> :NERDTreeToggle<CR>
