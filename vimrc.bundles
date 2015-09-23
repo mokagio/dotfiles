@@ -11,6 +11,8 @@ Plugin 'gmarik/Vundle.vim'
 
 " Explore filesystem and open files and directories
 Plugin 'scrooloose/nerdtree'
+" Show git info in NerdTree
+Plugin 'Xuyuanp/nerdtree-git-plugin'
 
 " ctrlp is a fuzzy file finder and opener
 Plugin 'kien/ctrlp.vim'
