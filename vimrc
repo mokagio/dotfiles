@@ -95,3 +95,11 @@ let g:netrw_liststyle=3
 " NerdTree
 "
 map <C-n> :NERDTreeToggle<CR>
+
+" airline
+"
+" enable airline
+let g:airline#extensions#tabline#enabled = 1
+" always show the status bar
+" this is a vim setting rather than airplane, but makes sense here
+set laststatus=2

@@ -14,6 +14,9 @@ Plugin 'scrooloose/nerdtree'
 " Show git info in NerdTree
 Plugin 'Xuyuanp/nerdtree-git-plugin'
 
+" Nice and colored status/tabline
+Plugin 'bling/vim-airline'
+
 " ctrlp is a fuzzy file finder and opener
 Plugin 'kien/ctrlp.vim'
 
