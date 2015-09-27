@@ -33,6 +33,9 @@ set expandtab
 " Keep tabs active for Makefiles
 autocmd FileType make setlocal noexpandtab
 
+" Use F2 to toggle the past/nopaste mode
+set pastetoggle=<F2>
+
 " Color schemes are managed through the https://github.com/flazz/vim-colorschemes plugin
 " See all available schemes in ~/.vim/bundle/vim-colorschemes/colors
 colorscheme grb256
