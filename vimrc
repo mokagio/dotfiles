@@ -106,3 +106,7 @@ let g:airline#extensions#tabline#enabled = 1
 " always show the status bar
 " this is a vim setting rather than airplane, but makes sense here
 set laststatus=2
+" use powerline fonts for bold fatty arrous and othe symbols in the status bar (https://github.com/powerline/fonts.git)
+" important: you'll need to install a powerline patched version of the font you want to use.
+" important 2: when using vim from withing a terminal you'll need to set the patched font in the terminal app settings.
+let g:airline_powerline_fonts=1
