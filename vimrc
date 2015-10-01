@@ -98,6 +98,9 @@ let g:netrw_liststyle=3
 " NerdTree
 "
 map <C-n> :NERDTreeToggle<CR>
+let NERDTreeShowLineNumbers=1
+" use relative line numbers in NerdTree too <3
+autocmd FileType nerdtree setlocal relativenumber
 
 " airline
 "
