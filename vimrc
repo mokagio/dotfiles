@@ -95,11 +95,12 @@ let g:netrw_banner=0
 " tree style
 let g:netrw_liststyle=3
 
-" NerdTree
+" NERDTree
 "
+" Show/hide NERDTree with <C-n>
 map <C-n> :NERDTreeToggle<CR>
 let NERDTreeShowLineNumbers=1
-" use relative line numbers in NerdTree too <3
+" use relative line numbers in NERDTree too <3
 autocmd FileType nerdtree setlocal relativenumber
 
 " airline
