@@ -34,6 +34,9 @@ brew 'editorconfig'
 brew 'terminal-notifier'
 # linter for Swift
 brew 'swiftlint'
+# tool to quickly create gitignores
+tap 'karan/karan'
+brew 'gitignore'
 
 
 # Apps
