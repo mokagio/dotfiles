@@ -49,3 +49,6 @@ else
   echo "\033[1;31mMissing custom prompt file. Have a look inside the zshrc.\033[0m"
 fi
 
+
+# added by travis gem
+[ -f /Users/gio/.travis/travis.sh ] && source /Users/gio/.travis/travis.sh
