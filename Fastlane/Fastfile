@@ -1,0 +1,26 @@
+lane :install_xcode_plugins do
+  [
+    # The Xcode plugins manager
+    'https://github.com/alcatraz/Alcatraz/archive/1.1.12.zip',
+
+    # Plugins
+    # Vim keybindings for Xcode
+    'https://github.com/XVimProject/XVim/archive/v1.0-beta.zip',
+    # Better fuzzy autocompletion
+    'https://github.com/FuzzyAutocomplete/FuzzyAutocompletePlugin/releases/download/v2.1.1/FuzzyAutocomplete-2.1.1.zip',
+    # Generate documentation stubs
+    'https://github.com/onevcat/VVDocumenter-Xcode/archive/0.6.zip',
+    # Show a color annotation on the gutter matching the code status in git
+    'https://github.com/johnno1962/GitDiff/archive/v2.2.zip',
+    # Show the color of a `UIColor` when the cursor is on it
+    'https://github.com/NorthernRealities/ColorSenseRainbow/archive/v1.1.0.zip',
+
+    # Themes
+    'https://github.com/bojan/xcode-one-dark/archive/v2.zip',
+    'https://github.com/ArtSabintsev/Solarized-Dark-for-Xcode/archive/2.0.0.zip',
+  ]
+  .each do |plugin_url|
+    install_xcode_plugin(url: plugin_url)
+  end
+end
+
