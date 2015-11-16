@@ -3,3 +3,5 @@ set number
 
 inoremap kk <ESC>
 
+" Use F2 to toggle the past/nopaste mode
+set pastetoggle=<F2>
