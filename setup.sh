@@ -28,6 +28,9 @@ done
 # install system wide gems
 bundle install --system
 
+# install Xcode plugins
+fastlane install_xcode_plugins
+
 # install lua plugins for Mjolnir
 luarocks install mjolnir.bg.grid
 luarocks install mjolnir.application
