@@ -29,6 +29,10 @@ Plugin 'godlygeek/tabular'
 " A plugin to add, edit, and delete surroundings symbols to text
 Plugin 'tpope/vim-surround'
 
+" Read editor configurations from .editorconfig
+" http://editorconfig.org/
+Plugin 'editorconfig/editorconfig-vim'
+
 " Languages plugins
 Plugin 'cfdrake/vim-carthage'
 Plugin 'tpope/vim-cucumber'
