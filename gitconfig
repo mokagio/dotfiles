@@ -9,3 +9,5 @@
 	autosquash = true
 [github]
 	user = mokagio
+[pull]
+	rebase = true
