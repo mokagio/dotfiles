@@ -85,8 +85,8 @@ xnoremap p pgvy
 " Spell check markdown files
 au BufRead *.md setlocal spell spelllang=en_au
 
-" Highlight Podfile as a Ruby file
-au BufRead,BufNewFile Podfile set filetype=ruby
+" Highlight Podfile, Fatfile, etc. as a Ruby file
+au BufRead,BufNewFile Podfile,Fastfile,AppFile,Deliverfile,Snapfile set filetype=ruby
 
 " netrw settings
 "
