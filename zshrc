@@ -52,3 +52,7 @@ fi
 
 # added by travis gem
 [ -f /Users/gio/.travis/travis.sh ] && source /Users/gio/.travis/travis.sh
+
+# if there is a local zshrc, load it
+LOCAL_ZSHRC="${HOME}/.zshrc.local"
+[ -f "$LOCAL_ZSHRC" ] && source "$LOCAL_ZSHRC"
