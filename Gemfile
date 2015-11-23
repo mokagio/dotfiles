@@ -4,3 +4,5 @@ source 'https://rubygems.org'
 gem 'desktop'
 # collection of tools to automate many mundaine iOS and OS X development tasks
 gem 'fastlane'
+# take a picture using the webcam every time you commit
+gem 'lolcommits'
