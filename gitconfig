@@ -11,3 +11,5 @@
 	user = mokagio
 [pull]
 	rebase = true
+[credential]
+	helper = osxkeychain
