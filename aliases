@@ -105,3 +105,7 @@ alias sey="say -v Oliver \"Joe, I've completed the task you gave me\""
 # Carthage
 # using tu because cu is already taken by a system command
 alias tu='carthage update'
+
+# Fastlane
+alias f='fastlane'
+alias bf='bundle exec fastlane'
