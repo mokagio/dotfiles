@@ -50,6 +50,9 @@ match ExtraWhitespace /\s\+$/
 " Visual mode selection color
 hi Visual term=NONE cterm=NONE ctermbg=darkgray
 
+" Show page guide at column 80
+set colorcolumn=80
+
 " ctrlp settings
 " ctrlp is a fuzzy file finder and opener
 let g:ctrlp_map = '<c-p>'
