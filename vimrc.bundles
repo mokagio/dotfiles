@@ -39,6 +39,7 @@ Plugin 'tpope/vim-cucumber'
 Plugin 'digitaltoad/vim-jade'
 Plugin 'plasticboy/vim-markdown'
 Plugin 'keith/swift.vim'
+Plugin 'elzr/vim-json'
 
 " A collection of colorschemes
 Plugin 'flazz/vim-colorschemes'
