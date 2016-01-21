@@ -53,6 +53,14 @@ hi Visual term=NONE cterm=NONE ctermbg=darkgray
 " Show page guide at column 80
 set colorcolumn=80
 
+" Better navigation for beginning and end of line
+" Note that these replace the jump to top (H) and bottom (L) visible lines
+" actions, but to be honest I've never used them, so is not a big loss...
+"
+" Via https://twitter.com/_supermarin/status/687016530769383425
+nnoremap H ^
+nnoremap L $
+
 " ctrlp settings
 " ctrlp is a fuzzy file finder and opener
 let g:ctrlp_map = '<c-p>'
