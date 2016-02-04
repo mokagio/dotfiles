@@ -67,6 +67,7 @@ alias g3f='nocorrect git flow feature finish'
 
 # iOS & OS X development
 alias xco='open -a Xcode .'
+alias xbo='open -a /Applications/Xcode-beta.app .'
 alias aco='open -a AppCode .'
 
 alias pii='nocorrect pod install'
