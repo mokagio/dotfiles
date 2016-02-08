@@ -94,7 +94,7 @@ alias nmp='npm'
 
 # Apps
 alias chrome='open -a Google\ Chrome'
-alias m='open -a Mou'
+alias m='open -a MacDown'
 alias v='vim'
 alias a='atom'
 
