@@ -111,6 +111,7 @@ let g:netrw_liststyle=3
 " Show/hide NERDTree with <C-n>
 map <C-n> :NERDTreeToggle<CR>
 let NERDTreeShowLineNumbers=1
+let NERDTreeShowHidden=1
 " use relative line numbers in NERDTree too <3
 autocmd FileType nerdtree setlocal relativenumber
 
