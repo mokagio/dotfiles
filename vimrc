@@ -65,6 +65,8 @@ nnoremap L $
 " ctrlp is a fuzzy file finder and opener
 let g:ctrlp_map = '<c-p>'
 let g:ctrlp_cmd = 'CtrlP'
+" show hidden files (.something) by default
+let g:ctrlp_show_hidden = 1
 
 " Type-based indentation
 "
