@@ -129,6 +129,11 @@ set laststatus=2
 " important 2: when using vim from withing a terminal you'll need to set the patched font in the terminal app settings.
 let g:airline_powerline_fonts=1
 
+" Omni completion
+"
+filetype plugin on
+set omnifunc=syntaxcomplete#Complete
+
 " Custom Commands
 "
 com! FormatJSON %!python -m json.tool

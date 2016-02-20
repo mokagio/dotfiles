@@ -39,6 +39,8 @@ Plugin 'tpope/vim-cucumber'
 Plugin 'digitaltoad/vim-jade'
 Plugin 'plasticboy/vim-markdown'
 Plugin 'keith/swift.vim'
+" Rudimental support for Swift autocompletion
+Plugin 'keith/sourcekittendaemon.vim'
 Plugin 'elzr/vim-json'
 
 " A collection of colorschemes
