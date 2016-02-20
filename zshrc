@@ -56,3 +56,5 @@ fi
 # if there is a local zshrc, load it
 LOCAL_ZSHRC="${HOME}/.zshrc.local"
 [ -f "$LOCAL_ZSHRC" ] && source "$LOCAL_ZSHRC"
+
+test -e ${HOME}/.iterm2_shell_integration.zsh && source ${HOME}/.iterm2_shell_integration.zsh
