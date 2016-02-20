@@ -16,7 +16,7 @@ bindkey '^R' history-incremental-search-backward
 
 
 # autojump configs
-[[ -s `brew --prefix`/etc/autojump.sh ]] && . `brew --prefix`/etc/autojump.sh
+[[ -s $(brew --prefix)/etc/profile.d/autojump.sh  ]] && . $(brew --prefix)/etc/profile.d/autojump.sh
 
 # Turn off autocorrect for some commands
 # See http://yountlabs.com/blog/2010/11/06/disable-autocorrect-in-zsh/
