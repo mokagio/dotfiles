@@ -134,6 +134,11 @@ let g:airline_powerline_fonts=1
 filetype plugin on
 set omnifunc=syntaxcomplete#Complete
 
+" vim-markdown settings
+"
+" disable automatic folding
+let g:vim_markdown_folding_disabled = 1
+
 " Custom Commands
 "
 com! FormatJSON %!python -m json.tool
