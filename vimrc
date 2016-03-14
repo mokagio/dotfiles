@@ -138,6 +138,8 @@ set omnifunc=syntaxcomplete#Complete
 "
 " disable automatic folding
 let g:vim_markdown_folding_disabled = 1
+" disable new list item indent
+let g:vim_markdown_new_list_item_indent = 0
 
 " Custom Commands
 "
