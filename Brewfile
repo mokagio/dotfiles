@@ -22,6 +22,8 @@ brew 'luarocks'
 brew 'leiningen'
 # some lldb functions to help debugging from the Xcode console
 brew 'chisel'
+# decentralized dependencies manager, made for iOS development
+brew 'carthage'
 
 tap 'thoughtbot/formulae'
 # tool to create Xcode projects from command line
