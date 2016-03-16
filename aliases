@@ -1,3 +1,7 @@
+# Reload zshrc
+alias sss='source ~/.zshrc'
+
+# Forget Me Not Task Manager
 alias t='fmn list'
 alias ta='fmn add'
 alias td='fmn done'
