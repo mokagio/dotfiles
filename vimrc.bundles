@@ -42,6 +42,8 @@ Plugin 'keith/swift.vim'
 " Rudimental support for Swift autocompletion
 Plugin 'keith/sourcekittendaemon.vim'
 Plugin 'elzr/vim-json'
+" Run rspec tests via leader commands
+Plugin 'thoughtbot/vim-rspec'
 
 " A collection of colorschemes
 Plugin 'flazz/vim-colorschemes'

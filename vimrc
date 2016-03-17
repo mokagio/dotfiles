@@ -77,10 +77,6 @@ set autoindent
 " Load indent file for the current filetype
 filetype indent on
 
-" Make vim chdir into the dir of the current open file.
-" Makes working with :e easier for me
-set autochdir
-
 " Allow file renames from Netrw Directory Listing
 set modifiable
 
@@ -140,6 +136,14 @@ set omnifunc=syntaxcomplete#Complete
 let g:vim_markdown_folding_disabled = 1
 " disable new list item indent
 let g:vim_markdown_new_list_item_indent = 0
+
+" vim-rspec settings
+"
+map <Leader>t :call RunCurrentSpecFile()<CR>
+map <Leader>s :call RunNearestSpec()<CR>
+map <Leader>l :call RunLastSpec()<CR>
+map <Leader>a :call RunAllSpecs()<CR>
+let g:rspec_runner = "os_x_iterm2"
 
 " Custom Commands
 "
