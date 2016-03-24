@@ -41,6 +41,8 @@ Plugin 'plasticboy/vim-markdown'
 Plugin 'keith/swift.vim'
 " Rudimental support for Swift autocompletion
 Plugin 'keith/sourcekittendaemon.vim'
+" Run xcodebuild tasks from within vim
+Plugin 'gfontenot/vim-xcode'
 Plugin 'elzr/vim-json'
 " Run rspec tests via leader commands
 Plugin 'thoughtbot/vim-rspec'
