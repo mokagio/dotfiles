@@ -64,3 +64,5 @@ test -e ${HOME}/.iterm2_shell_integration.zsh && source ${HOME}/.iterm2_shell_in
 source /usr/local/opt/chruby/share/chruby/chruby.sh
 # enable chruby auto switch ruby version by looking into .rbuy-versionafile
 source /usr/local/opt/chruby/share/chruby/auto.sh
+
+if which swiftenv > /dev/null; then eval "$(swiftenv init -)"; fi
