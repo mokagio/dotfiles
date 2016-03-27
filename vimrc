@@ -38,7 +38,7 @@ set pastetoggle=<F2>
 
 " Color schemes are managed through the https://github.com/flazz/vim-colorschemes plugin
 " See all available schemes in ~/.vim/bundle/vim-colorschemes/colors
-colorscheme Monokai
+colorscheme Zenburn
 
 " If the color scheme won't work for some reason, these settings will be applied
 " Highlight current line
