@@ -73,9 +73,6 @@ TMPPREFIX="${TMPDIR%/}/zsh"
 # mokagio
 #
 
-# rbenv
-PATH=$HOME/.rbenv/bin:$PATH
-eval "$(rbenv init -)"
 # npm
 PATH=$PATH:/usr/local/share/npm/bin
 # personal scripts
