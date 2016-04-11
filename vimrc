@@ -26,7 +26,7 @@ let g:netrw_bufsettings = 'noma nomod nu nobl nowrap ro'
 " Use spaces instead of tabs, and default tab to 2 spaces
 " See http://stackoverflow.com/questions/234564/tab-key-4-spaces-and-auto-indent-after-curly-braces-in-vim
 " Not sure about this combo from what I read from the help of the single settings, but hey the answer had 740 upvodes at the time of writing
-set smartindent
+filetype plugin indent on
 set tabstop=2
 set shiftwidth=2
 set expandtab
