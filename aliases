@@ -13,7 +13,7 @@ alias c='clear'
 # git
 alias g='git'
 alias gb='git branch'
-alias gs='nocorrect git status'
+alias gs='nocorrect git status --short'
 alias ga='nocorrect git add'
 alias gaa='nocorrect git add --all'
 alias gc='nocorrect git commit'
