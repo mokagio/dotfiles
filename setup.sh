@@ -26,6 +26,9 @@ do
   ln -s $pwd/$dot ~/.$dot
 done
 
+# link bin folder
+ln -s $pwd/bin ~/bin
+
 # install system wide gems
 bundle install --system
 
