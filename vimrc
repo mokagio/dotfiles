@@ -130,6 +130,17 @@ let g:airline_powerline_fonts=1
 filetype plugin on
 set omnifunc=syntaxcomplete#Complete
 
+" Syntastic
+"
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
+
 " vim-markdown settings
 "
 " disable automatic folding
@@ -144,6 +155,10 @@ map <Leader>s :call RunNearestSpec()<CR>
 map <Leader>l :call RunLastSpec()<CR>
 map <Leader>a :call RunAllSpecs()<CR>
 let g:rspec_runner = "os_x_iterm2"
+
+" swift.vim settings
+"
+let g:syntastic_swift_checkers = ['swiftpm', 'swiftlint']
 
 " Custom Commands
 "

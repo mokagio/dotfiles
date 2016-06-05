@@ -33,6 +33,9 @@ Plugin 'tpope/vim-surround'
 " http://editorconfig.org/
 Plugin 'editorconfig/editorconfig-vim'
 
+" Syntax checks
+Plugin 'scrooloose/syntastic'
+
 " Languages plugins
 Plugin 'cfdrake/vim-carthage'
 Plugin 'tpope/vim-cucumber'
