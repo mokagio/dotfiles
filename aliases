@@ -104,7 +104,7 @@ alias m='open -a MacDown'
 # https://github.com/thoughtbot/Markoff
 alias mp='open -a Markoff'
 alias v='vim'
-alias a='atom'
+alias ao='open -a /Applications/Android\ Studio.app'
 
 # Utils
 # (You can download the "Lee" voice from the Voice Utility app)
