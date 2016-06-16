@@ -67,6 +67,9 @@ let g:ctrlp_map = '<c-p>'
 let g:ctrlp_cmd = 'CtrlP'
 " show hidden files (.something) by default
 let g:ctrlp_show_hidden = 1
+let g:ctrlp_custom_ignore = {
+  \ 'dir': '\v[\/](test_coverage|docs)$',
+  \ }
 
 " Type-based indentation
 "
