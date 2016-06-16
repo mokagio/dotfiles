@@ -133,6 +133,13 @@ let g:airline_powerline_fonts=1
 filetype plugin on
 set omnifunc=syntaxcomplete#Complete
 
+" Neocomplete
+"
+" Enable automatic autocompletion via neocompletion by default
+let g:neocomplete#enable_at_startup = 1
+" Disable for markdown
+autocmd FileType markdown NeoCompleteLock
+
 " Syntastic
 "
 set statusline+=%#warningmsg#

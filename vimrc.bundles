@@ -36,6 +36,9 @@ Plugin 'editorconfig/editorconfig-vim'
 " Syntax checks
 Plugin 'scrooloose/syntastic'
 
+" Autocompletion cache
+Plugin 'Shougo/neocomplete.vim'
+
 " Languages plugins
 Plugin 'cfdrake/vim-carthage'
 Plugin 'tpope/vim-cucumber'
