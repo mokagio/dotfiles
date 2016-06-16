@@ -76,8 +76,10 @@ TMPPREFIX="${TMPDIR%/}/zsh"
 # npm
 PATH=$PATH:/usr/local/share/npm/bin
 # Postgres.app bins
-PATH=$PATH:/Applications/Postgres.app/Contents/MacOS/bin
+PATH=$HOME/Library/Application Support/Postgres/var-9.4
 # OCLint
 PATH=$PATH:$HOME/Executables/oclint/bin
 # personal scripts
 PATH=$PATH:$HOME/bin
+
+ANDROID_HOME=~/Library/Android/sdk
