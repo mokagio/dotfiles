@@ -52,6 +52,9 @@ Plugin 'gfontenot/vim-xcode'
 Plugin 'elzr/vim-json'
 " Run rspec tests via leader commands
 Plugin 'thoughtbot/vim-rspec'
+" JS and JSX (React)
+Plugin 'pangloss/vim-javascript'
+Plugin 'mxw/vim-jsx'
 
 " A collection of colorschemes
 Plugin 'flazz/vim-colorschemes'

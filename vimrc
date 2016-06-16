@@ -174,6 +174,12 @@ let g:syntastic_swift_checkers = ['swiftpm', 'swiftlint']
 map <Leader>b :XBuild<CR>
 map <Leader>u :XTest<CR>
 
+" vim-jsx settings
+"
+" enable jsx highlighting for js files as well
+let g:jsx_ext_required = 0
+let g:syntastic_javascript_checkers = ['eslint']
+
 " Custom Commands
 "
 com! FormatJSON %!python -m json.tool
