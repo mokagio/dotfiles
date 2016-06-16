@@ -170,6 +170,10 @@ let g:rspec_runner = "os_x_iterm2"
 "
 let g:syntastic_swift_checkers = ['swiftpm', 'swiftlint']
 
+" vim-xcode mappings
+map <Leader>b :XBuild<CR>
+map <Leader>u :XTest<CR>
+
 " Custom Commands
 "
 com! FormatJSON %!python -m json.tool
