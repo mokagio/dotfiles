@@ -20,6 +20,9 @@ Plugin 'bling/vim-airline'
 " ctrlp is a fuzzy file finder and opener
 Plugin 'kien/ctrlp.vim'
 
+" Git integration and more
+Plugin 'tpope/vim-fugitive'
+
 " Automatically add closing braket
 Plugin 'jiangmiao/auto-pairs'
 
