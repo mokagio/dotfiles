@@ -137,6 +137,7 @@ set omnifunc=syntaxcomplete#Complete
 "
 " Enable automatic autocompletion via neocompletion by default
 let g:neocomplete#enable_at_startup = 1
+let g:neocomplete#enable_camel_case = 1
 " Disable for markdown
 autocmd FileType markdown NeoCompleteLock
 
