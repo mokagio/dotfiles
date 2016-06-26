@@ -139,9 +139,15 @@ git_prompt_string() {
   [ -n "$git_where" ] && echo " $GIT_PROMPT_PREFIX%{$fg[yellow]%}${git_where#(refs/heads/|tags/)}$(parse_git_ahead)$(parse_git_state)$GIT_PROMPT_SUFFIX"
 }
 
+# previous command result
+prompt_previous_command_result() {
+  # http://stackoverflow.com/questions/4466245/customize-zshs-prompt-when-displaying-previous-command-exit-code
+  echo "%(?.✅ .❌ %F{red}[%?])"
+}
+
 # precmd prints before every prompt output
 precmd() { t --prompt }
 
-PROMPT='%F{cyan}${_prompt_sorin_pwd}%f%(!. %B%F{red}#%f%b.)$(git_prompt_string)${editor_info[keymap]} '
+PROMPT="$(prompt_previous_command_result) %F{cyan}${_prompt_sorin_pwd}%f%(!. %B%F{red}#%f%b.)$(git_prompt_string)${editor_info[keymap]} "
 
 RPROMPT='%F{cyan}%t'
