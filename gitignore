@@ -5,6 +5,11 @@
 #
 .DS_Store
 
+# Xcode's DerivedData
+# The derived data folder location is a user setting, so it seems ok to add it
+# to the global gitignore.
+DerivedData
+
 # Vim - See https://github.com/github/gitignore/blob/master/Global/Vim.gitignore
 [._]*.s[a-w][a-z]
 [._]s[a-w][a-z]
