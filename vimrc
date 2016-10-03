@@ -13,6 +13,9 @@ endif
 " Remap ESC and save on pinky travel time :)
 inoremap kk <esc>
 
+" Map <Leader>s to save
+noremap <Leader>s :w<CR>
+
 " Turn on syntax highlighting
 syntax on
 
@@ -164,7 +167,7 @@ let g:vim_markdown_new_list_item_indent = 0
 " vim-rspec settings
 "
 map <Leader>t :call RunCurrentSpecFile()<CR>
-map <Leader>s :call RunNearestSpec()<CR>
+map <Leader>n :call RunNearestSpec()<CR>
 map <Leader>l :call RunLastSpec()<CR>
 map <Leader>a :call RunAllSpecs()<CR>
 let g:rspec_runner = "os_x_iterm2"
