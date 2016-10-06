@@ -47,7 +47,7 @@ parse_git_state() {
     GIT_STATE=$GIT_STATE$GIT_PROMPT_MERGING
 
     # http://stackoverflow.com/questions/3065650/whats-the-simplest-way-to-git-a-list-of-conflicted-files
-    local CONFLICT_COUNT="$(git diff --name-only --diff-filter=U | wc -l | tr -d ' ')"
+    local CONFLICT_COUNT="$(git diff --name-only --diff-filter=U 2> /dev/null | wc -l | tr -d ' ')"
     if [[ CONFLICT_COUNT -gt 0 ]]; then
       GIT_STATE=$GIT_STATE$CONFLICT_COUNT
     fi
@@ -55,7 +55,7 @@ parse_git_state() {
     SHOULD_INSERT_SPACE=1
   fi
 
-  local UNTRACKED_COUNT="$(git ls-files --other --exclude-standard | wc -l | tr -d ' ')"
+  local UNTRACKED_COUNT="$(git ls-files --other --exclude-standard 2> /dev/null | wc -l | tr -d ' ')"
   if [[ UNTRACKED_COUNT -gt 0 ]]; then
     if [[ $SHOULD_INSERT_SPACE == 1 ]]; then
       GIT_STATE="$GIT_STATE "
@@ -65,7 +65,7 @@ parse_git_state() {
     SHOULD_INSERT_SPACE=1
   fi
 
-  local MODIFIED="$(git diff --name-only | wc -l | tr -d ' ')"
+  local MODIFIED="$(git diff --name-only 2> /dev/null | wc -l | tr -d ' ')"
   # if ! git diff --quiet 2> /dev/null; then
   if [[ $MODIFIED -gt 0 ]]; then
     if [[ $SHOULD_INSERT_SPACE == 1 ]]; then
@@ -76,7 +76,7 @@ parse_git_state() {
     SHOULD_INSERT_SPACE=1
   fi
 
-  local STAGED="$(git diff --cached --name-only | wc -l | tr -d ' ')"
+  local STAGED="$(git diff --cached --name-only 2> /dev/null | wc -l | tr -d ' ')"
   # if ! git diff --cached --quiet 2> /dev/null; then
   if [[ $STAGED -gt 0 ]]; then
     if [[ $SHOULD_INSERT_SPACE == 1 ]]; then
@@ -99,38 +99,40 @@ parse_git_ahead() {
   local AHEAD=""
 
   # work out the current branch name
-  currentbranch=$(expr $(git symbolic-ref HEAD) : 'refs/heads/\(.*\)')
-  [ -n "$currentbranch" ] || die "You don't seem to be on a branch"
+  symbolicref=$(git symbolic-ref -q HEAD)
+  if [ $? -eq 0 ]; then
+    currentbranch=$(expr $(git symbolic-ref -q HEAD) : 'refs/heads/\(.*\)')
+    [ -n "$currentbranch" ] || die "You don't seem to be on a branch"
 
-  # look up this branch in the configuration
-  remote=$(git config branch.$currentbranch.remote)
-  remote_ref=$(git config branch.$currentbranch.merge)
+    # look up this branch in the configuration
+    remote=$(git config branch.$currentbranch.remote)
+    remote_ref=$(git config branch.$currentbranch.merge)
 
-  if [[ -n $remote ]]; then
-    # convert the remote ref into the tracking ref... this is a hack
-    remote_branch=$(expr $remote_ref : 'refs/heads/\(.*\)')
-    tracking_branch=refs/remotes/$remote/$remote_branch
+    if [[ -n $remote ]]; then
+      # convert the remote ref into the tracking ref... this is a hack
+      remote_branch=$(expr $remote_ref : 'refs/heads/\(.*\)')
+      tracking_branch=refs/remotes/$remote/$remote_branch
 
-    # now $tracking_branch should be the local ref tracking HEAD
-    ahead=$(git rev-list $tracking_branch..HEAD | wc -l | tr -d ' ')
-    behind=$(git rev-list HEAD..$tracking_branch | wc -l | tr -d ' ')
+      # now $tracking_branch should be the local ref tracking HEAD
+      ahead=$(git rev-list $tracking_branch..HEAD | wc -l | tr -d ' ')
+      behind=$(git rev-list HEAD..$tracking_branch | wc -l | tr -d ' ')
 
-    if [[ $ahead -gt 0 ]]; then
-      AHEAD="⬆ $ahead"
-    fi
-
-    if [[ $behind -gt 0 ]]; then
       if [[ $ahead -gt 0 ]]; then
-        AHEAD=$AHEAD" "
+        AHEAD="⬆ $ahead"
       fi
-      AHEAD=$AHEAD"⬇ $behind"
+
+      if [[ $behind -gt 0 ]]; then
+        if [[ $ahead -gt 0 ]]; then
+          AHEAD=$AHEAD" "
+        fi
+        AHEAD=$AHEAD"⬇ $behind"
+      fi
+    fi
+
+    if [[ -n $AHEAD ]]; then
+      echo " $AHEAD"
     fi
   fi
-
-  if [[ -n $AHEAD ]]; then
-    echo " $AHEAD"
-  fi
-
 }
 
 # If inside a Git repository, print its branch and state
