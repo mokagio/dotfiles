@@ -101,7 +101,7 @@ xnoremap p pgvy
 au BufRead *.md setlocal spell spelllang=en_au
 
 " Highlight Podfile, Fatfile, etc. as a Ruby file
-au BufRead,BufNewFile Podfile,Fastfile,AppFile,Deliverfile,Snapfile set filetype=ruby
+au BufRead,BufNewFile Podfile,Fastfile,AppFile,Deliverfile,Snapfile,Dangerfile set filetype=ruby
 
 " netrw settings
 "
