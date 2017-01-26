@@ -73,13 +73,9 @@ TMPPREFIX="${TMPDIR%/}/zsh"
 # mokagio
 #
 
-# npm
 PATH=$PATH:/usr/local/share/npm/bin
-# Postgres.app bins
-PATH=$HOME/Library/Application Support/Postgres/var-9.4
-# OCLint
-PATH=$PATH:$HOME/Executables/oclint/bin
-# personal scripts
+
+# Put personal scripts here
 PATH=$PATH:$HOME/bin
 
 ANDROID_HOME=~/Library/Android/sdk
