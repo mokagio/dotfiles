@@ -11,7 +11,7 @@ dotfiles=(
   'luarocks'
   'mjolnir'
   'vimrc'
-  'vimrc.bundles'
+  'vimrc.plugs'
   'xvimrc'
   'zshrc'
   'zshenv'

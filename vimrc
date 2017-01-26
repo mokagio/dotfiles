@@ -6,8 +6,10 @@ set nocompatible
 " Automatically :write before running commands
 set autowrite
 
-if filereadable(expand("~/.vimrc.bundles"))
-  source ~/.vimrc.bundles
+if filereadable(expand("~/.vimrc.plugs"))
+  call plug#begin('~/.vim/plugged')
+  source ~/.vimrc.plugs
+  call plug#end()
 endif
 
 " Remap ESC and save on pinky travel time :)

@@ -1,0 +1,62 @@
+"
+" Vim-Plug plugins list
+" https://github.com/junegunn/vim-plug
+"
+" This is just the plugins list. It needs to be sourced in between the plug
+" begin and end calls.
+"
+
+" Explore filesystem and open files and directories
+Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
+" Show git info in NerdTree
+Plug 'Xuyuanp/nerdtree-git-plugin', { 'on': 'NERDTreeToggle' }
+
+" Nice and colored status/tabline
+Plug 'bling/vim-airline'
+
+" ctrlp is a fuzzy file finder and opener
+Plug 'kien/ctrlp.vim'
+
+" Git integration and more
+Plug 'tpope/vim-fugitive'
+
+" Automatically add closing braket
+Plug 'jiangmiao/auto-pairs'
+
+" A plugin to make text alignement easier
+Plug 'godlygeek/tabular'
+
+" A plugin to add, edit, and delete surroundings symbols to text
+Plug 'tpope/vim-surround'
+
+" Read editor configurations from .editorconfig
+" http://editorconfig.org/
+Plug 'editorconfig/editorconfig-vim'
+
+" Syntax checks
+Plug 'scrooloose/syntastic'
+
+" Autocompletion cache
+Plug 'Shougo/neocomplete.vim'
+" Autocompletion: Neovim version
+"Plug 'Shougo/deoplete.nvim'
+
+" Languages plugins
+Plug 'cfdrake/vim-carthage'
+Plug 'tpope/vim-cucumber'
+Plug 'digitaltoad/vim-jade'
+Plug 'plasticboy/vim-markdown'
+Plug 'keith/swift.vim'
+" Rudimental support for Swift autocompletion
+Plug 'keith/sourcekittendaemon.vim'
+" Run xcodebuild tasks from within vim
+Plug 'gfontenot/vim-xcode'
+Plug 'elzr/vim-json'
+" Run rspec tests via leader commands
+Plug 'thoughtbot/vim-rspec', { 'for': 'ruby' }
+" JS and JSX (React)
+Plug 'pangloss/vim-javascript'
+Plug 'mxw/vim-jsx'
+
+" A collection of colorschemes
+Plug 'flazz/vim-colorschemes'
