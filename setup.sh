@@ -30,3 +30,8 @@ ln -s $pwd/bin ~/bin
 
 # install system wide gems
 bundle install --system
+
+# Hammerspoon window manager
+# http://www.hammerspoon.org/
+mkdir -p ~/.hammerspoon
+ln -s $pwd/hammerspoon_init.lua ~/.hammerspoon/init.lua
