@@ -30,6 +30,3 @@ ln -s $pwd/bin ~/bin
 
 # install system wide gems
 bundle install --system
-
-# install Xcode plugins
-fastlane install_xcode_plugins
