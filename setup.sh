@@ -9,7 +9,6 @@ dotfiles=(
   'lldbinit'
   'liftoffrc'
   'luarocks'
-  'mjolnir'
   'vimrc'
   'vimrc.plugs'
   'xvimrc'
@@ -34,8 +33,3 @@ bundle install --system
 
 # install Xcode plugins
 fastlane install_xcode_plugins
-
-# install lua plugins for Mjolnir
-luarocks install mjolnir.bg.grid
-luarocks install mjolnir.application
-luarocks install mjolnir.hotkey
