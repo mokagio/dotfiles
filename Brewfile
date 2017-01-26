@@ -24,10 +24,6 @@ brew 'leiningen'
 brew 'chisel'
 # decentralized dependencies manager, made for iOS development
 brew 'carthage'
-
-tap 'thoughtbot/formulae'
-# tool to create Xcode projects from command line
-brew 'liftoff'
 # hub is a tool to work with GitHub wfrom the command line
 brew 'hub'
 # EditorConfig is a tool to keep coding styles consistent across IDEs
@@ -36,10 +32,14 @@ brew 'editorconfig'
 brew 'terminal-notifier'
 # linter for Swift
 brew 'swiftlint'
+
+tap 'thoughtbot/formulae'
+# tool to create Xcode projects from command line
+brew 'liftoff'
+
 # tool to quickly create gitignores
 tap 'karan/karan'
 brew 'gitignore'
-
 
 # Apps
 
@@ -53,12 +53,11 @@ cask 'google-chrome'
 # a Spotlight replacement, plus many automation features
 cask 'alfred'
 # Window manager configurable via a script
-cask 'mjolnir'
+cask 'hammerspoon'
 # change the screen temperature according to the time of the day
 cask 'flux'
 # tap button without using the mouse, just by typing their names
 cask 'shortcat'
-cask 'mailbox'
 cask 'dropbox'
 cask 'spotify'
 cask 'slack'
@@ -72,23 +71,19 @@ cask 'atom'
 cask 'appcode'
 # an app that inspects Xcode's projects and highlights issues and possible optimizations
 cask 'fauxpas'
-cask 'evernote'
 # offline documentation browser
 cask 'dash'
 # tool to remap keys, I use it to map Caps Lock to Delete, in Colemak style
 cask 'seil'
 # Nintendo 64 emulator
 cask 'sixtyforce'
-# ebooks library app, can convert pdfs and epubs into mobi
-cask 'calibre'
 cask 'java'
 cask 'vlc'
 # background app that tracks how you spend your time on the computer
 cask 'rescuetime'
-# explode and debug iOS app's view hierarchy in 3D
-cask 'reveal'
 
 # Quick Look Plugins
+
 cask 'qlcolorcode'
 # view plain text files without a file extension
 cask 'qlstephen'

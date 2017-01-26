@@ -28,6 +28,9 @@ done
 # link bin folder
 ln -s $pwd/bin/ ~/bin
 
+brew tap Homebrew/bundle
+brew bundle
+
 # install system wide gems
 bundle install --system
 
