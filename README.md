@@ -38,3 +38,7 @@ You can get your snippets using [xcsnippets](https://github.com/mokagio/xcsnippe
 
 Also don't forget to download the documentation, so that it can be used by Dash.
 
+## macOS notes
+
+- [How to enable three fingers drag](https://support.apple.com/en-au/HT204609)
+
