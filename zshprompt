@@ -153,7 +153,7 @@ function check_last_exit_code() {
 }
 
 # precmd prints before every prompt output
-precmd() { t --prompt }
+precmd() { if which fmn &> /dev/null; then fmn --prompt; fi }
 
 PROMPT='$(check_last_exit_code)%F{cyan}${_prompt_sorin_pwd}%f%(!. %B%F{red}#%f%b.)$(git_prompt_string)${editor_info[keymap]} '
 
