@@ -9,6 +9,7 @@ brew 'ruby-install'
 brew 'vim', args: ['override-system-vi']
 brew 'node'
 brew 'python'
+brew 'go'
 brew 'imagemagick'
 # imagemagick needs ghostscript to convert pdfs
 brew 'ghostscript'
@@ -17,7 +18,6 @@ brew 'ffmpeg'
 # to jump between folders without going through the filesystem hierarchy
 brew 'autojump'
 brew 'lua'
-brew 'luarocks'
 # the Clojure dependency manager and build automation tool
 brew 'leiningen'
 # some lldb functions to help debugging from the Xcode console
@@ -32,6 +32,8 @@ brew 'editorconfig'
 brew 'terminal-notifier'
 # linter for Swift
 brew 'swiftlint'
+# Git Large File System support
+brew 'git-lfs'
 
 tap 'thoughtbot/formulae'
 # tool to create Xcode projects from command line
@@ -45,7 +47,6 @@ brew 'gitignore'
 
 # brew-cask and the caskroom formulae allows us to install Mac apps through homebrew
 tap 'caskroom/cask'
-brew 'brew-cask'
 
 # a Terminal.app replacement
 cask 'iterm2'
