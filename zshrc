@@ -65,7 +65,9 @@ source /usr/local/opt/chruby/share/chruby/auto.sh
 
 if which swiftenv > /dev/null; then eval "$(swiftenv init -)"; fi
 
-LUNCHY_DIR=$(dirname `gem which lunchy`)/../extras
-if [ -f $LUNCHY_DIR/lunchy-completion.zsh  ]; then
-	. $LUNCHY_DIR/lunchy-completion.zsh
+if gem which lunchy &> /dev/null; then
+  LUNCHY_DIR=$(dirname `gem which lunchy`)/../extras
+  if [ -f $LUNCHY_DIR/lunchy-completion.zsh  ]; then
+    . $LUNCHY_DIR/lunchy-completion.zsh
+  fi
 fi
