@@ -18,21 +18,19 @@ Open a new shell instance and type `echo $SHELL` to make sure zsh is the current
 
 The setup is currently depending on [prezto](https://github.com/sorin-ionescu/prezto), have a look at the **entire** installation section of the README.
 
-### vim and Vundle
+You will also need to `ln -s ~/.zprezto/runcoms/zpreztorc ~/.zpreztorc` to enable the Prezto modules, as at the moment those are not configure in this setup.
 
-You'll need to install [Vundle](https://github.com/gmarik/Vundle.vim) manually, then load the plugins from inside vim with `:PluginInstall`
+### vim and vim-plug
+
+You'll need to install [vim-plug](https://github.com/junegunn/vim-plug) manually, then load the plugins from inside vim with `:PlugInstall`
 
 ### Alfred
 
 If Alfred doesn't find the apps installed through Homebrew Cask, you'll need to add the casks' locations to Alfred's scope.
 
-![Add Cask to Alfred's scope from the Alfred > Preferences > Features > Search Results](https://s3.amazonaws.com/gio-stuff/add-cask-scope-to-alfred)
-
 _This should not be necessary with Alfred 2.6.1+_, see: http://www.alfredforum.com/topic/5489-fresh-install-doesnt-have-homebrew-cask-in-search-scope-until-reset-is-hit-accepted/
 
 ### Xcode
-
-Install the [Alcatraz](https://github.com/supermarin/alcatraz) plugin.
 
 You can get your snippets using [xcsnippets](https://github.com/mokagio/xcsnippet).
 
@@ -41,4 +39,3 @@ Also don't forget to download the documentation, so that it can be used by Dash.
 ## macOS notes
 
 - [How to enable three fingers drag](https://support.apple.com/en-au/HT204609)
-
