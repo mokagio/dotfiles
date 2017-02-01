@@ -14,7 +14,6 @@ bindkey -v
 # Re-enable Ctrl-r to search history (vim keybindning disabled it)
 bindkey '^R' history-incremental-search-backward
 
-
 # autojump configs
 [[ -s $(brew --prefix)/etc/profile.d/autojump.sh  ]] && . $(brew --prefix)/etc/profile.d/autojump.sh
 
@@ -48,7 +47,6 @@ if [[ -s "${HOME}/.zshprompt" ]]; then
 else
   echo "\033[1;31mMissing custom prompt file. Have a look inside the zshrc.\033[0m"
 fi
-
 
 # added by travis gem
 [ -f /Users/gio/.travis/travis.sh ] && source /Users/gio/.travis/travis.sh
