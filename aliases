@@ -8,7 +8,6 @@ alias td='fmn done'
 
 # Navigation
 alias ~='cd ~'
-alias c='clear'
 
 # git
 alias g='git'
