@@ -109,6 +109,8 @@ alias mp='open -a Markoff'
 alias v='vim'
 alias ao='open -a /Applications/Android\ Studio.app'
 
+alias cask='brew cask'
+
 # Utils
 # (You can download the "Lee" voice from the Voice Utility app)
 alias sey="say -v Oliver \"Joe, I've completed the task you gave me\""
