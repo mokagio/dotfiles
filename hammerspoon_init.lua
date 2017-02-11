@@ -78,3 +78,29 @@ hs.hotkey.bind(mash, "B", function()
   f.h = max.h
   win:setFrame(f)
 end)
+
+hs.hotkey.bind(mash, "1", function()
+  local win = hs.window.focusedWindow()
+  local f = win:frame()
+  local screen = win:screen()
+  local max = screen:frame()
+
+  f.x = max.x
+  f.y = max.y
+  f.w = max.w / 4
+  f.h = max.h
+  win:setFrame(f)
+end)
+
+hs.hotkey.bind(mash, "3", function()
+  local win = hs.window.focusedWindow()
+  local f = win:frame()
+  local screen = win:screen()
+  local max = screen:frame()
+
+  f.x = max.w / 4
+  f.y = max.y
+  f.w = max.w * 3 / 4
+  f.h = max.h
+  win:setFrame(f)
+end)
