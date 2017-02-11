@@ -1,5 +1,11 @@
 local mash = { "cmd", "alt" }
 
+-- Reload the configuration
+hs.hotkey.bind({"cmd", "alt", "ctrl"}, "R", function()
+  hs.reload()
+end)
+hs.alert.show("Config loaded")
+
 hs.hotkey.bind(mash, "H", function()
   local win = hs.window.focusedWindow()
   local f = win:frame()
