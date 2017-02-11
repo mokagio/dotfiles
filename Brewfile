@@ -92,3 +92,5 @@ cask 'qlmarkdown'
 cask 'quicklook-json'
 # view .ipa and .mobileprovision files
 cask 'provisionql'
+
+mas 'Spark', id: 1176895641
