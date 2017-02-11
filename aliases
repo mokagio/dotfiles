@@ -129,3 +129,10 @@ alias bf='bundle exec fastlane'
 alias fd='brew update && brew upgrade'
 
 alias pb='pbcopy'
+
+alias md=mkdir
+
+mkdir_and_cd() {
+  mkdir $1 && cd $1
+}
+alias mc=mkdir_and_cd
