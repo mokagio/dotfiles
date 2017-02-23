@@ -57,11 +57,8 @@ LOCAL_ZSHRC="${HOME}/.zshrc.local"
 
 test -e ${HOME}/.iterm2_shell_integration.zsh && source ${HOME}/.iterm2_shell_integration.zsh
 
-# chruby the simplest ruby version manager ever
-# https://github.com/postmodern/chruby
-source /usr/local/opt/chruby/share/chruby/chruby.sh
-# enable chruby auto switch ruby version by looking into .rbuy-versionafile
-source /usr/local/opt/chruby/share/chruby/auto.sh
+# Ruby environment management setup
+eval "$(rbenv init -)"
 
 if which swiftenv > /dev/null; then eval "$(swiftenv init -)"; fi
 

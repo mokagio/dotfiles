@@ -4,8 +4,8 @@
 brew 'zsh'
 brew 'git'
 # ruby version manager
-brew 'chruby'
-brew 'ruby-install'
+brew 'rbenv'
+brew 'ruby-build'
 brew 'vim', args: ['override-system-vi']
 brew 'node'
 brew 'python'
