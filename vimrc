@@ -188,6 +188,10 @@ map <Leader>u :Xtest<CR>
 let g:jsx_ext_required = 0
 let g:syntastic_javascript_checkers = ['eslint']
 
+" Indent XML files
+" See http://ku1ik.com/2011/09/08/formatting-xml-in-vim-with-indent-command.html
+au FileType xml setlocal equalprg=xmllint\ --format\ --recover\ -\ 2>/dev/null
+
 " Custom Commands
 "
 com! FormatJSON %!python -m json.tool
