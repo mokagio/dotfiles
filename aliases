@@ -61,12 +61,13 @@ gca_cmd='git commit -a'
 gcam_cmd='git commit -a -m'
 alias gca="safe_command '$message' $gca_cmd"
 alias gcam="safe_command '$message' $gcam_cmd"
-
 alias gri="git rebase --interactive"
 alias gir=gri
 alias gpt="git push; git push --tags"
 alias gap="git add -p"
 alias gchp="git checkout -p"
+# List the 10 most recent branches
+alias grb="git branch --sort=committerdate | tail -10 | more"
 
 # Git-Flow aliases
 # https://github.com/nvie/gitflow
