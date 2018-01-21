@@ -1,7 +1,8 @@
 local mash = { "cmd", "alt" }
+local powermash = { "cmd", "alt", "ctrl" }
 
 -- Reload the configuration
-hs.hotkey.bind({"cmd", "alt", "ctrl"}, "R", function()
+hs.hotkey.bind(powermash, "R", function()
   hs.reload()
 end)
 hs.alert.show("Config loaded")
@@ -103,4 +104,14 @@ hs.hotkey.bind(mash, "3", function()
   f.w = max.w * 3 / 4
   f.h = max.h
   win:setFrame(f)
+end)
+
+hs.hotkey.bind(powermash, "Right", function()
+  local win = hs.window.focusedWindow()
+  hs.grid.pushWindowRight(win)
+end)
+
+hs.hotkey.bind(powermash, "Left", function()
+  local win = hs.window.focusedWindow()
+  hs.grid.pushWindowLeft(win)
 end)
