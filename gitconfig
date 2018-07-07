@@ -1,6 +1,8 @@
 [user]
   name = "Giovanni Lodi"
   email = "giovanni.lodi42@gmail.com"
+[fetch]
+  prune = true
 [push]
   default = simple
 [core]
