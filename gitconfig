@@ -1,25 +1,25 @@
 [user]
-	name = "Giovanni Lodi"
-	email = "giovanni.lodi42@gmail.com"
+  name = "Giovanni Lodi"
+  email = "giovanni.lodi42@gmail.com"
 [push]
-	default = simple
+  default = simple
 [core]
-	excludesfile = ~/.gitignore
+  excludesfile = ~/.gitignore
 [rebase]
-	autosquash = true
+  autosquash = true
 [github]
-	user = mokagio
+  user = mokagio
 [pull]
-	rebase = true
+  rebase = true
 [credential]
-	helper = osxkeychain
+  helper = osxkeychain
 [filter "lfs"]
-	clean = git-lfs clean -- %f
+  clean = git-lfs clean -- %f
   smudge = git-lfs smudge -- %f
   required = true
-	process = git-lfs filter-process
+  process = git-lfs filter-process
 [status]
-	submoduleSummary = true
+  submoduleSummary = true
 
 # See http://blog.xk72.com/post/31456986659/diff-strings-files-in-git
 [diff "localizablestrings"]
