@@ -57,6 +57,9 @@ hi Visual term=NONE cterm=NONE ctermbg=darkgray
 
 " Show page guide at column 80
 set colorcolumn=80
+"let &colorcolumn=join(range(81,999),",")
+"highlight ColorColumn ctermbg=235 guibg=#2c2d27
+highlight ColorColumn ctermbg=darkgray
 
 " Better navigation for beginning and end of line
 " Note that these replace the jump to top (H) and bottom (L) visible lines
