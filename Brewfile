@@ -6,7 +6,7 @@ brew 'git'
 # ruby version manager
 brew 'rbenv'
 brew 'ruby-build'
-brew 'vim', args: ['override-system-vi']
+brew 'vim', args: ['override-system-vi', 'with-lua']
 brew 'node'
 brew 'python'
 brew 'go'
