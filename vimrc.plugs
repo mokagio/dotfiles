@@ -50,6 +50,8 @@ Plug 'keith/swift.vim'
 Plug 'keith/sourcekittendaemon.vim'
 " Run xcodebuild tasks from within vim
 Plug 'gfontenot/vim-xcode'
+" Syntax highlighting for the Xcode .pbxproj file
+Plug 'cfdrake/vim-pbxproj'
 Plug 'elzr/vim-json'
 " Run rspec tests via leader commands
 Plug 'thoughtbot/vim-rspec', { 'for': 'ruby' }
