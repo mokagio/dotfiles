@@ -168,6 +168,9 @@ let g:syntastic_loc_list_height = 4
 let g:vim_markdown_folding_disabled = 1
 " disable new list item indent
 let g:vim_markdown_new_list_item_indent = 0
+" front matter highlighting
+let g:vim_markdown_frontmatter = 1
+let g:vim_markdown_toml_frontmatter = 1
 " Goyo (focused writing) settings
 let g:goyo_linenr = 1
 " Soft word wrapping, see http://vim.wikia.com/wiki/Word_wrap_without_line_breaks
