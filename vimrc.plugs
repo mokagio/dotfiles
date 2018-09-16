@@ -58,6 +58,10 @@ Plug 'thoughtbot/vim-rspec', { 'for': 'ruby' }
 " JS and JSX (React)
 Plug 'pangloss/vim-javascript'
 Plug 'mxw/vim-jsx'
+" Elm
+Plug 'elmcast/elm-vim'
+" Toml
+Plug 'cespare/vim-toml'
 
 " Writing
 Plug 'plasticboy/vim-markdown'
