@@ -32,6 +32,7 @@ alias gdc='git diff --cached'
 alias gm='git merge'
 alias gr='git rebase'
 alias gf='git fetch'
+alias gfr='git fetch && git rebase origin/master'
 alias gt='git tag'
 # merge by always making a new commit (--no-ff) and open editor for the commit message (-e)
 alias gmm='git merge --no-ff -e'
