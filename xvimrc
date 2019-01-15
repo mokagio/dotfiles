@@ -1,4 +1,5 @@
-set relativenumber
+set relativenumber " Doesn't work on XVim2 yet
+                   " See https://github.com/XVimProject/XVim2/issues/28
 set number
 
 inoremap kk <ESC>
