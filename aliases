@@ -140,6 +140,10 @@ alias fd='brew update && brew upgrade'
 
 alias pb='pbcopy'
 
+# A cat with syntax highlighting and Git support
+# https://github.com/sharkdp/bat
+alias cat='bat'
+
 alias md=mkdir
 
 mkdir_and_cd() {

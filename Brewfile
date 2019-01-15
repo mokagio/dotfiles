@@ -34,6 +34,8 @@ brew 'terminal-notifier'
 brew 'swiftlint'
 # Git Large File System support
 brew 'git-lfs'
+# better cat
+brew 'bat'
 
 tap 'thoughtbot/formulae'
 # tool to create Xcode projects from command line
