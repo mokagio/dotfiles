@@ -92,3 +92,18 @@ load-nvmrc() {
 }
 add-zsh-hook chpwd load-nvmrc
 load-nvmrc
+
+# Convert an input `.md` file to HTML and paste it to the clipboard.
+# I use this everytime I work on a newsletter or other text content to paste
+# into an HTML editor.
+md2html() {
+  if [[ -z "$1" ]]; then
+    # `printf` will not add a newline at the end of the printed output
+    printf "Missing path to .md file to convert to HTML"
+    # return something that's not 0 so the consumer knows there's been an
+    # error.
+    return 1
+  fi
+
+  pandoc --from gfm --to html --standalone $1 | pbcopy
+}
