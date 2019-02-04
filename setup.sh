@@ -24,6 +24,12 @@ do
   echo "ln -s $pwd/$dot ~/.$dot"
   ln -s $pwd/$dot ~/.$dot
 done
+# Link Vim spellfile.
+# Not sure how to symlink and entire folder yet
+mkdir -p ~/.vim/spell
+# Note that you should not use `_` in the file name, see
+# https://unix.stackexchange.com/questions/85538/how-can-i-create-my-own-spelling-file-for-vim
+ln -s $pwd/vim/spell/custom-spell.utf-8.add ~/.vim/spell/custom-spell.utf-8.add
 
 # link bin folder
 ln -s $pwd/bin/ ~/bin
