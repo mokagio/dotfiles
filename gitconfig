@@ -23,6 +23,9 @@
 [status]
   submoduleSummary = true
 
+[alias]
+  sash = stash
+
 # See http://blog.xk72.com/post/31456986659/diff-strings-files-in-git
 [diff "localizablestrings"]
   textconv = "iconv -f utf-16 -t utf-8"

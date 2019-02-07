@@ -153,3 +153,6 @@ alias mc=mkdir_and_cd
 alias haed=head
 
 alias myip="ifconfig | grep 'inet ' | grep --invert-match 127 | cut -d' ' -f2"
+
+# Common typos I make
+alias vm=mv
