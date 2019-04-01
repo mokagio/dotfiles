@@ -70,7 +70,8 @@ if gem which lunchy &> /dev/null; then
 fi
 
 export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+# This loads nvm
+[ -s "/usr/local/opt/nvm/nvm.sh" ] && . "/usr/local/opt/nvm/nvm.sh"
 # This automactically calls nvm use when going in a folder with an .nvmrc
 autoload -U add-zsh-hook
 load-nvmrc() {
