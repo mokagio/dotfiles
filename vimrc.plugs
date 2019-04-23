@@ -44,9 +44,11 @@ Plug 'Shougo/neocomplete.vim'
 "Plug 'Shougo/deoplete.nvim'
 
 " Languages plugins
+Plug 'jparise/vim-graphql'
 Plug 'cfdrake/vim-carthage'
 Plug 'tpope/vim-cucumber'
 Plug 'digitaltoad/vim-jade'
+Plug 'leafgarland/typescript-vim'
 Plug 'keith/swift.vim'
 " Rudimental support for Swift autocompletion
 Plug 'keith/sourcekittendaemon.vim'
