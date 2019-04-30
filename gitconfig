@@ -25,6 +25,8 @@
 
 [alias]
   sash = stash
+  sohw = show
+  swho = show
 
 # See http://blog.xk72.com/post/31456986659/diff-strings-files-in-git
 [diff "localizablestrings"]
