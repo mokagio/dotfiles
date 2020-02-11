@@ -52,7 +52,8 @@ alias glgf='glg --first-parent'
 
 # Hub is a CLI client for the GitHub APIs
 # https://github.com/github/hub
-alias gpr='hub pull-request'
+alias gpr='hub pull-request --draft'
+alias grp=gpr
 alias cpr='hub pr checkout' # usage `cpr <PR id>`
 
 # Stay safe when git commit -a
