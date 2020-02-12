@@ -102,9 +102,14 @@ vnoremap > >gv
 " Keep pasted pieces of code "in the buffer" to paste multiple times
 xnoremap p pgvy
 
-" Spell check markdown files
-au BufRead *.md setlocal spell spelllang=en_au
+" Spell checking settings
+"
+" Custom words list. Quite useful when working in tech because Vim doesn't
+" know a lot of the names we use.
 set spellfile=$HOME/.vim/spell/custom-spell.utf-8.add
+" I haven't figured out a way to have good spell checking for code, so for now
+" only check spelling on 'text' files
+au BufRead *.md setlocal spell spelllang=en_au
 
 " Highlight Podfile, Fatfile, etc. as a Ruby file
 au BufRead,BufNewFile Podfile,Fastfile,AppFile,Deliverfile,Snapfile,Dangerfile set filetype=ruby
