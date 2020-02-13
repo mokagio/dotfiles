@@ -112,6 +112,9 @@ set spellfile=$HOME/.vim/spell/custom-spell.utf-8.add
 au BufRead *.md setlocal spell spelllang=en_au
 " Check spelling on commit messages too
 au BufRead COMMIT_EDITMSG setlocal spell spelllang=en_au
+" Check spelling when opening pull requests with hub
+" https://github.com/github/hub
+au BufRead PULLREQ_EDITMSG setlocal spell spelllang=en_au
 
 " Highlight Podfile, Fatfile, etc. as a Ruby file
 au BufRead,BufNewFile Podfile,Fastfile,AppFile,Deliverfile,Snapfile,Dangerfile set filetype=ruby
