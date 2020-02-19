@@ -19,6 +19,8 @@ Plug 'kien/ctrlp.vim'
 
 " Git integration and more
 Plug 'tpope/vim-fugitive'
+" GitHub extensions for fugitive
+Plug 'tpope/vim-rhubarb'
 " Show Git status on the gutter
 Plug 'airblade/vim-gitgutter'
 
