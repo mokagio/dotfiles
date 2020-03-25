@@ -50,7 +50,6 @@ Plug 'jparise/vim-graphql'
 Plug 'cfdrake/vim-carthage'
 Plug 'tpope/vim-cucumber'
 Plug 'digitaltoad/vim-jade'
-Plug 'leafgarland/typescript-vim'
 Plug 'keith/swift.vim'
 " Rudimental support for Swift autocompletion
 Plug 'keith/sourcekittendaemon.vim'
@@ -64,6 +63,9 @@ Plug 'thoughtbot/vim-rspec', { 'for': 'ruby' }
 " JS and JSX (React)
 Plug 'pangloss/vim-javascript'
 Plug 'mxw/vim-jsx'
+" TypeScript and TSX (React)
+Plug 'leafgarland/typescript-vim'
+Plug 'ianks/vim-tsx'
 " Elm
 Plug 'elmcast/elm-vim'
 " Toml
