@@ -110,6 +110,9 @@ alias br='bundle exec rake'
 # npm
 alias nmp='npm'
 
+# Android
+alias a='open -a Android\ Studio'
+
 # Apps
 alias chrome='open -a Google\ Chrome'
 alias m='open -a MacDown'
