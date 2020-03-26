@@ -41,6 +41,7 @@ alias gsu='git submodule update'
 alias gcp='git cherry-pick'
 alias glgr='git log --oneline --reverse'
 alias grbc='git rebase --continue'
+alias gsh='git show head'
 
 # See https://coderwall.com/p/euwpig
 alias glg="git log \
