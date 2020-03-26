@@ -159,6 +159,10 @@ alias haed=head
 
 alias myip="ifconfig | grep 'inet ' | grep --invert-match 127 | cut -d' ' -f2"
 
+# React Native
+alias rn="npx react-native"
+alias rni="npx react-native run-ios"
+
 # Common typos I make
 alias vm=mv
 alias crul=curl
