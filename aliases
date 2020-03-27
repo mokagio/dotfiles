@@ -32,7 +32,10 @@ alias gdc='git diff --cached'
 alias gm='git merge'
 alias gr='git rebase'
 alias gf='git fetch'
-alias gfr='git fetch && git rebase origin/master'
+# At iflix, the base branch was always master, in the Automattic mobile
+# division it's develop. I wonder if there's a way to read what the base branch
+# is from somewhere...
+alias gfr='git fetch && git rebase origin/develop'
 alias gt='git tag'
 # merge by always making a new commit (--no-ff) and open editor for the commit message (-e)
 alias gmm='git merge --no-ff -e'
