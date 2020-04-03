@@ -79,6 +79,9 @@ alias gap="git add -p"
 alias gchp="git checkout -p"
 # List the 10 most recent branches
 alias grb="git branch --sort=committerdate | tail -10 | more"
+# Custom script to interactively stash files
+# TODO: this needs to be parametric, can't depend on an hardcoded path
+alias gsa="ruby $DOTFILES_HOME/scripts/interactive-stage.rb"
 
 # Git-Flow aliases
 # https://github.com/nvie/gitflow

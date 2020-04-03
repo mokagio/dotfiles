@@ -79,3 +79,8 @@ PATH=$PATH:/usr/local/share/npm/bin
 PATH=$PATH:$HOME/bin
 
 ANDROID_HOME=~/Library/Android/sdk
+
+# Edit this line locally (but don't track the change) if the path is different
+# from the one here.
+# TODO: It'd be good to have a zshenv.local or something to decouple this.
+DOTFILES_HOME=~/dotfiles/
