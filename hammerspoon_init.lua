@@ -1,6 +1,9 @@
 local mash = { "cmd", "alt" }
 local powermash = { "cmd", "alt", "ctrl" }
 
+-- Make the grid a 4x4, that is, each screen will have 4 quadrants
+hs.grid.setGrid('4x4')
+
 -- Reload the configuration
 hs.hotkey.bind(powermash, "R", function()
   hs.reload()
