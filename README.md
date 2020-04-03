@@ -4,8 +4,9 @@ These are my dotfiles, in the hope to simplify the transiction to any new machin
 
 ## Install
 
-1. The starting point is Xcode, and it's Command Line Tools which you can install via `xcode-select --install`
+1. The starting point is Xcode, and its Command Line Tools which you can install via `xcode-select --install`
 1. You'll now have `git`, use it to clone this repo
+1. Install [Homebrew](https://brew.sh/)
 1. Run the `setup.sh` script, which will symlink all the dotfiles to `$HOME`
 
 ### zsh
