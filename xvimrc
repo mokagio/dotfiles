@@ -6,3 +6,8 @@ inoremap kk <ESC>
 
 " Use F2 to toggle the past/nopaste mode
 set pastetoggle=<F2>
+
+let mapleader = "\<Space>"
+
+" Map <Leader>s to save
+noremap <Leader>s :w<Cr>
