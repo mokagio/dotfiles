@@ -41,10 +41,6 @@ tap 'thoughtbot/formulae'
 # tool to create Xcode projects from command line
 brew 'liftoff'
 
-# tool to quickly create gitignores
-tap 'karan/karan'
-brew 'gitignore'
-
 # Apps
 
 # brew-cask and the caskroom formulae allows us to install Mac apps through homebrew
