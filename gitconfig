@@ -25,6 +25,7 @@
 
 [alias]
   sash = stash
+  satsh = stash
   sohw = show
   swho = show
 
