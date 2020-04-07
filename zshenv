@@ -84,3 +84,5 @@ ANDROID_HOME=~/Library/Android/sdk
 # from the one here.
 # TODO: It'd be good to have a zshenv.local or something to decouple this.
 DOTFILES_HOME=~/dotfiles/
+
+GPG_TTY=$(tty)
