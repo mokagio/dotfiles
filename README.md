@@ -7,7 +7,7 @@ These are my dotfiles, in the hope to simplify the transiction to any new machin
 1. The starting point is Xcode, and its Command Line Tools which you can install via `xcode-select --install`
 1. You'll now have `git`, use it to clone this repo
 1. Install [Homebrew](https://brew.sh/)
-1. Run the `setup.sh` script, which will symlink all the dotfiles to `$HOME` and install the other tools
+1. Run the `setup.sh` script, which will symlink all the dotfiles to `$HOME` and install the other tools (when running `brew bundle`, it might look unresponsive, but it's actually just installing casks silently)
 1. Open Vim and install its plugins via `:PlugInstall`
 
 ### zsh
