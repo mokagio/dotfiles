@@ -72,3 +72,9 @@ bundle install --system
 # http://www.hammerspoon.org/
 mkdir -p ~/.hammerspoon
 ln -s $pwd/hammerspoon_init.lua ~/.hammerspoon/init.lua
+
+# Powerline fonts
+powerline_url="https://github.com/powerline/fonts#quick-installation"
+echo "You need to install Powerline fonts, to make the most of your terminal prompt and Vim."
+echo "I'm going to open the GitHub page for you: $powerline_url"
+open "$powerline_url"
