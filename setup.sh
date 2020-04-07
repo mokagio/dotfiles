@@ -24,6 +24,7 @@ do
   echo "ln -s $pwd/$dot ~/.$dot"
   ln -s $pwd/$dot ~/.$dot
 done
+
 # Link Vim spellfile.
 # Not sure how to symlink and entire folder yet
 mkdir -p ~/.vim/spell
@@ -36,6 +37,14 @@ ln -s $pwd/bin/ ~/bin
 
 brew tap Homebrew/bundle
 brew bundle
+
+# Install nvm to manage Node's versions
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.3/install.sh | bash
+# Load nvm in the shell running this script in order to install Node with nvm
+# next and avoid warning later on.
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+nvm install node
 
 # install system wide gems
 bundle install --system
