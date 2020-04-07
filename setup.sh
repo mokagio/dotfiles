@@ -21,8 +21,15 @@ pwd=`pwd`
 
 for dot in "${dotfiles[@]}"
 do
-  echo "ln -s $pwd/$dot ~/.$dot"
-  ln -s $pwd/$dot ~/.$dot
+  src="$pwd/$dot" # can't use source, it's a command ;)
+  destination="$HOME/.$dot"
+
+  if [[ -h "$destination" ]]; then
+    echo "$destination exists already, skipping"
+  else
+    echo "ln -s $pwd/$dot ~/.$dot"
+    ln -s $pwd/$dot ~/.$dot
+  fi
 done
 
 # Link Vim spellfile.
@@ -38,16 +45,25 @@ ln -s $pwd/bin/ ~/bin
 brew bundle
 
 # Install nvm to manage Node's versions
-curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.3/install.sh | bash
-# Load nvm in the shell running this script in order to install Node with nvm
-# next and avoid warning later on.
 export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-nvm install node
+if [[ -d "$NVM_DIR" ]]; then
+  echo "Looks like you have nvm already setup, skipping"
+else
+  curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.3/install.sh | bash
+  # Load nvm in the shell running this script in order to install Node with nvm
+  # next and avoid warning later on.
+  [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+  nvm install node
+fi
 
 # Install Vim-Plug to manage Vim plugins
 # See https://github.com/junegunn/vim-plug/tree/c3b6b7c2971da730d66f6955d5c467db8dae536b#vim
-curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+vim_plug_path="$HOME/.vim/autoload/plug.vim"
+if [[ -f "$vim_plug_path" ]]; then
+  echo "Looks like you already have Vim-Plug installed, skipping"
+else
+  curl -fLo "$vim_plug_path" --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+fi
 
 # install system wide gems
 bundle install --system
