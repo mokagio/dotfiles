@@ -9,6 +9,11 @@ else
 fi
 echo "\033[1;31mTODO: Make the shell setup independent from zprezto!\033[0m"
 
+# ZSH Plugin manager
+source /usr/local/share/antigen/antigen.zsh
+antigen bundle zsh-users/zsh-autosuggestions
+antigen apply
+
 # Use vim keybindings
 bindkey -v
 # Re-enable Ctrl-r to search history (vim keybindning disabled it)
@@ -95,9 +100,6 @@ load-nvmrc() {
 }
 add-zsh-hook chpwd load-nvmrc
 load-nvmrc
-
-# Autosuggestions via https://github.com/zsh-users/zsh-autosuggestions
-source /usr/local/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 
 # Convert an input `.md` file to HTML and paste it to the clipboard.
 # I use this everytime I work on a newsletter or other text content to paste
