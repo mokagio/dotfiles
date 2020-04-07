@@ -1,27 +1,23 @@
-# Packages
+#
+# This Brewfile contains only the *must have* programs and apps. Everything
+# that isn't a must is commented, so you can remember about it, but don't have
+# to spend time installing it.
+#
 
-# my shell of choice
+# The shell of choice. This is actually the default in macOS 10.15, but it
+# doesn't hurt dto install it with Homebrew, does it?
 brew 'zsh'
 brew 'git'
 # ruby version manager
 brew 'rbenv'
 brew 'ruby-build'
-brew 'vim', args: ['override-system-vi', 'with-lua']
-brew 'node'
+brew 'vim'
+brew 'node' # Is this necessary when using nvm?
 brew 'python'
-brew 'go'
 brew 'imagemagick'
-# imagemagick needs ghostscript to convert pdfs
-brew 'ghostscript'
-# ffmpeg is a CLI tool for video editing
-brew 'ffmpeg'
 # to jump between folders without going through the filesystem hierarchy
 brew 'autojump'
 brew 'lua'
-# the Clojure dependency manager and build automation tool
-brew 'leiningen'
-# some lldb functions to help debugging from the Xcode console
-brew 'chisel'
 # decentralized dependencies manager, made for iOS development
 brew 'carthage'
 # hub is a tool to work with GitHub wfrom the command line
@@ -36,15 +32,12 @@ brew 'swiftlint'
 brew 'git-lfs'
 # better cat
 brew 'bat'
-
-tap 'thoughtbot/formulae'
-# tool to create Xcode projects from command line
-brew 'liftoff'
+# GPG to sign stuff (required for Automattic) and PIN entry to make unlocking
+# easier
+brew 'pinentry-mac'
+brew 'gpg'
 
 # Apps
-
-# brew-cask and the caskroom formulae allows us to install Mac apps through homebrew
-tap 'caskroom/cask'
 
 # a Terminal.app replacement
 cask 'iterm2'
@@ -55,31 +48,20 @@ cask 'alfred'
 cask 'hammerspoon'
 # change the screen temperature according to the time of the day
 cask 'flux'
+# GTD task manager
+cask 'omnifocus'
 # tap button without using the mouse, just by typing their names
 cask 'shortcat'
 cask 'dropbox'
 cask 'spotify'
+# unfortunately, this is a must "Cmd ." doesn't work in the browser
 cask 'slack'
-cask 'skype'
-# a YouTube client that can stay always in on top
-cask 'tubbler'
-cask '1password'
-# an hackable text editor by GitHub
-cask 'atom'
-# IDE to replace Xcode, with powerful refactoring tools
-cask 'appcode'
-# an app that inspects Xcode's projects and highlights issues and possible optimizations
-cask 'fauxpas'
-# offline documentation browser
-cask 'dash'
-# tool to remap keys, I use it to map Caps Lock to Delete, in Colemak style
-cask 'seil'
-# Nintendo 64 emulator
-cask 'sixtyforce'
-cask 'java'
 cask 'vlc'
-# background app that tracks how you spend your time on the computer
-cask 'rescuetime'
+
+brew 'mas'
+mas 'Spark', id: 1176895641
+mas '1Password', id: 1333542190
+mas 'Tadam', id: 531349534
 
 # Quick Look Plugins
 
@@ -91,4 +73,38 @@ cask 'quicklook-json'
 # view .ipa and .mobileprovision files
 cask 'provisionql'
 
-mas 'Spark', id: 1176895641
+# Calling this last because it asks for the password
+# background app that tracks how you spend your time on the computer
+cask 'rescuetime'
+
+#
+# Stuff beneath here is handy, but not a must have right out the bat. Good to
+# remember, thought.
+#
+
+#brew 'go'
+# imagemagick needs ghostscript to convert pdfs
+#brew 'ghostscript'
+# ffmpeg is a CLI tool for video editing
+#brew 'ffmpeg'
+# the Clojure dependency manager and build automation tool
+#brew 'leiningen'
+# some lldb functions to help debugging from the Xcode console
+#brew 'chisel'
+#tap 'thoughtbot/formulae'
+# tool to create Xcode projects from command line
+#brew 'liftoff'
+#cask 'skype'
+# a YouTube client that can stay always in on top
+#cask 'tubbler'
+# IDE to replace Xcode, with powerful refactoring tools
+#cask 'appcode'
+# an app that inspects Xcode's projects and highlights issues and possible optimizations
+#cask 'fauxpas'
+# offline documentation browser
+#cask 'dash'
+# tool to remap keys, I use it to map Caps Lock to Delete, in Colemak style
+#cask 'seil'
+# Nintendo 64 emulator
+#cask 'sixtyforce'
+#cask 'java'

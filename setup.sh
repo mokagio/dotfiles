@@ -35,7 +35,6 @@ ln -s $pwd/vim/spell/custom-spell.utf-8.add ~/.vim/spell/custom-spell.utf-8.add
 # link bin folder
 ln -s $pwd/bin/ ~/bin
 
-brew tap Homebrew/bundle
 brew bundle
 
 # Install nvm to manage Node's versions
