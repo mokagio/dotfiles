@@ -12,7 +12,7 @@ These are my dotfiles, in the hope to simplify the transiction to any new machin
 
 ### zsh
 
-zsh will be installed through homebrew, but it needs to be set as the default shell: `chsh -s $(which zsh)`
+Zsh will be installed through Homebrew, but it needs to be set as the default shell: `chsh -s $(which zsh)`
 
 If the command errors saying `chsh: <# path #>: non-standard shell` make sure that the path is listed in `/etc/shells`, if not `sudo vim /etc/shells` and add it. Now run `chsh` again.
 
@@ -22,9 +22,7 @@ The setup is currently depending on [prezto](https://github.com/sorin-ionescu/pr
 
 You will also need to `ln -s ~/.zprezto/runcoms/zpreztorc ~/.zpreztorc` to enable the Prezto modules, as at the moment those are not configure in this setup.
 
-### vim and vim-plug
-
-You'll need to install [vim-plug](https://github.com/junegunn/vim-plug) manually, then load the plugins from inside vim with `:PlugInstall`
+If you get some errors about insecure folders when starting a Zsh session, check [this issue](https://github.com/zsh-users/zsh-completions/issues/433#issuecomment-608772809).
 
 ### Alfred
 
