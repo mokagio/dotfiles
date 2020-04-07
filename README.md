@@ -24,12 +24,6 @@ You will also need to `ln -s ~/.zprezto/runcoms/zpreztorc ~/.zpreztorc` to enabl
 
 If you get some errors about insecure folders when starting a Zsh session, check [this issue](https://github.com/zsh-users/zsh-completions/issues/433#issuecomment-608772809).
 
-### Alfred
-
-If Alfred doesn't find the apps installed through Homebrew Cask, you'll need to add the casks' locations to Alfred's scope.
-
-_This should not be necessary with Alfred 2.6.1+_, see: http://www.alfredforum.com/topic/5489-fresh-install-doesnt-have-homebrew-cask-in-search-scope-until-reset-is-hit-accepted/
-
 ### Xcode
 
 You can get your snippets using [xcsnippets](https://github.com/mokagio/xcsnippet).
