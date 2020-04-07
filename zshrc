@@ -1,16 +1,10 @@
 # Executes commands at the start of an interactive session.
-# Based on the .zshrc from the prezto project: https://github.com/sorin-ionescu/prezto
-
-# Source Prezto.
-if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
-  source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
-else
-  echo "\033[1;31mMissing zprezto folder. Have a look inside the zshrc.\033[0m"
-fi
-echo "\033[1;31mTODO: Make the shell setup independent from zprezto!\033[0m"
 
 # ZSH Plugin manager
 source /usr/local/share/antigen/antigen.zsh
+antigen use prezto
+antigen bundle git
+antigen bundle command-not-found
 antigen bundle zsh-users/zsh-autosuggestions
 antigen apply
 
@@ -45,13 +39,6 @@ fi
 alias showFiles='defaults write com.apple.finder AppleShowAllFiles YES; killall Finder /System/Library/CoreServices/Finder.app'
 alias hideFiles='defaults write com.apple.finder AppleShowAllFiles NO; killall Finder /System/Library/CoreServices/Finder.app'
 
-# fancy git status on prompt
-# note: loading this at the end so all the aliases and imported things are available in there
-if [[ -s "${HOME}/.zshprompt" ]]; then
-  source "${HOME}/.zshprompt"
-else
-  echo "\033[1;31mMissing custom prompt file. Have a look inside the zshrc.\033[0m"
-fi
 
 # added by travis gem
 [ -f /Users/gio/.travis/travis.sh ] && source /Users/gio/.travis/travis.sh
