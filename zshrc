@@ -6,7 +6,15 @@ antigen use prezto
 antigen bundle git
 antigen bundle command-not-found
 antigen bundle zsh-users/zsh-autosuggestions
+antigen theme denysdovhan/spaceship-prompt
 antigen apply
+
+# Spaceship prompt settings
+# https://github.com/denysdovhan/spaceship-prompt/blob/6319158f19a7bb83a8131da7268213cb636f9653/docs/Options.md
+SPACESHIP_PROMPT_SEPARATE_LINE=false
+SPACESHIP_TIME_SHOW=true
+SPACESHIP_VI_MODE_SHOW=false # don't need to know the Vi mode I'm in
+SPACESHIP_GIT_PREFIX=''
 
 # Use vim keybindings
 bindkey -v
