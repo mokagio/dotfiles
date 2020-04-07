@@ -9,6 +9,17 @@ These are my dotfiles, in the hope to simplify the transiction to any new machin
 1. Install [Homebrew](https://brew.sh/)
 1. Run the `setup.sh` script, which will symlink all the dotfiles to `$HOME` and install the other tools (when running `brew bundle`, it might look unresponsive, but it's actually just installing casks silently)
 1. Open Vim and install its plugins via `:PlugInstall`
+1. Open and configure 1Password
+1. Open and configure Dropbox, as it contains the config folders for other apps
+
+Apps you'll want to launch and configure next:
+
+- Alfred (wait for its `.preferences` folder to appear in Dropbox)
+- Shortcat
+- RescueTime
+- Tadam
+- Hammerspoon
+- flux
 
 ### zsh
 
