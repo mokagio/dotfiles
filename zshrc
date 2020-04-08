@@ -47,6 +47,11 @@ SPACESHIP_TIME_SHOW=false
 SPACESHIP_VI_MODE_SHOW=false # don't need to know the Vi mode I'm in
 SPACESHIP_GIT_PREFIX=''
 
+# Custom setion based on the default Git one, but with counts
+source "./spaceship_verbose_git.zsh"
+# TODO: don't just append it, replace "git" with this one
+SPACESHIP_PROMPT_ORDER+=(verbose_git)
+
 # Use vim keybindings
 bindkey -v
 # Re-enable Ctrl-r to search history (vim keybindning disabled it)
@@ -81,7 +86,6 @@ fi
 
 alias showFiles='defaults write com.apple.finder AppleShowAllFiles YES; killall Finder /System/Library/CoreServices/Finder.app'
 alias hideFiles='defaults write com.apple.finder AppleShowAllFiles NO; killall Finder /System/Library/CoreServices/Finder.app'
-
 
 # added by travis gem
 [ -f /Users/gio/.travis/travis.sh ] && source /Users/gio/.travis/travis.sh

@@ -1,4 +1,8 @@
-SPACESHIP_VERBOSE_GIT="just here to make tab completions easier"
+#
+# See
+# https://github.com/denysdovhan/spaceship-prompt/blob/6319158f19a7bb83a8131da7268213cb636f9653/docs/API.md#api
+# for more insight on how to build new sections
+#
 SPACESHIP_VERBOSE_GIT_SHOW="${SPACESHIP_VERBOSE_GIT=true}"
 SPACESHIP_VERBOSE_GIT_PREFIX="${SPACESHIP_VERBOSE_GIT_PREFIX="_"}"
 SPACESHIP_VERBOSE_GIT_SUFFIX="${SPACESHIP_VERBOSE_GIT_SUFFIX="_"}"
@@ -49,8 +53,12 @@ spaceship_verbose_git() {
   # Check for staged files
   local staged_count=$(git diff --cached --name-only 2> /dev/null | wc -l | tr -d ' ')
   if [[ $staged_count -gt 0 ]]; then
+    # This is what I've been doing so far
     #git_status="$staged_count$SPACESHIP_VERBOSE_GIT_STATUS_ADDED$separator$git_status"
     #separator=$separator_value
+
+    # This is what I could be doing, to have all sorts of colors for the
+    # different Git info
     local t=$(spaceship::section \
       "blue" \
       "_" \
@@ -126,12 +134,11 @@ spaceship_verbose_git() {
   if [[ -n $git_status ]]; then
     _git_status="($git_status)"
   fi
-  ###
-  
+
   # TODO: move all the strings to configs
   spaceship::section \
     "$SPACESHIP_VERBOSE_GIT_COLOR" \
     "$SPACESHIP_VERBOSE_GIT_PREFIX" \
     "${git_branch#(refs/heads/|tags/)} $_git_status" \
     "$SPACESHIP_VERBOSE_GIT_SUFFIX"
-} # why isn't this aligned properly?
+} # why isn't this aligned properly if I ask Vim to align it?
