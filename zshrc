@@ -2,11 +2,24 @@
 
 # ZSH Plugin manager
 source /usr/local/share/antigen/antigen.zsh
+
 antigen use prezto
-antigen bundle git
+
+# When you try to use a command that is not available locally, searches the
+# package manager for a package offering that command and suggests the proper
+# install command.
 antigen bundle command-not-found
+# A bunch of hand aliases. See:
+# https://github.com/sorin-ionescu/prezto/tree/95ff0360aeef951111c5ca6a80939e9329ddb434/modules/utility
+antigen bundle utility
+# Syntax highlighting (commands are one color, text in quotes is another, etc.)
+antigen bundle zsh-users/zsh-syntax-highlighting
 antigen bundle zsh-users/zsh-autosuggestions
+# You can find more modules for prezto at
+# https://github.com/sorin-ionescu/prezto/tree/master/modules
+
 antigen theme denysdovhan/spaceship-prompt
+
 antigen apply
 
 # Spaceship prompt settings
