@@ -7,6 +7,8 @@
 # The shell of choice. This is actually the default in macOS 10.15, but it
 # doesn't hurt dto install it with Homebrew, does it?
 brew 'zsh'
+# Zsh package manager
+brew 'antigen'
 brew 'git'
 # ruby version manager
 brew 'rbenv'
