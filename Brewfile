@@ -60,6 +60,7 @@ cask 'spotify'
 # unfortunately, this is a must "Cmd ." doesn't work in the browser
 cask 'slack'
 cask 'vlc'
+cask 'java'
 
 brew 'mas'
 mas 'Spark', id: 1176895641
@@ -111,4 +112,3 @@ cask 'rescuetime'
 #cask 'seil'
 # Nintendo 64 emulator
 #cask 'sixtyforce'
-#cask 'java'
