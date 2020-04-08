@@ -14,7 +14,6 @@ brew 'ruby-build'
 brew 'vim'
 brew 'node' # Is this necessary when using nvm?
 brew 'python'
-brew 'imagemagick'
 # to jump between folders without going through the filesystem hierarchy
 brew 'autojump'
 brew 'lua'
@@ -36,6 +35,10 @@ brew 'bat'
 # easier
 brew 'pinentry-mac'
 brew 'gpg'
+
+# Stuff I need for automattic
+brew 'git-crypt'
+brew 'imagemagick'
 
 # Apps
 
