@@ -10,6 +10,7 @@ alias t='tig'
 
 # Navigation
 alias ~='cd ~'
+alias o='open'
 
 # git
 alias g='git'
