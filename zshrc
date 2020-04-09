@@ -15,6 +15,10 @@ antigen bundle utility
 # Syntax highlighting (commands are one color, text in quotes is another, etc.)
 antigen bundle zsh-users/zsh-syntax-highlighting
 antigen bundle zsh-users/zsh-autosuggestions
+# Better completions
+antigen bundle zsh-users/zsh-completions
+# This makes it so that tab completions are case insensitive
+zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z} m:=_ m:=- m:=.'
 # You can find more modules for prezto at
 # https://github.com/sorin-ionescu/prezto/tree/master/modules
 
