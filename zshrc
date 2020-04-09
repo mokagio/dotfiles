@@ -37,6 +37,8 @@ SPACESHIP_GIT_PREFIX=''
 bindkey -v
 # Re-enable Ctrl-r to search history (vim keybindning disabled it)
 bindkey '^R' history-incremental-search-backward
+# When in normal mode, press v to edit the command in the $VISUAL editor
+bindkey -M vicmd v edit-command-line
 
 # autojump configs
 [[ -s $(brew --prefix)/etc/profile.d/autojump.sh  ]] && . $(brew --prefix)/etc/profile.d/autojump.sh
