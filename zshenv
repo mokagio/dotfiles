@@ -78,7 +78,12 @@ PATH=$PATH:/usr/local/share/npm/bin
 # Put personal scripts here
 PATH=$PATH:$HOME/bin
 
-ANDROID_HOME=~/Library/Android/sdk
+# Android dev stuff
+export ANDROID_HOME=~/Library/Android/sdk
+export ANDROID_SDK_ROOT=$ANDROID_HOME
+# Notice how this depends on Android Studio. So far, it seems the best way
+# to make sure I have consistent Gradle behaviour between the IDE and the CLI
+export JAVA_HOME="/Applications/Android Studio.app/Contents/jre/jdk/Contents/Home"
 
 # Edit this line locally (but don't track the change) if the path is different
 # from the one here.
