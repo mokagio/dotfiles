@@ -82,13 +82,15 @@ spaceship_verbose_git() {
   fi
 
   # Check for deleted files
-  if $(echo "$INDEX" | command grep '^[MARCDU ]D ' &> /dev/null); then
-    git_status="$SPACESHIP_VERBOSE_GIT_STATUS_DELETED$separator$git_status"
-    separator=$separator_value
-  elif $(echo "$INDEX" | command grep '^D[ UM] ' &> /dev/null); then
-    git_status="$SPACESHIP_VERBOSE_GIT_STATUS_DELETED$separator$git_status"
+  local deleted_count_1=$(echo "$INDEX" | command grep '^[MARCDU ]D ' &> /dev/null | wc -l | tr -d ' ')
+  local deleted_count_2=$(echo "$INDEX" | command grep '^D[ UM] ' &> /dev/null | wc -l | tr -d ' ')
+  local deleted_count=$(expr $deleted_count_1 + $deleted_count_2)
+  if [[ $deleted_count -gt 0 ]]; then
+    git_status="$deleted_count$SPACESHIP_VERBOSE_GIT_STATUS_DELETED$separator$git_status"
     separator=$separator_value
   fi
+
+  # TODO! Switch back to using the same commands as the prompt code
 
   # Check for stashes
   if $(command git rev-parse --verify refs/stash >/dev/null 2>&1); then
