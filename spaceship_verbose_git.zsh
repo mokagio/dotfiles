@@ -75,8 +75,9 @@ spaceship_verbose_git() {
   fi
 
   # Check for renamed files
-  if $(echo "$INDEX" | command grep '^R[ MD] ' &> /dev/null); then
-    git_status="$SPACESHIP_VERBOSE_GIT_STATUS_RENAMED$git_status"
+  local renamed_count=$(echo "$INDEX" | command grep '^R[ MD] ' &> /dev/null | wc -l | tr -d ' ')
+  if [[ $renamed_count -gt 0 ]]; then
+    git_status="$renamed_count$SPACESHIP_VERBOSE_GIT_STATUS_RENAMED$separator$git_status"
     separator=$separator_value
   fi
 
