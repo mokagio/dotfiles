@@ -90,7 +90,9 @@ spaceship_verbose_git() {
     separator=$separator_value
   fi
 
-  # TODO! Switch back to using the same commands as the prompt code
+  # TODO! Switch back to using the same commands as the prompt code. Otherwise,
+  # it might happen that a deleted file also counts in the staged ones... I
+  # wonder if that's actually due to how deleted are counted... 🤔
 
   # Check for stashes
   if $(command git rev-parse --verify refs/stash >/dev/null 2>&1); then
