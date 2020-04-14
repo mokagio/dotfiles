@@ -69,6 +69,7 @@ mas 'Spark', id: 1176895641
 mas '1Password', id: 1333542190
 mas 'Tadam', id: 531349534
 mas 'Evernote', id: 406056744
+mas 'Toggl', id: 957734279
 
 # Quick Look Plugins
 
