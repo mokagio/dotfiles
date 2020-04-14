@@ -84,6 +84,9 @@ export ANDROID_SDK_ROOT=$ANDROID_HOME
 # Notice how this depends on Android Studio. So far, it seems the best way
 # to make sure I have consistent Gradle behaviour between the IDE and the CLI
 export JAVA_HOME="/Applications/Android Studio.app/Contents/jre/jdk/Contents/Home"
+# Add the platform-tools to the PATH to call them easily. Also, Fastlane looks
+# for them in PATH, it doesn't look in ANDROID_HOME
+export PATH="$PATH:$ANDROID_HOME/platform-tools/"
 
 # Edit this line locally (but don't track the change) if the path is different
 # from the one here.
