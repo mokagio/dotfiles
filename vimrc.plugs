@@ -70,6 +70,8 @@ Plug 'ianks/vim-tsx'
 Plug 'elmcast/elm-vim'
 " Toml
 Plug 'cespare/vim-toml'
+" Kotlin
+Plug 'udalov/kotlin-vim'
 
 " Writing
 Plug 'plasticboy/vim-markdown'
