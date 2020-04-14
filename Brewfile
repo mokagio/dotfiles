@@ -37,6 +37,8 @@ brew 'bat'
 # easier
 brew 'pinentry-mac'
 brew 'gpg'
+# Tool that takes any text as input and interactively fuzzy search through it
+brew 'fzf'
 
 # Stuff I need for automattic
 brew 'git-crypt'

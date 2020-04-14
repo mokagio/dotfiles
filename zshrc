@@ -133,3 +133,6 @@ md2html() {
 # Fastlane autocompletion
 # https://docs.fastlane.tools/faqs/#enable-tab-auto-complete-for-fastlane-lane-names
 . ~/.fastlane/completions/completion.sh
+
+# Useful keybindings and fuzzy completion for fzf
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh

@@ -43,6 +43,11 @@ ln -s $pwd/vim/spell/custom-spell.utf-8.add ~/.vim/spell/custom-spell.utf-8.add
 ln -s $pwd/bin/ ~/bin
 
 brew bundle
+# Some of the tools install via Homebrew might need additional manual steps.
+# It would be cool if this could be done as part of the Brefile run
+#
+# Install fzf useful keybindings and fuzzy completion for ZSH
+[ -f ~/.fzf.zshhh ] || $(brew --prefix)/opt/fzf/install
 
 # Install nvm to manage Node's versions
 export NVM_DIR="$HOME/.nvm"
