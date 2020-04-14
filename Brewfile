@@ -44,6 +44,7 @@ brew 'fzf'
 brew 'git-crypt'
 brew 'imagemagick'
 cask 'android-studio'
+cask 'zoomus'
 
 # Apps
 
