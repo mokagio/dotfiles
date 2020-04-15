@@ -154,7 +154,11 @@ spaceship_verbose_git() {
       separator=$separator_value
     fi
     if [[ $behind_count -gt 0 ]]; then
-      git_status="$behind_count$SPACESHIP_VERBOSE_GIT_STATUS_AHEAD$separator$git_status"
+      git_status=$(spaceship::section \
+        $SPACESHIP_VERBOSE_GIT_STATUS_BEHIND_COLOR \
+        "" \
+        "$ahead_count$SPACESHIP_VERBOSE_GIT_STATUS_BEHIND$separator$git_status" \
+        "")
       separator=$separator_value
     fi
   fi
