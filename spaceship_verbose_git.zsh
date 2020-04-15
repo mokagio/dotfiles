@@ -3,17 +3,27 @@
 # https://github.com/denysdovhan/spaceship-prompt/blob/6319158f19a7bb83a8131da7268213cb636f9653/docs/API.md#api
 # for more insight on how to build new sections
 #
+# See
+# https://upload.wikimedia.org/wikipedia/commons/1/15/Xterm_256color_chart.svg
+# for more colors
+#
 SPACESHIP_VERBOSE_GIT_SHOW="${SPACESHIP_VERBOSE_GIT=true}"
-SPACESHIP_VERBOSE_GIT_PREFIX="${SPACESHIP_VERBOSE_GIT_PREFIX="_"}"
-SPACESHIP_VERBOSE_GIT_SUFFIX="${SPACESHIP_VERBOSE_GIT_SUFFIX="_"}"
-SPACESHIP_VERBOSE_GIT_COLOR="${SPACESHIP_VERBOSE_GIT_COLOR="orange"}"
+SPACESHIP_VERBOSE_GIT_PREFIX="${SPACESHIP_VERBOSE_GIT_PREFIX=""}"
+SPACESHIP_VERBOSE_GIT_SUFFIX="${SPACESHIP_VERBOSE_GIT_SUFFIX=" "}"
+SPACESHIP_VERBOSE_GIT_COLOR="${SPACESHIP_VERBOSE_GIT_COLOR="yellow"}"
 
 SPACESHIP_VERBOSE_GIT_STATUS_UNTRACKED="${SPACESHIP_VERBOSE_GIT_STATUS_UNTRACKED="?"}"
 SPACESHIP_VERBOSE_GIT_STATUS_ADDED="${SPACESHIP_VERBOSE_GIT_STATUS_ADDED="+"}"
+# should be some green-ish color
+SPACESHIP_VERBOSE_GIT_STATUS_ADDED_COLOR="${SPACESHIP_VERBOSE_GIT_STATUS_ADDED_COLOR="dfff5f"}"
 SPACESHIP_VERBOSE_GIT_STATUS_MODIFIED="${SPACESHIP_VERBOSE_GIT_STATUS_MODIFIED="!"}"
 SPACESHIP_VERBOSE_GIT_STATUS_RENAMED="${SPACESHIP_VERBOSE_GIT_STATUS_RENAMED="»"}"
 SPACESHIP_VERBOSE_GIT_STATUS_DELETED="${SPACESHIP_VERBOSE_GIT_STATUS_DELETED="✘"}"
 SPACESHIP_VERBOSE_GIT_STATUS_STASHED="${SPACESHIP_VERBOSE_GIT_STATUS_STASHED="$"}"
+# I wanted to use orange, but it doesn't work :/
+# Update: that's because it's not in the Zsh basic colors:
+# https://wiki.archlinux.org/index.php/zsh#Colors
+SPACESHIP_VERBOSE_GIT_STATUS_STASHED_COLOR="${SPACESHIP_VERBOSE_GIT_STATUS_STASHED_COLOR="cyan"}"
 SPACESHIP_VERBOSE_GIT_STATUS_UNMERGED="${SPACESHIP_VERBOSE_GIT_STATUS_UNMERGED="="}"
 SPACESHIP_VERBOSE_GIT_STATUS_AHEAD="${SPACESHIP_VERBOSE_GIT_STATUS_AHEAD="⬆"}"
 SPACESHIP_VERBOSE_GIT_STATUS_AHEAD_COLOR="${SPACESHIP_VERBOSE_GIT_STATUS_AHEAD_COLOR="red"}"
@@ -55,18 +65,12 @@ spaceship_verbose_git() {
   # Check for staged files
   local staged_count=$(git diff --cached --name-only 2> /dev/null | wc -l | tr -d ' ')
   if [[ $staged_count -gt 0 ]]; then
-    # This is what I've been doing so far
-    #git_status="$staged_count$SPACESHIP_VERBOSE_GIT_STATUS_ADDED$separator$git_status"
-    #separator=$separator_value
-
-    # This is what I could be doing, to have all sorts of colors for the
-    # different Git info
-    local t=$(spaceship::section \
-      "blue" \
+    git_status=$(spaceship::section \
+      $SPACESHIP_VERBOSE_GIT_STATUS_ADDED_COLOR \
       "" \
-      "$staged_count$SPACESHIP_VERBOSE_GIT_STATUS_ADDED" \
+      "$staged_count$SPACESHIP_VERBOSE_GIT_STATUS_ADDED$separator$git_status" \
       "")
-    git_status=$t$git_status
+    separator=$separator_value
   fi
 
   # Check for modified files
@@ -84,9 +88,10 @@ spaceship_verbose_git() {
   fi
 
   # Check for deleted files
-  local deleted_count_1=$(echo "$INDEX" | command grep '^[MARCDU ]D ' &> /dev/null | wc -l | tr -d ' ')
-  local deleted_count_2=$(echo "$INDEX" | command grep '^D[ UM] ' &> /dev/null | wc -l | tr -d ' ')
-  local deleted_count=$(expr $deleted_count_1 + $deleted_count_2)
+  # I'm not sure if I got the Regex to meaning correct...
+  local deleted_count_staged=$(echo "$INDEX" | command grep '^[MARCDU ]D ' &> /dev/null | wc -l | tr -d ' ')
+  local deleted_count_not_staged=$(echo "$INDEX" | command grep '^D[ UM] ' &> /dev/null | wc -l | tr -d ' ')
+  local deleted_count=$(expr $deleted_count_staged + $deleted_count_not_staged)
   if [[ $deleted_count -gt 0 ]]; then
     git_status="$deleted_count$SPACESHIP_VERBOSE_GIT_STATUS_DELETED$separator$git_status"
     separator=$separator_value
@@ -97,12 +102,19 @@ spaceship_verbose_git() {
   # wonder if that's actually due to how deleted are counted... 🤔
 
   # Check for stashes
-  if $(command git rev-parse --verify refs/stash >/dev/null 2>&1); then
-    git_status="$SPACESHIP_VERBOSE_GIT_STATUS_STASHED$separator$git_status"
+  local stash_count=$(command git rev-parse --verify refs/stash >/dev/null 2>&1 | wc -l | tr -d ' ')
+  if [[ $stash_count -gt 0 ]]; then
+    git_status=$(spaceship::section \
+      $SPACESHIP_VERBOSE_GIT_STATUS_STASHED_COLOR \
+      "" \
+      "$stash_count$SPACESHIP_VERBOSE_GIT_STATUS_STASHED$separator$git_status" \
+      "")
     separator=$separator_value
   fi
 
   # Check for unmerged files
+  #
+  # Not sure what to do here... It might be too much to show the count for each, right?
   if $(echo "$INDEX" | command grep '^U[UDA] ' &> /dev/null); then
     git_status="$SPACESHIP_VERBOSE_GIT_STATUS_UNMERGED$separator$git_status"
     separator=$separator_value
@@ -150,15 +162,17 @@ spaceship_verbose_git() {
   # when we're diverging from the remote. Seeing both ahead and behind symbols
   # is enough for me
 
-  local _git_status=""
-  if [[ -n $git_status ]]; then
-    _git_status="($git_status)"
-  fi
-
   # TODO: move all the strings to configs
-  spaceship::section \
+  local branch=$(spaceship::section \
+    "yellow" \
+    "${git_branch#(refs/heads/|tags/)}")
+
+  local status_begin=$(spaceship::section \
     "$SPACESHIP_VERBOSE_GIT_COLOR" \
-    "$SPACESHIP_VERBOSE_GIT_PREFIX" \
-    "${git_branch#(refs/heads/|tags/)} $_git_status" \
-    "$SPACESHIP_VERBOSE_GIT_SUFFIX"
+    "(")
+  local status_end=$(spaceship::section \
+    "$SPACESHIP_VERBOSE_GIT_COLOR" \
+    ")")
+
+  echo "$SPACESHIP_VERBOSE_GIT_PREFIX$branch $status_begin$git_status$status_end$SPACESHIP_VERBOSE_GIT_SUFFIX"
 } # why isn't this aligned properly if I ask Vim to align it?
