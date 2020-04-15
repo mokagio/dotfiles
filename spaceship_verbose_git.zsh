@@ -16,7 +16,9 @@ SPACESHIP_VERBOSE_GIT_STATUS_DELETED="${SPACESHIP_VERBOSE_GIT_STATUS_DELETED="�
 SPACESHIP_VERBOSE_GIT_STATUS_STASHED="${SPACESHIP_VERBOSE_GIT_STATUS_STASHED="$"}"
 SPACESHIP_VERBOSE_GIT_STATUS_UNMERGED="${SPACESHIP_VERBOSE_GIT_STATUS_UNMERGED="="}"
 SPACESHIP_VERBOSE_GIT_STATUS_AHEAD="${SPACESHIP_VERBOSE_GIT_STATUS_AHEAD="⬆"}"
+SPACESHIP_VERBOSE_GIT_STATUS_AHEAD_COLOR="${SPACESHIP_VERBOSE_GIT_STATUS_AHEAD_COLOR="red"}"
 SPACESHIP_VERBOSE_GIT_STATUS_BEHIND="${SPACESHIP_VERBOSE_GIT_STATUS_BEHIND="⬇"}"
+SPACESHIP_VERBOSE_GIT_STATUS_BEHIND_COLOR="${SPACESHIP_VERBOSE_GIT_STATUS_BEHIND_COLOR="cyan"}"
 SPACESHIP_VERBOSE_GIT_STATUS_DIVERGED="${SPACESHIP_VERBOSE_GIT_STATUS_DIVERGED="⇕"}"
 
 parse_git_branch() {
@@ -61,9 +63,9 @@ spaceship_verbose_git() {
     # different Git info
     local t=$(spaceship::section \
       "blue" \
-      "_" \
+      "" \
       "$staged_count$SPACESHIP_VERBOSE_GIT_STATUS_ADDED" \
-      "_")
+      "")
     git_status=$t$git_status
   fi
 
@@ -115,25 +117,38 @@ spaceship_verbose_git() {
     separator=$separator_value
   fi
 
-  # Check whether branch is ahead
-  local is_ahead=false
-  if $(echo "$INDEX" | command grep '^## [^ ]\+ .*ahead' &> /dev/null); then
-    is_ahead=true
-  fi
+  # Gonna check ahead/behind now
+  local currentbranch=$(expr $(git symbolic-ref -q HEAD) : 'refs/heads/\(.*\)')
 
-  # Check whether branch is behind
-  local is_behind=false
-  if $(echo "$INDEX" | command grep '^## [^ ]\+ .*behind' &> /dev/null); then
-    is_behind=true
-  fi
+  # look up this branch in the configuration
+  local remote=$(git config branch.$currentbranch.remote)
+  local remote_ref=$(git config branch.$currentbranch.merge)
 
-  # Check wheather branch has diverged
-  if [[ "$is_ahead" == true && "$is_behind" == true ]]; then
-    git_status="$SPACESHIP_VERBOSE_GIT_STATUS_DIVERGED$git_status"
-  else
-    [[ "$is_ahead" == true ]] && git_status="$SPACESHIP_VERBOSE_GIT_STATUS_AHEAD$git_status"
-    [[ "$is_behind" == true ]] && git_status="$SPACESHIP_VERBOSE_GIT_STATUS_BEHIND$git_status"
+  if [[ -n $remote ]]; then
+    # convert the remote ref into the tracking ref... this is a hack
+    local remote_branch=$(expr $remote_ref : 'refs/heads/\(.*\)')
+    local tracking_branch=refs/remotes/$remote/$remote_branch
+
+    # now $tracking_branch should be the local ref tracking HEAD
+    local ahead_count=$(git rev-list $tracking_branch..HEAD | wc -l | tr -d ' ')
+    local behind_count=$(git rev-list HEAD..$tracking_branch | wc -l | tr -d ' ')
+
+    if [[ $ahead_count -gt 0 ]]; then
+      git_status=$(spaceship::section \
+        $SPACESHIP_VERBOSE_GIT_STATUS_AHEAD_COLOR \
+        "" \
+        "$ahead_count$SPACESHIP_VERBOSE_GIT_STATUS_AHEAD$separator$git_status" \
+        "")
+      separator=$separator_value
+    fi
+    if [[ $behind_count -gt 0 ]]; then
+      git_status="$behind_count$SPACESHIP_VERBOSE_GIT_STATUS_AHEAD$separator$git_status"
+      separator=$separator_value
+    fi
   fi
+  # Notice that unlike the other prompt, we don't have a dedicated symbol for
+  # when we're diverging from the remote. Seeing both ahead and behind symbols
+  # is enough for me
 
   local _git_status=""
   if [[ -n $git_status ]]; then
