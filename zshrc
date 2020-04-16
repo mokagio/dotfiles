@@ -9,7 +9,8 @@ antigen use prezto
 # package manager for a package offering that command and suggests the proper
 # install command.
 antigen bundle command-not-found
-# A bunch of hand aliases. See:
+antigen bundle colored-man-pages
+# A bunch of handy aliases. See:
 # https://github.com/sorin-ionescu/prezto/tree/95ff0360aeef951111c5ca6a80939e9329ddb434/modules/utility
 antigen bundle utility
 # Syntax highlighting (commands are one color, text in quotes is another, etc.)
