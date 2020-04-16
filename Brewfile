@@ -45,6 +45,8 @@ brew 'git-crypt'
 brew 'imagemagick'
 cask 'android-studio'
 cask 'zoomus'
+# "The simplest way to keep notes"
+cask 'simplenote'
 
 # Apps
 
