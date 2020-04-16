@@ -33,8 +33,8 @@ brew 'swiftlint'
 brew 'git-lfs'
 # better cat
 brew 'bat'
-# GPG to sign stuff (required for Automattic) and PIN entry to make unlocking
-# easier
+# GPG to sign stuff (required for Automattic, but just cool in general, e.g.
+# GitHub shows "Verified") and PIN entry to make unlocking easier
 brew 'pinentry-mac'
 brew 'gpg'
 # Tool that takes any text as input and interactively fuzzy search through it
