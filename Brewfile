@@ -46,6 +46,8 @@ brew 'git-crypt'
 # in some pre-commit hooks
 brew 'coreutils'
 brew 'imagemagick'
+# Sentry is a mobile monitoring tool
+brew 'getsentry/tools/sentry-cli'
 cask 'android-studio'
 cask 'zoomus'
 # "The simplest way to keep notes"
