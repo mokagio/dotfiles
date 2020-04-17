@@ -179,5 +179,13 @@ spaceship_verbose_git() {
     "$SPACESHIP_VERBOSE_GIT_COLOR" \
     ")")
 
-  echo -n "$SPACESHIP_VERBOSE_GIT_PREFIX$branch $status_begin$git_status$status_end$SPACESHIP_VERBOSE_GIT_SUFFIX"
-} # why isn't this aligned properly if I ask Vim to align it?
+  local section="$SPACESHIP_VERBOSE_GIT_STATUS_PREFIX"
+  section+=$branch
+  section+=" "
+  section+=$status_begin
+  section+=$git_status
+  section+=$status_end
+  section+=$SPACESHIP_VERBOSE_GIT_STATUS_SUFFIX
+
+  echo -n "$section"
+}
