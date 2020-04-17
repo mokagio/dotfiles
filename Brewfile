@@ -40,8 +40,11 @@ brew 'gpg'
 # Tool that takes any text as input and interactively fuzzy search through it
 brew 'fzf'
 
-# Stuff I need for automattic
+# Stuff I need for Automattic
 brew 'git-crypt'
+# This containts GNU core utilities, among which there's realpath whic is used
+# in some pre-commit hooks
+brew 'coreutils'
 brew 'imagemagick'
 cask 'android-studio'
 cask 'zoomus'
