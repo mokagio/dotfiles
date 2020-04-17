@@ -39,6 +39,7 @@ spaceship_verbose_git() {
   [[ $SPACESHIP_VERBOSE_GIT_SHOW == false ]] && return
 
   spaceship::exists git || return
+  spaceship::is_git || return
 
   local git_branch="$(parse_git_branch)"
   local git_folder="$(git rev-parse --git-dir 2> /dev/null)"
