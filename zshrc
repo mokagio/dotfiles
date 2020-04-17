@@ -20,6 +20,13 @@ antigen bundle zsh-users/zsh-autosuggestions
 antigen bundle zsh-users/zsh-completions
 # This makes it so that tab completions are case insensitive
 zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z} m:=_ m:=- m:=.'
+
+# "open Vim and hit Crtl-Z. Now you don't need anymore hit fg, but only Crtl-Z
+# again"
+antigen bundle alexrochas/zsh-vim-crtl-z
+zle -N fancy-ctrl-z
+bindkey '^Z' fancy-ctrl-z
+
 # You can find more modules for prezto at
 # https://github.com/sorin-ionescu/prezto/tree/master/modules
 
