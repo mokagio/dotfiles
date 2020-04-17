@@ -49,8 +49,20 @@ SPACESHIP_GIT_PREFIX=''
 
 # Custom setion based on the default Git one, but with counts
 source "./spaceship_verbose_git.zsh"
-# TODO: don't just append it, replace "git" with this one
-SPACESHIP_PROMPT_ORDER+=(verbose_git)
+# I can't find a way to remove the different prompt element (functions?) by
+# their name, so I have to rely on indexes. The numbers are based on what's
+# documented here:
+# https://github.com/denysdovhan/spaceship-prompt/blob/50e371f5b7b14922c4c2492ef9c7be1095064cb7/docs/Options.md#order
+# Also note, Zsh arrays are 1-indexed
+#
+# First replace everything that needs replacing
+SPACESHIP_PROMPT_ORDER=(${SPACESHIP_PROMPT_ORDER[@]:0:4} verbose_git ${SPACESHIP_PROMPT_ORDER[@]:5})
+# Then, remove what needs removing
+# time, because it's used it in the right prompt
+SPACESHIP_PROMPT_ORDER=(${SPACESHIP_PROMPT_ORDER[@]:1})
+
+# RPROMPT is empty by default
+SPACESHIP_RPROMPT_ORDER+=(time)
 
 # Use vim keybindings
 bindkey -v
