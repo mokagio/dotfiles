@@ -77,7 +77,12 @@ spaceship_verbose_git() {
   # Check for modified files
   local modified_count=$(git diff --name-only 2> /dev/null | wc -l | tr -d ' ')
   if [[ $modified_count -gt 0  ]]; then
-    git_status="$modified_count$SPACESHIP_VERBOSE_GIT_STATUS_MODIFIED$separator$git_status"
+    git_status=$(spaceship::section \
+      $SPACESHIP_VERBOSE_GIT_COLOR \
+      "" \
+      "$modified_count$SPACESHIP_VERBOSE_GIT_STATUS_MODIFIED$separator$git_status" \
+      ""
+    )
     separator=$separator_value
   fi
 
