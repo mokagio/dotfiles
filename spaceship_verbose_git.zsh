@@ -163,7 +163,7 @@ spaceship_verbose_git() {
       git_status=$(spaceship::section \
         $SPACESHIP_VERBOSE_GIT_STATUS_BEHIND_COLOR \
         "" \
-        "$ahead_count$SPACESHIP_VERBOSE_GIT_STATUS_BEHIND$separator$git_status" \
+        "$behind_count$SPACESHIP_VERBOSE_GIT_STATUS_BEHIND$separator$git_status" \
         "")
       separator=$separator_value
     fi
