@@ -36,7 +36,11 @@ antigen apply
 
 # Spaceship prompt settings
 # https://github.com/denysdovhan/spaceship-prompt/blob/6319158f19a7bb83a8131da7268213cb636f9653/docs/Options.md
-SPACESHIP_PROMPT_SEPARATE_LINE=false
+#
+# This will split the prompt from the user input in two lines,
+# which is handy when the prompt is long because of a long branch
+# name and/or multiple versions being listed
+SPACESHIP_PROMPT_SEPARATE_LINE=true
 SPACESHIP_TIME_SHOW=true
 SPACESHIP_VI_MODE_SHOW=false # don't need to know the Vi mode I'm in
 SPACESHIP_GIT_PREFIX=''
