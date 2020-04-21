@@ -117,7 +117,7 @@ au BufRead COMMIT_EDITMSG setlocal spell spelllang=en_au
 au BufRead PULLREQ_EDITMSG setlocal spell spelllang=en_au
 
 " Highlight Podfile, Fatfile, etc. as a Ruby file
-au BufRead,BufNewFile Podfile,Fastfile,AppFile,Deliverfile,Snapfile,Dangerfile set filetype=ruby
+au BufRead,BufNewFile Podfile,Fastfile,AppFile,Deliverfile,Snapfile,Pluginfile,Dangerfile set filetype=ruby
 
 " Prettier formatter configuration
 autocmd FileType typescript setlocal formatprg=prettier\ --parser\ typescript
