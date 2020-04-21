@@ -41,6 +41,8 @@ antigen apply
 # which is handy when the prompt is long because of a long branch
 # name and/or multiple versions being listed
 SPACESHIP_PROMPT_SEPARATE_LINE=true
+# I don't like how the prompt says "via 💎 v2.3.0"
+SPACESHIP_RUBY_PREFIX=''
 SPACESHIP_TIME_SHOW=true
 SPACESHIP_VI_MODE_SHOW=false # don't need to know the Vi mode I'm in
 SPACESHIP_GIT_PREFIX=''
