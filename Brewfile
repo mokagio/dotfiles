@@ -76,6 +76,8 @@ cask 'spotify'
 # unfortunately, this is a must "Cmd ." doesn't work in the browser
 cask 'slack'
 cask 'vlc'
+# For those rare occasions when Vim won't do it
+cask 'visual-studio-code'
 
 brew 'mas'
 mas 'Spark', id: 1176895641
