@@ -39,6 +39,8 @@ brew 'pinentry-mac'
 brew 'gpg'
 # Tool that takes any text as input and interactively fuzzy search through it
 brew 'fzf'
+# Handy tool to repeat a command every n seconds
+brew 'watch'
 
 # Stuff I need for Automattic
 brew 'git-crypt'
