@@ -128,3 +128,4 @@ cask 'rescuetime'
 # Nintendo 64 emulator
 #cask 'sixtyforce'
 #cask 'java'
+#mas 'GIF Brewery', 1081413713
