@@ -114,6 +114,7 @@ alias rr='rake'
 alias bi='bundle install'
 alias be='bundle exec'
 alias br='bundle exec rake'
+alias ber='bundle exec ruby'
 
 # npm
 alias nmp='npm'
