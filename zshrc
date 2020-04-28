@@ -48,7 +48,7 @@ SPACESHIP_VI_MODE_SHOW=false # don't need to know the Vi mode I'm in
 SPACESHIP_GIT_PREFIX=''
 
 # Custom setion based on the default Git one, but with counts
-source "./spaceship_verbose_git.zsh"
+source "$DOTFILES_HOME/spaceship_verbose_git.zsh"
 # I can't find a way to remove the different prompt element (functions?) by
 # their name, so I have to rely on indexes. The numbers are based on what's
 # documented here:
