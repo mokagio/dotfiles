@@ -15,6 +15,7 @@ brew 'rbenv'
 brew 'ruby-build'
 brew 'vim'
 brew 'node' # Is this necessary when using nvm?
+brew 'yarn'
 brew 'python'
 # to jump between folders without going through the filesystem hierarchy
 brew 'autojump'
