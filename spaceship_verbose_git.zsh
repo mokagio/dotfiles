@@ -25,7 +25,8 @@ SPACESHIP_VERBOSE_GIT_STATUS_RENAMED="${SPACESHIP_VERBOSE_GIT_STATUS_RENAMED="»
 SPACESHIP_VERBOSE_GIT_STATUS_DELETED="${SPACESHIP_VERBOSE_GIT_STATUS_DELETED="✘"}"
 SPACESHIP_VERBOSE_GIT_STATUS_STASHED="${SPACESHIP_VERBOSE_GIT_STATUS_STASHED="$"}"
 SPACESHIP_VERBOSE_GIT_STATUS_STASHED_COLOR="${SPACESHIP_VERBOSE_GIT_STATUS_STASHED_COLOR="red"}"
-SPACESHIP_VERBOSE_GIT_STATUS_UNMERGED="${SPACESHIP_VERBOSE_GIT_STATUS_UNMERGED="="}"
+SPACESHIP_VERBOSE_GIT_STATUS_UNMERGED="${SPACESHIP_VERBOSE_GIT_STATUS_UNMERGED="⚡️"}"
+SPACESHIP_VERBOSE_GIT_STATUS_UNMERGED_COLOR="${SPACESHIP_VERBOSE_GIT_STATUS_UNMERGED_COLOR=$SPACESHIP_VERBOSE_GIT_COLOR}"
 SPACESHIP_VERBOSE_GIT_STATUS_AHEAD="${SPACESHIP_VERBOSE_GIT_STATUS_AHEAD="⬆"}"
 SPACESHIP_VERBOSE_GIT_STATUS_AHEAD_COLOR="${SPACESHIP_VERBOSE_GIT_STATUS_AHEAD_COLOR="red"}"
 SPACESHIP_VERBOSE_GIT_STATUS_BEHIND="${SPACESHIP_VERBOSE_GIT_STATUS_BEHIND="⬇"}"
@@ -126,17 +127,22 @@ spaceship_verbose_git() {
   # Check for unmerged files
   #
   # Not sure what to do here... It might be too much to show the count for each, right?
+  local show_unmerged=false
   if $(echo "$INDEX" | command grep '^U[UDA] ' &> /dev/null); then
-    git_status="$SPACESHIP_VERBOSE_GIT_STATUS_UNMERGED$separator$git_status"
-    separator=$separator_value
+    show_unmerged=true
   elif $(echo "$INDEX" | command grep '^AA ' &> /dev/null); then
-    git_status="$SPACESHIP_VERBOSE_GIT_STATUS_UNMERGED$separator$git_status"
-    separator=$separator_value
+    show_unmerged=true
   elif $(echo "$INDEX" | command grep '^DD ' &> /dev/null); then
-    git_status="$SPACESHIP_VERBOSE_GIT_STATUS_UNMERGED$separator$git_status"
-    separator=$separator_value
+    show_unmerged=true
   elif $(echo "$INDEX" | command grep '^[DA]U ' &> /dev/null); then
-    git_status="$SPACESHIP_VERBOSE_GIT_STATUS_UNMERGED$separator$git_status"
+    show_unmerged=true
+  fi
+  if [[ show_unmerged ]]; then
+    git_status=$(spaceship::section \
+      $SPACESHIP_VERBOSE_GIT_STATUS_UNMERGED_COLOR \
+      "" \
+      "$SPACESHIP_VERBOSE_GIT_STATUS_UNMERGED$separator$git_status" \
+      "")
     separator=$separator_value
   fi
 
