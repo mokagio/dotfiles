@@ -137,7 +137,7 @@ spaceship_verbose_git() {
   elif $(echo "$INDEX" | command grep '^[DA]U ' &> /dev/null); then
     show_unmerged=true
   fi
-  if [[ show_unmerged ]]; then
+  if [[ "$show_unmerged" = true ]]; then
     git_status=$(spaceship::section \
       $SPACESHIP_VERBOSE_GIT_STATUS_UNMERGED_COLOR \
       "" \
