@@ -147,36 +147,42 @@ spaceship_verbose_git() {
   fi
 
   # Gonna check ahead/behind now
-  local currentbranch=$(expr $(git symbolic-ref -q HEAD) : 'refs/heads/\(.*\)')
+  #
+  # `git symbolic-ref -q HEAD` may fail, e.g. if we are in the middle of a
+  # rebase, so only proceed if it succeeded
+  local symbolic_ref=$(git symbolic-ref -q HEAD)
+  if [[ ! -z $symbolic_ref ]]; then
+    local currentbranch=$(expr $symbolic_ref : 'refs/heads/\(.*\)')
 
-  # look up this branch in the configuration
-  local remote=$(git config branch.$currentbranch.remote)
-  local remote_ref=$(git config branch.$currentbranch.merge)
+    # look up this branch in the configuration
+    local remote=$(git config branch.$currentbranch.remote)
+    local remote_ref=$(git config branch.$currentbranch.merge)
 
-  if [[ -n $remote ]]; then
-    # convert the remote ref into the tracking ref... this is a hack
-    local remote_branch=$(expr $remote_ref : 'refs/heads/\(.*\)')
-    local tracking_branch=refs/remotes/$remote/$remote_branch
+    if [[ -n $remote ]]; then
+      # convert the remote ref into the tracking ref... this is a hack
+      local remote_branch=$(expr $remote_ref : 'refs/heads/\(.*\)')
+      local tracking_branch=refs/remotes/$remote/$remote_branch
 
-    # now $tracking_branch should be the local ref tracking HEAD
-    local ahead_count=$(git rev-list $tracking_branch..HEAD | wc -l | tr -d ' ')
-    local behind_count=$(git rev-list HEAD..$tracking_branch | wc -l | tr -d ' ')
+      # now $tracking_branch should be the local ref tracking HEAD
+      local ahead_count=$(git rev-list $tracking_branch..HEAD | wc -l | tr -d ' ')
+      local behind_count=$(git rev-list HEAD..$tracking_branch | wc -l | tr -d ' ')
 
-    if [[ $ahead_count -gt 0 ]]; then
-      git_status=$(spaceship::section \
-        $SPACESHIP_VERBOSE_GIT_STATUS_AHEAD_COLOR \
-        "" \
-        "$ahead_count$SPACESHIP_VERBOSE_GIT_STATUS_AHEAD$separator$git_status" \
-        "")
-      separator=$separator_value
-    fi
-    if [[ $behind_count -gt 0 ]]; then
-      git_status=$(spaceship::section \
-        $SPACESHIP_VERBOSE_GIT_STATUS_BEHIND_COLOR \
-        "" \
-        "$behind_count$SPACESHIP_VERBOSE_GIT_STATUS_BEHIND$separator$git_status" \
-        "")
-      separator=$separator_value
+      if [[ $ahead_count -gt 0 ]]; then
+        git_status=$(spaceship::section \
+          $SPACESHIP_VERBOSE_GIT_STATUS_AHEAD_COLOR \
+          "" \
+          "$ahead_count$SPACESHIP_VERBOSE_GIT_STATUS_AHEAD$separator$git_status" \
+          "")
+        separator=$separator_value
+      fi
+      if [[ $behind_count -gt 0 ]]; then
+        git_status=$(spaceship::section \
+          $SPACESHIP_VERBOSE_GIT_STATUS_BEHIND_COLOR \
+          "" \
+          "$behind_count$SPACESHIP_VERBOSE_GIT_STATUS_BEHIND$separator$git_status" \
+          "")
+        separator=$separator_value
+      fi
     fi
   fi
   # Notice that unlike the other prompt, we don't have a dedicated symbol for
