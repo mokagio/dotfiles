@@ -70,6 +70,11 @@ spaceship_verbose_git() {
   fi
 
   # Check for staged files
+  #
+  # There's a problem here... This counts _all_ of the staged files, but other
+  # part of the code show the staged count more granularly (e.g. staged _and_
+  # removed) which results in a bit of confusion (in the same e.g., we'd have
+  # symbols for both stage and staged+removed)
   local staged_count=$(git diff --cached --name-only 2> /dev/null | wc -l | tr -d ' ')
   if [[ $staged_count -gt 0 ]]; then
     git_status=$(spaceship::section \
@@ -100,12 +105,26 @@ spaceship_verbose_git() {
   fi
 
   # Check for deleted files
-  # I'm not sure if I got the Regex to meaning correct...
-  local deleted_count_staged=$(echo "$INDEX" | command grep '^[MARCDU ]D ' &> /dev/null | wc -l | tr -d ' ')
-  local deleted_count_not_staged=$(echo "$INDEX" | command grep '^D[ UM] ' &> /dev/null | wc -l | tr -d ' ')
-  local deleted_count=$(expr $deleted_count_staged + $deleted_count_not_staged)
-  if [[ $deleted_count -gt 0 ]]; then
-    git_status="$deleted_count$SPACESHIP_VERBOSE_GIT_STATUS_DELETED$separator$git_status"
+  local deleted_count_staged=$(echo "$INDEX" | command grep '^D[ UM] ' &> /dev/null | wc -l | tr -d ' ')
+  if [[ $deleted_count_staged -gt 0  ]]; then
+    local deleted_staged_symbol=$SPACESHIP_VERBOSE_GIT_STATUS_DELETED$SPACESHIP_VERBOSE_GIT_STATUS_ADDED
+    git_status=$(spaceship::section \
+      "blue" \
+      "" \
+      "$deleted_count_staged$deleted_staged_symbol$separator$git_status" \
+      ""
+    )
+    separator=$separator_value
+  fi
+
+  local deleted_count_not_staged=$(echo "$INDEX" | command grep '^[MARCDU ]D ' &> /dev/null | wc -l | tr -d ' ')
+  if [[ $deleted_count_not_staged -gt 0  ]]; then
+    git_status=$(spaceship::section \
+      "yellow" \
+      "" \
+      "$deleted_count_not_staged$SPACESHIP_VERBOSE_GIT_STATUS_DELETED$separator$git_status" \
+      ""
+    )
     separator=$separator_value
   fi
 
