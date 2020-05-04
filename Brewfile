@@ -51,6 +51,8 @@ brew 'coreutils'
 # Like sed, but for JSON
 brew 'jq'
 brew 'imagemagick'
+# Tool to manage and create Android App Bundles
+brew 'bundletool'
 # Sentry is a mobile monitoring tool
 brew 'getsentry/tools/sentry-cli'
 cask 'android-studio'
