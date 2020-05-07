@@ -45,6 +45,9 @@ Plug 'Shougo/neocomplete.vim'
 " Autocompletion: Neovim version
 "Plug 'Shougo/deoplete.nvim'
 
+" Comment code
+Plug 'tpope/vim-commentary'
+
 " Languages plugins
 Plug 'jparise/vim-graphql'
 Plug 'cfdrake/vim-carthage'
