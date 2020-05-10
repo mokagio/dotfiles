@@ -48,6 +48,8 @@ brew 'git-crypt'
 # This containts GNU core utilities, among which there's realpath whic is used
 # in some pre-commit hooks
 brew 'coreutils'
+# Like sed, but for JSON
+brew 'jq'
 brew 'imagemagick'
 # Sentry is a mobile monitoring tool
 brew 'getsentry/tools/sentry-cli'
