@@ -22,8 +22,11 @@ brew 'autojump'
 brew 'lua'
 # decentralized dependencies manager, made for iOS development
 brew 'carthage'
-# hub is a tool to work with GitHub wfrom the command line
+# hub is a tool to work with GitHub from the command line
 brew 'hub'
+# this is actually called via `gh` and is _another_ tool to work with GitHub
+# from the command line
+brew 'github/gh/gh'
 # EditorConfig is a tool to keep coding styles consistent across IDEs
 brew 'editorconfig'
 # send user notifcations from the terminal
