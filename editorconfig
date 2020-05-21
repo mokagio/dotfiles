@@ -1,5 +1,12 @@
 # See http://editorconfig.org/
 
+# Trim trailing whitespaces everywhere!
+[*]
+trim_trailing_whitespace = true
+# But not in the diffs, otherwise when using Vim to edit an hunk while staging it, it'll get rid of the whitespaces and possibly invalidate the diff
+[*.diff]
+trim_trailing_whitespace = true
+
 # Objective-C
 [*{.h,.m,.mm}]
 indent_style = space
