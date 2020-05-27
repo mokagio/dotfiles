@@ -79,7 +79,8 @@ Plug 'udalov/kotlin-vim'
 " Writing
 Plug 'plasticboy/vim-markdown'
 Plug 'madzak/vim-proselint'
-Plug 'junegunn/goyo.vim' "for full sceen writing
+Plug 'junegunn/goyo.vim' " for full sceen writing
+Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app & yarn install'  }
 
 " A collection of colorschemes
 Plug 'flazz/vim-colorschemes'

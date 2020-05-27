@@ -61,6 +61,8 @@ else
   [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
   nvm install node
 fi
+# Now that you got Node, add Yarn, too
+npm install -g yarn
 
 # Install Vim-Plug to manage Vim plugins
 # See https://github.com/junegunn/vim-plug/tree/c3b6b7c2971da730d66f6955d5c467db8dae536b#vim
