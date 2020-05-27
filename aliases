@@ -119,8 +119,10 @@ alias be='bundle exec'
 alias br='bundle exec rake'
 alias ber='bundle exec ruby'
 
-# npm
+# JavaScript & TypeScript
 alias nmp='npm'
+alias y='yarn'
+alias yt='yarn test'
 
 # Android
 alias a='open -a Android\ Studio'
