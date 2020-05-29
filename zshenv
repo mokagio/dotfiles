@@ -87,6 +87,7 @@ export JAVA_HOME="/Applications/Android Studio.app/Contents/jre/jdk/Contents/Hom
 # Add the platform-tools to the PATH to call them easily. Also, Fastlane looks
 # for them in PATH, it doesn't look in ANDROID_HOME
 export PATH="$PATH:$ANDROID_HOME/platform-tools/"
+export PATH="$PATH:$ANDROID_HOME/emulator/"
 
 # Edit this line locally (but don't track the change) if the path is different
 # from the one here.
