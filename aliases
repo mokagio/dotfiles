@@ -62,6 +62,7 @@ alias glgf='glg --first-parent'
 # https://github.com/github/hub
 alias gpr='hub pull-request --draft'
 alias grp=gpr
+alias grpn='hub pull-request'
 alias cpr='hub pr checkout' # usage `cpr <PR id>`
 
 # Stay safe when git commit -a
