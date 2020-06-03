@@ -22,6 +22,7 @@ SPACESHIP_VERBOSE_GIT_STATUS_ADDED="${SPACESHIP_VERBOSE_GIT_STATUS_ADDED="+"}"
 SPACESHIP_VERBOSE_GIT_STATUS_ADDED_COLOR="${SPACESHIP_VERBOSE_GIT_STATUS_ADDED_COLOR="red"}"
 SPACESHIP_VERBOSE_GIT_STATUS_MODIFIED="${SPACESHIP_VERBOSE_GIT_STATUS_MODIFIED="!"}"
 SPACESHIP_VERBOSE_GIT_STATUS_RENAMED="${SPACESHIP_VERBOSE_GIT_STATUS_RENAMED="»"}"
+SPACESHIP_VERBOSE_GIT_STATUS_RENAMED_COLOR="${SPACESHIP_VERBOSE_GIT_STATUS_RENAMED_COLOR="$SPACESHIP_VERBOSE_GIT_COLOR"}"
 SPACESHIP_VERBOSE_GIT_STATUS_DELETED="${SPACESHIP_VERBOSE_GIT_STATUS_DELETED="✘"}"
 SPACESHIP_VERBOSE_GIT_STATUS_STASHED="${SPACESHIP_VERBOSE_GIT_STATUS_STASHED="$"}"
 SPACESHIP_VERBOSE_GIT_STATUS_STASHED_COLOR="${SPACESHIP_VERBOSE_GIT_STATUS_STASHED_COLOR="red"}"
@@ -100,7 +101,12 @@ spaceship_verbose_git() {
   # Check for renamed files
   local renamed_count=$(echo "$INDEX" | command grep '^R[ MD] ' &> /dev/null | wc -l | tr -d ' ')
   if [[ $renamed_count -gt 0 ]]; then
-    git_status="$renamed_count$SPACESHIP_VERBOSE_GIT_STATUS_RENAMED$separator$git_status"
+    git_status=$(spaceship::section \
+      "$SPACESHIP_VERBOSE_GIT_STATUS_RENAMED_COLOR" \
+      "" \
+      "$renamed_count$SPACESHIP_VERBOSE_GIT_STATUS_RENAMED$separator$git_status" \
+      ""
+    )
     separator=$separator_value
   fi
 
@@ -133,7 +139,9 @@ spaceship_verbose_git() {
   # wonder if that's actually due to how deleted are counted... 🤔
 
   # Check for stashes
-  local stash_count=$(command git rev-parse --verify refs/stash >/dev/null 2>&1 | wc -l | tr -d ' ')
+  # Getting an error here sometimes "fatal: Needed a single revision"
+  #local stash_count=$(command git rev-parse --verify refs/stash >/dev/null 2>&1 | wc -l | tr -d ' ')
+  local stash_count=$(command git stash list | wc -l | tr -d ' ')
   if [[ $stash_count -gt 0 ]]; then
     git_status=$(spaceship::section \
       $SPACESHIP_VERBOSE_GIT_STATUS_STASHED_COLOR \
