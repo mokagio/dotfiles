@@ -40,6 +40,7 @@ alias gf='git fetch'
 # division it's develop. I wonder if there's a way to read what the base branch
 # is from somewhere...
 alias gfr='git fetch && git rebase origin/develop'
+alias gfrm='git fetch && git rebase origin/master'
 alias gt='git tag'
 # merge by always making a new commit (--no-ff) and open editor for the commit message (-e)
 alias gmm='git merge --no-ff -e'
