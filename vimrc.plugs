@@ -94,5 +94,12 @@ Plug 'madzak/vim-proselint'
 Plug 'junegunn/goyo.vim' " for full sceen writing
 Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app & yarn install'  }
 
+" Zettletasken (https://zettelkasten.de/)
+" (note taking powerups for building lasting knowledge)
+Plug 'vimwiki/vimwiki'
+Plug 'junegunn/fzf'
+Plug 'junegunn/fzf.vim'
+Plug 'michal-h21/vim-zettel'
+
 " A collection of colorschemes
 Plug 'flazz/vim-colorschemes'

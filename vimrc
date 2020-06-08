@@ -226,6 +226,9 @@ let g:syntastic_javascript_checkers = ['eslint']
 " See http://ku1ik.com/2011/09/08/formatting-xml-in-vim-with-indent-command.html
 au FileType xml setlocal equalprg=xmllint\ --format\ --recover\ -\ 2>/dev/null
 
+" Vim Wiki & Zettelkasten settings
+let g:vimwiki_list = [ {"path":"~/Dropbox/vimwiki/markdown/", "ext":".md", "syntax":"markdown"}, {"path":"~/Dropbox/vimwiki/wiki/"} ]
+
 " Custom Commands
 "
 com! FormatJSON %!python -m json.tool
