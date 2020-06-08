@@ -10,14 +10,6 @@ hs.hotkey.bind(powermash, "R", function()
 end)
 hs.alert.show("Config loaded")
 
-hs.hotkey.bind(mash, "H", function()
-  local win = hs.window.focusedWindow()
-  local f = win:frame()
-
-  f.x = f.x - 10
-  win:setFrame(f)
-end)
-
 hs.hotkey.bind(mash, "Left", function()
   local win = hs.window.focusedWindow()
   local f = win:frame()
