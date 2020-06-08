@@ -43,6 +43,8 @@ brew 'pinentry-mac'
 brew 'gpg'
 # Tool that takes any text as input and interactively fuzzy search through it
 brew 'fzf'
+# Another search tool, but optimized for searching through code fast
+brew 'the_silver_searcher'
 # Handy tool to repeat a command every n seconds
 brew 'watch'
 
