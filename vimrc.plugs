@@ -64,6 +64,7 @@ Plug 'elzr/vim-json'
 " Run rspec tests via leader commands
 Plug 'thoughtbot/vim-rspec', { 'for': 'ruby' }
 " JS and JSX (React)
+Plug 'jason0x43/vim-js-indent'
 Plug 'pangloss/vim-javascript'
 Plug 'mxw/vim-jsx'
 " TypeScript and TSX (React)
