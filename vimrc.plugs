@@ -81,6 +81,13 @@ Plug 'udalov/kotlin-vim'
 " combos
 Plug 'janko/vim-test'
 
+" Helps to end certain structures automatically.
+" For example, in Ruby this means adding end after `if`, `do`, `def`, and
+" others.
+Plug 'tpope/vim-endwise'
+" Same as endwise, but for (X)HTML tags
+Plug 'alvan/vim-closetag'
+
 " Writing
 Plug 'plasticboy/vim-markdown'
 Plug 'madzak/vim-proselint'
