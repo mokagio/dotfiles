@@ -76,6 +76,10 @@ Plug 'cespare/vim-toml'
 " Kotlin
 Plug 'udalov/kotlin-vim'
 
+" Keyboard shortcuts to run tests, supports different languages with the same
+" combos
+Plug 'janko/vim-test'
+
 " Writing
 Plug 'plasticboy/vim-markdown'
 Plug 'madzak/vim-proselint'

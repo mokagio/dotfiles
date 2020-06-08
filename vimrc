@@ -163,6 +163,14 @@ let g:neocomplete#enable_camel_case = 1
 " Disable for markdown
 autocmd FileType markdown NeoCompleteLock
 
+" vim-test mappings
+" See https://github.com/vim-test/vim-test/tree/b882783760b954144dda5be7ad6cd4bdefd013fb#setup
+nmap <silent> t<C-n> :TestNearest<CR>
+nmap <silent> t<C-f> :TestFile<CR>
+nmap <silent> t<C-s> :TestSuite<CR>
+nmap <silent> t<C-l> :TestLast<CR>
+nmap <silent> t<C-g> :TestVisit<CR>
+
 " Syntastic
 "
 set statusline+=%#warningmsg#
