@@ -228,6 +228,10 @@ au FileType xml setlocal equalprg=xmllint\ --format\ --recover\ -\ 2>/dev/null
 
 " Vim Wiki & Zettelkasten settings
 let g:vimwiki_list = [ {"path":"~/Dropbox/vimwiki/markdown/", "ext":".md", "syntax":"markdown"}, {"path":"~/Dropbox/vimwiki/wiki/"} ]
+" As recommended in the help, map creating a new note with title to a leader
+" command
+nnoremap <Leader>zn :ZettelNew<space>
+nnoremap <Leader>zt :VimwikiRebuildTags<CR>
 
 " Custom Commands
 "
