@@ -41,6 +41,10 @@ You can get your snippets using [xcsnippets](https://github.com/mokagio/xcsnippe
 
 Also don't forget to download the documentation, so that it can be used by Dash.
 
+### PHP
+
+The script installs PHP, but doesn't install Composer, which you'll have to do manually following the instructions [here](https://getcomposer.org/doc/00-intro.md#installation-linux-unix-macos).
+
 ## macOS notes
 
 - [How to enable three fingers drag](https://support.apple.com/en-au/HT204609)

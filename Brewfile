@@ -49,6 +49,7 @@ brew 'the_silver_searcher'
 brew 'watch'
 
 # Stuff I need for Automattic
+brew 'php'
 brew 'git-crypt'
 # This containts GNU core utilities, among which there's realpath whic is used
 # in some pre-commit hooks

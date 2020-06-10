@@ -89,6 +89,9 @@ export JAVA_HOME="/Applications/Android Studio.app/Contents/jre/jdk/Contents/Hom
 export PATH="$PATH:$ANDROID_HOME/platform-tools/"
 export PATH="$PATH:$ANDROID_HOME/emulator/"
 
+# PHP / Composer / Valet
+export PATH="$PATH:$HOME/.composer/vendor/bin"
+
 # Edit this line locally (but don't track the change) if the path is different
 # from the one here.
 # TODO: It'd be good to have a zshenv.local or something to decouple this.
