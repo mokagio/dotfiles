@@ -88,6 +88,8 @@ cask 'slack'
 cask 'vlc'
 # For those rare occasions when Vim won't do it
 cask 'visual-studio-code'
+# Tool to remap keys in the macOS keyboard
+cask 'karabiner-elements'
 
 brew 'mas'
 mas 'Spark', id: 1176895641
