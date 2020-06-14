@@ -100,6 +100,9 @@ Plug 'vimwiki/vimwiki'
 Plug 'junegunn/fzf'
 Plug 'junegunn/fzf.vim'
 Plug 'michal-h21/vim-zettel'
+" This allows to search through notes and open the match without having to
+" create a link in the current note
+Plug 'alok/notational-fzf-vim'
 
 " A collection of colorschemes
 Plug 'flazz/vim-colorschemes'

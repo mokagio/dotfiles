@@ -45,6 +45,8 @@ brew 'gpg'
 brew 'fzf'
 # Another search tool, but optimized for searching through code fast
 brew 'the_silver_searcher'
+# Yet another fast search tool
+brew 'ripgrep'
 # Handy tool to repeat a command every n seconds
 brew 'watch'
 

@@ -232,6 +232,16 @@ let g:vimwiki_list = [ {"path":"~/Dropbox/vimwiki/markdown/", "ext":".md", "synt
 " command
 nnoremap <Leader>zn :ZettelNew<space>
 nnoremap <Leader>zt :VimwikiRebuildTags<CR>
+" Notational-FZF-Vim settings
+"
+" Before using this, every time I wanted to find a note, I had to use `[[` which
+" resulted in a new link being created in the text.
+" That's cool when you want to link notes, but that's not always the case,
+" and I'd have to remember to go back and remove the link from the
+" previous note.
+let g:nv_search_paths = ['~/Dropbox/vimwiki']
+" p, the same as CtrlP but for notes
+nnoremap <silent> <Leader>zp :NV<CR>
 
 " Custom Commands
 "
