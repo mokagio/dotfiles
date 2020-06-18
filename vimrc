@@ -243,6 +243,11 @@ let g:nv_search_paths = ['~/Dropbox/vimwiki']
 " p, the same as CtrlP but for notes
 nnoremap <silent> <Leader>zp :NV<CR>
 
+" Source Vim configuration file and install plugins
+" via https://pragmaticpineapple.com/ultimate-vim-typescript-setup/
+nnoremap <silent><leader>1 :source ~/.vimrc \| :PlugInstall<CR>
+
+
 " Custom Commands
 "
 com! FormatJSON %!python -m json.tool
