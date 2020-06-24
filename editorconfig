@@ -3,9 +3,10 @@
 # Trim trailing whitespaces everywhere!
 [*]
 trim_trailing_whitespace = true
-# But not in the diffs, otherwise when using Vim to edit an hunk while staging it, it'll get rid of the whitespaces and possibly invalidate the diff
+# But not in the diffs, otherwise when using Vim to edit an hunk while staging
+# it, it'll get rid of the whitespaces and possibly invalidate the diff
 [*.diff]
-trim_trailing_whitespace = true
+trim_trailing_whitespace = false
 
 # Objective-C
 [*{.h,.m,.mm}]
