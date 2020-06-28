@@ -3,6 +3,7 @@
 dotfiles=(
   'aliases'
   'editorconfig'
+  'gemrc'
   'gitconfig'
   'gitignore'
   'ghci'
