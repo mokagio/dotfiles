@@ -52,6 +52,7 @@ brew 'watch'
 
 # Stuff I need for Automattic
 brew 'php'
+brew 'composer'
 brew 'git-crypt'
 # This containts GNU core utilities, among which there's realpath whic is used
 # in some pre-commit hooks

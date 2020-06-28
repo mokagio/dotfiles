@@ -86,3 +86,9 @@ powerline_url="https://github.com/powerline/fonts#quick-installation"
 echo "You need to install Powerline fonts, to make the most of your terminal prompt and Vim."
 echo "I'm going to open the GitHub page for you: $powerline_url"
 open "$powerline_url"
+
+# Automattic stuff
+#
+# pecl is a PHP extensions manager, xdebug is "an extension of PHP to assist
+# with debugging and development"
+pecl install xdebug
