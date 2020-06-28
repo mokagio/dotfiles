@@ -146,6 +146,11 @@ md2html() {
   pandoc --from gfm --to html --standalone $1 | pbcopy
 }
 
+# Generate a random number between 1 and a given threshold, included
+rand() {
+  echo $((1 + RANDOM % $1))
+}
+
 # Fastlane autocompletion
 # https://docs.fastlane.tools/faqs/#enable-tab-auto-complete-for-fastlane-lane-names
 . ~/.fastlane/completions/completion.sh
