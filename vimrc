@@ -247,7 +247,6 @@ nnoremap <silent> <Leader>zp :NV<CR>
 " via https://pragmaticpineapple.com/ultimate-vim-typescript-setup/
 nnoremap <silent><leader>1 :source ~/.vimrc \| :PlugInstall<CR>
 
-
 " Custom Commands
 "
 com! FormatJSON %!python -m json.tool
