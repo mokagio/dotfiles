@@ -65,6 +65,7 @@ alias gpr='hub pull-request --draft'
 alias grp=gpr
 alias grpn='hub pull-request'
 alias cpr='hub pr checkout' # usage `cpr <PR id>`
+alias hb='hub browse' # open GitHub for the current repo and branch combo
 
 # Stay safe when git commit -a
 safe_command() {
