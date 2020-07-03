@@ -49,6 +49,8 @@ brew 'the_silver_searcher'
 brew 'ripgrep'
 # Handy tool to repeat a command every n seconds
 brew 'watch'
+# Internet file retriever
+brew 'wget'
 
 # Stuff I need for Automattic
 brew 'php'
