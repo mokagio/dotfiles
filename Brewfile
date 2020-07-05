@@ -149,3 +149,10 @@ cask 'rescuetime'
 #cask 'sixtyforce'
 #cask 'java'
 #mas 'GIF Brewery', 1081413713
+
+# Whether you like it or not, Twitter is useful for marketing
+# in the software development ecosystem.  If you really want
+# to use Twitter, schedule your tweets using TweetDeck.
+# That's the difference between reacting to the urge to do
+# something and being proactive about sharing content.
+#mas 'TweetDeck', 485812721
