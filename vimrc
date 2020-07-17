@@ -227,7 +227,34 @@ let g:syntastic_javascript_checkers = ['eslint']
 au FileType xml setlocal equalprg=xmllint\ --format\ --recover\ -\ 2>/dev/null
 
 " Vim Wiki & Zettelkasten settings
-let g:vimwiki_list = [ {"path":"~/Dropbox/vimwiki/markdown/", "ext":".md", "syntax":"markdown"}, {"path":"~/Dropbox/vimwiki/wiki/"} ]
+"
+" I have two Zettelkasten spliboxes, one for "work" one for "life & parenting"
+" stuff.
+"
+" I'm not sure whether it's a good idea, because life and work blend all the
+" time, but I think it might make it easier to search. After all, I don't plan
+" to write about parenting or philosophy any time soon.
+let parenting_slipbox = {}
+let parenting_slipbox.path = '~/Dropbox/vimwiki/parenting/'
+let parenting_slipbox.ext = '.md'
+let parenting_slipbox.syntax = 'markdown'
+
+let writing_slipbox = {}
+let writing_slipbox.path = '~/Dropbox/vimwiki/writing-business/'
+let writing_slipbox.ext = '.md'
+let writing_slipbox.syntax = 'markdown'
+
+let philosophy_slipbox = {}
+let philosophy_slipbox.path = '~/Dropbox/vimwiki/philosophy/'
+let philosophy_slipbox.ext = '.md'
+let philosophy_slipbox.syntax = 'markdown'
+
+let coding_wiki = {}
+let coding_wiki.path = '~/Dropbox/vimwiki/coding/'
+let coding_wiki.ext = '.md'
+let coding_wiki.syntax = 'markdown'
+
+let g:vimwiki_list = [ writing_slipbox, parenting_slipbox, philosophy_slipbox, coding_wiki ]
 " As recommended in the help, map creating a new note with title to a leader
 " command
 nnoremap <Leader>zn :ZettelNew<space>
