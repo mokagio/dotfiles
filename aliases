@@ -58,6 +58,8 @@ alias glg="git log \
   --abbrev-commit"
 # see above + only show commits made in the the current branch
 alias glgf='glg --first-parent'
+# I make this typo from time to time on Colemak
+alias gjg='glg'
 
 # Hub is a CLI client for the GitHub APIs
 # https://github.com/github/hub
