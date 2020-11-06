@@ -17,6 +17,9 @@ Plug 'bling/vim-airline'
 " ctrlp is a fuzzy file finder and opener
 Plug 'kien/ctrlp.vim'
 
+" Commands for common file operation like rename, delete, create directory,
+" `chmod`, etc
+Plug 'tpope/vim-eunuch'
 " Git integration and more
 Plug 'tpope/vim-fugitive'
 " GitHub extensions for fugitive
