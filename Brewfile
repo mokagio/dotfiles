@@ -70,6 +70,11 @@ cask 'android-studio'
 cask 'zoomus'
 # "The simplest way to keep notes"
 cask 'simplenote'
+# JFrog CLI to use with Bintray the Android dependencies repository
+brew 'jfrog-cli'
+# Some simple or demo apps run on Heroku
+tap 'heroku/brew'
+brew 'heroku'
 
 # Apps
 
