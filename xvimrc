@@ -2,6 +2,8 @@
 " See https://github.com/XVimProject/XVim2/issues/28
 set relativenumber
 
+" In Vim, when used with relativenumber, this shows the line number instead of
+" 0. Haven't found a way to make it work in XVim2.
 set number
 
 inoremap kk <ESC>
@@ -9,7 +11,11 @@ inoremap kk <ESC>
 " Use F2 to toggle the past/nopaste mode
 set pastetoggle=<F2>
 
+" Haven't found a way to make it work in XVim2
 let mapleader = "\<Space>"
 
 " Map <Leader>s to save
+"
+" Haven't found a way to make it work in XVim2, because of the mapleader above
+" not working.
 noremap <Leader>s :w<Cr>
