@@ -172,7 +172,7 @@ alias pb='pbcopy'
 
 # A cat with syntax highlighting and Git support
 # https://github.com/sharkdp/bat
-alias cat='bat'
+alias cat='bat --style="plain,header,grid"'
 
 # GNU's wc is better than the macOS one, e.g. it has the -L option to find the
 # longest line in a file
