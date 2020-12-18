@@ -108,7 +108,7 @@ alias aco='open -a AppCode .'
 
 alias pii='nocorrect pod install'
 alias pi='nocorrect pod install && xco'
-alias bpi='bundle exec pod install && xco'
+alias bpi='bundle exec pod install'
 
 # Ruby gem to find unused Objective-C imports, and eventually delete them
 # https://github.com/dblock/fui
