@@ -289,6 +289,26 @@ let g:zettel_synced = 0 " disable Git syncying
 " via https://pragmaticpineapple.com/ultimate-vim-typescript-setup/
 nnoremap <silent><leader>1 :source ~/.vimrc \| :PlugInstall<CR>
 
+" Markdown Preview settings
+" TODO: these are _all_ the options from
+" https://github.com/iamcco/markdown-preview.nvim/tree/96c0bc72252f87c4fcafaa672352a91730dee61d#install--usage
+" but the only one I wanted to tweak is the synchronized scrolling, how can I
+" update only that one without redefining the dictionary?
+let g:mkdp_preview_options = {
+      \ 'mkit': {},
+      \ 'katex': {},
+      \ 'uml': {},
+      \ 'maid': {},
+      \ 'disable_sync_scroll': 1,
+      \ 'sync_scroll_type': 'middle',
+      \ 'hide_yaml_meta': 1,
+      \ 'sequence_diagrams': {},
+      \ 'flowchart_diagrams': {},
+      \ 'content_editable': v:false,
+      \ 'disable_filename': 0
+      \ }
+
+"
 " Custom Commands
 "
 com! FormatJSON %!python -m json.tool
