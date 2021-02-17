@@ -33,6 +33,8 @@ brew 'editorconfig'
 brew 'terminal-notifier'
 # linter for Swift
 brew 'swiftlint'
+# xcodebuild autocompletions
+brew 'keith/formulae/zsh-xcode-completions'
 # Git Large File System support
 brew 'git-lfs'
 # better cat
