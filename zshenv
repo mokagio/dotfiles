@@ -1,5 +1,11 @@
-# Defines environment variables.
-# Based on the .zshenv from the prezto project: https://github.com/sorin-ionescu/prezto
+# zshenv is always sourced, so it's useful for variables that should be
+# available to other programs, like $PATH or $EDITOR.
+#
+# More info here:
+# https://unix.stackexchange.com/questions/71253/what-should-shouldnt-go-in-zshenv-zshrc-zlogin-zprofile-zlogout
+#
+# Some of the settings here are based on the .zshenv from the prezto project:
+# https://github.com/sorin-ionescu/prezto
 
 #
 # Browser
