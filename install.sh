@@ -5,16 +5,29 @@
 
 set -eu
 
-pushd ~
+UNAME_MACHINE="$(uname -m)"
+if [[ "$UNAME_MACHINE" == "arm64" ]]; then
+  # On ARM macOS, Homebrew goes in /opt/homebrew
+  HOMEBREW_PREFIX="/opt/homebrew"
+else
+  # On Intel macOS, Homebrew goes in /usr/local
+  HOMEBREW_PREFIX="/usr/local"
+fi
 
 # TODO: it would be nice to check for Xcode and/or its command line tools
 
 # Setup Homebrew
-if [[ -f /usr/local/bin/brew ]]&> /dev/null; then
+HOMEBREW_BIN=$HOMEBREW_PREFIX/bin/brew
+if [[ -f $HOMEBREW_BIN ]]&> /dev/null; then
   brew update
 else
   /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 fi
+
+# Export Homebrew to the PATH so it's available to the setup script
+export PATH = $PATH:$HOMEBREW_BIN
+
+pushd ~
 
 # Get the dotfiles repo
 yes | git clone git@github.com:mokagio/dotfiles.git ~/.dotfiles
