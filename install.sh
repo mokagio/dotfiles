@@ -19,13 +19,13 @@ fi
 # Setup Homebrew
 HOMEBREW_BIN=$HOMEBREW_PREFIX/bin/brew
 if [[ -f $HOMEBREW_BIN ]]&> /dev/null; then
+  # Export Homebrew to the PATH so it's available to the setup script
+  export PATH=$PATH:$HOMEBREW_BIN
   brew update
 else
   /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 fi
 
-# Export Homebrew to the PATH so it's available to the setup script
-export PATH = $PATH:$HOMEBREW_BIN
 
 pushd ~
 
