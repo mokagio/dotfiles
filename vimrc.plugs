@@ -78,6 +78,8 @@ Plug 'elmcast/elm-vim'
 Plug 'cespare/vim-toml'
 " Kotlin
 Plug 'udalov/kotlin-vim'
+" Starlark (Bazel's config language)
+Plug 'cappyzawa/starlark.vim'
 
 " Keyboard shortcuts to run tests, supports different languages with the same
 " combos

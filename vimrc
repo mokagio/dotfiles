@@ -118,6 +118,8 @@ au BufRead PULLREQ_EDITMSG setlocal spell spelllang=en_au
 
 " Highlight Podfile, Fatfile, etc. as a Ruby file
 au BufRead,BufNewFile Podfile,Fastfile,AppFile,Deliverfile,Matchfile,Snapfile,Pluginfile,Dangerfile set filetype=ruby
+" Highlight Pods.WORKSPACE as a Starlark file
+au BufRead,BufNewFile Pods.WORKSPACE set filetype=starlark
 
 " Prettier formatter configuration
 autocmd FileType typescript setlocal formatprg=prettier\ --parser\ typescript
