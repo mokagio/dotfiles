@@ -163,3 +163,7 @@ rand() {
 # See also
 # https://stackoverflow.com/questions/24513873/git-tab-completion-not-working-in-zsh-on-mac/58517668#58517668
 autoload -Uz compinit && compinit
+
+# Go
+export GOPATH=$HOME/.go
+export PATH=$PATH:$GOPATH/bin
