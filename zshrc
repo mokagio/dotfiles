@@ -3,7 +3,7 @@
 # ZSH Plugin manager
 source /usr/local/share/antigen/antigen.zsh
 
-antigen use prezto
+antigen use oh-my-zsh
 
 # When you try to use a command that is not available locally, searches the
 # package manager for a package offering that command and suggests the proper
