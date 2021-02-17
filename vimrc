@@ -157,13 +157,17 @@ let g:airline_powerline_fonts=1
 filetype plugin on
 set omnifunc=syntaxcomplete#Complete
 
-" Neocomplete
+" Neocomplete - Disabled while I try coc.vim
 "
 " Enable automatic autocompletion via neocompletion by default
-let g:neocomplete#enable_at_startup = 1
-let g:neocomplete#enable_camel_case = 1
+" let g:neocomplete#enable_at_startup = 1
+" let g:neocomplete#enable_camel_case = 1
 " Disable for markdown
-autocmd FileType markdown NeoCompleteLock
+" autocmd FileType markdown NeoCompleteLock
+
+" coc.vim
+" Disable for markdown
+autocmd FileType markdown let b:coc_suggest_disable = 1
 
 " vim-test mappings
 " See https://github.com/vim-test/vim-test/tree/b882783760b954144dda5be7ad6cd4bdefd013fb#setup

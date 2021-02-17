@@ -17,6 +17,17 @@ Plug 'bling/vim-airline'
 " ctrlp is a fuzzy file finder and opener
 Plug 'kien/ctrlp.vim'
 
+" Incremental autocompletion
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+" This neocomplete/deoplete autocompletion is disabled to avoid clashes with
+" coc. I don't actually know whether they clash, but I've been experiencing
+" weird messages while typing at times, so trying to clean things up.
+"
+" Autocompletion cache
+" Plug 'Shougo/neocomplete.vim'
+" Autocompletion: Neovim version
+"Plug 'Shougo/deoplete.nvim'
+
 " Commands for common file operation like rename, delete, create directory,
 " `chmod`, etc
 Plug 'tpope/vim-eunuch'
@@ -42,11 +53,6 @@ Plug 'editorconfig/editorconfig-vim'
 
 " Syntax checks
 Plug 'scrooloose/syntastic'
-
-" Autocompletion cache
-Plug 'Shougo/neocomplete.vim'
-" Autocompletion: Neovim version
-"Plug 'Shougo/deoplete.nvim'
 
 " Comment code
 Plug 'tpope/vim-commentary'
