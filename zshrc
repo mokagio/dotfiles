@@ -43,7 +43,7 @@ antigen apply
 SPACESHIP_PROMPT_SEPARATE_LINE=true
 # I don't like how the prompt says "via 💎 v2.3.0"
 SPACESHIP_RUBY_PREFIX=''
-SPACESHIP_TIME_SHOW=true
+SPACESHIP_TIME_SHOW=false
 SPACESHIP_VI_MODE_SHOW=false # don't need to know the Vi mode I'm in
 SPACESHIP_GIT_PREFIX=''
 
