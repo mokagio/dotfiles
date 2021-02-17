@@ -12,7 +12,6 @@ dotfiles=(
   'liftoffrc'
   'luarocks'
   'tigrc'
-  'tigrc.vim'
   'vimrc'
   'vimrc.plugs'
   'xvimrc'
