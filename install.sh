@@ -10,7 +10,11 @@ pushd ~
 # TODO: it would be nice to check for Xcode and/or its command line tools
 
 # Setup Homebrew
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+if [[ -f /usr/local/bin/brew ]]&> /dev/null; then
+  brew update
+else
+  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+fi
 
 # Get the dotfiles repo
 yes | git clone git@github.com:mokagio/dotfiles.git ~/.dotfiles
