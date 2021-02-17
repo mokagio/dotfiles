@@ -3,16 +3,14 @@
 # Inspired by
 # https://github.com/Homebrew/install/blob/750f6bd7d9ce63d9b47a5f3930d9408577c1c9ce/install.sh
 
-set -ex
+set -eux
 
 pushd ~
 
 # TODO: it would be nice to check for Xcode and/or its command line tools
 
-unset -x
 # Setup Homebrew
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-set -ux
 
 # Get the dotfiles repo
 yes | git clone git@github.com:mokagio/dotfiles.git ~/.dotfiles
