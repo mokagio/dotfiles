@@ -13,16 +13,29 @@ commits = git_log_input.lines.map { |l| l.split(' ')[1] }
 # When cherry-picking, we need to start from the _oldest_ commit
 commits = commits.reverse
 
-commits.each_with_index do |sha, index|
-  suffix = "#{sha} (#{index + 1} of #{commits.length})"
-  puts "🍒 Cherry picking #{suffix}"
+def recursive_cherry_pick(commits, done_count, total_count)
+  if commits.empty?
+    puts "All done ✅"
+    exit 0
+  end
 
-  system("git cherry-pick #{sha}")
+  commit = commits.first
+  suffix = "#{commit} (#{done_count + 1} of #{total_count})"
+  puts "🍒 Cherry picking #{commit}"
+
+  system("git cherry-pick #{commit}")
 
   if $?.exitstatus != 0
     puts "😟 cherry picking failed for #{suffix}"
-    puts "Once you fix it copy the following output and run the script again to continue the process"
-    puts "TODO!"
+    puts "Once you fix it, use the following output (already in your pasteboard) and run the script again to continue the process:\n"
+    output = commits[1..].reverse.map { |c| "* #{c}" }.join("\n")
+    puts output
+    # Can't calls `pbcopy` directly, becase it reads from STDIN
+    IO.popen('pbcopy', 'w') { |f| f << output }
     exit 1
+  else
+    recursive_cherry_pick(commits[1..], done_count + 1, total_count)
   end
 end
+
+recursive_cherry_pick(commits, 0, commits.length)
