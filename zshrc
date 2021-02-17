@@ -175,3 +175,9 @@ complete -C '/usr/local/bin/aws_completer' aws
 
 # Xcode build autocompletion, via https://github.com/keith/zsh-xcode-completions
 fpath=(/usr/local/share/zsh/site-functions $fpath)
+
+# Paste content of file to clipboard
+pastetoclipboard() {
+  cat $1 | pbcopy
+}
+alias pbc=pastetoclipboard
