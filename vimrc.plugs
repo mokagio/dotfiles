@@ -69,7 +69,13 @@ Plug 'keith/sourcekittendaemon.vim'
 Plug 'gfontenot/vim-xcode'
 " Syntax highlighting for the Xcode .pbxproj file
 Plug 'cfdrake/vim-pbxproj'
+" Syntax highlighting for Xcode .xcconfig files
+Plug 'keith/xcconfig.vim'
+" Syntax highlighting for PropertyList (.plist) files
+Plug 'darfink/vim-plist'
 Plug 'elzr/vim-json'
+" Ruby
+Plug 'vim-ruby/vim-ruby'
 " Run rspec tests via leader commands
 Plug 'thoughtbot/vim-rspec', { 'for': 'ruby' }
 " JS and JSX (React)
@@ -98,6 +104,9 @@ Plug 'tpope/vim-endwise'
 " Same as endwise, but for (X)HTML tags
 Plug 'alvan/vim-closetag'
 
+" HTML editing powerups
+Plug 'mattn/emmet-vim'
+
 " Writing
 Plug 'plasticboy/vim-markdown'
 Plug 'madzak/vim-proselint'
@@ -118,3 +127,6 @@ Plug 'alok/notational-fzf-vim'
 
 " A collection of colorschemes
 Plug 'flazz/vim-colorschemes'
+
+" Show invisible characters
+Plug 'vim-scripts/cream-showinvisibles'
