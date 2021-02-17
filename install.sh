@@ -3,7 +3,7 @@
 # Inspired by
 # https://github.com/Homebrew/install/blob/750f6bd7d9ce63d9b47a5f3930d9408577c1c9ce/install.sh
 
-set -eux
+set -eu
 
 pushd ~
 
