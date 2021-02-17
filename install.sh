@@ -13,7 +13,7 @@ pushd ~
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
 # Get the dotfiles repo
-git clone git@github.com:mokagio/dotfiles.git ~/.dotfiles
+yes | git clone git@github.com:mokagio/dotfiles.git ~/.dotfiles
 cd ~/.dotfiles
 
 # Run the setup script
