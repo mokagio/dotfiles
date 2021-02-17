@@ -265,6 +265,9 @@ let g:vimwiki_list = [ writing_slipbox, parenting_slipbox, philosophy_slipbox, c
 " command
 nnoremap <Leader>zn :ZettelNew<space>
 nnoremap <Leader>zt :VimwikiRebuildTags<CR>
+" Create a new note using the selected text as the title
+" (This is the default value but I keep forgetting about it...)
+autocmd FileType vimwiki xmap z <Plug>ZettelNewSelectedMap
 " Notational-FZF-Vim settings
 "
 " Before using this, every time I wanted to find a note, I had to use `[[` which
