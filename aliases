@@ -199,3 +199,7 @@ alias rni="npx react-native run-ios"
 # Common typos I make
 alias vm=mv
 alias crul=curl
+
+# tree
+# https://osxdaily.com/2016/09/09/view-folder-tree-terminal-mac-os-tree-equivalent/
+alias tree="find . -print | sed -e 's;[^/]*/;|____;g;s;____|; |;g'"
