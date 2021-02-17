@@ -69,7 +69,7 @@ brew 'bundletool'
 # Sentry is a mobile monitoring tool
 brew 'getsentry/tools/sentry-cli'
 cask 'android-studio'
-cask 'zoomus'
+cask 'zoom'
 # "The simplest way to keep notes"
 cask 'simplenote'
 # JFrog CLI to use with Bintray the Android dependencies repository
