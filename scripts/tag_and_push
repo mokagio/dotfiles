@@ -1,0 +1,12 @@
+#!/bin/bash
+
+# TODO: It might be cool to add this as a git command too/instead
+
+set -e
+
+function tag_and_push() {
+  git tag $1
+  git push origin $1
+}
+
+tag_and_push $1
