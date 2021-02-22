@@ -108,7 +108,9 @@ alias aco='open -a AppCode .'
 
 alias pii='nocorrect pod install'
 alias pi='nocorrect pod install && xco'
-alias bpi='bundle exec pod install'
+# --repo-update is useful to avoid the occasional resolution dependency failure
+# in my "day" job at Automattic
+alias bpi='bundle exec pod install --repo-update'
 
 # Ruby gem to find unused Objective-C imports, and eventually delete them
 # https://github.com/dblock/fui
