@@ -24,25 +24,35 @@ dotfiles=(
 
 pwd=`pwd`
 
-for dot in "${dotfiles[@]}"
-do
-  src="$pwd/$dot" # can't use source, it's a command ;)
-  destination="$HOME/.$dot"
+# for dot in "${dotfiles[@]}"
+# do
+#   src="$pwd/$dot" # can't use source, it's a command ;)
+#   destination="$HOME/.$dot"
 
-  if [[ -h "$destination" ]]; then
-    echo "$destination exists already, skipping"
-  else
-    echo "ln -s $pwd/$dot ~/.$dot"
-    ln -s $pwd/$dot ~/.$dot
-  fi
-done
+#   if [[ -h "$destination" ]]; then
+#     echo "$destination exists already, skipping"
+#   else
+#     echo "ln -s $pwd/$dot ~/.$dot"
+#     ln -s $pwd/$dot ~/.$dot
+#   fi
+# done
 
 # Link Vim spellfile.
 # Not sure how to symlink and entire folder yet
 mkdir -p ~/.vim/spell
 # Note that you should not use `_` in the file name, see
 # https://unix.stackexchange.com/questions/85538/how-can-i-create-my-own-spelling-file-for-vim
-ln -s $pwd/vim/spell/custom-spell.utf-8.add ~/.vim/spell/custom-spell.utf-8.add
+vim_spell_path="$pwd/vim/spell/custom-spell.utf-8.add"
+if [[ -f $vim_spell_path ]]; then
+  # Interestingly, I had to use $HOME here instead of ~, otherwise, ln would
+  # fail with "No such file or directory". Why does ~ work above but not here?
+  # Is it because there's nested folders in this destination path?
+  ln -s "$vim_spell_path" "$HOME/.vim/spell/custom-spell.utf-8.add"
+else
+  echo "Could not find $vim_spell_path! Aborting."
+  exit 1
+fi
+exit 1
 
 # link bin folder
 ln -s $pwd/bin/ ~/bin
