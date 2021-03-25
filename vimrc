@@ -109,12 +109,14 @@ xnoremap p pgvy
 set spellfile=$HOME/.vim/spell/custom-spell.utf-8.add
 " I haven't figured out a way to have good spell checking for code, so for now
 " only check spelling on 'text' files
-au BufRead *.md setlocal spell spelllang=en_au
+"
+" TODO: extract lang value in a constant
+au BufRead *.md setlocal spell spelllang=en_us
 " Check spelling on commit messages too
-au BufRead COMMIT_EDITMSG setlocal spell spelllang=en_au
+au BufRead COMMIT_EDITMSG setlocal spell spelllang=en_us
 " Check spelling when opening pull requests with hub
 " https://github.com/github/hub
-au BufRead PULLREQ_EDITMSG setlocal spell spelllang=en_au
+au BufRead PULLREQ_EDITMSG setlocal spell spelllang=en_us
 
 " Highlight Podfile, Fatfile, etc. as a Ruby file
 au BufRead,BufNewFile Podfile,Fastfile,AppFile,Deliverfile,Matchfile,Snapfile,Pluginfile,Dangerfile set filetype=ruby
