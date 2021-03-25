@@ -130,3 +130,14 @@ Plug 'flazz/vim-colorschemes'
 
 " Show invisible characters
 Plug 'vim-scripts/cream-showinvisibles'
+
+" Add words to a project-specific spellfile with zG and zW
+"
+" I find this better than having a vanilla Vim project-specific spellfile, as
+" described here
+" https://thoughtbot.com/blog/opt-in-project-specific-vim-spell-checking-and-word-completion,
+" because that option saves all words in the project-specific file and doesn't
+" access the ones you already saved in the global one, meaning there's a lot
+" of work I'd have to do to readd all my words. True, I could simply copy them
+" at the start of each project, a one time cost. Call me lazy.
+Plug 'dbmrq/vim-dialect'
