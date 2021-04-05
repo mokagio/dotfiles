@@ -131,6 +131,9 @@ Plug 'flazz/vim-colorschemes'
 " Show invisible characters
 Plug 'vim-scripts/cream-showinvisibles'
 
+" Shows a sidebar with named registers and their contect
+Plug 'junegunn/vim-peekaboo'
+
 " Add words to a project-specific spellfile with zG and zW
 "
 " I find this better than having a vanilla Vim project-specific spellfile, as
