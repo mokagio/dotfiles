@@ -144,13 +144,17 @@ alias m='open -a MacDown'
 # https://github.com/thoughtbot/Markoff
 alias mp='open -a Markoff'
 alias v='vim'
+alias ao='open -a /Applications/Android\ Studio.app'
+
+# Vim Wiki & Zettlekasen
+#
 # At somepoint, you might get a Ruby executable called ww, which, as far as I
 # can tell, has to do with building web apps with Rack and Sinatar, and also
 # seems pretty old. Seems pretty safe to override this.
 # https://rubygems.org/gems/ww
 # Using ww because that's the same leader command to bring up the wiki.
 alias ww='vim -c VimwikiIndex'
-alias ao='open -a /Applications/Android\ Studio.app'
+alias tc='pushd ~/Dropbox/vimwiki && ./track_changes && popd || popd'
 
 alias cask='brew cask'
 
