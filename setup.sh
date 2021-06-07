@@ -63,6 +63,9 @@ brew bundle
 #
 # Install fzf useful keybindings and fuzzy completion for ZSH
 [ -f ~/.fzf.zshhh ] || $(brew --prefix)/opt/fzf/install
+# Bypass gatekeeper for QLColorCode
+# https://github.com/anthonygelibert/QLColorCode/issues/84
+xattr -cr ~/Library/QuickLook/QLColorCode.qlgenerator
 
 # Install nvm to manage Node's versions
 export NVM_DIR="$HOME/.nvm"
