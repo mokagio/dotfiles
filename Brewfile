@@ -95,6 +95,8 @@ cask 'omnifocus'
 cask 'shortcat'
 cask 'dropbox'
 cask 'spotify'
+# Listen to podcats like a pro
+cask 'pocket-casts'
 # unfortunately, this is a must "Cmd ." doesn't work in the browser
 cask 'slack'
 cask 'vlc'
