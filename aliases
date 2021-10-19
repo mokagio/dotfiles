@@ -123,7 +123,7 @@ alias xt='xctool test'alias ..='cd ..'
 # Ruby
 alias r='ruby'
 alias rr='rake'
-alias bi='bundle install'
+alias b='bundle install'
 alias bu='bundle update'
 alias be='bundle exec'
 alias br='bundle exec rake'
