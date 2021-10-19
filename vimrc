@@ -18,6 +18,10 @@ inoremap kk <esc>
 " Map <Leader>s to save
 noremap <Leader>s :w<CR>
 
+" Enable project-specific vimrc
+" See https://andrew.stwrt.ca/posts/project-specific-vimrc/
+set exrc
+
 " Turn on syntax highlighting
 syntax on
 
@@ -120,6 +124,7 @@ au BufRead PULLREQ_EDITMSG setlocal spell spelllang=en_us
 
 " Highlight Podfile, Fatfile, etc. as a Ruby file
 au BufRead,BufNewFile Podfile,Fastfile,AppFile,Deliverfile,Matchfile,Snapfile,Pluginfile,Dangerfile set filetype=ruby
+au BufRead,BufNewFile Jetpack-Fastfile set filetype=ruby
 " Highlight Pods.WORKSPACE as a Starlark file
 au BufRead,BufNewFile Pods.WORKSPACE set filetype=starlark
 
@@ -147,7 +152,7 @@ autocmd FileType nerdtree setlocal relativenumber
 " enable airline
 let g:airline#extensions#tabline#enabled = 1
 " always show the status bar
-" this is a vim setting rather than airplane, but makes sense here
+" this is a vim setting rather than airline, but makes sense here
 set laststatus=2
 " use powerline fonts for bold fatty arrous and othe symbols in the status bar (https://github.com/powerline/fonts.git)
 " important: you'll need to install a powerline patched version of the font you want to use.
@@ -291,7 +296,7 @@ let g:zettel_synced = 0 " disable Git syncying
 
 " Source Vim configuration file and install plugins
 " via https://pragmaticpineapple.com/ultimate-vim-typescript-setup/
-nnoremap <silent><leader>1 :source ~/.vimrc \| :PlugInstall<CR>
+nnoremap <silent><leader>1 :source ~/.vimrc \| :PlugInstall<CR> \| :PlugUpdate<CR>
 
 " Markdown Preview settings
 " TODO: these are _all_ the options from
@@ -303,7 +308,7 @@ let g:mkdp_preview_options = {
       \ 'katex': {},
       \ 'uml': {},
       \ 'maid': {},
-      \ 'disable_sync_scroll': 1,
+      \ 'disable_sync_scroll': 0,
       \ 'sync_scroll_type': 'middle',
       \ 'hide_yaml_meta': 1,
       \ 'sequence_diagrams': {},
