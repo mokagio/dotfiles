@@ -31,11 +31,14 @@
   program = gpg
 
 [alias]
+  # I make so many typos... 🙃
   sash = stash
   satsh = stash
+  stahs = stash
   sohw = show
   swho = show
   shwo = show
+  grpe = grep
 
 # See http://blog.xk72.com/post/31456986659/diff-strings-files-in-git
 [diff "localizablestrings"]
