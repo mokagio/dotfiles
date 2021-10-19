@@ -53,6 +53,8 @@ brew 'ripgrep'
 brew 'watch'
 # Internet file retriever
 brew 'wget'
+# RAR archiver (`rar`) and unarchiver (`unrar`)
+brew 'rar'
 
 # Stuff I need for Automattic
 brew 'php'
