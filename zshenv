@@ -107,3 +107,6 @@ DOTFILES_HOME=~/.dotfiles/
 export PATH="$PATH:$DOTFILES_HOME/scripts"
 
 GPG_TTY=$(tty)
+
+# Get rid of Fastlane new versions noise
+export FASTLANE_SKIP_UPDATE_CHECK=1
