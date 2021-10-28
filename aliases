@@ -17,7 +17,14 @@ alias g='git'
 alias gb='git branch'
 alias gs='nocorrect git status --short'
 alias ga='nocorrect git add'
-alias gaa='nocorrect git add --all'
+# This used to be
+#
+#   alias gaa='nocorrect git add --all'
+#
+# but I fucked up enought time by adding all files and pushing that I've
+# finally decided to stop myself from doing that.
+gaa_message="Do not commit files like that you idiot!"
+alias gaa='echo "$gaa_message" && say "$gaa_message"'
 alias gc='nocorrect git commit'
 alias gcm='nocorrect git commit -m'
 alias gcn='git commit --amend --no-edit'
