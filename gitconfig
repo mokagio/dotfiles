@@ -1,7 +1,6 @@
 [user]
   name = "Gio Lodi"
   email = "giovanni.lodi42@gmail.com"
-  signingkey = DDA44D90C994BF15
 [fetch]
   prune = true
 [push]
@@ -45,3 +44,6 @@
   textconv = "iconv -f utf-16 -t utf-8"
 [init]
 	defaultBranch = trunk
+
+[include]
+  path = ~/.gitconfig.local
