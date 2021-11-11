@@ -1,38 +1,49 @@
 # Executes commands at the start of an interactive session.
 
 # ZSH Plugin manager
-source /usr/local/share/antigen/antigen.zsh
+antigen_intel_path=/usr/local/share/antigen/antigen.zsh
+antigen_apple_silicon_path=/opt/homebrew/share/antigen/antigen.zsh
+if [[ -f $antigen_apple_silicon_path ]] || [[ -f $antigen_intel_path ]]; then
+  if [[ -f $antigen_apple_silicon_path ]]; then
+    source $antigen_apple_silicon_path
+  else
+    # Because of the nested if, we know that the intel path exist
+    source $antigen_intel_path
+  fi
 
-antigen use oh-my-zsh
+  antigen use oh-my-zsh
 
-# When you try to use a command that is not available locally, searches the
-# package manager for a package offering that command and suggests the proper
-# install command.
-antigen bundle command-not-found
-antigen bundle colored-man-pages
-# A bunch of handy aliases. See:
-# https://github.com/sorin-ionescu/prezto/tree/95ff0360aeef951111c5ca6a80939e9329ddb434/modules/utility
-antigen bundle utility
-# Syntax highlighting (commands are one color, text in quotes is another, etc.)
-antigen bundle zsh-users/zsh-syntax-highlighting
-antigen bundle zsh-users/zsh-autosuggestions
-# Better completions
-antigen bundle zsh-users/zsh-completions
-# This makes it so that tab completions are case insensitive
-zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z} m:=_ m:=- m:=.'
+  # When you try to use a command that is not available locally, searches the
+  # package manager for a package offering that command and suggests the proper
+  # install command.
+  antigen bundle command-not-found
+  antigen bundle colored-man-pages
+  # A bunch of handy aliases. See:
+  # https://github.com/sorin-ionescu/prezto/tree/95ff0360aeef951111c5ca6a80939e9329ddb434/modules/utility
+  antigen bundle utility
+  # Syntax highlighting (commands are one color, text in quotes is another, etc.)
+  antigen bundle zsh-users/zsh-syntax-highlighting
+  antigen bundle zsh-users/zsh-autosuggestions
+  # Better completions
+  antigen bundle zsh-users/zsh-completions
+  # This makes it so that tab completions are case insensitive
+  zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z} m:=_ m:=- m:=.'
 
-# "open Vim and hit Crtl-Z. Now you don't need anymore hit fg, but only Crtl-Z
-# again"
-antigen bundle alexrochas/zsh-vim-crtl-z
-zle -N fancy-ctrl-z
-bindkey '^Z' fancy-ctrl-z
+  # "open Vim and hit Crtl-Z. Now you don't need anymore hit fg, but only Crtl-Z
+  # again"
+  antigen bundle alexrochas/zsh-vim-crtl-z
+  zle -N fancy-ctrl-z
+  bindkey '^Z' fancy-ctrl-z
 
-# You can find more modules for prezto at
-# https://github.com/sorin-ionescu/prezto/tree/master/modules
+  # You can find more modules for prezto at
+  # https://github.com/sorin-ionescu/prezto/tree/master/modules
 
-antigen theme denysdovhan/spaceship-prompt
+  antigen theme denysdovhan/spaceship-prompt
 
-antigen apply
+  antigen apply
+else
+  echo "❌ Cannot find Antigen ZSH plugin manager in the system"
+fi
 
 # Spaceship prompt settings
 # https://github.com/denysdovhan/spaceship-prompt/blob/6319158f19a7bb83a8131da7268213cb636f9653/docs/Options.md
@@ -169,7 +180,12 @@ rand() {
 
 # Fastlane autocompletion
 # https://docs.fastlane.tools/faqs/#enable-tab-auto-complete-for-fastlane-lane-names
-. ~/.fastlane/completions/completion.sh
+fastlane_autocompletion_source=~/.fastlane/completions/completion.sh
+if [[ -f $fastlane_autocompletion_source ]]; then
+  source ~/.fastlane/completions/completion.sh
+else
+  echo "❌ Could not find Fastlane autocompletion script"
+fi
 
 # Useful keybindings and fuzzy completion for fzf
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
