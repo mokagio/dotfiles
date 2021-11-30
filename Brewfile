@@ -106,6 +106,8 @@ cask 'vlc'
 cask 'visual-studio-code'
 # Tool to remap keys in the macOS keyboard
 cask 'karabiner-elements'
+# IM clients
+cask 'signal'
 
 brew 'mas'
 mas 'Spark', id: 1176895641
@@ -113,6 +115,9 @@ mas '1Password', id: 1333542190
 mas 'Tadam', id: 531349534
 mas 'Evernote', id: 406056744
 mas 'Toggl', id: 957734279
+# Not the sleekies GIF recorder, but has great features such as text annotation
+# and export to MP4
+mas 'GIF Brewery 3 by Gfycat', id: 1081413713
 
 # Quick Look Plugins
 
