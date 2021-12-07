@@ -55,6 +55,8 @@ brew 'watch'
 brew 'wget'
 # RAR archiver (`rar`) and unarchiver (`unrar`)
 brew 'rar'
+# macOS doesn't have a built-in version of `tree`
+brew 'tree'
 
 # Stuff I need for Automattic
 brew 'php'
