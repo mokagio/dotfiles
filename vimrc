@@ -73,6 +73,12 @@ highlight ColorColumn ctermbg=darkgray
 nnoremap H ^
 nnoremap L $
 
+" Tweak where Vim open splits to be 'more natural'
+"
+" Via https://vimtricks.com/p/open-splits-more-naturally/
+set splitbelow
+set splitright
+
 " ctrlp settings
 " ctrlp is a fuzzy file finder and opener
 let g:ctrlp_map = '<c-p>'
