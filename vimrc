@@ -293,6 +293,10 @@ autocmd FileType vimwiki xmap z <Plug>ZettelNewSelectedMap
 let g:nv_search_paths = ['~/Dropbox/vimwiki']
 " p, the same as CtrlP but for notes
 nnoremap <silent> <Leader>zp :NV<CR>
+" One downside of using Vim for this is that I don't have handy UI to see
+" connection. To compensate, here's mappings to make getting them as fast as
+" possible.
+nnoremap <silent> <Leader>zb :ZettelBackLinks<CR>
 " Sync VimWiki / Zettelkasten slipbox to Git via
 " https://github.com/michal-h21/vimwiki-sync
 " This folder needs to be defined so that the sync plugin runs only there and
