@@ -128,6 +128,11 @@ Plug 'alok/notational-fzf-vim'
 
 " A collection of colorschemes
 Plug 'flazz/vim-colorschemes'
+" Another theme, as if the collection above wasn't enough, LOL
+Plug 'sonph/onehalf', { 'rtp': 'vim' }
+Plug 'arcticicestudio/nord-vim'
+Plug 'ayu-theme/ayu-vim'
+let ayucolor="light"
 
 " Show invisible characters
 Plug 'vim-scripts/cream-showinvisibles'

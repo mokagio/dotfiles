@@ -47,7 +47,23 @@ set pastetoggle=<F2>
 
 " Color schemes are managed through the https://github.com/flazz/vim-colorschemes plugin
 " See all available schemes in ~/.vim/bundle/vim-colorschemes/colors
+"
+" Enable true colors support - Recommended in
+" https://github.com/ayu-theme/ayu-vim I didn't research what it means, but
+" without it, the nord and ayu light themes don't work.
+set termguicolors
+" Zenburn is a classic, nice one to use when in doubt
 colorscheme Zenburn
+" Nord (https://github.com/arcticicestudio/nord-vim) a quiet theme to write in
+" the dark.
+" colorscheme nord
+let ayucolor="light"
+" Ayu (https://github.com/ayu-theme/ayu-vim), in light mode, is nice to write
+" in bright places.
+" colorscheme ayu
+" And here's another theme that's good in the light version
+" https://github.com/sonph/onehalf/tree/master/vim
+" colorscheme onehalflight
 
 " If the color scheme won't work for some reason, these settings will be applied
 " Highlight current line
