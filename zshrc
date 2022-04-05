@@ -213,3 +213,12 @@ pastetoclipboard() {
   cat $1 | pbcopy
 }
 alias pbc=pastetoclipboard
+
+# Joseph is my automated virtual assitant. A collection of scripts to open
+# certain recurring pages at the start and end of the day.
+joseph_path=$HOME/.joseph
+if [ -d $joseph_path ]; then
+  alias joseph=$joseph_path/joseph.rb
+else
+  echo "\033[1;31mCan't find Joseph at $joseph_path. Please install it.\033[0m"
+fi
