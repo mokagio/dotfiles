@@ -53,7 +53,7 @@ set pastetoggle=<F2>
 " without it, the nord and ayu light themes don't work.
 set termguicolors
 " Zenburn is a classic, nice one to use when in doubt
-colorscheme Zenburn
+" colorscheme Zenburn
 " Nord (https://github.com/arcticicestudio/nord-vim) a quiet theme to write in
 " the dark.
 " colorscheme nord
@@ -64,6 +64,14 @@ let ayucolor="light"
 " And here's another theme that's good in the light version
 " https://github.com/sonph/onehalf/tree/master/vim
 " colorscheme onehalflight
+
+" Use a dedicated theme for early writing sessions (which is 99% of why I
+" would use Vim in the early morning).
+if strftime("%H") < 7 || strftime("%H") >= 21
+  colorscheme nord
+else
+  colorscheme Zenburn
+endif
 
 " If the color scheme won't work for some reason, these settings will be applied
 " Highlight current line
