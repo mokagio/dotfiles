@@ -54,9 +54,6 @@ else
 fi
 exit 1
 
-# link bin folder
-ln -s $pwd/bin/ ~/bin
-
 brew bundle
 # Some of the tools install via Homebrew might need additional manual steps.
 # It would be cool if this could be done as part of the Brefile run
