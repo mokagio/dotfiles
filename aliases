@@ -46,7 +46,7 @@ alias gf='git fetch'
 # At iflix, the base branch was always master, in the Automattic mobile
 # division it's develop. I wonder if there's a way to read what the base branch
 # is from somewhere...
-alias gfr='git fetch && git rebase origin/develop'
+alias gfr='git fetch && git rebase origin/trunk'
 alias gfrm='git fetch && git rebase origin/master'
 alias gt='git tag'
 # merge by always making a new commit (--no-ff) and open editor for the commit message (-e)
@@ -162,6 +162,7 @@ alias ao='open -a /Applications/Android\ Studio.app'
 # https://rubygems.org/gems/ww
 # Using ww because that's the same leader command to bring up the wiki.
 alias ww='vim -c VimwikiIndex'
+alias wr="vim $(find ~/Dropbox/vimwiki/writing-business -type f -not -path '*/\.*' | shuf -n 1)"
 alias tc='pushd ~/Dropbox/vimwiki && ./track_changes && popd || popd'
 
 alias cask='brew cask'
@@ -214,3 +215,6 @@ alias rni="npx react-native run-ios"
 alias vm=mv
 alias crul=curl
 
+# Use this in a Pod libray repo to check if the version is
+# stable or beta and whether a new release is required
+alias check_pod_version='gh trunk && gl && cat *.podspec | grep version'
