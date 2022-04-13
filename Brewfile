@@ -81,6 +81,7 @@ brew 'jfrog-cli'
 # Some simple or demo apps run on Heroku
 tap 'heroku/brew'
 brew 'heroku'
+brew 'awscli'
 
 # Apps
 
