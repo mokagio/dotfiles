@@ -6,7 +6,9 @@ alias tl='fmn list'
 alias ta='fmn add'
 alias td='fmn done'
 
+# Misc
 alias t='tig'
+alias k9='kill -9'
 
 # Navigation
 alias ~='cd ~'
