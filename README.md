@@ -48,3 +48,4 @@ The script installs PHP, but doesn't install Composer, which you'll have to do m
 ## macOS notes
 
 - [How to enable three fingers drag](https://support.apple.com/en-au/HT204609)
+- [How to complete the GPG Git signing setup](https://stackoverflow.com/a/47087248/809944) and makes sure to use `/opt/homebrew/bin/pinentry-mac` instead of `/usr/local/bin/pinentry-mac` on an Apple Silicon machine!

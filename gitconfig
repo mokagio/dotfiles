@@ -24,6 +24,9 @@
   submoduleSummary = true
 
 # Sign commits with GPG
+#
+# Note that the `user.signingkey` parameter is expected to be in `~/.gitconfig.local`
+# in order to support diffrent keys for differnt Macs.
 [commit]
   gpgsign = true
 [gpg]
