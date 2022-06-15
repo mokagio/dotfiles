@@ -114,3 +114,8 @@ export GPG_TTY=$(tty)
 export FASTLANE_SKIP_UPDATE_CHECK=1
 export FASTLANE_HIDE_CHANGELOG=1
 export FASTLANE_HIDE_PLUGINS_TABLE=1
+# This is useful only if your work in the Automattic Mobile Platform team ^-^'
+#
+# See
+# https://github.com/wordpress-mobile/release-toolkit/blob/984a1854b42641daf43b29aa7ae36d0961be8f59/lib/fastlane/plugin/wpmreleasetoolkit/helper/interactive_prompt_reminder.rb#L10-L18
+export FASTLANE_PROMPT_REMINDER_MESSAGE=1
