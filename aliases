@@ -215,6 +215,12 @@ alias rni="npx react-native run-ios"
 alias vm=mv
 alias crul=curl
 
+alias mp='vim -c Goyo ~/Dropbox/writing/morning-pages/$(date "+%Y-%m-%d-%H%M").md'
+# `np` is already taken by another custom script
+alias npg='vim -c Goyo ~/Dropbox/writing/night-pages/$(date "+%Y-%m-%d-%H%M").md'
+# last-night-questions
+alias lnq='cat "$(ls -1rt ~/Dropbox/writing/night-pages/*.md | tail -n1)"'
+
 # Use this in a Pod libray repo to check if the version is
 # stable or beta and whether a new release is required
 alias check_pod_version='gh trunk && gl && cat *.podspec | grep version'
