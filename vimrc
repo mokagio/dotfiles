@@ -97,7 +97,7 @@ highlight ColorColumn ctermbg=darkgray
 nnoremap H ^
 nnoremap L $
 
-" Tweak where Vim open splits to be 'more natural'
+" Tweak whereVim open splits to be 'more natural'
 "
 " Via https://vimtricks.com/p/open-splits-more-naturally/
 set splitbelow
@@ -225,9 +225,19 @@ let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
 
-let g:syntastic_ruby_checkers = ['rubocop', 'mri']
+let g:syntastic_ruby_checkers = ['rubocop']
 
 let g:syntastic_loc_list_height = 4
+
+" At some point, Ruby files started to be very slow when saving. Namely, after
+" saving (e.g. with the Leader<s> map) Vim would hang in command mode for at
+" least a second.
+"
+" I stumbled on the StackOverflow question below and tried a few options...
+" Using `lazyredraw` seems to work well so far.
+"
+" https://stackoverflow.com/questions/16902317/vim-slow-with-ruby-syntax-highlighting
+autocmd FileType ruby setlocal lazyredraw
 
 " vim-markdown settings
 "
