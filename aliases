@@ -151,9 +151,6 @@ alias a='open -a Android\ Studio'
 # Apps
 alias chrome='open -a Google\ Chrome'
 alias m='open -a MacDown'
-# Markoff is a markdown previewer
-# https://github.com/thoughtbot/Markoff
-alias mp='open -a Markoff'
 alias v='vim'
 alias ao='open -a /Applications/Android\ Studio.app'
 
