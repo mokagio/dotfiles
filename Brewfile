@@ -20,8 +20,6 @@ brew 'python'
 # to jump between folders without going through the filesystem hierarchy
 brew 'autojump'
 brew 'lua'
-# decentralized dependencies manager, made for iOS development
-brew 'carthage'
 # hub is a tool to work with GitHub from the command line
 brew 'hub'
 # this is actually called via `gh` and is _another_ tool to work with GitHub
@@ -31,8 +29,6 @@ brew 'github/gh/gh'
 brew 'editorconfig'
 # send user notifcations from the terminal
 brew 'terminal-notifier'
-# linter for Swift
-brew 'swiftlint'
 # xcodebuild autocompletions
 brew 'keith/formulae/zsh-xcode-completions'
 # Git Large File System support
@@ -76,12 +72,13 @@ cask 'android-studio'
 cask 'zoom'
 # "The simplest way to keep notes"
 cask 'simplenote'
-# JFrog CLI to use with Bintray the Android dependencies repository
-brew 'jfrog-cli'
 # Some simple or demo apps run on Heroku
 tap 'heroku/brew'
 brew 'heroku'
 brew 'awscli'
+# Unfortunately, this is a must have as an app, because "Cmd ." doesn't work in
+# the browser
+cask 'slack'
 
 # Apps
 
@@ -96,14 +93,10 @@ cask 'hammerspoon'
 cask 'flux'
 # GTD task manager
 cask 'omnifocus'
-# tap button without using the mouse, just by typing their names
-cask 'shortcat'
 cask 'dropbox'
 cask 'spotify'
 # Listen to podcats like a pro
 cask 'pocket-casts'
-# unfortunately, this is a must "Cmd ." doesn't work in the browser
-cask 'slack'
 cask 'vlc'
 # For those rare occasions when Vim won't do it
 cask 'visual-studio-code'
@@ -114,9 +107,8 @@ cask 'signal'
 
 brew 'mas'
 mas 'Spark', id: 1176895641
-mas '1Password', id: 1333542190
+# mas '1Password', id: 1333542190 –This will install the legacy v7. Where's v8?
 mas 'Tadam', id: 531349534
-mas 'Evernote', id: 406056744
 mas 'Toggl', id: 957734279
 # Not the sleekies GIF recorder, but has great features such as text annotation
 # and export to MP4
@@ -150,12 +142,7 @@ cask 'rescuetime'
 #brew 'leiningen'
 # some lldb functions to help debugging from the Xcode console
 #brew 'chisel'
-#tap 'thoughtbot/formulae'
-# tool to create Xcode projects from command line
-#brew 'liftoff'
 #cask 'skype'
-# a YouTube client that can stay always in on top
-#cask 'tubbler'
 # IDE to replace Xcode, with powerful refactoring tools
 #cask 'appcode'
 # an app that inspects Xcode's projects and highlights issues and possible optimizations
@@ -167,11 +154,3 @@ cask 'rescuetime'
 # Nintendo 64 emulator
 #cask 'sixtyforce'
 #cask 'java'
-#mas 'GIF Brewery', 1081413713
-
-# Whether you like it or not, Twitter is useful for marketing
-# in the software development ecosystem.  If you really want
-# to use Twitter, schedule your tweets using TweetDeck.
-# That's the difference between reacting to the urge to do
-# something and being proactive about sharing content.
-#mas 'TweetDeck', 485812721
