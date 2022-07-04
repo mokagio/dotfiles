@@ -1,6 +1,4 @@
-#!/bin/bash
-
-set -e
+#!/bin/bash -eu
 
 dotfiles=(
   'aliases'
@@ -22,20 +20,19 @@ dotfiles=(
   'zshprompt'
 )
 
-pwd=`pwd`
+pwd=$(pwd)
 
-# for dot in "${dotfiles[@]}"
-# do
-#   src="$pwd/$dot" # can't use source, it's a command ;)
-#   destination="$HOME/.$dot"
+for dot in "${dotfiles[@]}"
+do
+  destination="$HOME/.$dot"
 
-#   if [[ -h "$destination" ]]; then
-#     echo "$destination exists already, skipping"
-#   else
-#     echo "ln -s $pwd/$dot ~/.$dot"
-#     ln -s $pwd/$dot ~/.$dot
-#   fi
-# done
+  if [[ -h "$destination" ]]; then
+    echo "$destination exists already, skipping"
+  else
+    echo "Will run: ln -s $pwd/$dot $HOME/.$dot"
+    ln -s "$pwd/$dot" "$HOME/.$dot"
+  fi
+done
 
 # Link Vim spellfile.
 # Not sure how to symlink and entire folder yet
@@ -52,14 +49,13 @@ else
   echo "Could not find $vim_spell_path! Aborting."
   exit 1
 fi
-exit 1
 
 brew bundle
 # Some of the tools install via Homebrew might need additional manual steps.
 # It would be cool if this could be done as part of the Brefile run
 #
 # Install fzf useful keybindings and fuzzy completion for ZSH
-[ -f ~/.fzf.zshhh ] || $(brew --prefix)/opt/fzf/install
+[ -f ~/.fzf.zshhh ] || "$(brew --prefix)/opt/fzf/install"
 # Bypass gatekeeper for QLColorCode
 # https://github.com/anthonygelibert/QLColorCode/issues/84
 xattr -cr ~/Library/QuickLook/QLColorCode.qlgenerator
@@ -93,7 +89,7 @@ bundle install --system
 # Hammerspoon window manager
 # http://www.hammerspoon.org/
 mkdir -p ~/.hammerspoon
-ln -s $pwd/hammerspoon_init.lua ~/.hammerspoon/init.lua
+ln -s "$pwd/hammerspoon_init.lua" ~/.hammerspoon/init.lua
 
 # Powerline fonts
 powerline_url="https://github.com/powerline/fonts#quick-installation"
