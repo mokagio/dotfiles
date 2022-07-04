@@ -1,0 +1,2 @@
+[user]
+  signingkey = GPG_KEY_ID # use gpg --list-secret-keys --keyid-format=long and pick the value after the /
