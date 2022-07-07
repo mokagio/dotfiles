@@ -1,0 +1,4 @@
+github.com:
+- user: mokagio
+  oauth_token: YOUR_TOKEN_HERE
+  protocol: https
