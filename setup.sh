@@ -44,7 +44,14 @@ if [[ -f $vim_spell_path ]]; then
   # Interestingly, I had to use $HOME here instead of ~, otherwise, ln would
   # fail with "No such file or directory". Why does ~ work above but not here?
   # Is it because there's nested folders in this destination path?
-  ln -s "$vim_spell_path" "$HOME/.vim/spell/custom-spell.utf-8.add"
+  destination="$HOME/.vim/spell/custom-spell.utf-8.add"
+  # TODO: This logic is duplicated from above. Extract it in a function
+  if [[ -h $destination ]]; then
+    echo "$destination exists already, skipping"
+  else
+    echo "Will run: ln -s $vim_spell_path $destination"
+    ln -s "$vim_spell_path" "$destination"
+  fi
 else
   echo "Could not find $vim_spell_path! Aborting."
   exit 1
