@@ -62,7 +62,7 @@ brew bundle
 # It would be cool if this could be done as part of the Brefile run
 #
 # Install fzf useful keybindings and fuzzy completion for ZSH
-[ -f ~/.fzf.zshhh ] || "$(brew --prefix)/opt/fzf/install"
+[[ -f ~/.fzf.zsh ]] || "$(brew --prefix)/opt/fzf/install"
 # Bypass gatekeeper for QLColorCode
 # https://github.com/anthonygelibert/QLColorCode/issues/84
 xattr -cr ~/Library/QuickLook/QLColorCode.qlgenerator
