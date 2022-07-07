@@ -88,7 +88,11 @@ else
   curl -fLo "$vim_plug_path" --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 fi
 
-# install system wide gems
+# Install latest Ruby and  system wide gems
+latest_ruby=$(rbenv install -l | grep -v - | tail -1)
+rbenv install --skip-existing $latest_ruby
+rbenv global $latest_ruby
+gem install bundler
 bundle install --system
 
 # Hammerspoon window manager
