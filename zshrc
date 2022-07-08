@@ -99,8 +99,9 @@ alias bower='noglob bower'
 path_to_zsh_powerups=~/Developer/mokagio/zsh
 
 # Aliases
-if [[ -s "${HOME}/.aliases" ]]; then
-  source "${HOME}/.aliases"
+ALIASES_PATH="$DOTFILES_HOME/aliases.sh"
+if [[ -f "$ALIASES_PATH" ]]; then
+  source "$ALIASES_PATH"
 else
   echo "\033[1;31mMissing aliases file. Have a look inside the zshrc.\033[0m"
 fi

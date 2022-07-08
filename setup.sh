@@ -1,7 +1,6 @@
 #!/bin/bash -eu
 
 dotfiles=(
-  'aliases'
   'editorconfig'
   'gemrc'
   'gitconfig'

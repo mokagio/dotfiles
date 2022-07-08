@@ -1,3 +1,5 @@
+#!/bin/bash
+
 # Reload zshrc
 alias sss='source ~/.zshrc'
 
@@ -129,7 +131,8 @@ alias fui='nocorrect fui'
 
 # Note! this assumes you have xctool available in your path
 # and the .xctoolargs in the current working directory
-alias xt='xctool test'alias ..='cd ..'
+alias xt='xctool test'
+alias ..='cd ..'
 
 # Ruby
 alias r='ruby'
@@ -161,9 +164,12 @@ alias ao='open -a /Applications/Android\ Studio.app'
 # seems pretty old. Seems pretty safe to override this.
 # https://rubygems.org/gems/ww
 # Using ww because that's the same leader command to bring up the wiki.
-alias ww='vim -c VimwikiIndex'
-alias wr="vim $(find ~/Dropbox/vimwiki/writing-business -type f -not -path '*/\.*' | shuf -n 1)"
-alias tc='pushd ~/Dropbox/vimwiki && ./track_changes && popd || popd'
+VIMWIKI_HOME=~/Dropbox/vimwiki
+if [[ -d  $VIMWIKI_HOME ]]; then
+  alias ww='vim -c VimwikiIndex'
+  alias wr="vim $(find $VIMWIKI_HOME/writing-business -type f -not -path '*/\.*' | shuf -n 1)"
+  alias tc='pushd $VIMWIKI_HOME && ./track_changes && popd || popd'
+fi
 
 alias cask='brew cask'
 
