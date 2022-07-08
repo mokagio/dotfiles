@@ -17,6 +17,7 @@ brew 'vim'
 brew 'node' # Is this necessary when using nvm?
 brew 'yarn'
 brew 'python'
+brew 'shellcheck'
 # to jump between folders without going through the filesystem hierarchy
 brew 'autojump'
 brew 'lua'
