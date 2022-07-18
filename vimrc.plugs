@@ -66,7 +66,7 @@ Plug 'keith/swift.vim'
 " Rudimental support for Swift autocompletion
 Plug 'keith/sourcekittendaemon.vim'
 " Run xcodebuild tasks from within vim
-Plug 'gfontenot/vim-xcode'
+Plug 'gfontenot/vim-xcode', { 'branch': 'main' }
 " Syntax highlighting for the Xcode .pbxproj file
 Plug 'cfdrake/vim-pbxproj'
 " Syntax highlighting for Xcode .xcconfig files
@@ -87,7 +87,7 @@ Plug 'ianks/vim-tsx'
 " Elm
 Plug 'elmcast/elm-vim'
 " Toml
-Plug 'cespare/vim-toml'
+Plug 'cespare/vim-toml', { 'branch': 'main' }
 " Kotlin
 Plug 'udalov/kotlin-vim'
 " Starlark (Bazel's config language)
@@ -130,7 +130,7 @@ Plug 'alok/notational-fzf-vim'
 Plug 'flazz/vim-colorschemes'
 " Another theme, as if the collection above wasn't enough, LOL
 Plug 'sonph/onehalf', { 'rtp': 'vim' }
-Plug 'arcticicestudio/nord-vim'
+Plug 'arcticicestudio/nord-vim', { 'branch': 'main' }
 Plug 'ayu-theme/ayu-vim'
 let ayucolor="light"
 
