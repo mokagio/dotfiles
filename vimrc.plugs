@@ -107,8 +107,9 @@ Plug 'alvan/vim-closetag'
 " HTML editing powerups
 Plug 'mattn/emmet-vim'
 
-" Writing
+" Markdown & Writing
 Plug 'plasticboy/vim-markdown'
+Plug 'jkramer/vim-checkbox'
 Plug 'madzak/vim-proselint'
 Plug 'junegunn/goyo.vim' " for full sceen writing
 Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app & yarn install'  }
