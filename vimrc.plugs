@@ -52,7 +52,7 @@ Plug 'tpope/vim-surround'
 Plug 'editorconfig/editorconfig-vim'
 
 " Syntax checks
-Plug 'scrooloose/syntastic'
+Plug 'vim-syntastic/syntastic'
 
 " Comment code
 Plug 'tpope/vim-commentary'
