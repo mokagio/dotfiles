@@ -119,3 +119,7 @@ export FASTLANE_HIDE_PLUGINS_TABLE=1
 # See
 # https://github.com/wordpress-mobile/release-toolkit/blob/984a1854b42641daf43b29aa7ae36d0961be8f59/lib/fastlane/plugin/wpmreleasetoolkit/helper/interactive_prompt_reminder.rb#L10-L18
 export FASTLANE_PROMPT_REMINDER_MESSAGE=1
+
+# Mint is an installer for tools distributed via SPM
+# https://github.com/yonaskolb/Mint
+export PATH="$PATH:$HOME/.mint/bin"

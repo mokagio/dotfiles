@@ -54,6 +54,8 @@ brew 'wget'
 brew 'rar'
 # macOS doesn't have a built-in version of `tree`
 brew 'tree'
+# Mint is an installer for tools distributed via SPM
+brew 'mint'
 
 # Stuff I need for Automattic
 brew 'php'
