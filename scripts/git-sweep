@@ -1,0 +1,15 @@
+#!/bin/bash -eu
+
+# Sweep away branches that have already been merged in the remote.
+
+DEFAULT_MAIN_BRANCH=trunk
+MAIN_BRANCH=${1:-$DEFAULT_MAIN_BRANCH}
+
+echo "Deleting all local branches that have been merged into $MAIN_BRANCH..."
+if [[  $MAIN_BRANCH = "$DEFAULT_MAIN_BRANCH" ]]; then
+  echo ''
+  echo "Pass a different branch name when calling $0 if $DEFAULT_MAIN_BRANCH is not your main branch"
+fi
+
+git fetch
+git branch --merged | grep -E -v "(^\*|$MAIN_BRANCH)" | xargs git branch -d
