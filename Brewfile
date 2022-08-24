@@ -56,6 +56,8 @@ brew 'rar'
 brew 'tree'
 # Mint is an installer for tools distributed via SPM
 brew 'mint'
+# Git visualizer useful to look through diffs
+brew 'tig'
 
 # Stuff I need for Automattic
 brew 'php'
