@@ -102,7 +102,6 @@ export PATH="$PATH:$HOME/.composer/vendor/bin"
 # TODO: It'd be good to have a zshenv.local or something to decouple this.
 DOTFILES_HOME=~/.dotfiles/
 
-# TODO: Make this bin once the symlink is fixed
 export PATH="$PATH:$DOTFILES_HOME/scripts"
 
 export GPG_TTY=$(tty)
