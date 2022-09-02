@@ -81,9 +81,6 @@ TMPPREFIX="${TMPDIR%/}/zsh"
 
 PATH=$PATH:/usr/local/share/npm/bin
 
-# Put personal scripts here
-PATH=$PATH:$HOME/bin
-
 # Android dev stuff
 export ANDROID_HOME=~/Library/Android/sdk
 export ANDROID_SDK_ROOT=$ANDROID_HOME
