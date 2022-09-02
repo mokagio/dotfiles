@@ -92,6 +92,8 @@ Plug 'cespare/vim-toml', { 'branch': 'main' }
 Plug 'udalov/kotlin-vim'
 " Starlark (Bazel's config language)
 Plug 'cappyzawa/starlark.vim'
+" CSV
+Plug 'chrisbra/csv.vim'
 
 " Keyboard shortcuts to run tests, supports different languages with the same
 " combos
