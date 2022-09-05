@@ -114,10 +114,6 @@ alias hideFiles='defaults write com.apple.finder AppleShowAllFiles NO; killall F
 # added by travis gem
 [ -f /Users/gio/.travis/travis.sh ] && source /Users/gio/.travis/travis.sh
 
-# if there is a local zshrc, load it
-LOCAL_ZSHRC="${HOME}/.zshrc.local"
-[ -f "$LOCAL_ZSHRC" ] && source "$LOCAL_ZSHRC"
-
 test -e ${HOME}/.iterm2_shell_integration.zsh && source ${HOME}/.iterm2_shell_integration.zsh
 
 # Ruby environment management setup
@@ -223,3 +219,10 @@ if [ -d $joseph_path ]; then
 else
   echo "\033[1;31mCan't find Joseph at $joseph_path. Please install it.\033[0m"
 fi
+
+# If there is a local zshrc, load it.
+#
+# Always load the local zshrc last (or last but before any setting depending on
+# it).
+LOCAL_ZSHRC="${HOME}/.zshrc.local"
+[ -f "$LOCAL_ZSHRC" ] && source "$LOCAL_ZSHRC"
