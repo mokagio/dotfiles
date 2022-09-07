@@ -164,9 +164,8 @@ alias ao='open -a /Applications/Android\ Studio.app'
 # seems pretty old. Seems pretty safe to override this.
 # https://rubygems.org/gems/ww
 # Using ww because that's the same leader command to bring up the wiki.
-VIMWIKI_HOME=~/Dropbox/vimwiki
-if [[ -d  $VIMWIKI_HOME ]]; then
-  alias ww='vim -c VimwikiIndex'
+if [[ -d $VIMWIKI_HOME ]]; then # Note that VIMWIKI_HOME should be define in the .zshrc.local
+  alias ww='git -C $VIMWIKI_HOME pull && vim -c VimwikiIndex'
   alias wr='vim $(find $VIMWIKI_HOME/writing-business -type f -not -path "*/\.*" | shuf -n 0)'
   alias tc='pushd $VIMWIKI_HOME && ./track_changes && popd || popd'
 fi

@@ -290,22 +290,22 @@ au FileType xml setlocal equalprg=xmllint\ --format\ --recover\ -\ 2>/dev/null
 " time, but I think it might make it easier to search. After all, I don't plan
 " to write about parenting or philosophy any time soon.
 let parenting_slipbox = {}
-let parenting_slipbox.path = '~/Dropbox/vimwiki/parenting/'
+let parenting_slipbox.path = '$VIMWIKI_HOME/parenting/'
 let parenting_slipbox.ext = '.md'
 let parenting_slipbox.syntax = 'markdown'
 
 let writing_slipbox = {}
-let writing_slipbox.path = '~/Dropbox/vimwiki/writing-business/'
+let writing_slipbox.path = '$VIMWIKI_HOME/writing-business'
 let writing_slipbox.ext = '.md'
 let writing_slipbox.syntax = 'markdown'
 
 let philosophy_slipbox = {}
-let philosophy_slipbox.path = '~/Dropbox/vimwiki/philosophy/'
+let philosophy_slipbox.path = '$VIMWIKI_HOME/philosophy/'
 let philosophy_slipbox.ext = '.md'
 let philosophy_slipbox.syntax = 'markdown'
 
 let coding_wiki = {}
-let coding_wiki.path = '~/Dropbox/vimwiki/coding/'
+let coding_wiki.path = '$VIMWIKI_HOME/coding/'
 let coding_wiki.ext = '.md'
 let coding_wiki.syntax = 'markdown'
 
@@ -324,7 +324,7 @@ autocmd FileType vimwiki xmap z <Plug>ZettelNewSelectedMap
 " That's cool when you want to link notes, but that's not always the case,
 " and I'd have to remember to go back and remove the link from the
 " previous note.
-let g:nv_search_paths = ['~/Dropbox/vimwiki']
+let g:nv_search_paths = [$VIMWIKI_HOME]
 " p, the same as CtrlP but for notes
 nnoremap <silent> <Leader>zp :NV<CR>
 " One downside of using Vim for this is that I don't have handy UI to see
@@ -335,7 +335,7 @@ nnoremap <silent> <Leader>zb :ZettelBackLinks<CR>
 " https://github.com/michal-h21/vimwiki-sync
 " This folder needs to be defined so that the sync plugin runs only there and
 " not in every markdown file.
-let g:zettel_dir = '~/Dropbox/vimwiki'
+let g:zettel_dir = $VIMWIKI_HOME
 let g:zettel_synced = 0 " disable Git syncying
 
 " Source Vim configuration file and install plugins
