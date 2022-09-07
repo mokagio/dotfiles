@@ -84,14 +84,14 @@ alias hb='hub browse' # open GitHub for the current repo and branch combo
 safe_command() {
 	message=$1
 	shift 1
-	echo "$message"; echo -n "\e[0;33;49mAre you sure? (y/n) \e[0m"; read ANSWER; if [ $ANSWER = y ]; then $*; fi;
+	echo "$message"; echo -n "\e[0;33;49mAre you sure? (y/n) \e[0m"; read -r ANSWER; if [ "$ANSWER" = y ]; then "$@"; fi;
 }
 message='\e[0;33;49mYou are about to perform a git commit all.\e[0m'
 # no correct doesn't work here... why?
 gca_cmd='git commit -a'
 gcam_cmd='git commit -a -m'
-alias gca="safe_command '$message' $gca_cmd"
-alias gcam="safe_command '$message' $gcam_cmd"
+alias gca='safe_command "$message" $gca_cmd'
+alias gcam='safe_command "$message" $gcam_cmd'
 alias gri="git rebase --interactive"
 alias gir=gri
 alias gpt="git push; git push --tags"
@@ -101,9 +101,9 @@ alias gchp="git checkout -p"
 alias grb="git branch --sort=committerdate | tail -10 | more"
 # Custom script to interactively stash files
 # TODO: this needs to be parametric, can't depend on an hardcoded path
-alias gsa="ruby $DOTFILES_HOME/scripts/interactive-stage.rb"
+alias gsa='ruby $DOTFILES_HOME/scripts/interactive-stage.rb'
 # Custom script to cherry-pick commits from a copied git log output
-alias cherry="ruby $DOTFILES_HOME/scripts/cherry-pick-sequence.rb"
+alias cherry='ruby $DOTFILES_HOME/scripts/cherry-pick-sequence.rb'
 
 # Git-Flow aliases
 # https://github.com/nvie/gitflow
@@ -167,7 +167,7 @@ alias ao='open -a /Applications/Android\ Studio.app'
 VIMWIKI_HOME=~/Dropbox/vimwiki
 if [[ -d  $VIMWIKI_HOME ]]; then
   alias ww='vim -c VimwikiIndex'
-  alias wr="vim $(find $VIMWIKI_HOME/writing-business -type f -not -path '*/\.*' | shuf -n 1)"
+  alias wr='vim $(find $VIMWIKI_HOME/writing-business -type f -not -path "*/\.*" | shuf -n 0)'
   alias tc='pushd $VIMWIKI_HOME && ./track_changes && popd || popd'
 fi
 
@@ -205,7 +205,7 @@ fi
 alias md=mkdir
 
 mkdir_and_cd() {
-  mkdir $1 && cd $1
+  mkdir "$1" && cd "$1" || exit 1
 }
 alias mc=mkdir_and_cd
 
