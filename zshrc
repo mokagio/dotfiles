@@ -98,16 +98,6 @@ alias bower='noglob bower'
 # zsh powerups folder
 path_to_zsh_powerups=~/Developer/mokagio/zsh
 
-# Aliases
-ALIASES_PATH="$DOTFILES_HOME/aliases.sh"
-if [[ -f "$ALIASES_PATH" ]]; then
-  source "$ALIASES_PATH"
-else
-  echo "\033[1;31mMissing aliases file. Have a look inside the zshrc.\033[0m"
-fi
-#path_to_aliases_folder=$path_to_zsh_powerups/zsh-moka-aliases
-#source $path_to_zsh_powerups/zsh-moka-aliases/zsh_moka_aliases.zsh
-
 alias showFiles='defaults write com.apple.finder AppleShowAllFiles YES; killall Finder /System/Library/CoreServices/Finder.app'
 alias hideFiles='defaults write com.apple.finder AppleShowAllFiles NO; killall Finder /System/Library/CoreServices/Finder.app'
 
@@ -226,3 +216,12 @@ fi
 # it).
 LOCAL_ZSHRC="${HOME}/.zshrc.local"
 [ -f "$LOCAL_ZSHRC" ] && source "$LOCAL_ZSHRC"
+
+# Load the aliases after the local zshrc, just in case there are env var
+# ovverrides in it.
+ALIASES_PATH="$DOTFILES_HOME/aliases.sh"
+if [[ -f "$ALIASES_PATH" ]]; then
+  source "$ALIASES_PATH"
+else
+  echo "\033[1;31mMissing aliases file. Have a look inside the zshrc.\033[0m"
+fi
