@@ -110,7 +110,7 @@ export GPG_TTY=$(tty)
 export FASTLANE_SKIP_UPDATE_CHECK=1
 export FASTLANE_HIDE_CHANGELOG=1
 export FASTLANE_HIDE_PLUGINS_TABLE=1
-export FASTLANE_SKIP_ACTION_SUMMARY=0
+export FASTLANE_SKIP_ACTION_SUMMARY=1
 # This is useful only if your work in the Automattic Mobile Platform team ^-^'
 #
 # See
