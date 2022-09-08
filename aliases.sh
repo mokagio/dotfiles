@@ -168,6 +168,10 @@ if [[ -d $VIMWIKI_HOME ]]; then # Note that VIMWIKI_HOME should be define in the
   alias ww='git -C $VIMWIKI_HOME pull && vim -c VimwikiIndex'
   alias wr='git -C $VIMWIKI_HOME pull && vim $(find $VIMWIKI_HOME/writing-business -type f -not -path "*/\.*" | shuf -n 1)'
   alias tc='pushd $VIMWIKI_HOME && ./track_changes && popd || popd'
+else
+  # This is the one most likely to run, the others are secondary and it would
+  # be redundant to do the same for them, too.
+  alias ww='echo "Could not find VIMWIKI_HOME in the environment."; false'
 fi
 
 alias cask='brew cask'
