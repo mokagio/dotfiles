@@ -1,4 +1,9 @@
+#!/usr/bin/env ruby
+
+# frozen_string_literal: true
+
 # Get the Git log clip with the commits to cherry-pick from the pasteboard.
+require 'English'
 git_log_input = `pbpaste`
 
 # Extract the commit SHAs from the input.
@@ -15,7 +20,7 @@ commits = commits.reverse
 
 def recursive_cherry_pick(commits, done_count, total_count)
   if commits.empty?
-    puts "All done ✅"
+    puts 'All done ✅'
     exit 0
   end
 
@@ -25,7 +30,7 @@ def recursive_cherry_pick(commits, done_count, total_count)
 
   system("git cherry-pick #{commit}")
 
-  if $?.exitstatus != 0
+  if $CHILD_STATUS.exitstatus != 0
     puts "😟 cherry picking failed for #{suffix}"
     puts "Once you fix it, use the following output (already in your pasteboard) and run the script again to continue the process:\n"
     output = commits[1..].reverse.map { |c| "* #{c}" }.join("\n")
