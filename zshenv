@@ -82,8 +82,8 @@ TMPPREFIX="${TMPDIR%/}/zsh"
 PATH=$PATH:/usr/local/share/npm/bin
 
 # Android dev stuff
+#
 export ANDROID_HOME=~/Library/Android/sdk
-export ANDROID_SDK_ROOT=$ANDROID_HOME
 # Notice how this depends on Android Studio. So far, it seems the best way
 # to make sure I have consistent Gradle behaviour between the IDE and the CLI
 #
