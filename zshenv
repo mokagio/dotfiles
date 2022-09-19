@@ -97,13 +97,6 @@ export PATH="$PATH:$ANDROID_HOME/emulator/"
 # PHP / Composer / Valet
 export PATH="$PATH:$HOME/.composer/vendor/bin"
 
-# Edit this line locally (but don't track the change) if the path is different
-# from the one here.
-# TODO: It'd be good to have a zshenv.local or something to decouple this.
-DOTFILES_HOME=~/.dotfiles/
-
-export PATH="$PATH:$DOTFILES_HOME/scripts"
-
 export GPG_TTY=$(tty)
 
 # Get rid of Fastlane noise
@@ -120,3 +113,10 @@ export FASTLANE_PROMPT_REMINDER_MESSAGE=1
 # Mint is an installer for tools distributed via SPM
 # https://github.com/yonaskolb/Mint
 export PATH="$PATH:$HOME/.mint/bin"
+
+# Edit this line locally (but don't track the change) if the path is different
+# from the one here.
+# TODO: It'd be good to have a zshenv.local or something to decouple this.
+DOTFILES_HOME="$HOME/.dotfiles/"
+
+export PATH="$PATH:$DOTFILES_HOME/scripts"
