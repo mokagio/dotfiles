@@ -165,7 +165,7 @@ alias ao='open -a /Applications/Android\ Studio.app'
 if [[ -d $VIMWIKI_HOME ]]; then # Note that VIMWIKI_HOME should be define in the .zshrc.local
   alias ww='git -C $VIMWIKI_HOME pull || true && vim -c VimwikiIndex'
   alias wr='vim $(find $VIMWIKI_HOME/writing-business -type f -not -path "*/\.*" | shuf -n 1)'
-  alias tc='pushd $VIMWIKI_HOME && ./track_changes && popd || popd'
+  alias tc='pushd $VIMWIKI_HOME && ./track_changes && popd'
 else
   # This is the one most likely to run, the others are secondary and it would
   # be redundant to do the same for them, too.
