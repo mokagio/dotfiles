@@ -70,7 +70,11 @@ let ayucolor="light"
 if strftime("%H") < 7 || strftime("%H") >= 21
   colorscheme nord
 else
-  colorscheme Zenburn
+  if system("defaults read -g AppleInterfaceStyle") == "Dark\n"
+    colorscheme Zenburn
+  else
+    colorscheme ayu
+  endif
 endif
 
 " If the color scheme won't work for some reason, these settings will be applied
