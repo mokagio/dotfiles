@@ -342,6 +342,22 @@ nnoremap <silent> <Leader>zb :ZettelBackLinks<CR>
 let g:zettel_dir = $VIMWIKI_HOME
 let g:zettel_synced = 0 " disable Git syncying
 
+" Use <Leader>zr to open a random note
+"
+" Credits:
+" - https://vi.stackexchange.com/a/3519/29554
+" - https://github.com/vim-pandoc/vim-pandoc-legacy/issues/74#issuecomment-773757989
+nnoremap <silent> <Leader>zr :call RandomZettel()<CR>
+"
+fun! RandomZettel()
+python3<< EOF
+import vim, glob, random, os
+all_zettels = glob.glob(vim.eval("$VIMWIKI_HOME") + '/writing-business/*.md')
+random_zettel = random.choice(all_zettels)
+vim.command(':edit ' + random_zettel)
+EOF
+endfun
+
 " Source Vim configuration file and install plugins
 " via https://pragmaticpineapple.com/ultimate-vim-typescript-setup/
 nnoremap <silent><leader>1 :source ~/.vimrc \| :PlugInstall<CR> \| :PlugUpdate<CR>
