@@ -90,9 +90,15 @@ export ANDROID_HOME=~/Library/Android/sdk
 # See also: https://stackoverflow.com/a/43237101/809944
 export JAVA_HOME="/Applications/Android Studio.app/Contents/jre/Contents/Home"
 # Add the platform-tools to the PATH to call them easily. Also, Fastlane looks
-# for them in PATH, it doesn't look in ANDROID_HOME
+# for them in PATH, it doesn't look in $ANDROID_HOME
 export PATH="$PATH:$ANDROID_HOME/platform-tools/"
 export PATH="$PATH:$ANDROID_HOME/emulator/"
+ANDROID_CMDLINE_TOOLS_PATH="$ANDROID_HOME/cmdline-tools/latest/bin/"
+if [[ -d "$ANDROID_CMDLINE_TOOLS_PATH" ]]; then
+  export PATH="$PATH:$ANDROID_CMDLINE_TOOLS_PATH" # avdmanager is located here
+else
+  echo "\033[1;31mCannot find Android command line tools at $ANDROID_CMDLINE_TOOLS_PATH. They can be installed via Android Studio.\033[0m"
+fi
 
 # PHP / Composer / Valet
 export PATH="$PATH:$HOME/.composer/vendor/bin"
