@@ -111,7 +111,7 @@ alias gffs='nocorrect git flow feature start'
 alias g3f='nocorrect git flow feature finish'
 
 # iOS & OS X development
-alias xco='open -a Xcode .'
+alias xco='[[ -f Project.swift ]] && tuist generate || open -a Xcode .'
 alias xbo='open -a /Applications/Xcode-beta.app .'
 alias aco='open -a AppCode .'
 alias rmd='rm -rf DerviedData'
