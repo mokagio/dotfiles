@@ -126,3 +126,6 @@ export PATH="$PATH:$HOME/.mint/bin"
 DOTFILES_HOME="$HOME/.dotfiles/"
 
 export PATH="$PATH:$DOTFILES_HOME/scripts"
+
+# Cloud66 Toolbelt (`cx`)
+export PATH="$PATH:/opt/cloud66/bin"
