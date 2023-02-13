@@ -143,7 +143,7 @@ alias ber='bundle exec ruby'
 
 # JavaScript & TypeScript
 alias nmp='npm'
-alias y='yarn'
+alias ya='yarn'
 alias yt='yarn test'
 
 # Android
