@@ -385,3 +385,9 @@ let g:mkdp_preview_options = {
 " Custom Commands
 "
 com! FormatJSON %!python -m json.tool
+
+" Thanks ChatGPT :)
+"
+" Notice you'll have to delete the :'<,'> prompt in visual mode before typing
+" this command's name.
+command! CapitalizeSelection :'<,'>s/\(\w\)\(\w*\)/\u\1\L\2/g
