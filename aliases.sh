@@ -84,7 +84,7 @@ alias hb='hub browse' # open GitHub for the current repo and branch combo
 safe_command() {
 	message=$1
 	shift 1
-	echo "$message"; echo -n "\e[0;33;49mAre you sure? (y/n) \e[0m"; read -r ANSWER; if [ "$ANSWER" = y ]; then "$@"; fi;
+	printf "%s\n" "$message"; printf "\e[0;33;49mAre you sure? (y/n) \e[0m"; read -r ANSWER; if [ "$ANSWER" = y ]; then "$@"; fi;
 }
 message='\e[0;33;49mYou are about to perform a git commit all.\e[0m'
 # no correct doesn't work here... why?
