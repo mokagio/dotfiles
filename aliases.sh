@@ -64,10 +64,24 @@ alias grbc='git rebase --continue'
 alias gsh='git show head'
 
 # See https://coderwall.com/p/euwpig
-alias glg="git log \
+git_log_formatted() {
+GLG_FORMAT_SHA_SHORT='%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue) %an%Creset'
+GLG_FORMAT_SHA_LONG='%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue) %an%Creset - %Cred%H (%h)%Creset'
+# This is here just so we don't get unused warnings for the other mode definition
+GLG_MODE='long'
+if [[ $GLG_MODE == 'long' ]]; then
+  GLG_FORMAT=$GLG_FORMAT_SHA_LONG
+else
+  GLG_FORMAT=$GLG_FORMAT_SHA_SHORT
+fi
+
+git log \
   --graph \
-  --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue) %an%Creset' \
-  --abbrev-commit"
+  --pretty=format:"$GLG_FORMAT" \
+  --abbrev-commit
+}
+alias glg=git_log_formatted
+
 # see above + only show commits made in the the current branch
 alias glgf='glg --first-parent'
 # I make this typo from time to time on Colemak
