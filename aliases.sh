@@ -65,20 +65,20 @@ alias gsh='git show head'
 
 # See https://coderwall.com/p/euwpig
 git_log_formatted() {
-GLG_FORMAT_SHA_SHORT='%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue) %an%Creset'
-GLG_FORMAT_SHA_LONG='%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue) %an%Creset - %Cred%H (%h)%Creset'
-# This is here just so we don't get unused warnings for the other mode definition
-GLG_MODE='long'
-if [[ $GLG_MODE == 'long' ]]; then
-  GLG_FORMAT=$GLG_FORMAT_SHA_LONG
-else
-  GLG_FORMAT=$GLG_FORMAT_SHA_SHORT
-fi
+  GLG_FORMAT_SHA_SHORT='%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)%an%Creset'
+  GLG_FORMAT_SHA_LONG='%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)%an%Creset - %Cred%H %C(yellow)(%h)%Creset'
+  # This is here just so we don't get unused warnings for the other mode definition
+  GLG_MODE='long'
+  if [[ $GLG_MODE == 'long' ]]; then
+    GLG_FORMAT=$GLG_FORMAT_SHA_LONG
+  else
+    GLG_FORMAT=$GLG_FORMAT_SHA_SHORT
+  fi
 
-git log \
-  --graph \
-  --pretty=format:"$GLG_FORMAT" \
-  --abbrev-commit
+  git log \
+    --graph \
+    --pretty=format:"$GLG_FORMAT" \
+    --abbrev-commit
 }
 alias glg=git_log_formatted
 
