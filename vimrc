@@ -34,13 +34,21 @@ let g:netrw_bufsettings = 'noma nomod nu nobl nowrap ro'
 
 " Use spaces instead of tabs, and default tab to 2 spaces
 " See http://stackoverflow.com/questions/234564/tab-key-4-spaces-and-auto-indent-after-curly-braces-in-vim
-" Not sure about this combo from what I read from the help of the single settings, but hey the answer had 740 upvodes at the time of writing
+" Not sure about this combo from what I read from the help of the single settings, but hey the answer had 740 upvotes at the time of writing
 filetype plugin indent on
 set tabstop=2
 set shiftwidth=2
 set expandtab
 " Keep tabs active for Makefiles
+" Currently not working... -.-'
+autocmd FileType make setlocal tabstop=8
+autocmd FileType make setlocal shiftwidth=8
 autocmd FileType make setlocal noexpandtab
+
+" Turn on the visible display of tabs and trailing spaces
+set list
+" Set how various characters are displayed
+set listchars=tab:»-,space:·,trail:•,extends:#,precedes:#
 
 " Use F2 to toggle the past/nopaste mode
 set pastetoggle=<F2>
@@ -76,6 +84,16 @@ else
     colorscheme ayu
   endif
 endif
+
+" Define custom colors for special characters
+"
+" Notice we do this **after** setting the colorscheme, or the theme will override them.
+" Which begs the question: Why the theme I'm using doesn't set a good color for them??
+
+" Not sure what this is... Here for reference only
+highlight NonText guifg=#ff0000 ctermfg=240
+" Color of the charactres for tab, space, etc.
+highlight SpecialKey guifg=#777777 ctermfg=240 guibg=NONE ctermbg=NONE
 
 " If the color scheme won't work for some reason, these settings will be applied
 " Highlight current line
@@ -257,7 +275,7 @@ let g:goyo_linenr = 1
 " Soft word wrapping, see http://vim.wikia.com/wiki/Word_wrap_without_line_breaks
 set wrap
 set linebreak
-set nolist
+" set nolist
 
 " vim-rspec settings
 "
