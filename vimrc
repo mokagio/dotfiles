@@ -331,7 +331,12 @@ let coding_wiki.path = '$VIMWIKI_HOME/coding/'
 let coding_wiki.ext = '.md'
 let coding_wiki.syntax = 'markdown'
 
-let g:vimwiki_list = [ writing_slipbox, parenting_slipbox, philosophy_slipbox, coding_wiki ]
+let worklog_wiki = {}
+let worklog_wiki.path = '~/Dropbox/.worklog_wiki'
+let worklog_wiki.ext = '.md'
+let worklog_wiki.syntax = 'markdown'
+
+let g:vimwiki_list = [ writing_slipbox, worklog_wiki, parenting_slipbox, philosophy_slipbox, coding_wiki ]
 " As recommended in the help, map creating a new note with title to a leader
 " command
 nnoremap <Leader>zn :ZettelNew<space>
