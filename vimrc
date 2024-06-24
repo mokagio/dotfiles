@@ -414,3 +414,19 @@ com! FormatJSON %!python -m json.tool
 " Notice you'll have to delete the :'<,'> prompt in visual mode before typing
 " this command's name.
 command! CapitalizeSelection :'<,'>s/\(\w\)\(\w*\)/\u\1\L\2/g
+
+" Use a dedicated theme for worklog wiki
+"
+" Function to check the file path and set the colorscheme
+function! SetWorklogColorscheme()
+  " TODO: extract path
+  if expand('%:p:h') =~ '^' . expand('~/Dropbox/.worklog')
+    colorscheme everforest
+  else
+    " Set your default colorscheme or leave as is if you don't want to change it
+    " colorscheme your_default_colorscheme
+  endif
+endfunction
+
+" Auto command to call the function every time a buffer is read or created
+autocmd BufRead,BufNewFile * call SetWorklogColorscheme()
