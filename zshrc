@@ -225,3 +225,9 @@ if [[ -f "$ALIASES_PATH" ]]; then
 else
   echo "\033[1;31mMissing aliases file. Have a look inside the zshrc.\033[0m"
 fi
+
+# Stop Homebrew from auto-updating because it is often inconvenient.
+#
+# I'll need something installed fast and Homebrew will spend minutes updating unrelated packages.
+# Reminds me of Windows installing updates every other day...
+export HOMEBREW_NO_AUTO_UPDATE=1
