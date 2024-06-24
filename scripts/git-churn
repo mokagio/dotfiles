@@ -19,8 +19,8 @@
 #
 # See https://github.com/garybernhardt/dotfiles/blob/master/bin/git-churn
 #
+# Last update:
+# https://github.com/garybernhardt/dotfiles/blob/eed3bbab874f15ddbaaf0341fac1923c12b30b5b/bin/git-churn
 
 set -e
-git log --all -M -C --name-only --format='format:' "$@" | sort | grep -v '^$' | uniq -c | sort -n | awk 'BEGIN {print "count\tfile"} {print $1 "\t" $2}'
-
-
+git log --all -M -C --name-only --format='format:' "$@" | sort | grep -v '^$' | uniq -c | sort -n
