@@ -127,7 +127,9 @@ Plug 'junegunn/limelight.vim'
 " Zettletasken (https://zettelkasten.de/)
 " (note taking powerups for building lasting knowledge)
 Plug 'vimwiki/vimwiki'
-Plug 'junegunn/fzf'
+" Install latest fzf as part of installing/updating the plugin
+" See https://github.com/junegunn/fzf.vim/issues/1134#issuecomment-2186171167
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'michal-h21/vim-zettel'
 " This syncs VimWiki to Git – Not working right now :/
