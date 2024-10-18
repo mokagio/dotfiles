@@ -17,4 +17,3 @@ indent_size = 2
 [*{.swift}]
 indent_style = space
 indent_size = 2
-
