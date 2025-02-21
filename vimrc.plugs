@@ -94,6 +94,8 @@ Plug 'udalov/kotlin-vim'
 Plug 'cappyzawa/starlark.vim'
 " CSV
 Plug 'chrisbra/csv.vim'
+" Terraform
+Plug 'hashivim/vim-terraform'
 
 " Keyboard shortcuts to run tests, supports different languages with the same
 " combos
