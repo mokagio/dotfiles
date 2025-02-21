@@ -36,7 +36,7 @@ Plug 'tpope/vim-fugitive'
 " GitHub extensions for fugitive
 Plug 'tpope/vim-rhubarb'
 " Show Git status on the gutter
-Plug 'airblade/vim-gitgutter'
+Plug 'airblade/vim-gitgutter', { 'branch': 'main' }
 
 " Automatically add closing braket
 Plug 'jiangmiao/auto-pairs'
