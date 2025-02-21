@@ -96,6 +96,8 @@ Plug 'cappyzawa/starlark.vim'
 Plug 'chrisbra/csv.vim'
 " Terraform
 Plug 'hashivim/vim-terraform'
+" PowerShell
+Plug 'pprovost/vim-ps1'
 
 " Keyboard shortcuts to run tests, supports different languages with the same
 " combos
