@@ -9,6 +9,7 @@ alias g='git'
 alias gb='git branch'
 alias gs='nocorrect git status --short'
 alias ga='nocorrect git add'
+alias ga.='nocorrect git add .'
 # This used to be
 #
 #   alias gaa='nocorrect git add --all'
