@@ -49,5 +49,7 @@
 [init]
 	defaultBranch = trunk
 
+# See also https://dev.to/absoftware/git-config-user-email-for-repositories-in-subdirectory-140k
+# to conditionally include .gitconfig from subfolders, which you'll likely want to do in the .local version
 [include]
   path = ~/.gitconfig.local
