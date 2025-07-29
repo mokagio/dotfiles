@@ -135,7 +135,7 @@ Plug 'vimwiki/vimwiki'
 " See https://github.com/junegunn/fzf.vim/issues/1134#issuecomment-2186171167
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
-Plug 'michal-h21/vim-zettel'
+Plug 'michal-h21/vim-zettel', { 'branch': 'master' }
 " This syncs VimWiki to Git – Not working right now :/
 Plug 'michal-h21/vimwiki-sync'
 " This allows to search through notes and open the match without having to

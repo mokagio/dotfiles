@@ -435,3 +435,6 @@ endfunction
 
 " Auto command to call the function every time a buffer is read or created
 autocmd BufRead,BufNewFile * call SetWorklogColorscheme()
+
+" See https://github.com/michal-h21/vim-zettel/issues/163
+let g:zettel_wikigrep_command = 'grep -l -E "%pattern"  -r %path --include="*%ext"'
