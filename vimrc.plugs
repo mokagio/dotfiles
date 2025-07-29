@@ -150,9 +150,9 @@ Plug 'flazz/vim-colorschemes'
 Plug 'sonph/onehalf', { 'rtp': 'vim' }
 Plug 'arcticicestudio/nord-vim', { 'branch': 'main' }
 Plug 'ayu-theme/ayu-vim'
-let ayucolor="light"
 " A chilled theme
 Plug 'sainnhe/everforest'
+Plug 'ghifarit53/tokyonight-vim'
 
 " Show invisible characters
 Plug 'vim-scripts/cream-showinvisibles'

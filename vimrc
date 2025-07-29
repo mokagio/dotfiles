@@ -73,13 +73,16 @@ let ayucolor="light"
 " https://github.com/sonph/onehalf/tree/master/vim
 " colorscheme onehalflight
 
+let g:tokyonight_style = 'night' " available: night, storm
+let g:tokyonight_enable_italic = 1
+
 " Use a dedicated theme for early writing sessions (which is 99% of why I
 " would use Vim in the early morning).
 if strftime("%H") < 7 || strftime("%H") >= 21
   colorscheme nord
 else
   if system("defaults read -g AppleInterfaceStyle") == "Dark\n"
-    colorscheme Zenburn
+    colorscheme tokyonight
   else
     colorscheme ayu
   endif
