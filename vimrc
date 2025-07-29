@@ -386,6 +386,28 @@ vim.command(':edit ' + random_zettel)
 EOF
 endfun
 
+" Use <Leader>zq to open a random quote note
+nnoremap <silent> <Leader>zq :call OpenRandomWithQuoteNote()<CR>
+"
+" Courtesy of ChatGPT
+function! OpenRandomWithQuoteNote()
+    " Step 1: Get a list of files containing the desired tag
+    let l:files = systemlist('grep -rl ":quote:" $VIMWIKI_HOME/writing-business/*.md')
+
+    " Check if any files were found
+    if len(l:files) == 0
+        echo "No files found with :quote:"
+        return
+    endif
+
+    " Step 2: Randomly select a file from the list
+    let l:rand_idx = str2nr(system('echo $RANDOM')) % len(l:files)
+    let l:random_file = l:files[l:rand_idx]
+
+    " Step 3: Open the random file in Vim
+    execute 'edit ' . l:random_file
+endfunction
+
 " Source Vim configuration file and install plugins
 " via https://pragmaticpineapple.com/ultimate-vim-typescript-setup/
 nnoremap <silent><leader>1 :source ~/.vimrc \| :PlugInstall<CR> \| :PlugUpdate<CR>
