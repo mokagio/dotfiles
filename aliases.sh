@@ -70,7 +70,7 @@ alias ya='yarn'
 alias yt='yarn test'
 
 # Android
-alias a='open -a Android\ Studio'
+alias ast='open -a Android\ Studio'
 
 # Apps
 alias chrome='open -a Google\ Chrome'
