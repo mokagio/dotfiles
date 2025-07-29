@@ -275,6 +275,8 @@ let g:vim_markdown_frontmatter = 1
 let g:vim_markdown_toml_frontmatter = 1
 " Goyo (focused writing) settings
 let g:goyo_linenr = 1
+autocmd! User GoyoEnter colorscheme nord
+
 " Soft word wrapping, see http://vim.wikia.com/wiki/Word_wrap_without_line_breaks
 set wrap
 set linebreak
