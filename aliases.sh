@@ -17,12 +17,12 @@ alias ~='cd ~'
 alias o='open'
 
 # Git
-GIT_ALIASES_PATH="$(dirname "${BASH_SOURCE[0]}")/aliases.git.sh"
+GIT_ALIASES_PATH="$DOTFILES_HOME/aliases.git.sh"
 if [[ -f "$GIT_ALIASES_PATH" ]]; then
   # shellcheck disable=SC1090
   source "$GIT_ALIASES_PATH"
 else
-  echo "Could not find Git aliases at $GIT_ALIASES_PATH"
+  printf "\033[1;31mCould not find Git aliases at %s\033[0m\n" "$GIT_ALIASES_PATH"
 fi
 
 # Hub is a CLI client for the GitHub APIs
