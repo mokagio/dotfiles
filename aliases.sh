@@ -43,7 +43,7 @@ alias pii='nocorrect pod install'
 alias pi='nocorrect pod install && xco'
 # --repo-update is useful to avoid the occasional resolution dependency failure
 # in my "day" job at Automattic
-alias bpi='bundle exec pod install --repo-update'
+alias bpi='bundle exec pod install'
 alias bip='bpi' # for typos
 
 # Ruby gem to find unused Objective-C imports, and eventually delete them
