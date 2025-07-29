@@ -223,7 +223,7 @@ ALIASES_PATH="$DOTFILES_HOME/aliases.sh"
 if [[ -f "$ALIASES_PATH" ]]; then
   source "$ALIASES_PATH"
 else
-  echo "\033[1;31mMissing aliases file. Have a look inside the zshrc.\033[0m"
+  echo "\033[1;31mMissing aliases file at $ALIASES_PATH. Have a look inside the zshrc.\033[0m"
 fi
 
 # Stop Homebrew from auto-updating because it is often inconvenient.
