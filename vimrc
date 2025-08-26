@@ -342,13 +342,14 @@ let worklog_wiki.ext = '.md'
 let worklog_wiki.syntax = 'markdown'
 
 let g:vimwiki_list = [ writing_slipbox, worklog_wiki, parenting_slipbox, philosophy_slipbox, coding_wiki ]
-" As recommended in the help, map creating a new note with title to a leader
-" command
-nnoremap <Leader>zn :ZettelNew<space>
-nnoremap <Leader>zt :VimwikiRebuildTags<CR>
-" Create a new note using the selected text as the title
-" (This is the default value but I keep forgetting about it...)
-autocmd FileType vimwiki xmap z <Plug>ZettelNewSelectedMap
+" TODO: Parametrize ($HOME? $DOTFILES_HOME?)
+let s:zettelkasten_vimrc = expand("~/.vimrc.zettelkasten")
+
+if filereadable(s:zettelkasten_vimrc)
+  execute 'source' fnameescape(s:zettelkasten_vimrc)
+else
+  echom "Warning: " . s:zettelkasten_vimrc . " not found."
+endif
 " Notational-FZF-Vim settings
 "
 " Before using this, every time I wanted to find a note, I had to use `[[` which

@@ -12,6 +12,7 @@ dotfiles=(
   'luarocks'
   'tigrc'
   'vimrc'
+  'vimrc.zettlekasten'
   'vimrc.plugs'
   'xvimrc'
   'zshrc'

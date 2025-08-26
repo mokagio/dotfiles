@@ -1,0 +1,10 @@
+" Vim/Neovim settings for Zettelkasten workflow via vim-zettel and related
+" plugins.
+
+" As recommended in the help, map creating a new note with title to a leader
+" command
+nnoremap <Leader>zn :ZettelNew<space>
+nnoremap <Leader>zt :VimwikiRebuildTags<CR>
+" Create a new note using the selected text as the title.
+" (This is the default value but I keep forgetting about it...)
+autocmd FileType vimwiki xmap z <Plug>ZettelNewSelectedMap
