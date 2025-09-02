@@ -7,23 +7,23 @@
 
 alias g='git'
 alias gb='git branch'
-alias gs='nocorrect git status --short'
-alias ga='nocorrect git add'
-alias ga.='nocorrect git add .'
+alias gs='git status --short'
+alias ga='git add'
+alias ga.='git add .'
 # This used to be
 #
-#   alias gaa='nocorrect git add --all'
+#   alias gaa='git add --all'
 #
 # but I fucked up enought time by adding all files and pushing that I've
 # finally decided to stop myself from doing that.
 gaa_message="Do not commit files like that you idiot!"
 alias gaa='echo "$gaa_message" && say "$gaa_message"'
-alias gc='nocorrect git commit'
-alias gcm='nocorrect git commit -m'
+alias gc='git commit'
+alias gcm='git commit -m'
 alias gcn='git commit --amend --no-edit'
-alias gp='nocorrect git push'
-alias gpu='nocorrect git push -u'
-alias gl='nocorrect git pull'
+alias gp='git push'
+alias gpu='git push -u'
+alias gl='git pull'
 # Warning: This will conflict with GitHub's CLI binary, gh
 alias gh='git checkout'
 alias ghp='git checkout -p'
@@ -98,10 +98,10 @@ alias gsa='ruby $DOTFILES_HOME/scripts/interactive-stage.rb'
 # https://github.com/nvie/gitflow
 CMD=git-flow
 if command -v $CMD &>/dev/null; then
-  alias gfl='nocorrect git flow'
-  alias gff='nocorrect git flow feature'
-  alias gffs='nocorrect git flow feature start'
-  alias g3f='nocorrect git flow feature finish'
+  alias gfl='git flow'
+  alias gff='git flow feature'
+  alias gffs='git flow feature start'
+  alias g3f='git flow feature finish'
 else
   echo "$CMD not found. Dedicated aliases skipped."
 fi
