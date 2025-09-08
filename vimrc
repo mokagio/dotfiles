@@ -321,16 +321,9 @@ let worklog_wiki.ext = '.md'
 let worklog_wiki.syntax = 'markdown'
 
 let g:vimwiki_list = [ writing_slipbox, worklog_wiki ]
-" " As recommended in the help, map creating a new note with title to a leader
-" " command
-" nnoremap <Leader>zn :ZettelNew<space>
-" nnoremap <Leader>zt :VimwikiRebuildTags<CR>
-" " Create a new note using the selected text as the title
-" " (This is the default value but I keep forgetting about it...)
-" autocmd FileType vimwiki xmap z <Plug>ZettelNewSelectedMap
+
 " TODO: DRY and parametrize ($HOME? $DOTFILES_HOME?)
 let s:zettelkasten_vimrc = expand("~/.vimrc.zettelkasten")
-
 if filereadable(s:zettelkasten_vimrc)
   execute 'source' fnameescape(s:zettelkasten_vimrc)
 else
@@ -345,56 +338,13 @@ endif
 " and I'd have to remember to go back and remove the link from the
 " previous note.
 let g:nv_search_paths = [$VIMWIKI_HOME]
-" p, the same as CtrlP but for notes
-nnoremap <silent> <Leader>zp :NV<CR>
-" One downside of using Vim for this is that I don't have handy UI to see
-" connection. To compensate, here's mappings to make getting them as fast as
-" possible.
-nnoremap <silent> <Leader>zb :ZettelBackLinks<CR>
+
 " Sync VimWiki / Zettelkasten slipbox to Git via
 " https://github.com/michal-h21/vimwiki-sync
 " This folder needs to be defined so that the sync plugin runs only there and
 " not in every markdown file.
 let g:zettel_dir = $VIMWIKI_HOME
 let g:zettel_synced = 0 " disable Git syncying
-
-" Use <Leader>zr to open a random note
-"
-" Credits:
-" - https://vi.stackexchange.com/a/3519/29554
-" - https://github.com/vim-pandoc/vim-pandoc-legacy/issues/74#issuecomment-773757989
-nnoremap <silent> <Leader>zr :call RandomZettel()<CR>
-"
-fun! RandomZettel()
-python3<< EOF
-import vim, glob, random, os
-all_zettels = glob.glob(vim.eval("$VIMWIKI_HOME") + '/writing-business/*.md')
-random_zettel = random.choice(all_zettels)
-vim.command(':edit ' + random_zettel)
-EOF
-endfun
-
-" Use <Leader>zq to open a random quote note
-nnoremap <silent> <Leader>zq :call OpenRandomWithQuoteNote()<CR>
-"
-" Courtesy of ChatGPT
-function! OpenRandomWithQuoteNote()
-    " Step 1: Get a list of files containing the desired tag
-    let l:files = systemlist('grep -rl ":quote:" $VIMWIKI_HOME/writing-business/*.md')
-
-    " Check if any files were found
-    if len(l:files) == 0
-        echo "No files found with :quote:"
-        return
-    endif
-
-    " Step 2: Randomly select a file from the list
-    let l:rand_idx = str2nr(system('echo $RANDOM')) % len(l:files)
-    let l:random_file = l:files[l:rand_idx]
-
-    " Step 3: Open the random file in Vim
-    execute 'edit ' . l:random_file
-endfunction
 
 " Source Vim configuration file and install plugins
 " via https://pragmaticpineapple.com/ultimate-vim-typescript-setup/
