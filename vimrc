@@ -310,17 +310,17 @@ au FileType xml setlocal equalprg=xmllint\ --format\ --recover\ -\ 2>/dev/null
 
 " Vim Wiki & Zettelkasten settings
 "
-let writing_slipbox = {}
-let writing_slipbox.path = '$VIMWIKI_HOME/writing-business'
-let writing_slipbox.ext = '.md'
-let writing_slipbox.syntax = 'markdown'
+let slipbox = {}
+let slipbox.path = '$VIMWIKI_HOME/zettelkasten'
+let slipbox.ext = '.md'
+let slipbox.syntax = 'markdown'
 
 let worklog_wiki = {}
 let worklog_wiki.path = '~/Dropbox/.worklog_wiki'
 let worklog_wiki.ext = '.md'
 let worklog_wiki.syntax = 'markdown'
 
-let g:vimwiki_list = [ writing_slipbox, worklog_wiki ]
+let g:vimwiki_list = [ slipbox, worklog_wiki ]
 
 " TODO: DRY and parametrize ($HOME? $DOTFILES_HOME?)
 let s:zettelkasten_vimrc = expand("~/.vimrc.zettelkasten")

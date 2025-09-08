@@ -29,11 +29,12 @@ nnoremap <silent> <Leader>zr :call RandomZettel()<CR>
 fun! RandomZettel()
 python3<< EOF
 import vim, glob, random, os
-all_zettels = glob.glob(vim.eval("$VIMWIKI_HOME") + '/writing-business/*.md')
+all_zettels = glob.glob(vim.eval("$VIMWIKI_HOME") + '/zettelkasten/*.md')
 random_zettel = random.choice(all_zettels)
 vim.command(':edit ' + random_zettel)
 EOF
 endfun
+
 
 " Use <Leader>zq to open a random quote note
 nnoremap <silent> <Leader>zq :call OpenRandomWithQuoteNote()<CR>
@@ -41,7 +42,7 @@ nnoremap <silent> <Leader>zq :call OpenRandomWithQuoteNote()<CR>
 " Courtesy of ChatGPT
 function! OpenRandomWithQuoteNote()
     " Step 1: Get a list of files containing the desired tag
-    let l:files = systemlist('grep -rl ":quote:" $VIMWIKI_HOME/writing-business/*.md')
+    let l:files = systemlist('grep -rl ":quote:" $VIMWIKI_HOME/zettelkasten/*.md')
 
     " Check if any files were found
     if len(l:files) == 0
