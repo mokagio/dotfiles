@@ -1,6 +1,6 @@
 #!/bin/bash
 
-if [[ -z "$DOTFILES_HOMEE" ]]; then
+if [[ -z "$DOTFILES_HOME" ]]; then
   printf "\033[1;31mDOTFILES_HOME is not defined. Please set it before sourcing aliases.\033[0m\n" >&2
 fi
 
