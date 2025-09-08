@@ -1,5 +1,9 @@
 #!/bin/bash
 
+if [[ -z "$DOTFILES_HOMEE" ]]; then
+  printf "\033[1;31mDOTFILES_HOME is not defined. Please set it before sourcing aliases.\033[0m\n" >&2
+fi
+
 # Reload zshrc
 alias sss='source ~/.zshrc'
 
@@ -12,17 +16,20 @@ alias td='fmn done'
 alias t='tig'
 alias k9='kill -9'
 
-# Navigation
-alias ~='cd ~'
-alias o='open'
+NAVIGATION_ALIASES_PATH="$DOTFILES_HOME/aliases.navigation.sh"
+if [[ -f "$NAVIGATION_ALIASES_PATH" ]]; then
+  # shellcheck disable=SC1090
+  source "$NAVIGATION_ALIASES_PATH"
+else
+  printf "\033[1;31mCould not find navigation aliases at %s\033[0m\n" "$NAVIGATION_ALIASES_PATH" >&2
+fi
 
-# Git
 GIT_ALIASES_PATH="$DOTFILES_HOME/aliases.git.sh"
 if [[ -f "$GIT_ALIASES_PATH" ]]; then
   # shellcheck disable=SC1090
   source "$GIT_ALIASES_PATH"
 else
-  printf "\033[1;31mCould not find Git aliases at %s\033[0m\n" "$GIT_ALIASES_PATH"
+  printf "\033[1;31mCould not find Git aliases at %s\033[0m\n" "$GIT_ALIASES_PATH" >&2
 fi
 
 # Hub is a CLI client for the GitHub APIs
@@ -53,7 +60,6 @@ alias fui='nocorrect fui'
 # Note! this assumes you have xctool available in your path
 # and the .xctoolargs in the current working directory
 alias xt='xctool test'
-alias ..='cd ..'
 
 # Ruby
 alias r='ruby'
