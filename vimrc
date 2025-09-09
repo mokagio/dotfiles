@@ -1,4 +1,11 @@
-let mapleader = "\<Space>"
+let s:shared_rc = expand("$DOTFILES_HOME") . "/vimrc.shared"
+if filereadable(s:shared_rc)
+  execute 'source' fnameescape(s:shared_rc)
+else
+  echohl ErrorMsg
+  echom "Could not find shared rc at " . s:shared_rc
+  echohl None
+endif
 
 " Turn off vi compatibility
 set nocompatible
@@ -13,12 +20,6 @@ if filereadable(expand("~/.vimrc.plugs"))
   call plug#end()
 endif
 
-" Remap ESC and save on pinky travel time :)
-inoremap kk <esc>
-
-" Map <Leader>s to save
-noremap <Leader>s :w<CR>
-
 " Enable project-specific vimrc
 " See https://andrew.stwrt.ca/posts/project-specific-vimrc/
 set exrc
@@ -26,10 +27,6 @@ set exrc
 " Turn on syntax highlighting
 syntax on
 
-" Relative line numbers, line_number on the current line, 1 for the on above and below, and so on
-set relativenumber
-" Remove this to show 0 instead of line_number on the current line
-set number
 " This will make relative line numbers work on Netrw too
 let g:netrw_bufsettings = 'noma nomod nu nobl nowrap ro'
 

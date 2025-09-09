@@ -1,0 +1,12 @@
+let mapleader = "\<Space>"
+
+" Remap ESC and save on pinky travel time :)
+inoremap kk <esc>
+
+" Map <Leader>s to save
+noremap <Leader>s :w<CR>
+
+" Relative line numbers, line_number on the current line, 1 for the on above and below, and so on
+set relativenumber
+" Remove this to show 0 instead of line_number on the current line
+set number
