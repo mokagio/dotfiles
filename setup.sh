@@ -57,6 +57,23 @@ else
   exit 1
 fi
 
+# NeoVim
+neovim_root=~/.config/nvim
+neovim_init="$pwd/neovim_init.vim"
+mkdir -p "$neovim_root"
+if [[ -f $neovim_init ]]; then
+  destination="$neovim_root/init.vim"
+  if [[ -h $destination ]]; then
+    echo "$destination exists already, skipping."
+  else
+    echo "Will run: ln -s $neovim_init $destination"
+    ln -s "$neovim_init" "$destination"
+  fi
+else
+  echo "Could not find $neovim_init! Aborting."
+  exit 1
+fi
+
 brew bundle
 # Some of the tools install via Homebrew might need additional manual steps.
 # It would be cool if this could be done as part of the Brefile run
