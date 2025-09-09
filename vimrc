@@ -9,6 +9,7 @@ set autowrite
 if filereadable(expand("~/.vimrc.plugs"))
   call plug#begin('~/.vim/plugged')
   source ~/.vimrc.plugs
+  source $DOTFILES_HOME/vimrc.plugs.zettelkasten
   call plug#end()
 endif
 
@@ -337,7 +338,7 @@ endif
 " That's cool when you want to link notes, but that's not always the case,
 " and I'd have to remember to go back and remove the link from the
 " previous note.
-let g:nv_search_paths = [$VIMWIKI_HOME]
+let g:nv_search_paths = [ "$VIMWIKI_HOME/zettelkasten" ]
 
 " Sync VimWiki / Zettelkasten slipbox to Git via
 " https://github.com/michal-h21/vimwiki-sync

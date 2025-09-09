@@ -128,22 +128,6 @@ Plug 'junegunn/goyo.vim' " for full sceen writing
 Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app & yarn install'  }
 Plug 'junegunn/limelight.vim'
 
-" Zettletasken (https://zettelkasten.de/)
-" (note taking powerups for building lasting knowledge)
-Plug 'vimwiki/vimwiki'
-" Install latest fzf as part of installing/updating the plugin
-" See https://github.com/junegunn/fzf.vim/issues/1134#issuecomment-2186171167
-Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-Plug 'junegunn/fzf.vim'
-Plug 'michal-h21/vim-zettel', { 'branch': 'master' }
-" This syncs VimWiki to Git – Not working right now :/
-Plug 'michal-h21/vimwiki-sync'
-" This allows to search through notes and open the match without having to
-" create a link in the current note
-Plug 'alok/notational-fzf-vim'
-" Improved tags search
-Plug 'matt-snider/vim-tagquery', { 'do': 'bash install.sh' }
-
 " A collection of colorschemes
 Plug 'flazz/vim-colorschemes'
 " Another theme, as if the collection above wasn't enough, LOL

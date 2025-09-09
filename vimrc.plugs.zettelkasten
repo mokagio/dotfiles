@@ -1,0 +1,26 @@
+" Collection of plugins implementing Zettletasken, a note taking system for
+" building lasting knowledge.
+"
+" See https://zettelkasten.de/
+
+" The starting point is VimWiki.
+Plug 'vimwiki/vimwiki'
+
+Plug 'michal-h21/vim-zettel', { 'branch': 'master' }
+
+" fzf is crucial to search through notes.
+"
+" Install latest fzf as part of installing/updating the plugin
+" See https://github.com/junegunn/fzf.vim/issues/1134#issuecomment-2186171167
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim'
+
+" This allows to search through notes and open the match without having to
+" create a link in the current note
+Plug 'alok/notational-fzf-vim'
+
+" This syncs VimWiki to Git – Not working right now :/
+" Plug 'michal-h21/vimwiki-sync'
+
+" Improved tags search
+Plug 'matt-snider/vim-tagquery', { 'do': 'bash install.sh' }
