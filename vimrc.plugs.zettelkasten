@@ -16,7 +16,9 @@ Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 
 " This allows to search through notes and open the match without having to
-" create a link in the current note
+" create a link in the current note.
+"
+" Requires ripgrep, Python 3.5+, and of course fzf.
 Plug 'alok/notational-fzf-vim'
 
 " This syncs VimWiki to Git – Not working right now :/
