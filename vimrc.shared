@@ -10,3 +10,13 @@ noremap <Leader>s :w<CR>
 set relativenumber
 " Remove this to show 0 instead of line_number on the current line
 set number
+
+" Use spaces instead of tabs, and default tab to 2 spaces
+" See http://stackoverflow.com/questions/234564/tab-key-4-spaces-and-auto-indent-after-curly-braces-in-vim
+" Not sure about this combo from what I read from the help of the single settings, but hey the answer had 740 upvotes at the time of writing...
+"
+" Alternatively, one could delegate this to an EditorConfig plugin?
+filetype plugin indent on
+set tabstop=2
+set shiftwidth=2
+set expandtab
