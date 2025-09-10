@@ -19,6 +19,12 @@ nnoremap <Leader>zt :VimwikiRebuildTags<CR>
 " (This is the default value but I keep forgetting about it...)
 autocmd FileType vimwiki xmap z <Plug>ZettelNewSelectedMap
 
+" Notational Flow FZF settings
+"
+" It's called width but it's actually the relative height
+let g:nv_window_width = '75%'
+let g:nv_preview_direction = 'up'
+
 " Use <Leader>zr to open a random note
 "
 " Credits:
@@ -34,7 +40,6 @@ random_zettel = random.choice(all_zettels)
 vim.command(':edit ' + random_zettel)
 EOF
 endfun
-
 
 " Use <Leader>zq to open a random quote note
 nnoremap <silent> <Leader>zq :call OpenRandomWithQuoteNote()<CR>
