@@ -313,8 +313,7 @@ let worklog_wiki.syntax = 'markdown'
 
 let g:vimwiki_list = [ slipbox, worklog_wiki ]
 
-" TODO: DRY and parametrize ($HOME? $DOTFILES_HOME?)
-let s:zettelkasten_vimrc = expand("~/.vimrc.zettelkasten")
+let s:zettelkasten_vimrc = expand("$DOTFILES_HOME/vimrc.zettelkasten")
 if filereadable(s:zettelkasten_vimrc)
   execute 'source' fnameescape(s:zettelkasten_vimrc)
 else
