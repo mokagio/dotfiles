@@ -22,7 +22,11 @@ let s:zettelkasten_vimrc = expand("$DOTFILES_HOME/vimrc.zettelkasten")
 if filereadable(s:zettelkasten_vimrc)
   execute 'source' fnameescape(s:zettelkasten_vimrc)
 else
+  echohl WarningMsg
   echom "Warning: " . s:zettelkasten_vimrc . " not found."
+  echohl None
+  " Without this request for user input, the message disappears as soon as it's shown...
+  call input("")
 endif
 
 " Notational-FZF-Vim settings
