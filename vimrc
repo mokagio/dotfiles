@@ -388,3 +388,10 @@ autocmd BufRead,BufNewFile * call SetWorklogColorscheme()
 
 " See https://github.com/michal-h21/vim-zettel/issues/163
 let g:zettel_wikigrep_command = 'grep -l -E "%pattern"  -r %path --include="*%ext"'
+
+function! SplitLineOnPeriod()
+  execute "silent! s/\\.\\s\\+/.\\r/g"
+endfunction
+
+" Create a command to call it from command mode
+command! SplitLineOnPeriod call SplitLineOnPeriod()
