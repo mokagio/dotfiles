@@ -390,8 +390,27 @@ autocmd BufRead,BufNewFile * call SetWorklogColorscheme()
 let g:zettel_wikigrep_command = 'grep -l -E "%pattern"  -r %path --include="*%ext"'
 
 function! SplitLineOnPeriod()
+  " Unrelated with the period, but useful when pasting quotes from Books
+  execute "silent! s/^“//"
+  execute "silent! s/^”//"
+  execute "silent! s/”$//"
+  execute "silent! s/“$//"
+
   execute "silent! s/\\.\\s\\+/.\\r/g"
+  execute "silent! s/\\;\\s\\+/;\\r/g"
+  execute "silent! s/\\:\\s\\+/:\\r/g"
+  execute "silent! s/?\\s*/?\\r/g"
 endfunction
 
 " Create a command to call it from command mode
 command! SplitLineOnPeriod call SplitLineOnPeriod()
+nnoremap <silent><leader>n :SplitLineOnPeriod<CR>
+
+" From https://www.giolodi.com/p/substance-over-status (Substack) to https://giolodi.com/substance-over-status (what I wish it to be)
+function! CleanGiosLinks()
+  %s#https://www\.#https://#g
+
+  %s#\(https://[^/]\+\)/p/#\1/#g
+endfunction
+
+command! CleanGiosLinks call CleanGiosLinks()
