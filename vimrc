@@ -301,6 +301,12 @@ au FileType xml setlocal equalprg=xmllint\ --format\ --recover\ -\ 2>/dev/null
 
 " Vim Wiki & Zettelkasten settings
 "
+" Fix vim-zettel's :ZettelBackLinks failing with zsh. The plugin's default
+" commands have unquoted patterns/globs that zsh interprets before ripgrep
+" sees them. Single quotes protect against this.
+" See https://github.com/michal-h21/vim-zettel/issues/163
+let g:zettel_wikigrep_command = "rg -l %pattern %path --glob='*%ext'"
+
 let slipbox = {}
 let slipbox.path = '$VIMWIKI_HOME/zettelkasten'
 let slipbox.ext = '.md'
@@ -386,8 +392,6 @@ endfunction
 " Auto command to call the function every time a buffer is read or created
 autocmd BufRead,BufNewFile * call SetWorklogColorscheme()
 
-" See https://github.com/michal-h21/vim-zettel/issues/163
-let g:zettel_wikigrep_command = 'grep -l -E "%pattern"  -r %path --include="*%ext"'
 
 function! SplitLineOnPeriod()
   " Unrelated with the period, but useful when pasting quotes from Books
