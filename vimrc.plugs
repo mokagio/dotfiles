@@ -98,6 +98,7 @@ Plug 'chrisbra/csv.vim'
 Plug 'hashivim/vim-terraform'
 " PowerShell
 Plug 'pprovost/vim-ps1'
+Plug 'fatih/vim-go'
 
 " Keyboard shortcuts to run tests, supports different languages with the same
 " combos
