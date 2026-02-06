@@ -126,6 +126,8 @@ export PATH="$PATH:$DOTFILES_HOME/scripts"
 
 # Cloud66 Toolbelt (`cx`)
 export PATH="$PATH:/opt/cloud66/bin"
+
+# Cargo is Rust's dependency manager and library builder
 . "$HOME/.cargo/env"
 
 # Automattic stuff
