@@ -13,7 +13,12 @@ git_log_input = `pbpaste`
 # * b633fd0 - ...
 # * 9ea54f4 - ...
 # * ...
-commits = git_log_input.lines.map { |l| l.split(' ')[1] }
+# commits = git_log_input.lines.map { |l| l.split(' ')[1] }
+#
+# *  (HEAD -> my-branch) ... (12 minutes ago) Gio Lodi - 99b218e9a014a96c18474b3039e92ffeeee68078 (99b218e9)
+# *  (origin/my-branch) ... (2 days ago) Gio Lodi - 8ec4a7d5844b093dba2d67da3c3622a638730b80 (8ec4a7d5)
+# *  ... (2 days ago) Gio Lodi - afe5aa1937a5d5b7552b90c0802c457dd9529d80 (afe5aa19)
+commits = git_log_input.lines.map { |l| l.split(' ').last.gsub('(', '').gsub(')', '') }
 
 # When cherry-picking, we need to start from the _oldest_ commit
 commits = commits.reverse
@@ -25,12 +30,19 @@ def recursive_cherry_pick(commits, done_count, total_count)
   end
 
   commit = commits.first
-  suffix = "#{commit} (#{done_count + 1} of #{total_count})"
-  puts "🍒 Cherry picking #{commit}"
 
+  # When selecting lines for the cherry pick from the terminal, as opposed to via
+  #
+  #   glg -<number of commits from HEAD> | pb,
+  #
+  # it can happen that iTerm adds a > to those lines that overflow.
+  commit = commit[...-1] if commit.end_with?('>')
+
+  puts "🍒 Cherry picking #{commit}"
   system("git cherry-pick #{commit}")
 
   if $CHILD_STATUS.exitstatus != 0
+    suffix = "#{commit} (#{done_count + 1} of #{total_count})"
     puts "😟 cherry picking failed for #{suffix}"
     puts "Once you fix it, use the following output (already in your pasteboard) and run the script again to continue the process:\n"
     output = commits[1..].reverse.map { |c| "* #{c}" }.join("\n")
