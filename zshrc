@@ -40,6 +40,15 @@ if [[ -f $antigen_apple_silicon_path ]] || [[ -f $antigen_intel_path ]]; then
 
   antigen theme denysdovhan/spaceship-prompt
 
+  SPACESHIP_DOCKER_SHOW=false
+
+  # At times takes time to load and gives:
+  #
+  # spaceship_gradle:13: bad set of key/value pairs for associative array
+  #
+  # And since I don't work on Android projects much, I'd rather do without the slowdown.
+  SPACESHIP_GRADLE_SHOW=false
+
   antigen apply
 else
   echo "❌ Cannot find Antigen ZSH plugin manager in the system"
@@ -218,16 +227,36 @@ LOCAL_ZSHRC="${HOME}/.zshrc.local"
 [ -f "$LOCAL_ZSHRC" ] && source "$LOCAL_ZSHRC"
 
 # Load the aliases after the local zshrc, just in case there are env var
-# ovverrides in it.
-ALIASES_PATH="$DOTFILES_HOME/aliases.sh"
-if [[ -f "$ALIASES_PATH" ]]; then
-  source "$ALIASES_PATH"
-else
-  echo "\033[1;31mMissing aliases file at $ALIASES_PATH. Have a look inside the zshrc.\033[0m"
-fi
+# overrides in it.
+for _alias_file in aliases.navigation.sh aliases.git.sh aliases.sh; do
+  _alias_path="$DOTFILES_HOME/$_alias_file"
+  if [[ -f "$_alias_path" ]]; then
+    source "$_alias_path"
+  else
+    echo "\033[1;31mMissing aliases file at $_alias_path. Have a look inside the zshrc.\033[0m"
+  fi
+done
+unset _alias_file _alias_path
+
+# bun completions
+[ -s "/Users/gio/.bun/_bun" ] && source "/Users/gio/.bun/_bun"
+
+# bun
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"
+
+# roc - https://www.roc-lang.org/install/macos_apple_silicon
+# ROC_ID=2024-06-18-41ea2bfbc7d
+ROC_ID=2024-06-26-f8c6786502b
+export PATH="$PATH:$HOME/Developer/roc_lang/roc_nightly-macos_apple_silicon-$ROC_ID"
 
 # Stop Homebrew from auto-updating because it is often inconvenient.
 #
 # I'll need something installed fast and Homebrew will spend minutes updating unrelated packages.
 # Reminds me of Windows installing updates every other day...
 export HOMEBREW_NO_AUTO_UPDATE=1
+eval "$(/Users/gio/.local/bin/mise activate zsh)"
+
+# Added by LM Studio CLI (lms)
+export PATH="$PATH:/Users/gio/.lmstudio/bin"
+# End of LM Studio CLI section

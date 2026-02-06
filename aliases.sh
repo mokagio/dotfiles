@@ -11,26 +11,12 @@ alias sss='source ~/.zshrc'
 alias tl='fmn list'
 alias ta='fmn add'
 alias td='fmn done'
+# Joseph "assistant"
+alias jj='joseph'
 
 # Misc
 alias t='tig'
 alias k9='kill -9'
-
-NAVIGATION_ALIASES_PATH="$DOTFILES_HOME/aliases.navigation.sh"
-if [[ -f "$NAVIGATION_ALIASES_PATH" ]]; then
-  # shellcheck disable=SC1090
-  source "$NAVIGATION_ALIASES_PATH"
-else
-  printf "\033[1;31mCould not find navigation aliases at %s\033[0m\n" "$NAVIGATION_ALIASES_PATH" >&2
-fi
-
-GIT_ALIASES_PATH="$DOTFILES_HOME/aliases.git.sh"
-if [[ -f "$GIT_ALIASES_PATH" ]]; then
-  # shellcheck disable=SC1090
-  source "$GIT_ALIASES_PATH"
-else
-  printf "\033[1;31mCould not find Git aliases at %s\033[0m\n" "$GIT_ALIASES_PATH" >&2
-fi
 
 # Hub is a CLI client for the GitHub APIs
 # https://github.com/github/hub
@@ -94,11 +80,15 @@ alias ao='open -a /Applications/Android\ Studio.app'
 if [[ -d $VIMWIKI_HOME ]]; then # Note that VIMWIKI_HOME should be define in the .zshrc.local
   alias wr='vim $(find $VIMWIKI_HOME/zettelkasten -type f -not -path "*/\.*" | shuf -n 1)'
   alias tc='pushd $VIMWIKI_HOME && ./track_changes && popd'
+  # alias ww='tc && git -C $VIMWIKI_HOME pull || true && vim -c VimwikiIndex && tc'
+  alias ww='pushd $VIMWIKI_HOME && ./track_changes && vim -c VimwikiIndex && ./track_changes && popd'
 else
   # This is the one most likely to run, the others are secondary and it would
   # be redundant to do the same for them, too.
   alias ww='echo "Could not find VIMWIKI_HOME in the environment."; false'
 fi
+
+alias wlg='vim $HOME/Dropbox/.worklog_wiki/index.md'
 
 alias cask='brew cask'
 
@@ -124,6 +114,8 @@ alias pb='pbcopy'
 # A cat with syntax highlighting and Git support
 # https://github.com/sharkdp/bat
 alias cat='bat --style="plain,header,grid"'
+# Keep the original cat around
+alias oldcat='/bin/cat'
 
 # GNU's wc is better than the macOS one, e.g. it has the -L option to find the
 # longest line in a file
@@ -165,3 +157,5 @@ alias check_pod_version='gh trunk && gl && cat *.podspec | grep version'
 # Use like: cat file.yml | ymlparse
 alias ymlparse="ruby -ryaml -e 'puts YAML::load(STDIN.read, aliases: true)'"
 alias yamlparse=ymlparse
+
+alias cl='claude'
