@@ -1,0 +1,49 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git pull:*)",
+      "Bash(git rev-parse:*)",
+      "Bash(ls:*)",
+      "Bash(readelf:*)",
+      "Bash(swift test:*)",
+      "Bash(test:*)",
+      "Bash(xargs ls:*)",
+      "Bash(xcodebuild:*)",
+      "Bash(xcrun xcresulttool:*)",
+      "Bash(/opt/homebrew/bin/gh api search/issues:*)",
+      "Bash(/opt/homebrew/bin/gh pr diff:*)",
+      "Bash(/opt/homebrew/bin/gh pr list:*)",
+      "Bash(/opt/homebrew/bin/gh pr view:*)",
+      "Bash(/opt/homebrew/bin/gh release list:*)",
+      "Bash(/opt/homebrew/bin/gh release view:*)",
+      "Bash(/opt/homebrew/bin/gh search prs:*)",
+      "WebSearch",
+      "WebFetch",
+      "mcp__say__speak",
+      "mcp__buildkite__user_token_organization",
+      "mcp__buildkite__list_builds",
+      "mcp__buildkite__get_build"
+    ],
+    "deny": [],
+    "ask": []
+  },
+  "enabledPlugins": {
+    "swift-lsp@claude-plugins-official": true,
+    "rust-analyzer-lsp@claude-plugins-official": true
+  },
+  "alwaysThinkingEnabled": true,
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$HOME/.claude/hooks/rubocop-post-edit.sh",
+            "timeout": 30
+          }
+        ]
+      }
+    ]
+  }
+}

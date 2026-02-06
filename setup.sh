@@ -123,6 +123,24 @@ echo "You need to install Powerline fonts, to make the most of your terminal pro
 echo "I'm going to open the GitHub page for you: $powerline_url"
 open "$powerline_url"
 
+# Claude Code
+mkdir -p ~/.claude
+for f in claude/settings.json claude/CLAUDE.md; do
+  destination="$HOME/.${f}"
+  if [[ -h "$destination" ]]; then
+    echo "$destination exists already, skipping"
+  else
+    echo "Will run: ln -s $pwd/$f $destination"
+    ln -s "$pwd/$f" "$destination"
+  fi
+done
+if [[ -h "$HOME/.claude/hooks" ]]; then
+  echo "$HOME/.claude/hooks exists already, skipping"
+else
+  echo "Will run: ln -s $pwd/claude/hooks $HOME/.claude/hooks"
+  ln -s "$pwd/claude/hooks" "$HOME/.claude/hooks"
+fi
+
 # Automattic stuff
 #
 # pecl is a PHP extensions manager, xdebug is "an extension of PHP to assist
