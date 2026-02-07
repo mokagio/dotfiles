@@ -1,0 +1,68 @@
+"
+" Shared vim-plug plugins — loaded by both Vim and NeoVim
+"
+" This file is sourced inside a plug#begin / plug#end block.
+" Only include plugins that work in both editors.
+"
+
+" Incremental autocompletion
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+
+" AI code suggestions
+Plug 'github/copilot.vim'
+
+" Commands for common file operations (rename, delete, mkdir, chmod, etc.)
+Plug 'tpope/vim-eunuch'
+" Git integration
+Plug 'tpope/vim-fugitive'
+" GitHub extensions for fugitive
+Plug 'tpope/vim-rhubarb'
+" Show Git status on the gutter
+Plug 'airblade/vim-gitgutter', { 'branch': 'main' }
+
+" Automatically add closing bracket
+Plug 'jiangmiao/auto-pairs'
+
+" Text alignment
+Plug 'godlygeek/tabular'
+
+" Add, edit, and delete surrounding symbols
+Plug 'tpope/vim-surround'
+
+" Read .editorconfig files
+Plug 'editorconfig/editorconfig-vim'
+
+" Comment code
+Plug 'tpope/vim-commentary'
+
+" Automatically end structures (e.g. `end` after `if`/`do`/`def` in Ruby)
+Plug 'tpope/vim-endwise'
+" Same as endwise, but for (X)HTML tags
+Plug 'alvan/vim-closetag'
+
+" HTML editing powerups
+Plug 'mattn/emmet-vim'
+
+" Language plugins
+Plug 'jparise/vim-graphql'
+Plug 'keith/swift.vim'
+Plug 'elzr/vim-json'
+Plug 'vim-ruby/vim-ruby'
+Plug 'pangloss/vim-javascript'
+Plug 'mxw/vim-jsx'
+Plug 'leafgarland/typescript-vim'
+Plug 'ianks/vim-tsx'
+Plug 'cespare/vim-toml', { 'branch': 'main' }
+Plug 'udalov/kotlin-vim'
+Plug 'hashivim/vim-terraform'
+Plug 'fatih/vim-go'
+
+" Test runner
+Plug 'janko/vim-test'
+
+" Markdown & Writing
+Plug 'plasticboy/vim-markdown'
+Plug 'jkramer/vim-checkbox'
+Plug 'junegunn/goyo.vim'
+Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app & yarn install' }
+Plug 'junegunn/limelight.vim'

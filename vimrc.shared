@@ -12,11 +12,198 @@ set relativenumber
 set number
 
 " Use spaces instead of tabs, and default tab to 2 spaces
-" See http://stackoverflow.com/questions/234564/tab-key-4-spaces-and-auto-indent-after-curly-braces-in-vim
-" Not sure about this combo from what I read from the help of the single settings, but hey the answer had 740 upvotes at the time of writing...
-"
-" Alternatively, one could delegate this to an EditorConfig plugin?
 filetype plugin indent on
 set tabstop=2
 set shiftwidth=2
 set expandtab
+
+" Automatically :write before running commands
+set autowrite
+
+" Enable project-specific vimrc
+set exrc
+
+" Turn on syntax highlighting
+syntax on
+
+" Enable true colors support
+set termguicolors
+
+" Turn on the visible display of tabs and trailing spaces
+set list
+set listchars=tab:»-,space:·,trail:•,extends:#,precedes:#
+
+" Use F2 to toggle the past/nopaste mode (not supported in NeoVim)
+if !has('nvim')
+  set pastetoggle=<F2>
+endif
+
+" Define custom highlight groups for listchars
+highlight NonText guifg=#ff0000 ctermfg=240
+highlight SpecialKey guifg=#777777 ctermfg=240 guibg=NONE ctermbg=NONE
+
+" Highlight current line
+set cursorline
+hi CursorLine cterm=NONE ctermbg=darkgray
+" Highlight extra whitespace(s) at the end of a line
+hi ExtraWhitespace ctermbg=red guibg=red
+match ExtraWhitespace /\s\+$/
+" Visual mode selection color
+hi Visual term=NONE cterm=NONE ctermbg=darkgray
+
+" Show page guide
+set colorcolumn=64
+highlight ColorColumn ctermbg=darkgray
+
+" Better navigation for beginning and end of line
+nnoremap H ^
+nnoremap L $
+
+" Tweak where splits open to be 'more natural'
+set splitbelow
+set splitright
+
+" Type-based indentation
+set smartindent
+set autoindent
+filetype indent on
+
+" Allow file renames from Netrw Directory Listing
+set modifiable
+
+" Allow erase to delete characters insert in previous insert sessions
+set backspace=indent,eol,start
+
+" Keep text selected after indentation
+vnoremap < <gv
+vnoremap > >gv
+
+" Keep pasted pieces of code "in the buffer" to paste multiple times
+xnoremap p pgvy
+
+" Spell checking settings
+set spellfile=$HOME/.vim/spell/custom-spell.utf-8.add
+au BufRead *.md setlocal spell spelllang=en_us
+au BufRead COMMIT_EDITMSG setlocal spell spelllang=en_us
+au BufRead PULLREQ_EDITMSG setlocal spell spelllang=en_us
+
+" Highlight Podfile, Fatfile, etc. as a Ruby file
+au BufRead,BufNewFile Podfile,Fastfile,AppFile,Deliverfile,Matchfile,Snapfile,Pluginfile,Dangerfile set filetype=ruby
+au BufRead,BufNewFile Jetpack-Fastfile set filetype=ruby
+" Highlight Pods.WORKSPACE as a Starlark file
+au BufRead,BufNewFile Pods.WORKSPACE set filetype=starlark
+
+" Prettier formatter configuration
+autocmd FileType typescript setlocal formatprg=prettier\ --parser\ typescript
+
+" netrw settings
+let g:netrw_banner=0
+let g:netrw_liststyle=3
+" Relative line numbers in Netrw
+let g:netrw_bufsettings = 'noma nomod nu nobl nowrap ro'
+
+" Omni completion
+filetype plugin on
+set omnifunc=syntaxcomplete#Complete
+
+" coc.nvim — disable suggestions for markdown
+autocmd FileType markdown let b:coc_suggest_disable = 1
+
+" vim-test mappings
+nmap <silent> t<C-n> :TestNearest<CR>
+nmap <silent> t<C-f> :TestFile<CR>
+nmap <silent> t<C-s> :TestSuite<CR>
+nmap <silent> t<C-l> :TestLast<CR>
+nmap <silent> t<C-g> :TestVisit<CR>
+
+" vim-markdown settings
+let g:vim_markdown_folding_disabled = 1
+let g:vim_markdown_new_list_item_indent = 0
+let g:vim_markdown_frontmatter = 1
+let g:vim_markdown_toml_frontmatter = 1
+
+" Goyo (focused writing) settings
+let g:goyo_linenr = 1
+
+" Soft word wrapping
+set wrap
+set linebreak
+
+" vim-jsx — enable jsx highlighting for js files
+let g:jsx_ext_required = 0
+
+" At some point, Ruby files started to be very slow when saving
+autocmd FileType ruby setlocal lazyredraw
+
+" Indent XML files
+au FileType xml setlocal equalprg=xmllint\ --format\ --recover\ -\ 2>/dev/null
+
+" Markdown Preview settings
+let g:mkdp_preview_options = {
+      \ 'mkit': {},
+      \ 'katex': {},
+      \ 'uml': {},
+      \ 'maid': {},
+      \ 'disable_sync_scroll': 0,
+      \ 'sync_scroll_type': 'middle',
+      \ 'hide_yaml_meta': 1,
+      \ 'sequence_diagrams': {},
+      \ 'flowchart_diagrams': {},
+      \ 'content_editable': v:false,
+      \ 'disable_filename': 0
+      \ }
+
+"
+" Custom Commands
+"
+com! FormatJSON %!python -m json.tool
+
+command! CapitalizeSelection :'<,'>s/\(\w\)\(\w*\)/\u\1\L\2/g
+
+function! SplitLineOnPeriod()
+  execute "silent! s/^"//"
+  execute "silent! s/^"//"
+  execute "silent! s/"$//"
+  execute "silent! s/"$//"
+
+  execute "silent! s/\\.\\s\\+/.\\r/g"
+  execute "silent! s/\\;\\s\\+/;\\r/g"
+  execute "silent! s/\\:\\s\\+/:\\r/g"
+  execute "silent! s/?\\s*/?\\r/g"
+endfunction
+
+command! SplitLineOnPeriod call SplitLineOnPeriod()
+nnoremap <silent><leader>n :SplitLineOnPeriod<CR>
+
+function! CleanGiosLinks()
+  %s#https://www\.#https://#g
+  %s#\(https://[^/]\+\)/p/#\1/#g
+endfunction
+
+command! CleanGiosLinks call CleanGiosLinks()
+
+" Theme switching based on time of day and dark mode
+"
+" This function is meant to be called after colorschemes are loaded.
+" Both Vim and NeoVim call it after plug#end.
+function! ApplyTheme()
+  if strftime("%H") < 7 || strftime("%H") >= 21
+    colorscheme nord
+  else
+    if system("defaults read -g AppleInterfaceStyle") == "Dark\n"
+      colorscheme tokyonight
+    else
+      let ayucolor="light"
+      colorscheme ayu
+    endif
+  endif
+endfunction
+
+" Use a dedicated theme for worklog wiki
+function! SetWorklogColorscheme()
+  if expand('%:p:h') =~ '^' . expand('~/Dropbox/.worklog')
+    colorscheme everforest
+  endif
+endfunction
+
+autocmd BufRead,BufNewFile * call SetWorklogColorscheme()

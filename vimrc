@@ -10,9 +10,6 @@ endif
 " Turn off vi compatibility
 set nocompatible
 
-" Automatically :write before running commands
-set autowrite
-
 if filereadable(expand("~/.vimrc.plugs"))
   call plug#begin('~/.vim/plugged')
   source ~/.vimrc.plugs
@@ -20,218 +17,45 @@ if filereadable(expand("~/.vimrc.plugs"))
   call plug#end()
 endif
 
-" Enable project-specific vimrc
-" See https://andrew.stwrt.ca/posts/project-specific-vimrc/
-set exrc
+" Theme settings — vim-specific overrides
+let g:tokyonight_style = 'night'
+let g:tokyonight_enable_italic = 1
 
-" Turn on syntax highlighting
-syntax on
+" Apply the shared theme logic (needs colorschemes loaded first)
+call ApplyTheme()
 
-" This will make relative line numbers work on Netrw too
-let g:netrw_bufsettings = 'noma nomod nu nobl nowrap ro'
+" Goyo override for nord
+autocmd! User GoyoEnter colorscheme nord
 
 " Keep tabs active for Makefiles
-" Currently not working... -.-'
 autocmd FileType make setlocal tabstop=8
 autocmd FileType make setlocal shiftwidth=8
 autocmd FileType make setlocal noexpandtab
 
-" Turn on the visible display of tabs and trailing spaces
-set list
-" Set how various characters are displayed
-set listchars=tab:»-,space:·,trail:•,extends:#,precedes:#
-
-" Use F2 to toggle the past/nopaste mode
-set pastetoggle=<F2>
-
-" Color schemes are managed through the https://github.com/flazz/vim-colorschemes plugin
-" See all available schemes in ~/.vim/bundle/vim-colorschemes/colors
 "
-" Enable true colors support - Recommended in
-" https://github.com/ayu-theme/ayu-vim I didn't research what it means, but
-" without it, the nord and ayu light themes don't work.
-set termguicolors
-" Zenburn is a classic, nice one to use when in doubt
-" colorscheme Zenburn
-" Nord (https://github.com/arcticicestudio/nord-vim) a quiet theme to write in
-" the dark.
-" colorscheme nord
-let ayucolor="light"
-" Ayu (https://github.com/ayu-theme/ayu-vim), in light mode, is nice to write
-" in bright places.
-" colorscheme ayu
-" And here's another theme that's good in the light version
-" https://github.com/sonph/onehalf/tree/master/vim
-" colorscheme onehalflight
-
-let g:tokyonight_style = 'night' " available: night, storm
-let g:tokyonight_enable_italic = 1
-
-" Use a dedicated theme for early writing sessions (which is 99% of why I
-" would use Vim in the early morning).
-if strftime("%H") < 7 || strftime("%H") >= 21
-  colorscheme nord
-else
-  if system("defaults read -g AppleInterfaceStyle") == "Dark\n"
-    colorscheme tokyonight
-  else
-    colorscheme ayu
-  endif
-endif
-
-" Define custom colors for special characters
+" Vim-only plugin settings
 "
-" Notice we do this **after** setting the colorscheme, or the theme will override them.
-" Which begs the question: Why the theme I'm using doesn't set a good color for them??
 
-" Not sure what this is... Here for reference only
-highlight NonText guifg=#ff0000 ctermfg=240
-" Color of the charactres for tab, space, etc.
-highlight SpecialKey guifg=#777777 ctermfg=240 guibg=NONE ctermbg=NONE
-
-" If the color scheme won't work for some reason, these settings will be applied
-" Highlight current line
-set cursorline
-hi CursorLine cterm=NONE ctermbg=darkgray
-" Highlight extra whitespace(s) at the end of a line
-hi ExtraWhitespace ctermbg=red guibg=red
-match ExtraWhitespace /\s\+$/
-" Visual mode selection color
-hi Visual term=NONE cterm=NONE ctermbg=darkgray
-
-" Show page guide at column 80
-set colorcolumn=80
-"let &colorcolumn=join(range(81,999),",")
-"highlight ColorColumn ctermbg=235 guibg=#2c2d27
-highlight ColorColumn ctermbg=darkgray
-
-" Better navigation for beginning and end of line
-" Note that these replace the jump to top (H) and bottom (L) visible lines
-" actions, but to be honest I've never used them, so is not a big loss...
-"
-" Via https://twitter.com/_supermarin/status/687016530769383425
-nnoremap H ^
-nnoremap L $
-
-" Tweak where Vim open splits to be 'more natural'
-"
-" Via https://vimtricks.com/p/open-splits-more-naturally/
-set splitbelow
-set splitright
-
-" ctrlp settings
-" ctrlp is a fuzzy file finder and opener
+" ctrlp
 let g:ctrlp_map = '<c-p>'
 let g:ctrlp_cmd = 'CtrlP'
-" show hidden files (.something) by default
 let g:ctrlp_show_hidden = 1
 let g:ctrlp_custom_ignore = {
   \ 'dir': '\v[\/](test_coverage|docs|DerivedData|node_modules|\.build|\.git)$',
   \ }
 
-" Type-based indentation
-"
-"See http://stackoverflow.com/questions/8536711/how-to-autoindent-ruby-source-code-in-vim
-set smartindent
-set autoindent
-
-" Load indent file for the current filetype
-filetype indent on
-
-" Allow file renames from Netrw Directory Listing
-set modifiable
-
-" Allow erase to delete characters insert in previous insert sessions
-" http://vim.wikia.com/wiki/Erasing_previously_entered_characters_in_insert_mode
-set backspace=indent,eol,start
-
-" Keep text selected after indentation.
-vnoremap < <gv
-vnoremap > >gv
-
-" Keep pasted pieces of code "in the buffer" to paste multiple times
-xnoremap p pgvy
-
-" Spell checking settings
-"
-" Custom words list. Quite useful when working in tech because Vim doesn't
-" know a lot of the names we use.
-set spellfile=$HOME/.vim/spell/custom-spell.utf-8.add
-" I haven't figured out a way to have good spell checking for code, so for now
-" only check spelling on 'text' files
-"
-" TODO: extract lang value in a constant
-au BufRead *.md setlocal spell spelllang=en_us
-" Check spelling on commit messages too
-au BufRead COMMIT_EDITMSG setlocal spell spelllang=en_us
-" Check spelling when opening pull requests with hub
-" https://github.com/github/hub
-au BufRead PULLREQ_EDITMSG setlocal spell spelllang=en_us
-
-" Highlight Podfile, Fatfile, etc. as a Ruby file
-au BufRead,BufNewFile Podfile,Fastfile,AppFile,Deliverfile,Matchfile,Snapfile,Pluginfile,Dangerfile set filetype=ruby
-au BufRead,BufNewFile Jetpack-Fastfile set filetype=ruby
-" Highlight Pods.WORKSPACE as a Starlark file
-au BufRead,BufNewFile Pods.WORKSPACE set filetype=starlark
-
-" Prettier formatter configuration
-autocmd FileType typescript setlocal formatprg=prettier\ --parser\ typescript
-
-" netrw settings
-"
-" no banner
-let g:netrw_banner=0
-" tree style
-let g:netrw_liststyle=3
-
 " NERDTree
-"
-" Show/hide NERDTree with <C-n>
 map <C-n> :NERDTreeToggle<CR>
 let NERDTreeShowLineNumbers=1
 let NERDTreeShowHidden=1
-" use relative line numbers in NERDTree too <3
 autocmd FileType nerdtree setlocal relativenumber
 
 " airline
-"
-" enable airline
 let g:airline#extensions#tabline#enabled = 1
-" always show the status bar
-" this is a vim setting rather than airline, but makes sense here
 set laststatus=2
-" use powerline fonts for bold fatty arrous and othe symbols in the status bar (https://github.com/powerline/fonts.git)
-" important: you'll need to install a powerline patched version of the font you want to use.
-" important 2: when using vim from withing a terminal you'll need to set the patched font in the terminal app settings.
 let g:airline_powerline_fonts=1
 
-" Omni completion
-"
-filetype plugin on
-set omnifunc=syntaxcomplete#Complete
-
-" Neocomplete - Disabled while I try coc.vim
-"
-" Enable automatic autocompletion via neocompletion by default
-" let g:neocomplete#enable_at_startup = 1
-" let g:neocomplete#enable_camel_case = 1
-" Disable for markdown
-" autocmd FileType markdown NeoCompleteLock
-
-" coc.vim
-" Disable for markdown
-autocmd FileType markdown let b:coc_suggest_disable = 1
-
-" vim-test mappings
-" See https://github.com/vim-test/vim-test/tree/b882783760b954144dda5be7ad6cd4bdefd013fb#setup
-nmap <silent> t<C-n> :TestNearest<CR>
-nmap <silent> t<C-f> :TestFile<CR>
-nmap <silent> t<C-s> :TestSuite<CR>
-nmap <silent> t<C-l> :TestLast<CR>
-nmap <silent> t<C-g> :TestVisit<CR>
-
 " Syntastic
-"
 set statusline+=%#warningmsg#
 set statusline+=%{SyntasticStatuslineFlag()}
 set statusline+=%*
@@ -242,69 +66,22 @@ let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
 
 let g:syntastic_ruby_checkers = ['rubocop']
-
 let g:syntastic_loc_list_height = 4
+let g:syntastic_swift_checkers = ['swiftpm', 'swiftlint']
+let g:syntastic_javascript_checkers = ['eslint']
 
-" At some point, Ruby files started to be very slow when saving. Namely, after
-" saving (e.g. with the Leader<s> map) Vim would hang in command mode for at
-" least a second.
-"
-" I stumbled on the StackOverflow question below and tried a few options...
-" Using `lazyredraw` seems to work well so far.
-"
-" https://stackoverflow.com/questions/16902317/vim-slow-with-ruby-syntax-highlighting
-autocmd FileType ruby setlocal lazyredraw
-
-" vim-markdown settings
-"
-" disable automatic folding
-let g:vim_markdown_folding_disabled = 1
-" disable new list item indent
-let g:vim_markdown_new_list_item_indent = 0
-" front matter highlighting
-let g:vim_markdown_frontmatter = 1
-let g:vim_markdown_toml_frontmatter = 1
-" Goyo (focused writing) settings
-let g:goyo_linenr = 1
-autocmd! User GoyoEnter colorscheme nord
-
-" Soft word wrapping, see http://vim.wikia.com/wiki/Word_wrap_without_line_breaks
-set wrap
-set linebreak
-" set nolist
-
-" vim-rspec settings
-"
+" vim-rspec
 map <Leader>t :call RunCurrentSpecFile()<CR>
 map <Leader>n :call RunNearestSpec()<CR>
 map <Leader>l :call RunLastSpec()<CR>
 map <Leader>a :call RunAllSpecs()<CR>
 let g:rspec_runner = "os_x_iterm2"
 
-" swift.vim settings
-"
-let g:syntastic_swift_checkers = ['swiftpm', 'swiftlint']
-
-" vim-xcode mappings
+" vim-xcode
 map <Leader>b :Xbuild<CR>
 map <Leader>u :Xtest<CR>
 
-" vim-jsx settings
-"
-" enable jsx highlighting for js files as well
-let g:jsx_ext_required = 0
-let g:syntastic_javascript_checkers = ['eslint']
-
-" Indent XML files
-" See http://ku1ik.com/2011/09/08/formatting-xml-in-vim-with-indent-command.html
-au FileType xml setlocal equalprg=xmllint\ --format\ --recover\ -\ 2>/dev/null
-
 " Vim Wiki & Zettelkasten settings
-"
-" Fix vim-zettel's :ZettelBackLinks failing with zsh. The plugin's default
-" commands have unquoted patterns/globs that zsh interprets before ripgrep
-" sees them. Single quotes protect against this.
-" See https://github.com/michal-h21/vim-zettel/issues/163
 let g:zettel_wikigrep_command = "rg -l %pattern %path --glob='*%ext'"
 
 let slipbox = {}
@@ -327,94 +104,11 @@ else
 endif
 
 " Notational-FZF-Vim settings
-"
-" Before using this, every time I wanted to find a note, I had to use `[[` which
-" resulted in a new link being created in the text.
-" That's cool when you want to link notes, but that's not always the case,
-" and I'd have to remember to go back and remove the link from the
-" previous note.
 let g:nv_search_paths = [ "$VIMWIKI_HOME/zettelkasten" ]
 
-" Sync VimWiki / Zettelkasten slipbox to Git via
-" https://github.com/michal-h21/vimwiki-sync
-" This folder needs to be defined so that the sync plugin runs only there and
-" not in every markdown file.
+" Sync VimWiki / Zettelkasten slipbox to Git
 let g:zettel_dir = $VIMWIKI_HOME
-let g:zettel_synced = 0 " disable Git syncying
+let g:zettel_synced = 0
 
 " Source Vim configuration file and install plugins
-" via https://pragmaticpineapple.com/ultimate-vim-typescript-setup/
 nnoremap <silent><leader>1 :source ~/.vimrc \| :PlugInstall<CR> \| :PlugUpdate<CR>
-
-" Markdown Preview settings
-" TODO: these are _all_ the options from
-" https://github.com/iamcco/markdown-preview.nvim/tree/96c0bc72252f87c4fcafaa672352a91730dee61d#install--usage
-" but the only one I wanted to tweak is the synchronized scrolling, how can I
-" update only that one without redefining the dictionary?
-let g:mkdp_preview_options = {
-      \ 'mkit': {},
-      \ 'katex': {},
-      \ 'uml': {},
-      \ 'maid': {},
-      \ 'disable_sync_scroll': 0,
-      \ 'sync_scroll_type': 'middle',
-      \ 'hide_yaml_meta': 1,
-      \ 'sequence_diagrams': {},
-      \ 'flowchart_diagrams': {},
-      \ 'content_editable': v:false,
-      \ 'disable_filename': 0
-      \ }
-
-"
-" Custom Commands
-"
-com! FormatJSON %!python -m json.tool
-
-" Thanks ChatGPT :)
-"
-" Notice you'll have to delete the :'<,'> prompt in visual mode before typing
-" this command's name.
-command! CapitalizeSelection :'<,'>s/\(\w\)\(\w*\)/\u\1\L\2/g
-
-" Use a dedicated theme for worklog wiki
-"
-" Function to check the file path and set the colorscheme
-function! SetWorklogColorscheme()
-  " TODO: extract path
-  if expand('%:p:h') =~ '^' . expand('~/Dropbox/.worklog')
-    colorscheme everforest
-  else
-    " Set your default colorscheme or leave as is if you don't want to change it
-    " colorscheme your_default_colorscheme
-  endif
-endfunction
-
-" Auto command to call the function every time a buffer is read or created
-autocmd BufRead,BufNewFile * call SetWorklogColorscheme()
-
-
-function! SplitLineOnPeriod()
-  " Unrelated with the period, but useful when pasting quotes from Books
-  execute "silent! s/^“//"
-  execute "silent! s/^”//"
-  execute "silent! s/”$//"
-  execute "silent! s/“$//"
-
-  execute "silent! s/\\.\\s\\+/.\\r/g"
-  execute "silent! s/\\;\\s\\+/;\\r/g"
-  execute "silent! s/\\:\\s\\+/:\\r/g"
-  execute "silent! s/?\\s*/?\\r/g"
-endfunction
-
-" Create a command to call it from command mode
-command! SplitLineOnPeriod call SplitLineOnPeriod()
-nnoremap <silent><leader>n :SplitLineOnPeriod<CR>
-
-" From https://www.giolodi.com/p/substance-over-status (Substack) to https://giolodi.com/substance-over-status (what I wish it to be)
-function! CleanGiosLinks()
-  %s#https://www\.#https://#g
-
-  %s#\(https://[^/]\+\)/p/#\1/#g
-endfunction
-
-command! CleanGiosLinks call CleanGiosLinks()

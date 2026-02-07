@@ -1,11 +1,34 @@
 source $DOTFILES_HOME/vimrc.shared
 
 call plug#begin('~/.vim/plugged')
+
+" Shared plugins (completion, git, languages, testing, writing, etc.)
+source $DOTFILES_HOME/vimrc.plugs.shared
+
+" Zettelkasten
 source $DOTFILES_HOME/vimrc.plugs.zettelkasten
+
+" NeoVim-specific plugins
+Plug 'folke/tokyonight.nvim'
+Plug 'arcticicestudio/nord-vim', { 'branch': 'main' }
+Plug 'ayu-theme/ayu-vim'
+Plug 'sainnhe/everforest'
+
 call plug#end()
 
+" Theme — use NeoVim-native tokyonight config
+let g:tokyonight_style = 'night'
+let g:tokyonight_enable_italic = 1
+
+" Apply the shared theme logic
+call ApplyTheme()
+
+" Goyo override for nord
+autocmd! User GoyoEnter colorscheme nord
+
 " Vim Wiki & Zettelkasten settings
-"
+let g:zettel_wikigrep_command = "rg -l %pattern %path --glob='*%ext'"
+
 let slipbox = {}
 let slipbox.path = '$VIMWIKI_HOME/zettelkasten'
 let slipbox.ext = '.md'
@@ -25,15 +48,12 @@ else
   echohl WarningMsg
   echom "Warning: " . s:zettelkasten_vimrc . " not found."
   echohl None
-  " Without this request for user input, the message disappears as soon as it's shown...
   call input("")
 endif
 
 " Notational-FZF-Vim settings
-"
-" Before using this, every time I wanted to find a note, I had to use `[[` which
-" resulted in a new link being created in the text.
-" That's cool when you want to link notes, but that's not always the case,
-" and I'd have to remember to go back and remove the link from the
-" previous note.
 let g:nv_search_paths = [ "$VIMWIKI_HOME/zettelkasten" ]
+
+" Sync VimWiki / Zettelkasten slipbox to Git
+let g:zettel_dir = $VIMWIKI_HOME
+let g:zettel_synced = 0
