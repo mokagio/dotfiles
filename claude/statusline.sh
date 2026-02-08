@@ -4,6 +4,7 @@ input=$(cat)
 model=$(echo "$input" | jq -r '.model.display_name // "?"')
 pct=$(echo "$input" | jq -r '.context_window.used_percentage // 0' | cut -d. -f1)
 dir=$(echo "$input" | jq -r '.workspace.current_dir // ""')
+short_dir=$(echo "$dir" | sed "s|^$HOME|~|")
 
 # Git branch + worktree indicator
 if [ -n "$dir" ] && [ -d "$dir" ]; then
@@ -25,4 +26,4 @@ fi
 # Unicode &#8226;
 separator='•'
 
-echo "$model $separator ${pct}% context $separator ${git_info:-}"
+echo "$model $separator ${pct}% context $separator ${git_info:-} $separator ${short_dir:-}"
