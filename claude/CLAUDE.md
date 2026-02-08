@@ -23,6 +23,13 @@ Generate with the help of Claude Code, https://code.claude.com
 Co-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>
 ```
 
+Commit message style:
+
+- The title describes *what* the change does — keep it sufficient on its own.
+- Only add a body if there's a *why* that isn't obvious from the title.
+- If the why isn't obvious, ask me rather than guessing.
+- Never repeat the "what" in the body; the diff covers that.
+
 ---
 
 I want an empty line before the start of my lists.
