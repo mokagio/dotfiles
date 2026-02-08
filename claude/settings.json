@@ -16,6 +16,7 @@
       "Bash(/opt/homebrew/bin/gh pr view:*)",
       "Bash(/opt/homebrew/bin/gh release list:*)",
       "Bash(/opt/homebrew/bin/gh release view:*)",
+      "Bash(/opt/homebrew/bin/gh repo view:*)",
       "Bash(/opt/homebrew/bin/gh search prs:*)",
       "WebSearch",
       "WebFetch",
@@ -27,11 +28,6 @@
     "deny": [],
     "ask": []
   },
-  "enabledPlugins": {
-    "swift-lsp@claude-plugins-official": true,
-    "rust-analyzer-lsp@claude-plugins-official": true
-  },
-  "alwaysThinkingEnabled": true,
   "hooks": {
     "PostToolUse": [
       {
@@ -45,5 +41,10 @@
         ]
       }
     ]
-  }
+  },
+  "enabledPlugins": {
+    "swift-lsp@claude-plugins-official": true,
+    "rust-analyzer-lsp@claude-plugins-official": true
+  },
+  "alwaysThinkingEnabled": true
 }

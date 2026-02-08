@@ -68,3 +68,19 @@ This keeps diffs clean and source readable.
 When writing code, always check if there are linter or style configurations in the repository that you should adopt.
 
 Example: If a Ruby project has `.rubocop.yml` ensure the code you write matches the preferences specified there.
+
+---
+
+Always use Git worktrees for branch work — never work directly on the main branch.
+At the start of a feature, project, or plan, create a worktree.
+Once the work is merged or abandoned, remove it.
+
+Place worktrees in a sibling `<repo>-worktrees/` folder:
+
+```
+~/Developer/
+├── my-repo/                  ← main checkout (trunk)
+└── my-repo-worktrees/
+    ├── feature-x/
+    └── bugfix/
+```
