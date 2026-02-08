@@ -125,7 +125,7 @@ open "$powerline_url"
 
 # Claude Code
 mkdir -p ~/.claude
-for f in claude/settings.json claude/CLAUDE.md; do
+for f in claude/settings.json claude/CLAUDE.md claude/statusline.sh; do
   destination="$HOME/.${f}"
   if [[ -h "$destination" ]]; then
     echo "$destination exists already, skipping"
