@@ -1,6 +1,10 @@
 {
   "permissions": {
     "allow": [
+      "Bash(bundle exec pod install:*)",
+      "Bash(bundle exec rspec:*)",
+      "Bash(bundle exec rubocop:*)",
+      "Bash(bundle install:*)",
       "Bash(git pull:*)",
       "Bash(git rev-parse:*)",
       "Bash(ls:*)",
