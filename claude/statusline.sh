@@ -26,4 +26,4 @@ fi
 # Unicode &#8226;
 separator='•'
 
-echo "$model $separator ${pct}% context $separator ${git_info:-} $separator ${short_dir:-}"
+echo "$model $separator ${pct}% ctx $separator ${short_dir:-} $separator ${git_info:-}"
