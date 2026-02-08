@@ -91,3 +91,13 @@ Place worktrees in a sibling `<repo>-worktrees/` folder:
     ├── feature-x/
     └── bugfix/
 ```
+
+**Worktree Git Commands**
+
+- Do NOT use `git -C <worktree-path>` — each unique
+path creates a separate permission prompt, cluttering
+local settings.
+- Instead, `cd` into the worktree first, then run
+plain `git` commands (`git status`, `git diff`, etc.).
+- This keeps command strings stable and permission
+approvals reusable.
