@@ -12,7 +12,8 @@ I have `gh` as an alias for `git checkout`, so when using GitHub's `gh` tool, ca
 
 ---
 
-If I ask you to commit for me, first show me a preview of the message.
+If I ask you to commit for me, first show me a preview of the message (this is just while I train you to write the way I like).
+
 The message should terminate with:
 
 ```
@@ -29,6 +30,8 @@ Commit message style:
 - Only add a body if there's a *why* that isn't obvious from the title.
 - If the why isn't obvious, ask me rather than guessing.
 - Never repeat the "what" in the body; the diff covers that.
+- Titles must stay within the recommended 50 characters.
+  Drop backtick fencing from the title if needed to fit.
 
 ---
 
