@@ -313,3 +313,7 @@ programmatically
 Starfleet
 SwiftPM
 worktree
+workspace
+xcworkspace
+xcshareddata
+swiftpm
