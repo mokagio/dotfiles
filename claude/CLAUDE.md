@@ -21,10 +21,12 @@ The message should terminate with:
 
 Generate with the help of Claude Code, https://code.claude.com
 
-Co-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>
+Co-Authored-By: Claude MODEL <noreply@anthropic.com>
 ```
 
-Commit message style:
+Note: `MODEL` is the model used to write the code.
+
+**Commit message style**:
 
 - The title describes *what* the change does — keep it sufficient on its own.
 - Only add a body if there's a *why* that isn't obvious from the title.
@@ -111,6 +113,17 @@ Place worktrees in a sibling `<repo>-worktrees/` folder:
 - Do NOT use `git -C <worktree-path>` — each unique
 path creates a separate permission prompt, cluttering
 local settings.
-  - Instead, `cd` into the worktree first, then run plain `git` commands (`git status`, `git diff`, etc.).
+  - Instead, `cd` into the worktree first, then run
+  plain `git` commands (`git status`, `git diff`, etc.).
   - This keeps command strings stable and permission
 approvals reusable.
+
+---
+
+Use `/usr/bin/env` and single parameter in shebangs. Example:
+
+```bash
+#!/usr/bin/env bash
+
+set -eu
+```
