@@ -65,6 +65,16 @@ Update `CLAUDE.md` with rule for code fencing
 
 ---
 
+Commits should be **small and atomic** and so should be the way you approach changes.
+
+When doing mechanical migration work, commit each file migrated individually, unless there are dependencies.
+
+Example: When migrating a Swift test suite from Quick+Nimble to modern Swift Testing, operate on one file at a time and commit it.
+If a test double needs to be updated in order for a test to be migrated, then do the necessary update, then the migration, and commit them both in the same commit.
+That's what I mean with small and atomic.
+
+---
+
 When writing Markdown, use [**semantic line breaks**](https://sembr.org/):
 
 - One sentence per line.
@@ -97,10 +107,10 @@ Place worktrees in a sibling `<repo>-worktrees/` folder:
 
 **Worktree Git Commands**
 
+- Create the worktree **before** making any changes — not after.
 - Do NOT use `git -C <worktree-path>` — each unique
 path creates a separate permission prompt, cluttering
 local settings.
-- Instead, `cd` into the worktree first, then run
-plain `git` commands (`git status`, `git diff`, etc.).
-- This keeps command strings stable and permission
+  - Instead, `cd` into the worktree first, then run plain `git` commands (`git status`, `git diff`, etc.).
+  - This keeps command strings stable and permission
 approvals reusable.
