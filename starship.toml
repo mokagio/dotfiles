@@ -10,7 +10,11 @@ error_symbol = "[❯](bold red)"
 # Right prompt: time
 [time]
 disabled = false
-format = "[$time]($style)"
+format = "[$time]($style) "
+
+[cmd_duration]
+min_time = 1_000
+format = "[took $duration]($style) "
 
 # Git branch in magenta, no prefix
 [git_branch]
