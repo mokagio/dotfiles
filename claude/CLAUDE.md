@@ -120,6 +120,14 @@ approvals reusable.
 
 ---
 
+Never prefix Bash commands with `cd path &&`.
+The permission system matches on the first token, so `cd` bypasses all allowed-command rules.
+
+- For git in worktrees: `cd` into the worktree first as a standalone command, then run `git` commands separately.
+- For everything else: use absolute paths (e.g., `ls /full/path` not `cd /full/path && ls`).
+
+---
+
 Use `/usr/bin/env` and single parameter in shebangs. Example:
 
 ```bash
