@@ -18,8 +18,6 @@ brew 'node' # Is this necessary when using nvm?
 brew 'yarn'
 brew 'python'
 brew 'shellcheck'
-# to jump between folders without going through the filesystem hierarchy
-brew 'autojump'
 brew 'lua'
 # hub is a tool to work with GitHub from the command line
 brew 'hub'

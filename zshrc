@@ -55,8 +55,9 @@ autoload -z edit-command-line
 zle -N edit-command-line
 bindkey -M vicmd v edit-command-line
 
-# autojump configs
-[[ -s $(brew --prefix)/etc/profile.d/autojump.sh  ]] && . $(brew --prefix)/etc/profile.d/autojump.sh
+# zoxide — smarter cd
+eval "$(zoxide init zsh)"
+alias j=z
 
 # Turn off autocorrect for some commands
 # See http://yountlabs.com/blog/2010/11/06/disable-autocorrect-in-zsh/
