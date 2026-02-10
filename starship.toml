@@ -17,20 +17,24 @@ format = "[$time]($style)"
 format = "[$branch(:$remote_branch)]($style) "
 style = "magenta"
 
-# Git status with counts and matching symbols
+# Git status with counts and thin symbols.
+# Starship has no join/separator for status items, so each symbol carries a
+# trailing space.
+# This means the last item leaves a space before ']' — accepted trade-off.
+# https://github.com/starship/starship/issues/1724
 [git_status]
-format = '([\[$all_status$ahead_behind\]]($style) )'
-style = "red"
-untracked = "${count}?"
-staged = "${count}+"
-modified = "${count}!"
-deleted = "${count}✘"
-stashed = "${count}$"
-ahead = "${count}⬆"
-behind = "${count}⬇"
-renamed = "${count}»"
-diverged = "⇕"
-conflicted = "⚡️"
+format = '([\[$all_status$ahead_behind\]](bold red) )'
+style = "bold red"
+ahead = "⇡${count} "
+behind = "⇣${count} "
+conflicted = "≠ "
+stashed = "⚑${count} "
+deleted = "✘${count} "
+renamed = "»${count} "
+modified = "!${count} "
+staged = "+${count} "
+untracked = "?${count} "
+up_to_date = ""
 
 # Ruby version — no prefix clutter
 [ruby]
