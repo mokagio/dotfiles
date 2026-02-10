@@ -110,20 +110,18 @@ Place worktrees in a sibling `<repo>-worktrees/` folder:
 **Worktree Git Commands**
 
 - Create the worktree **before** making any changes — not after.
-- Do NOT use `git -C <worktree-path>` — each unique
-path creates a separate permission prompt, cluttering
-local settings.
-  - Instead, `cd` into the worktree first, then run
-  plain `git` commands (`git status`, `git diff`, etc.).
-  - This keeps command strings stable and permission
-approvals reusable.
 
 ---
 
-Never prefix Bash commands with `cd path &&`.
+**NEVER use `git -C <path>`** for any reason.
+Each unique path creates a separate permission prompt, cluttering local settings.
+Instead, `cd` into the directory first (as a standalone command), then run plain `git` commands.
+This applies everywhere — worktrees, submodules, any repo path.
+
+Never prefix Bash commands with `cd path &&` either.
 The permission system matches on the first token, so `cd` bypasses all allowed-command rules.
 
-- For git in worktrees: `cd` into the worktree first as a standalone command, then run `git` commands separately.
+- For git: `cd` into the repo first as a standalone command, then run `git` commands separately.
 - For everything else: use absolute paths (e.g., `ls /full/path` not `cd /full/path && ls`).
 
 ---
