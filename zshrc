@@ -38,51 +38,13 @@ if [[ -f $antigen_apple_silicon_path ]] || [[ -f $antigen_intel_path ]]; then
   # You can find more modules for prezto at
   # https://github.com/sorin-ionescu/prezto/tree/master/modules
 
-  antigen theme denysdovhan/spaceship-prompt
-
-  SPACESHIP_DOCKER_SHOW=false
-
-  # At times takes time to load and gives:
-  #
-  # spaceship_gradle:13: bad set of key/value pairs for associative array
-  #
-  # And since I don't work on Android projects much, I'd rather do without the slowdown.
-  SPACESHIP_GRADLE_SHOW=false
-
   antigen apply
 else
   echo "❌ Cannot find Antigen ZSH plugin manager in the system"
 fi
 
-# Spaceship prompt settings
-# https://github.com/denysdovhan/spaceship-prompt/blob/6319158f19a7bb83a8131da7268213cb636f9653/docs/Options.md
-#
-# This will split the prompt from the user input in two lines,
-# which is handy when the prompt is long because of a long branch
-# name and/or multiple versions being listed
-SPACESHIP_PROMPT_SEPARATE_LINE=true
-# I don't like how the prompt says "via 💎 v2.3.0"
-SPACESHIP_RUBY_PREFIX=''
-SPACESHIP_TIME_SHOW=false
-SPACESHIP_VI_MODE_SHOW=false # don't need to know the Vi mode I'm in
-SPACESHIP_GIT_PREFIX=''
-
-# Custom setion based on the default Git one, but with counts
-source "$DOTFILES_HOME/spaceship_verbose_git.zsh"
-# I can't find a way to remove the different prompt element (functions?) by
-# their name, so I have to rely on indexes. The numbers are based on what's
-# documented here:
-# https://github.com/denysdovhan/spaceship-prompt/blob/50e371f5b7b14922c4c2492ef9c7be1095064cb7/docs/Options.md#order
-# Also note, Zsh arrays are 1-indexed
-#
-# First replace everything that needs replacing
-SPACESHIP_PROMPT_ORDER=(${SPACESHIP_PROMPT_ORDER[@]:0:4} verbose_git ${SPACESHIP_PROMPT_ORDER[@]:5})
-# Then, remove what needs removing
-# time, because it's used it in the right prompt
-SPACESHIP_PROMPT_ORDER=(${SPACESHIP_PROMPT_ORDER[@]:1})
-
-# RPROMPT is empty by default
-SPACESHIP_RPROMPT_ORDER+=(time)
+# Starship prompt (replaces spaceship-prompt)
+eval "$(starship init zsh)"
 
 # Use vim keybindings
 bindkey -v
