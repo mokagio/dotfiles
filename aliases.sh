@@ -18,13 +18,12 @@ alias jj='joseph'
 alias t='tig'
 alias k9='kill -9'
 
-# Hub is a CLI client for the GitHub APIs
-# https://github.com/github/hub
-alias gpr='hub pull-request --draft'
+# GitHub CLI (replaces hub, which is deprecated)
+alias gpr="$HOMEBREW_PREFIX/bin/gh pr create --draft"
 alias grp=gpr
-alias grpn='hub pull-request'
-alias cpr='hub pr checkout' # usage `cpr <PR id>`
-alias hb='hub browse' # open GitHub for the current repo and branch combo
+alias grpn="$HOMEBREW_PREFIX/bin/gh pr create"
+alias cpr="$HOMEBREW_PREFIX/bin/gh pr checkout" # usage `cpr <PR id>`
+alias hb="$HOMEBREW_PREFIX/bin/gh browse" # open GitHub for the current repo and branch combo
 
 # iOS & OS X development
 alias xco='[[ -f Project.swift ]] && tuist generate || open -a Xcode .'

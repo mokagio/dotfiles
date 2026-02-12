@@ -165,6 +165,18 @@ fi
 LOCAL_ZSHRC="${HOME}/.zshrc.local"
 [ -f "$LOCAL_ZSHRC" ] && source "$LOCAL_ZSHRC"
 
+# Resolve Homebrew prefix: read from disk cache, or resolve once and cache
+_brew_cache="${XDG_CACHE_HOME:-$HOME/.cache}/dotfiles/homebrew_prefix"
+if [[ -r "$_brew_cache" ]]; then
+  HOMEBREW_PREFIX=$(<"$_brew_cache")
+elif command -v brew &>/dev/null; then
+  HOMEBREW_PREFIX=$(brew --prefix)
+  mkdir -p "${_brew_cache:h}"
+  print -n "$HOMEBREW_PREFIX" > "$_brew_cache"
+fi
+unset _brew_cache
+export HOMEBREW_PREFIX
+
 # Load the aliases after the local zshrc, just in case there are env var
 # overrides in it.
 for _alias_file in aliases.navigation.sh aliases.git.sh aliases.sh; do
