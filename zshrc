@@ -90,32 +90,8 @@ if gem which lunchy &> /dev/null; then
   fi
 fi
 
-export NVM_DIR="$HOME/.nvm"
-# This loads nvm
-[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-                                                                    # does it work with ZSH too?
-# This automactically calls nvm use when going in a folder with an .nvmrc
-autoload -U add-zsh-hook
-load-nvmrc() {
-  local node_version="$(nvm version)"
-  local nvmrc_path="$(nvm_find_nvmrc)"
-
-  if [ -n "$nvmrc_path" ]; then
-    local nvmrc_node_version=$(nvm version "$(cat "${nvmrc_path}")")
-
-    if [ "$nvmrc_node_version" = "N/A" ]; then
-      nvm install
-    elif [ "$nvmrc_node_version" != "$node_version" ]; then
-      nvm use
-    fi
-  elif [ "$node_version" != "$(nvm version default)" ]; then
-    echo "Reverting to nvm default version"
-    nvm use default
-  fi
-}
-add-zsh-hook chpwd load-nvmrc
-load-nvmrc
+# fnm — fast Node version manager (replaces nvm)
+eval "$(fnm env --use-on-cd)"
 
 # Convert an input `.md` file to HTML and paste it to the clipboard.
 # I use this everytime I work on a newsletter or other text content to paste
@@ -218,6 +194,10 @@ export PATH="$PATH:$HOME/Developer/roc_lang/roc_nightly-macos_apple_silicon-$ROC
 # I'll need something installed fast and Homebrew will spend minutes updating unrelated packages.
 # Reminds me of Windows installing updates every other day...
 export HOMEBREW_NO_AUTO_UPDATE=1
+# mise — polyglot version manager (currently only managing tuist).
+# Could replace rbenv and fnm too, since it reads .ruby-version, .nvmrc, etc.
+# Tradeoff: one tool for everything vs purpose-built tools per language.
+# Sticking with rbenv (Ruby) and fnm (Node) for now — both are mature and fast.
 eval "$(/Users/gio/.local/bin/mise activate zsh)"
 
 # Added by LM Studio CLI (lms)
