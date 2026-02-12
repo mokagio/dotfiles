@@ -51,7 +51,8 @@ alias gsu='git submodule update'
 alias gcp='git cherry-pick'
 alias glgr='git log --oneline --reverse'
 alias grbc='git rebase --continue'
-alias gsh='git show head'
+alias gsh='git show HEAD'
+alias ghs='gsh'
 
 # See https://coderwall.com/p/euwpig
 GLG_FORMAT_SHA_SHORT='%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)%an%Creset'
