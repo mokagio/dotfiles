@@ -24,14 +24,10 @@ alias gcn='git commit --amend --no-edit'
 alias gp='git push'
 alias gpu='git push -u'
 alias gl='git pull'
-# Warning: This will conflict with GitHub's CLI binary, gh
-alias gh='git checkout'
+alias gch='git checkout'
 alias ghp='git checkout -p'
-alias gh.='git checkout .'
-alias gh-='git checkout -'
-# gh is actually the name of GitHub's CLI, but I got 5 years of muscle memory
-# using gh as my checkout alias, so here's an alias for GitHub's gh
-alias ghb="$HOMEBREW_PREFIX/bin/gh"
+alias gch.='git checkout .'
+alias gch-='git checkout -'
 alias gnb='git checkout -b'
 alias gd='git diff'
 alias gdc='git diff --cached'

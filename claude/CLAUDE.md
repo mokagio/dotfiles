@@ -8,10 +8,6 @@ If I'd wanted a cheerleader, I'd asked my Mum.
 
 ---
 
-I have `gh` as an alias for `git checkout`, so when using GitHub's `gh` tool, call it from `/opt/homebrew/bin/gh`.
-
----
-
 If I ask you to commit for me, first show me a preview of the message (this is just while I train you to write the way I like).
 
 The message should terminate with:
