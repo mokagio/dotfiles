@@ -114,15 +114,26 @@ Place worktrees in a sibling `<repo>-worktrees/` folder:
 ---
 
 **NEVER use `git -C <path>`** for any reason.
-Each unique path creates a separate permission prompt, cluttering local settings.
-Instead, `cd` into the directory first (as a standalone command), then run plain `git` commands.
+**NEVER prefix Bash commands with `cd path &&` or `cd path;`.**
+**NEVER chain commands with `&&` or `;` after a `cd`.**
+
+The permission system matches on the first token of each Bash call.
+`git -C` creates a unique permission prompt per path.
+`cd foo && git ...` makes the first token `cd`, bypassing all allowed-command rules.
+
+**Correct pattern — two separate Bash calls:**
+
+1. `cd /path/to/repo` (standalone Bash call)
+2. `git status` (separate Bash call)
+
+**Wrong patterns (never do these):**
+
+- `git -C /path/to/repo status`
+- `cd /path/to/repo && git status`
+- `cd /path/to/repo; git status`
+
 This applies everywhere — worktrees, submodules, any repo path.
-
-Never prefix Bash commands with `cd path &&` either.
-The permission system matches on the first token, so `cd` bypasses all allowed-command rules.
-
-- For git: `cd` into the repo first as a standalone command, then run `git` commands separately.
-- For everything else: use absolute paths (e.g., `ls /full/path` not `cd /full/path && ls`).
+For non-git commands, prefer absolute paths (`ls /full/path`) over `cd` + relative.
 
 ---
 
@@ -133,3 +144,30 @@ Use `/usr/bin/env` and single parameter in shebangs. Example:
 
 set -eu
 ```
+
+---
+
+For changes spanning more than 2-3 files, use plan mode first.
+Explore the codebase, present a roadmap, then execute.
+This prevents wasted context from trial-and-error edits.
+
+---
+
+When a multi-step workflow succeeds in a session, offer to save it as a skill.
+Don't wait for me to ask.
+
+---
+
+Run builds and test suites as background tasks when possible.
+Continue working while they run; check results when done.
+
+---
+
+When first entering a repo, check for a `CLAUDE.md` at its root.
+If there isn't one, prompt me to create it before doing anything else.
+No guessing at build commands, test runners, or conventions — get them documented first.
+
+---
+
+When writing YAML, only quote strings when the content requires it (e.g., special characters, reserved words, embedded colons).
+Prefer unquoted strings for cleaner, leaner files.

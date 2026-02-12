@@ -1,12 +1,15 @@
 {
   "permissions": {
     "allow": [
+      "Bash(cd:*)",
       "Bash(bundle exec pod install:*)",
       "Bash(bundle exec rspec:*)",
       "Bash(bundle exec rubocop:*)",
+      "Bash(bundle info:*)",
       "Bash(bundle install:*)",
       "Bash(cargo:*)",
       "Bash(command -v:*)",
+      "Bash(date:*)",
       "Bash(df:*)",
       "Bash(diff:*)",
       "Bash(du:*)",
@@ -48,13 +51,16 @@
       "Bash(type:*)",
       "Bash(uname:*)",
       "Bash(which:*)",
+      "Bash(xcbeautify:*)",
       "Bash(xcodebuild:*)",
       "Bash(xcrun simctl list devices available)",
       "Bash(xcrun xcresulttool:*)",
       "Bash(/opt/homebrew/bin/gh api repos:*)",
       "Bash(/opt/homebrew/bin/gh api search/issues:*)",
+      "Bash(/opt/homebrew/bin/gh auth status)",
       "Bash(/opt/homebrew/bin/gh issue list:*)",
       "Bash(/opt/homebrew/bin/gh issue view:*)",
+      "Bash(/opt/homebrew/bin/gh label list:*)",
       "Bash(/opt/homebrew/bin/gh pr checks:*)",
       "Bash(/opt/homebrew/bin/gh pr checkout:*)",
       "Bash(/opt/homebrew/bin/gh pr create:*)",
@@ -71,10 +77,8 @@
       "Edit",
       "Glob",
       "Grep",
-      "mcp__say__speak",
-      "mcp__buildkite__user_token_organization",
-      "mcp__buildkite__list_builds",
-      "mcp__buildkite__get_build",
+      "mcp__say__*",
+      "mcp__buildkite__*",
       "Read",
       "Task",
       "WebSearch",
@@ -85,6 +89,29 @@
     "ask": []
   },
   "hooks": {
+    "PermissionRequest": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$HOME/.claude/hooks/log-permission-request.sh",
+            "timeout": 5
+          }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$HOME/.claude/hooks/block-destructive.sh",
+            "timeout": 5
+          }
+        ]
+      }
+    ],
     "PostToolUse": [
       {
         "matcher": "Edit|Write",
@@ -93,6 +120,39 @@
             "type": "command",
             "command": "$HOME/.claude/hooks/rubocop-post-edit.sh",
             "timeout": 30
+          }
+        ]
+      }
+    ],
+    "Notification": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$HOME/.claude/hooks/iterm-tab-notify.sh",
+            "timeout": 5
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$HOME/.claude/hooks/verify-on-stop.sh",
+            "timeout": 120
+          }
+        ]
+      }
+    ],
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$HOME/.claude/hooks/iterm-tab-reset.sh",
+            "timeout": 5
           }
         ]
       }
