@@ -1,20 +1,37 @@
 {
   "permissions": {
     "allow": [
-      "Bash(cd *)",
       "Bash(bundle exec pod install *)",
       "Bash(bundle exec rspec *)",
       "Bash(bundle exec rubocop *)",
       "Bash(bundle info *)",
       "Bash(bundle install *)",
       "Bash(cargo *)",
+      "Bash(cd *)",
       "Bash(command -v *)",
       "Bash(date *)",
       "Bash(df *)",
       "Bash(diff *)",
       "Bash(du *)",
       "Bash(file *)",
-      "Bash(ln *)",
+      "Bash(gh api *)",
+      "Bash(gh auth status)",
+      "Bash(gh issue list *)",
+      "Bash(gh issue view *)",
+      "Bash(gh label list *)",
+      "Bash(gh pr checks *)",
+      "Bash(gh pr checkout *)",
+      "Bash(gh pr create *)",
+      "Bash(gh pr diff *)",
+      "Bash(gh pr list *)",
+      "Bash(gh pr merge *)",
+      "Bash(gh pr view *)",
+      "Bash(gh release list *)",
+      "Bash(gh release view *)",
+      "Bash(gh repo view *)",
+      "Bash(gh run list *)",
+      "Bash(gh run view *)",
+      "Bash(gh search prs *)",
       "Bash(git add *)",
       "Bash(git branch *)",
       "Bash(git check-ignore *)",
@@ -37,6 +54,8 @@
       "Bash(git switch *)",
       "Bash(git tag *)",
       "Bash(git worktree *)",
+      "Bash(launchctl list *)",
+      "Bash(ln *)",
       "Bash(make *)",
       "Bash(man *)",
       "Bash(mkdir *)",
@@ -56,66 +75,58 @@
       "Bash(xcodebuild *)",
       "Bash(xcrun simctl list devices available)",
       "Bash(xcrun xcresulttool *)",
-      "Bash(gh api *)",
-      "Bash(gh auth status)",
-      "Bash(gh issue list *)",
-      "Bash(gh issue view *)",
-      "Bash(gh label list *)",
-      "Bash(gh pr checks *)",
-      "Bash(gh pr checkout *)",
-      "Bash(gh pr create *)",
-      "Bash(gh pr diff *)",
-      "Bash(gh pr list *)",
-      "Bash(gh pr merge *)",
-      "Bash(gh pr view *)",
-      "Bash(gh run list *)",
-      "Bash(gh run view *)",
-      "Bash(gh release list *)",
-      "Bash(gh release view *)",
-      "Bash(gh repo view *)",
-      "Bash(gh search prs *)",
-      "Bash(launchctl list *)",
       "Edit",
       "Glob",
       "Grep",
-      "mcp__say__*",
-      "mcp__buildkite__*",
       "Read",
       "Task",
-      "WebSearch",
       "WebFetch",
-      "Write"
+      "WebSearch",
+      "Write",
+      "mcp__buildkite__*",
+      "mcp__say__*"
+    ],
+    "ask": [
+      "Bash(git branch -D *)",
+      "Bash(git checkout -- *)",
+      "Bash(git push * --delete *)",
+      "Bash(git push origin :*)",
+      "Bash(git reset --hard*)",
+      "Bash(git stash clear*)",
+      "Bash(git stash drop*)"
     ],
     "deny": [
+      "Bash(curl * | bash*)",
+      "Bash(curl * | sh*)",
+      "Bash(curl * | zsh*)",
       "Bash(find * -delete *)",
-      "Bash(rm *)"
-    ],
-    "ask": []
+      "Bash(git clean -f*)",
+      "Bash(git push * --force)",
+      "Bash(git push * --force-if-includes*)",
+      "Bash(git push * --force-with-lease*)",
+      "Bash(git push * -f)",
+      "Bash(rm *)",
+      "Bash(xargs rm *)"
+    ]
   },
   "hooks": {
+    "Notification": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$HOME/.claude/hooks/iterm-tab-notify.sh",
+            "timeout": 5
+          }
+        ]
+      }
+    ],
     "PermissionRequest": [
       {
         "hooks": [
           {
             "type": "command",
             "command": "$HOME/.claude/hooks/log-permission-request.sh",
-            "timeout": 5
-          }
-        ]
-      }
-    ],
-    "PreToolUse": [
-      {
-        "matcher": "Bash",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "$HOME/.claude/hooks/block-destructive.sh",
-            "timeout": 5
-          },
-          {
-            "type": "command",
-            "command": "$HOME/.claude/hooks/gh-api-guard.sh",
             "timeout": 5
           }
         ]
@@ -138,12 +149,18 @@
         ]
       }
     ],
-    "Notification": [
+    "PreToolUse": [
       {
+        "matcher": "Bash",
         "hooks": [
           {
             "type": "command",
-            "command": "$HOME/.claude/hooks/iterm-tab-notify.sh",
+            "command": "$HOME/.claude/hooks/block-destructive.sh",
+            "timeout": 5
+          },
+          {
+            "type": "command",
+            "command": "$HOME/.claude/hooks/gh-api-guard.sh",
             "timeout": 5
           }
         ]
@@ -182,8 +199,8 @@
     "command": "~/.claude/statusline.sh"
   },
   "enabledPlugins": {
-    "swift-lsp@claude-plugins-official": true,
-    "rust-analyzer-lsp@claude-plugins-official": true
+    "rust-analyzer-lsp@claude-plugins-official": true,
+    "swift-lsp@claude-plugins-official": true
   },
   "alwaysThinkingEnabled": true
 }
