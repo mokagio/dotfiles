@@ -27,6 +27,23 @@ alias gl='git pull'
 alias gch='git checkout'
 alias gch.='git checkout .'
 alias gch-='git checkout -'
+# Checkout that's worktree-aware: if the branch is already in a worktree,
+# cd there instead of failing.
+gco() {
+  local branch="$1"
+  shift
+  local wt_path
+  wt_path=$(git worktree list --porcelain | awk -v b="refs/heads/$branch" '
+    /^worktree /{ p=substr($0,10) } /^branch /{ if($2==b) print p }')
+  if [[ -n "$wt_path" ]]; then
+    echo "Branch '$branch' is in worktree: $wt_path"
+    cd "$wt_path"
+  else
+    git checkout "$@" "$branch"
+  fi
+}
+_gco() { compadd -- $(git branch --format='%(refname:short)' 2>/dev/null) }
+compdef _gco gco
 # These break the gch pattern, but I already have muscle memory for these shorted alternatives
 alias ghp='git checkout -p'
 alias gnb='git checkout -b'
