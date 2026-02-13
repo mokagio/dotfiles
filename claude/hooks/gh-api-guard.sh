@@ -1,0 +1,48 @@
+#!/usr/bin/env bash
+
+set -eu
+
+INPUT=$(cat)
+COMMAND=$(echo "$INPUT" | jq -r '.tool_input.command // empty')
+
+# Only inspect gh api calls (bare gh or full path)
+if ! echo "$COMMAND" | grep -qE '(^|\s|/)gh\s+api\b'; then
+  exit 0
+fi
+
+ask() {
+  jq -n --arg reason "$1" '{
+    hookSpecificOutput: {
+      hookEventName: "PreToolUse",
+      permissionDecision: "ask",
+      reason: $reason
+    }
+  }'
+  exit 0
+}
+
+# GraphQL: mutations are writes, queries are reads
+if echo "$COMMAND" | grep -qE '\bgraphql\b'; then
+  if echo "$COMMAND" | grep -qiE '\bmutation\b'; then
+    ask "gh api: GraphQL mutation detected"
+  fi
+  exit 0
+fi
+
+# Explicit write method (-X / --method)
+if echo "$COMMAND" | grep -qE -- '\s(-X|--method)\s+(POST|PUT|PATCH|DELETE)\b'; then
+  ask "gh api: explicit write method"
+fi
+
+# Field flags imply POST (-f / -F / --field / --raw-field)
+if echo "$COMMAND" | grep -qE -- '\s(-f|-F|--field|--raw-field)[ =]'; then
+  ask "gh api: field flags imply POST"
+fi
+
+# Body from file implies POST
+if echo "$COMMAND" | grep -qE -- '\s--input[ =]'; then
+  ask "gh api: --input implies POST"
+fi
+
+# No write signals — pass through to normal permission rules
+exit 0

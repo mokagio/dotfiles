@@ -8,6 +8,32 @@ If I'd wanted a cheerleader, I'd asked my Mum.
 
 ---
 
+**NEVER use `git -C <path>`** for any reason.
+**NEVER use `git --git-dir=<path>`** — it's the same workaround, same problem.
+**NEVER prefix Bash commands with `cd path &&` or `cd path;`.**
+**NEVER chain commands with `&&` or `;` after a `cd`.**
+
+The permission system matches on the first token of each Bash call.
+`git -C` and `git --git-dir` create unique permission prompts per path.
+`cd foo && git ...` makes the first token `cd`, bypassing all allowed-command rules.
+
+**Correct pattern — two separate Bash calls:**
+
+1. `cd /path/to/repo` (standalone Bash call)
+2. `git status` (separate Bash call)
+
+**Wrong patterns (never do these):**
+
+- `git -C /path/to/repo status`
+- `git --git-dir=/path/to/repo/.git status`
+- `cd /path/to/repo && git status`
+- `cd /path/to/repo; git status`
+
+This applies everywhere — worktrees, submodules, any repo path.
+For non-git commands, prefer absolute paths (`ls /full/path`) over `cd` + relative.
+
+---
+
 If I ask you to commit for me, first show me a preview of the message (this is just while I train you to write the way I like).
 
 The message should terminate with:
@@ -63,6 +89,9 @@ Update `CLAUDE.md` with rule for code fencing
 
 ---
 
+**NEVER amend commits** — create a new commit instead.
+Amending requires force-pushing, which is destructive and blocked by hooks.
+
 Commits should be **small and atomic** and so should be the way you approach changes.
 
 When doing mechanical migration work, commit each file migrated individually, unless there are dependencies.
@@ -90,6 +119,9 @@ Example: If a Ruby project has `.rubocop.yml` ensure the code you write matches 
 ---
 
 Always use Git worktrees for branch work — never work directly on the main branch.
+**Every new task gets its own worktree**, even if you're already inside one.
+A worktree is scoped to a single piece of work; unrelated changes must not land there.
+
 At the start of a feature, project, or plan, create a worktree.
 Once the work is merged or abandoned, remove it.
 
@@ -106,30 +138,9 @@ Place worktrees in a sibling `<repo>-worktrees/` folder:
 **Worktree Git Commands**
 
 - Create the worktree **before** making any changes — not after.
-
----
-
-**NEVER use `git -C <path>`** for any reason.
-**NEVER prefix Bash commands with `cd path &&` or `cd path;`.**
-**NEVER chain commands with `&&` or `;` after a `cd`.**
-
-The permission system matches on the first token of each Bash call.
-`git -C` creates a unique permission prompt per path.
-`cd foo && git ...` makes the first token `cd`, bypassing all allowed-command rules.
-
-**Correct pattern — two separate Bash calls:**
-
-1. `cd /path/to/repo` (standalone Bash call)
-2. `git status` (separate Bash call)
-
-**Wrong patterns (never do these):**
-
-- `git -C /path/to/repo status`
-- `cd /path/to/repo && git status`
-- `cd /path/to/repo; git status`
-
-This applies everywhere — worktrees, submodules, any repo path.
-For non-git commands, prefer absolute paths (`ls /full/path`) over `cd` + relative.
+- Always branch from an up-to-date default branch.
+  Discover the default branch yourself (`git remote show origin | grep 'HEAD branch'`), then fetch and use `origin/<default>` as the start point.
+- If you are currently inside a worktree for a different task, `cd` to the main checkout first, then create the new worktree from there.
 
 ---
 
@@ -167,3 +178,22 @@ No guessing at build commands, test runners, or conventions — get them documen
 
 When writing YAML, only quote strings when the content requires it (e.g., special characters, reserved words, embedded colons).
 Prefer unquoted strings for cleaner, leaner files.
+
+---
+
+When posting to GitHub using my account (PR comments, issue comments, reviews, etc.), always close with a note like:
+
+> *Posted by Claude (MODEL) on behalf of @mokagio with approval.*
+
+Replace `MODEL` with the model you are actually running as (e.g., Opus 4.6, Sonnet 4.5).
+This applies to any public-facing action taken through my identity.
+
+---
+
+Before wrapping up a session, review what you learned and log it:
+
+- **Your global memory** (`~/.claude/memory/`) — cross-project preferences, workflow patterns
+- **Your project memory** (`~/.claude/projects/<project>/memory/`) — repo-specific patterns
+- **`~/.gio/patterns.md`** — durable learnings that persist in my system, not just yours
+
+Skip if the session was trivial or nothing new came up.
