@@ -77,8 +77,8 @@ else
 fi
 
 if ! brew bundle; then
-  echo "⚠️  brew bundle finished with errors. Some formulae may not have installed."
-  echo "Run 'brew bundle' manually to retry."
+  echo "\033[1;31mbrew bundle finished with errors. Some formulae may not have installed.\033[0m"
+  echo "\033[1;31mRun 'brew bundle' manually to retry.\033[0m"
 fi
 # Some of the tools install via Homebrew might need additional manual steps.
 # It would be cool if this could be done as part of the Brefile run
@@ -111,13 +111,19 @@ else
   curl -fLo "$vim_plug_path" --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 fi
 
-# Install latest Ruby and  system wide gems
-# TODO: These can fail, too, and it's a pain that the setup fails with them
-latest_ruby=$(rbenv install -l | grep -v - | tail -1)
-rbenv install --skip-existing $latest_ruby
-rbenv global $latest_ruby
-gem install bundler
-bundle install --system
+# Install latest Ruby and system wide gems
+if command -v rbenv &>/dev/null; then
+  latest_ruby=$(rbenv install -l | grep -v - | tail -1)
+  rbenv install --skip-existing "$latest_ruby"
+  rbenv global "$latest_ruby"
+  gem install bundler
+  bundle config set path.system true
+  if ! bundle install; then
+    echo "\033[1;31mbundle install failed. Run it manually to retry.\033[0m"
+  fi
+else
+  echo "\033[1;31mrbenv not found, skipping Ruby setup.\033[0m"
+fi
 
 # Hammerspoon window manager
 # http://www.hammerspoon.org/
