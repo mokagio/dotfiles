@@ -2,6 +2,25 @@
 
 set -eu
 
+# Usage: setup.sh [--links-only | --ruby]
+#
+#   (no args)      Run everything: symlinks + all install steps
+#   --links-only   Only create symlinks and directories
+#   --ruby         Only run Ruby setup (rbenv install + bundle)
+
+mode=all
+for arg in "$@"; do
+  case "$arg" in
+    --links-only) mode=links ;;
+    --ruby)       mode=ruby ;;
+    *)
+      printf "Unknown option: %s\n" "$arg" >&2
+      printf "Usage: setup.sh [--links-only | --ruby]\n" >&2
+      exit 1
+      ;;
+  esac
+done
+
 # Symlink $1 to $2 if $2 doesn't already exist
 link() {
   if [[ -h "$2" ]]; then
@@ -11,6 +30,14 @@ link() {
     ln -s "$1" "$2"
   fi
 }
+
+pwd="$(cd "$(dirname "$0")" && pwd)"
+
+# ---------------------------------------------------------------------------
+# Symlinks and directories
+# ---------------------------------------------------------------------------
+
+if [[ "$mode" != "ruby" ]]; then
 
 dotfiles=(
   'editorconfig'
@@ -31,8 +58,6 @@ dotfiles=(
   'zshenv'
   'zshprompt'
 )
-
-pwd="$(cd "$(dirname "$0")" && pwd)"
 
 for dot in "${dotfiles[@]}"
 do
@@ -69,6 +94,34 @@ else
   echo "Could not find $neovim_init! Aborting."
   exit 1
 fi
+
+# Hammerspoon window manager
+# http://www.hammerspoon.org/
+mkdir -p ~/.hammerspoon
+link "$pwd/hammerspoon_init.lua" "$HOME/.hammerspoon/init.lua"
+
+# Claude Code
+mkdir -p ~/.claude
+for f in claude/settings.json claude/CLAUDE.md claude/statusline.sh; do
+  link "$pwd/$f" "$HOME/.${f}"
+done
+# AGENTS.md at XDG-standard location, included via @~/.config/agents/AGENTS.md
+mkdir -p ~/.config/agents
+link "$pwd/agents/AGENTS.md" "$HOME/.config/agents/AGENTS.md"
+link "$pwd/claude/hooks" "$HOME/.claude/hooks"
+
+fi # mode != ruby
+
+# --links-only stops here
+if [[ "$mode" == "links" ]]; then
+  exit 0
+fi
+
+# ---------------------------------------------------------------------------
+# Install steps (skipped by --links-only)
+# ---------------------------------------------------------------------------
+
+if [[ "$mode" == "all" ]]; then
 
 if ! brew bundle; then
   printf "\033[1;31mbrew bundle finished with errors. Some formulae may not have installed.\033[0m\n"
@@ -121,24 +174,6 @@ if command -v nvim &>/dev/null; then
   nvim --headless +PlugInstall +qall
 fi
 
-# Install latest Ruby and system wide gems
-if command -v rbenv &>/dev/null; then
-  latest_ruby=$(rbenv install -l | grep -v - | tail -1)
-  rbenv install --skip-existing "$latest_ruby"
-  rbenv global "$latest_ruby"
-  gem install bundler
-  if ! bundle install; then
-    printf "\033[1;31mbundle install failed. Run it manually to retry.\033[0m\n"
-  fi
-else
-  printf "\033[1;31mrbenv not found, skipping Ruby setup.\033[0m\n"
-fi
-
-# Hammerspoon window manager
-# http://www.hammerspoon.org/
-mkdir -p ~/.hammerspoon
-link "$pwd/hammerspoon_init.lua" "$HOME/.hammerspoon/init.lua"
-
 # Powerline fonts
 if ls "$HOME/Library/Fonts/"*owerline* &>/dev/null; then
   echo "Powerline fonts already installed, skipping"
@@ -152,20 +187,29 @@ else
   echo "Powerline fonts installed"
 fi
 
-# Claude Code
-mkdir -p ~/.claude
-for f in claude/settings.json claude/CLAUDE.md claude/statusline.sh; do
-  link "$pwd/$f" "$HOME/.${f}"
-done
-# AGENTS.md at XDG-standard location, included via @~/.config/agents/AGENTS.md
-mkdir -p ~/.config/agents
-link "$pwd/agents/AGENTS.md" "$HOME/.config/agents/AGENTS.md"
-link "$pwd/claude/hooks" "$HOME/.claude/hooks"
-
 # Automattic stuff
 #
 # pecl is a PHP extensions manager, xdebug is "an extension of PHP to assist
 # with debugging and development"
 if ! pecl install xdebug > /dev/null 2>&1; then
   printf "\033[1;31mpecl install xdebug failed. Run it manually to retry.\033[0m\n"
+fi
+
+fi # mode == all
+
+# ---------------------------------------------------------------------------
+# Ruby setup (runs for --ruby and default)
+# ---------------------------------------------------------------------------
+
+# Install latest Ruby and system wide gems
+if command -v rbenv &>/dev/null; then
+  latest_ruby=$(rbenv install -l | grep -v - | tail -1)
+  rbenv install --skip-existing "$latest_ruby"
+  rbenv global "$latest_ruby"
+  gem install bundler
+  if ! bundle install; then
+    printf "\033[1;31mbundle install failed. Run it manually to retry.\033[0m\n"
+  fi
+else
+  printf "\033[1;31mrbenv not found, skipping Ruby setup.\033[0m\n"
 fi
