@@ -19,6 +19,14 @@ call plug#end()
 " Native LSP
 lua vim.lsp.enable('ruby_lsp')
 
+" Show diagnostics as inline virtual text with source and error code
+lua vim.diagnostic.config({
+  \ virtual_text = { source = true, spacing = 2 },
+  \ signs = { text = { [1] = 'E', [2] = 'W', [3] = 'I', [4] = 'H' } },
+  \ underline = true,
+  \ severity_sort = true,
+  \ })
+
 " Theme — use NeoVim-native tokyonight config
 let g:tokyonight_style = 'night'
 let g:tokyonight_enable_italic = 1
