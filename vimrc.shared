@@ -106,9 +106,6 @@ let g:netrw_bufsettings = 'noma nomod nu nobl nowrap ro'
 filetype plugin on
 set omnifunc=syntaxcomplete#Complete
 
-" coc.nvim — disable suggestions for markdown
-autocmd FileType markdown let b:coc_suggest_disable = 1
-
 " vim-test mappings
 nmap <silent> t<C-n> :TestNearest<CR>
 nmap <silent> t<C-f> :TestFile<CR>

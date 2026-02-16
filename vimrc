@@ -36,6 +36,9 @@ autocmd FileType make setlocal noexpandtab
 " Vim-only plugin settings
 "
 
+" coc.nvim — disable suggestions for markdown
+autocmd FileType markdown let b:coc_suggest_disable = 1
+
 " ctrlp
 let g:ctrlp_map = '<c-p>'
 let g:ctrlp_cmd = 'CtrlP'

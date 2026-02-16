@@ -94,6 +94,8 @@ else
   echo "Could not find $neovim_init! Aborting."
   exit 1
 fi
+# Native LSP configs
+link "$pwd/nvim/lsp" "$neovim_root/lsp"
 
 # Hammerspoon window manager
 # http://www.hammerspoon.org/
