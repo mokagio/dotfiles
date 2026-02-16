@@ -20,7 +20,7 @@ brew 'rbenv'
 brew 'ruby-build'
 brew 'vim'
 brew 'neovim'
-brew 'node' # Is this necessary when using nvm?
+brew 'node' # Is this necessary when using fnm?
 brew 'yarn'
 brew 'python'
 brew 'shellcheck'

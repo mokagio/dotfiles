@@ -96,17 +96,13 @@ if [[ -d "$qlcolorcode_path" ]]; then
   xattr -cr "$qlcolorcode_path"
 fi
 
-# TODO: Have switched to fnm
-# Install nvm to manage Node's versions
-export NVM_DIR="$HOME/.nvm"
-if [[ -d "$NVM_DIR" ]]; then
-  echo "Looks like you have nvm already setup, skipping"
+# Install latest Node via fnm (installed via Brewfile)
+if command -v fnm &>/dev/null; then
+  eval "$(fnm env)"
+  fnm install --lts
+  echo "Node $(node --version) installed via fnm"
 else
-  curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.3/install.sh | bash
-  # Load nvm in the shell running this script in order to install Node with nvm
-  # next and avoid warning later on.
-  [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-  nvm install node
+  printf "\033[1;31mfnm not found, skipping Node setup.\033[0m\n"
 fi
 
 # Install Vim-Plug to manage Vim plugins
