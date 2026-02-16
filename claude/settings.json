@@ -32,6 +32,7 @@
       "Bash(gh run list *)",
       "Bash(gh run view *)",
       "Bash(gh search prs *)",
+      "Bash(grep *)",
       "Bash(git add *)",
       "Bash(git branch *)",
       "Bash(git check-ignore *)",
@@ -52,6 +53,7 @@
       "Bash(git stash *)",
       "Bash(git status *)",
       "Bash(git switch *)",
+      "Bash(git symbolic-ref *)",
       "Bash(git tag *)",
       "Bash(git worktree *)",
       "Bash(launchctl list *)",
@@ -86,15 +88,6 @@
       "mcp__buildkite__*",
       "mcp__say__*"
     ],
-    "ask": [
-      "Bash(git branch -D *)",
-      "Bash(git checkout -- *)",
-      "Bash(git push * --delete *)",
-      "Bash(git push origin :*)",
-      "Bash(git reset --hard*)",
-      "Bash(git stash clear*)",
-      "Bash(git stash drop*)"
-    ],
     "deny": [
       "Bash(curl * | bash*)",
       "Bash(curl * | sh*)",
@@ -107,6 +100,15 @@
       "Bash(git push * -f)",
       "Bash(rm *)",
       "Bash(xargs rm *)"
+    ],
+    "ask": [
+      "Bash(git branch -D *)",
+      "Bash(git checkout -- *)",
+      "Bash(git push * --delete *)",
+      "Bash(git push origin :*)",
+      "Bash(git reset --hard*)",
+      "Bash(git stash clear*)",
+      "Bash(git stash drop*)"
     ]
   },
   "hooks": {

@@ -1,3 +1,4 @@
 *.swp
 mjolnir/mjolnir
 .claude/settings.local.json
+.claude/CLAUDE.local.md
