@@ -19,7 +19,9 @@ Plug 'junegunn/fzf.vim'
 " create a link in the current note.
 "
 " Requires ripgrep, Python 3.5+, and of course fzf.
-Plug 'alok/notational-fzf-vim'
+if isdirectory(expand("$VIMWIKI_HOME/zettelkasten"))
+  Plug 'alok/notational-fzf-vim'
+endif
 
 " This syncs VimWiki to Git – Not working right now :/
 " Plug 'michal-h21/vimwiki-sync'
