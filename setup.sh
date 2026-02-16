@@ -149,10 +149,17 @@ else
 fi
 
 # Powerline fonts
-powerline_url="https://github.com/powerline/fonts#quick-installation"
-echo "You need to install Powerline fonts, to make the most of your terminal prompt and Vim."
-echo "I'm going to open the GitHub page for you: $powerline_url"
-open "$powerline_url"
+if ls "$HOME/Library/Fonts/"*owerline* &>/dev/null; then
+  echo "Powerline fonts already installed, skipping"
+else
+  echo "Installing Powerline fonts..."
+  powerline_tmp=$(mktemp -d)
+  git clone https://github.com/powerline/fonts.git --depth=1 "$powerline_tmp"
+  echo "Running Powerline font installer..."
+  "$powerline_tmp/install.sh"
+  rm -rf "$powerline_tmp"
+  echo "Powerline fonts installed"
+fi
 
 # Claude Code
 mkdir -p ~/.claude
