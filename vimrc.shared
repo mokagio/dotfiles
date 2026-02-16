@@ -188,13 +188,19 @@ command! CleanGiosLinks call CleanGiosLinks()
 " Both Vim and NeoVim call it after plug#end.
 function! ApplyTheme()
   if strftime("%H") < 7 || strftime("%H") >= 21
-    colorscheme nord
+    if !empty(globpath(&rtp, 'colors/nord.vim'))
+      colorscheme nord
+    endif
   else
     if system("defaults read -g AppleInterfaceStyle") == "Dark\n"
-      colorscheme tokyonight
+      if !empty(globpath(&rtp, 'colors/tokyonight.vim'))
+        colorscheme tokyonight
+      endif
     else
-      let ayucolor="light"
-      colorscheme ayu
+      if !empty(globpath(&rtp, 'colors/ayu.vim'))
+        let ayucolor="light"
+        colorscheme ayu
+      endif
     endif
   endif
 endfunction

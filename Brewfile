@@ -19,6 +19,7 @@ brew 'git'
 brew 'rbenv'
 brew 'ruby-build'
 brew 'vim'
+brew 'neovim'
 brew 'node' # Is this necessary when using nvm?
 brew 'yarn'
 brew 'python'
