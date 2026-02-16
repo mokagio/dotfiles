@@ -77,8 +77,8 @@ else
 fi
 
 if ! brew bundle; then
-  echo "\033[1;31mbrew bundle finished with errors. Some formulae may not have installed.\033[0m"
-  echo "\033[1;31mRun 'brew bundle' manually to retry.\033[0m"
+  printf "\033[1;31mbrew bundle finished with errors. Some formulae may not have installed.\033[0m\n"
+  printf "\033[1;31mRun 'brew bundle' manually to retry.\033[0m\n"
 fi
 # Some of the tools install via Homebrew might need additional manual steps.
 # It would be cool if this could be done as part of the Brefile run
@@ -119,17 +119,22 @@ if command -v rbenv &>/dev/null; then
   gem install bundler
   bundle config set path.system true
   if ! bundle install; then
-    echo "\033[1;31mbundle install failed. Run it manually to retry.\033[0m"
+    printf "\033[1;31mbundle install failed. Run it manually to retry.\033[0m\n"
   fi
 else
-  echo "\033[1;31mrbenv not found, skipping Ruby setup.\033[0m"
+  printf "\033[1;31mrbenv not found, skipping Ruby setup.\033[0m\n"
 fi
 
 # Hammerspoon window manager
 # http://www.hammerspoon.org/
 mkdir -p ~/.hammerspoon
-# TODO: Add check for file existing already
-ln -s "$pwd/hammerspoon_init.lua" ~/.hammerspoon/init.lua
+destination="$HOME/.hammerspoon/init.lua"
+if [[ -h "$destination" ]]; then
+  echo "$destination exists already, skipping"
+else
+  echo "Will run: ln -s $pwd/hammerspoon_init.lua $destination"
+  ln -s "$pwd/hammerspoon_init.lua" "$destination"
+fi
 
 # Powerline fonts
 powerline_url="https://github.com/powerline/fonts#quick-installation"
