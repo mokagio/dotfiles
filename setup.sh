@@ -2,6 +2,16 @@
 
 set -eu
 
+# Symlink $1 to $2 if $2 doesn't already exist
+link() {
+  if [[ -h "$2" ]]; then
+    echo "$2 exists already, skipping"
+  else
+    echo "Will run: ln -s $1 $2"
+    ln -s "$1" "$2"
+  fi
+}
+
 dotfiles=(
   'editorconfig'
   'gemrc'
@@ -28,12 +38,7 @@ for dot in "${dotfiles[@]}"
 do
   destination="$HOME/.$dot"
 
-  if [[ -h "$destination" ]]; then
-    echo "$destination exists already, skipping"
-  else
-    echo "Will run: ln -s $pwd/$dot $HOME/.$dot"
-    ln -s "$pwd/$dot" "$HOME/.$dot"
-  fi
+  link "$pwd/$dot" "$destination"
 done
 
 # Link Vim spellfile.
@@ -47,13 +52,7 @@ if [[ -f $vim_spell_path ]]; then
   # fail with "No such file or directory". Why does ~ work above but not here?
   # Is it because there's nested folders in this destination path?
   destination="$HOME/.vim/spell/custom-spell.utf-8.add"
-  # TODO: This logic is duplicated from above. Extract it in a function
-  if [[ -h $destination ]]; then
-    echo "$destination exists already, skipping"
-  else
-    echo "Will run: ln -s $vim_spell_path $destination"
-    ln -s "$vim_spell_path" "$destination"
-  fi
+  link "$vim_spell_path" "$destination"
 else
   echo "Could not find $vim_spell_path! Aborting."
   exit 1
@@ -65,12 +64,7 @@ neovim_init="$pwd/neovim_init.vim"
 mkdir -p "$neovim_root"
 if [[ -f $neovim_init ]]; then
   destination="$neovim_root/init.vim"
-  if [[ -h $destination ]]; then
-    echo "$destination exists already, skipping."
-  else
-    echo "Will run: ln -s $neovim_init $destination"
-    ln -s "$neovim_init" "$destination"
-  fi
+  link "$neovim_init" "$destination"
 else
   echo "Could not find $neovim_init! Aborting."
   exit 1
@@ -143,13 +137,7 @@ fi
 # Hammerspoon window manager
 # http://www.hammerspoon.org/
 mkdir -p ~/.hammerspoon
-destination="$HOME/.hammerspoon/init.lua"
-if [[ -h "$destination" ]]; then
-  echo "$destination exists already, skipping"
-else
-  echo "Will run: ln -s $pwd/hammerspoon_init.lua $destination"
-  ln -s "$pwd/hammerspoon_init.lua" "$destination"
-fi
+link "$pwd/hammerspoon_init.lua" "$HOME/.hammerspoon/init.lua"
 
 # Powerline fonts
 if ls "$HOME/Library/Fonts/"*owerline* &>/dev/null; then
@@ -167,20 +155,9 @@ fi
 # Claude Code
 mkdir -p ~/.claude
 for f in claude/settings.json claude/CLAUDE.md claude/statusline.sh; do
-  destination="$HOME/.${f}"
-  if [[ -h "$destination" ]]; then
-    echo "$destination exists already, skipping"
-  else
-    echo "Will run: ln -s $pwd/$f $destination"
-    ln -s "$pwd/$f" "$destination"
-  fi
+  link "$pwd/$f" "$HOME/.${f}"
 done
-if [[ -h "$HOME/.claude/hooks" ]]; then
-  echo "$HOME/.claude/hooks exists already, skipping"
-else
-  echo "Will run: ln -s $pwd/claude/hooks $HOME/.claude/hooks"
-  ln -s "$pwd/claude/hooks" "$HOME/.claude/hooks"
-fi
+link "$pwd/claude/hooks" "$HOME/.claude/hooks"
 
 # Automattic stuff
 #
