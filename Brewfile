@@ -1,35 +1,44 @@
 #
-# This Brewfile contains only the *must have* programs and apps. Everything
-# that isn't a must is commented, so you can remember about it, but don't have
-# to spend time installing it.
+# This Brewfile contains only the *must have* programs and apps.
+# Everything that isn't a must is commented, so you can
+# remember about it, but don't have to spend time
+# installing it.
 #
 
 # The shell of choice. This is actually the default in macOS 10.15, but it
-# doesn't hurt dto install it with Homebrew, does it?
+# doesn't hurt to install it with Homebrew, does it?
 brew 'zsh'
 # Zsh package manager
 brew 'antigen'
 # Shell tools
+#
+# Custom promt
 brew 'starship'
+# Fast folder jump - Replaces autojump
 brew 'zoxide'
+# Fast node version manager - Replaces nvm
 brew 'fnm'
+# Multipurpose version manager
+# TODO: Need to consider whether to go all in on this instead of dedicated managers
 brew 'mise'
 brew 'git'
-# ruby version manager
+# Ruby version manager
 brew 'rbenv'
 brew 'ruby-build'
 brew 'vim'
 brew 'neovim'
-brew 'node' # Is this necessary when using fnm?
+brew 'node' # TODO: Is this necessary when using fnm?
 brew 'yarn'
 brew 'python'
 brew 'shellcheck'
 brew 'lua'
-# hub is a tool to work with GitHub from the command line
-brew 'hub'
+# GitHub CLI
 # this is actually called via `gh` and is _another_ tool to work with GitHub
 # from the command line
 brew 'github/gh/gh'
+# Older GitHub CLI that some of the tooling still uses
+# TODO: verify the above and remove if not true
+brew 'hub'
 # EditorConfig is a tool to keep coding styles consistent across IDEs
 brew 'editorconfig'
 # send user notifcations from the terminal
@@ -44,7 +53,7 @@ brew 'bat'
 # GitHub shows "Verified") and PIN entry to make unlocking easier
 brew 'pinentry-mac'
 brew 'gpg'
-# Tool that takes any text as input and interactively fuzzy search through it
+# Takes any text as input and interactively fuzzy search through it
 brew 'fzf'
 # Another search tool, but optimized for searching through code fast
 brew 'the_silver_searcher'
@@ -55,6 +64,7 @@ brew 'watch'
 # Internet file retriever
 brew 'wget'
 # RAR archiver (`rar`) and unarchiver (`unrar`)
+# FIXME: This can no longer be found
 brew 'rar'
 # macOS doesn't have a built-in version of `tree`
 brew 'tree'
@@ -62,11 +72,6 @@ brew 'tree'
 brew 'mint'
 # Git visualizer useful to look through diffs
 brew 'tig'
-
-# Stuff I need for Automattic
-brew 'php'
-brew 'composer'
-brew 'git-crypt'
 # This containts GNU core utilities, among which there's realpath whic is used
 # in some pre-commit hooks
 brew 'coreutils'
@@ -75,14 +80,19 @@ brew 'jq'
 brew 'imagemagick'
 # Tool to manage and create Android App Bundles
 brew 'bundletool'
-# Sentry is a mobile monitoring tool
-brew 'getsentry/tools/sentry-cli'
+brew 'awscli'
 cask 'android-studio'
-cask 'zoom'
 # Some simple or demo apps run on Heroku
 tap 'heroku/brew'
 brew 'heroku'
-brew 'awscli'
+
+# Stuff I need for Automattic
+brew 'php'
+brew 'composer'
+brew 'git-crypt'
+# Sentry is a mobile monitoring tool
+brew 'getsentry/tools/sentry-cli'
+cask 'zoom'
 # Unfortunately, this is a must have as an app, because "Cmd ." doesn't work in
 # the browser
 cask 'slack'
@@ -97,7 +107,7 @@ cask 'alfred'
 # Window manager configurable via a script
 cask 'hammerspoon'
 # change the screen temperature according to the time of the day
-cask 'flux'
+cask 'flux-app'
 # GTD task manager
 cask 'omnifocus'
 cask 'dropbox'
@@ -109,8 +119,6 @@ cask 'vlc'
 cask 'visual-studio-code'
 # Tool to remap keys in the macOS keyboard
 cask 'karabiner-elements'
-# IM clients
-cask 'signal'
 
 brew 'mas'
 mas 'Tadam', id: 531349534
@@ -146,15 +154,10 @@ cask 'rescuetime'
 #brew 'leiningen'
 # some lldb functions to help debugging from the Xcode console
 #brew 'chisel'
-#cask 'skype'
-# IDE to replace Xcode, with powerful refactoring tools
-#cask 'appcode'
 # an app that inspects Xcode's projects and highlights issues and possible optimizations
 #cask 'fauxpas'
 # offline documentation browser
 #cask 'dash'
-# tool to remap keys, I use it to map Caps Lock to Delete, in Colemak style
-#cask 'seil'
 # Nintendo 64 emulator
 #cask 'sixtyforce'
 #cask 'java'
