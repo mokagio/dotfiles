@@ -42,8 +42,10 @@ gco() {
     git checkout "$@" "$branch"
   fi
 }
-_gco() { compadd -- $(git branch --format='%(refname:short)' 2>/dev/null) }
-compdef _gco gco
+_gco_branches() {
+  reply=(${(f)"$(git branch --format='%(refname:short)' 2>/dev/null)"})
+}
+compctl -K _gco_branches gco
 # These break the gch pattern, but I already have muscle memory for these shorted alternatives
 alias ghp='git checkout -p'
 alias gnb='git checkout -b'
