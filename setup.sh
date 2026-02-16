@@ -157,6 +157,9 @@ mkdir -p ~/.claude
 for f in claude/settings.json claude/CLAUDE.md claude/statusline.sh; do
   link "$pwd/$f" "$HOME/.${f}"
 done
+# AGENTS.md at XDG-standard location, included via @~/.config/agents/AGENTS.md
+mkdir -p ~/.config/agents
+link "$pwd/agents/AGENTS.md" "$HOME/.config/agents/AGENTS.md"
 link "$pwd/claude/hooks" "$HOME/.claude/hooks"
 
 # Automattic stuff
