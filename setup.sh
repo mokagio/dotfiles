@@ -2,20 +2,20 @@
 
 set -eu
 
-# Usage: setup.sh [--links-only | --ruby]
+# Usage: setup.sh [--links-only | --ruby-only]
 #
 #   (no args)      Run everything: symlinks + all install steps
 #   --links-only   Only create symlinks and directories
-#   --ruby         Only run Ruby setup (rbenv install + bundle)
+#   --ruby-only    Only run Ruby setup (rbenv install + bundle)
 
 mode=all
 for arg in "$@"; do
   case "$arg" in
     --links-only) mode=links ;;
-    --ruby)       mode=ruby ;;
+    --ruby-only)  mode=ruby ;;
     *)
       printf "Unknown option: %s\n" "$arg" >&2
-      printf "Usage: setup.sh [--links-only | --ruby]\n" >&2
+      printf "Usage: setup.sh [--links-only | --ruby-only]\n" >&2
       exit 1
       ;;
   esac
