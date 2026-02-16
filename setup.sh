@@ -169,4 +169,6 @@ fi
 #
 # pecl is a PHP extensions manager, xdebug is "an extension of PHP to assist
 # with debugging and development"
-pecl install xdebug
+if ! pecl install xdebug > /dev/null 2>&1; then
+  printf "\033[1;31mpecl install xdebug failed. Run it manually to retry.\033[0m\n"
+fi
