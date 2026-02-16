@@ -1,0 +1,1 @@
+- To fix: Looks like running the setup script (or the Git checkout?) result in a recursive `bin/bin/bin/...` symlink
