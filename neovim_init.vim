@@ -16,6 +16,9 @@ Plug 'sainnhe/everforest'
 
 call plug#end()
 
+" Native LSP
+lua vim.lsp.enable('ruby_lsp')
+
 " Theme — use NeoVim-native tokyonight config
 let g:tokyonight_style = 'night'
 let g:tokyonight_enable_italic = 1

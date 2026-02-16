@@ -69,6 +69,8 @@ else
   echo "Could not find $neovim_init! Aborting."
   exit 1
 fi
+# Native LSP configs
+link "$pwd/nvim/lsp" "$neovim_root/lsp"
 
 if ! brew bundle; then
   printf "\033[1;31mbrew bundle finished with errors. Some formulae may not have installed.\033[0m\n"
