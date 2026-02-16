@@ -80,14 +80,21 @@ if ! brew bundle; then
   printf "\033[1;31mbrew bundle finished with errors. Some formulae may not have installed.\033[0m\n"
   printf "\033[1;31mRun 'brew bundle' manually to retry.\033[0m\n"
 fi
-# Some of the tools install via Homebrew might need additional manual steps.
-# It would be cool if this could be done as part of the Brefile run
+# Some of the tools installed via Homebrew might need additional manual steps.
 #
 # Install fzf useful keybindings and fuzzy completion for ZSH
-[[ -f ~/.fzf.zsh ]] || "$(brew --prefix)/opt/fzf/install"
+if [[ ! -f ~/.fzf.zsh ]] && command -v brew &>/dev/null; then
+  fzf_install="$(brew --prefix)/opt/fzf/install"
+  if [[ -f "$fzf_install" ]]; then
+    "$fzf_install"
+  fi
+fi
 # Bypass gatekeeper for QLColorCode
 # https://github.com/anthonygelibert/QLColorCode/issues/84
-xattr -cr ~/Library/QuickLook/QLColorCode.qlgenerator
+qlcolorcode_path="$HOME/Library/QuickLook/QLColorCode.qlgenerator"
+if [[ -d "$qlcolorcode_path" ]]; then
+  xattr -cr "$qlcolorcode_path"
+fi
 
 # TODO: Have switched to fnm
 # Install nvm to manage Node's versions
