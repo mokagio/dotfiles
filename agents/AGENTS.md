@@ -34,8 +34,6 @@ For non-git commands, prefer absolute paths (`ls /full/path`) over `cd` + relati
 
 ---
 
-If I ask you to commit for me, first show me a preview of the message (this is just while I train you to write the way I like).
-
 The message should terminate with:
 
 ```
@@ -52,8 +50,9 @@ Replace `MODEL` with the model used to write the code.
 **Commit message style**:
 
 - The title describes *what* the change does — keep it sufficient on its own.
-- Only add a body if there's a *why* that isn't obvious from the title.
-- If the why isn't obvious, ask me rather than guessing.
+- If there's a *why* that isn't absolutely obvious from the title, elaborate it in the body.
+- Use the body to track rationale for the change and other conversation details.
+- If the why isn't obvious to you, ask me rather than guessing.
 - Never repeat the "what" in the body; the diff covers that.
 - Titles must stay within the recommended 50 characters.
   Drop backtick fencing from the title if needed to fit.
