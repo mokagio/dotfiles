@@ -78,8 +78,6 @@ brew 'bundletool'
 brew 'getsentry/tools/sentry-cli'
 cask 'android-studio'
 cask 'zoom'
-# "The simplest way to keep notes"
-cask 'simplenote'
 # Some simple or demo apps run on Heroku
 tap 'heroku/brew'
 brew 'heroku'
@@ -114,10 +112,7 @@ cask 'karabiner-elements'
 cask 'signal'
 
 brew 'mas'
-mas 'Spark', id: 1176895641
-# mas '1Password', id: 1333542190 –This will install the legacy v7. Where's v8?
 mas 'Tadam', id: 531349534
-mas 'Toggl', id: 957734279
 # Not the sleekies GIF recorder, but has great features such as text annotation
 # and export to MP4
 mas 'GIF Brewery 3 by Gfycat', id: 1081413713
