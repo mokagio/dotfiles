@@ -117,7 +117,6 @@ if command -v rbenv &>/dev/null; then
   rbenv install --skip-existing "$latest_ruby"
   rbenv global "$latest_ruby"
   gem install bundler
-  bundle config set path.system true
   if ! bundle install; then
     printf "\033[1;31mbundle install failed. Run it manually to retry.\033[0m\n"
   fi
