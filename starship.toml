@@ -56,3 +56,6 @@ disabled = true
 
 [java]
 disabled = true
+
+[lua]
+disabled = true
