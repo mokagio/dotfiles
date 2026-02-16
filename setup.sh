@@ -104,11 +104,18 @@ fi
 
 # Install Vim-Plug to manage Vim plugins
 # See https://github.com/junegunn/vim-plug/tree/c3b6b7c2971da730d66f6955d5c467db8dae536b#vim
+plug_url="https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim"
 vim_plug_path="$HOME/.vim/autoload/plug.vim"
 if [[ -f "$vim_plug_path" ]]; then
-  echo "Looks like you already have Vim-Plug installed, skipping"
+  echo "Looks like you already have Vim-Plug installed for Vim, skipping"
 else
-  curl -fLo "$vim_plug_path" --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+  curl -fLo "$vim_plug_path" --create-dirs "$plug_url"
+fi
+nvim_plug_path="$HOME/.local/share/nvim/site/autoload/plug.vim"
+if [[ -f "$nvim_plug_path" ]]; then
+  echo "Looks like you already have Vim-Plug installed for Neovim, skipping"
+else
+  curl -fLo "$nvim_plug_path" --create-dirs "$plug_url"
 fi
 
 # Install Vim and Neovim plugins
