@@ -52,8 +52,10 @@ else
 endif
 
 " Notational-FZF-Vim settings
-let g:nv_search_paths = [ "$VIMWIKI_HOME/zettelkasten" ]
-
-" Sync VimWiki / Zettelkasten slipbox to Git
-let g:zettel_dir = $VIMWIKI_HOME
+if isdirectory(expand("$VIMWIKI_HOME/zettelkasten"))
+  let g:nv_search_paths = [ "$VIMWIKI_HOME/zettelkasten" ]
+  let g:zettel_dir = $VIMWIKI_HOME
+else
+  echom "VIMWIKI_HOME/zettelkasten not found — notational-fzf and vim-zettel disabled"
+endif
 let g:zettel_synced = 0
