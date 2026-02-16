@@ -44,7 +44,9 @@ else
 fi
 
 # Starship prompt (replaces spaceship-prompt)
-eval "$(starship init zsh)"
+if command -v starship &>/dev/null; then
+  eval "$(starship init zsh)"
+fi
 
 # Use vim keybindings
 bindkey -v
@@ -56,8 +58,10 @@ zle -N edit-command-line
 bindkey -M vicmd v edit-command-line
 
 # zoxide — smarter cd
-eval "$(zoxide init zsh)"
-alias j=z
+if command -v zoxide &>/dev/null; then
+  eval "$(zoxide init zsh)"
+  alias j=z
+fi
 
 # Turn off autocorrect for some commands
 # See http://yountlabs.com/blog/2010/11/06/disable-autocorrect-in-zsh/
@@ -79,7 +83,9 @@ alias hideFiles='defaults write com.apple.finder AppleShowAllFiles NO; killall F
 test -e ${HOME}/.iterm2_shell_integration.zsh && source ${HOME}/.iterm2_shell_integration.zsh
 
 # Ruby environment management setup
-eval "$(rbenv init -)"
+if command -v rbenv &>/dev/null; then
+  eval "$(rbenv init -)"
+fi
 
 if which swiftenv > /dev/null; then eval "$(swiftenv init -)"; fi
 
@@ -91,7 +97,9 @@ if gem which lunchy &> /dev/null; then
 fi
 
 # fnm — fast Node version manager (replaces nvm)
-eval "$(fnm env --use-on-cd)"
+if command -v fnm &>/dev/null; then
+  eval "$(fnm env --use-on-cd)"
+fi
 
 # Convert an input `.md` file to HTML and paste it to the clipboard.
 # I use this everytime I work on a newsletter or other text content to paste
@@ -210,8 +218,13 @@ export HOMEBREW_NO_AUTO_UPDATE=1
 # Could replace rbenv and fnm too, since it reads .ruby-version, .nvmrc, etc.
 # Tradeoff: one tool for everything vs purpose-built tools per language.
 # Sticking with rbenv (Ruby) and fnm (Node) for now — both are mature and fast.
-eval "$(/Users/gio/.local/bin/mise activate zsh)"
+if command -v mise &>/dev/null; then
+  eval "$(mise activate zsh)"
+fi
 
 # Added by LM Studio CLI (lms)
 export PATH="$PATH:/Users/gio/.lmstudio/bin"
 # End of LM Studio CLI section
+
+# For Claude Code
+export PATH="$HOME/.local/bin:$PATH"

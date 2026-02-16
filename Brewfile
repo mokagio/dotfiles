@@ -9,6 +9,11 @@
 brew 'zsh'
 # Zsh package manager
 brew 'antigen'
+# Shell tools
+brew 'starship'
+brew 'zoxide'
+brew 'fnm'
+brew 'mise'
 brew 'git'
 # ruby version manager
 brew 'rbenv'

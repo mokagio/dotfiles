@@ -128,7 +128,7 @@ export PATH="$PATH:$DOTFILES_HOME/scripts"
 export PATH="$PATH:/opt/cloud66/bin"
 
 # Cargo is Rust's dependency manager and library builder
-. "$HOME/.cargo/env"
+[[ -f "$HOME/.cargo/env" ]] && . "$HOME/.cargo/env"
 
 # Automattic stuff
 # See
