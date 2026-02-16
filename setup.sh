@@ -76,8 +76,10 @@ else
   exit 1
 fi
 
-# TODO: This might fail because of outdated tools. Trap errors and continue?
-brew bundle
+if ! brew bundle; then
+  echo "⚠️  brew bundle finished with errors. Some formulae may not have installed."
+  echo "Run 'brew bundle' manually to retry."
+fi
 # Some of the tools install via Homebrew might need additional manual steps.
 # It would be cool if this could be done as part of the Brefile run
 #
