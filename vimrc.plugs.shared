@@ -5,9 +5,6 @@
 " Only include plugins that work in both editors.
 "
 
-" Incremental autocompletion
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
-
 " AI code suggestions
 Plug 'github/copilot.vim'
 

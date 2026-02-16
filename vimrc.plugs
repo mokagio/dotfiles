@@ -8,6 +8,9 @@
 " Load shared plugins first
 source $DOTFILES_HOME/vimrc.plugs.shared
 
+" Incremental autocompletion (Vim-only; NeoVim uses native LSP)
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+
 " Explore filesystem and open files and directories
 Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
 " Show git info in NerdTree
