@@ -74,6 +74,7 @@ else
   exit 1
 fi
 
+# TODO: This might fail because of outdated tools. Trap errors and continue?
 brew bundle
 # Some of the tools install via Homebrew might need additional manual steps.
 # It would be cool if this could be done as part of the Brefile run
@@ -84,6 +85,7 @@ brew bundle
 # https://github.com/anthonygelibert/QLColorCode/issues/84
 xattr -cr ~/Library/QuickLook/QLColorCode.qlgenerator
 
+# TODO: Have switched to fnm
 # Install nvm to manage Node's versions
 export NVM_DIR="$HOME/.nvm"
 if [[ -d "$NVM_DIR" ]]; then
@@ -106,6 +108,7 @@ else
 fi
 
 # Install latest Ruby and  system wide gems
+# TODO: These can fail, too, and it's a pain that the setup fails with them
 latest_ruby=$(rbenv install -l | grep -v - | tail -1)
 rbenv install --skip-existing $latest_ruby
 rbenv global $latest_ruby
@@ -115,6 +118,7 @@ bundle install --system
 # Hammerspoon window manager
 # http://www.hammerspoon.org/
 mkdir -p ~/.hammerspoon
+# TODO: Add check for file existing already
 ln -s "$pwd/hammerspoon_init.lua" ~/.hammerspoon/init.lua
 
 # Powerline fonts
