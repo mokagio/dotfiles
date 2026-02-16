@@ -32,7 +32,7 @@ dotfiles=(
   'zshprompt'
 )
 
-pwd=$(pwd)
+pwd="$(cd "$(dirname "$0")" && pwd)"
 
 for dot in "${dotfiles[@]}"
 do
