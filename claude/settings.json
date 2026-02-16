@@ -17,6 +17,7 @@
       "Bash(ln:*)",
       "Bash(git add:*)",
       "Bash(git branch:*)",
+      "Bash(git check-ignore *)",
       "Bash(git cherry-pick:*)",
       "Bash(git clone:*)",
       "Bash(git commit:*)",
