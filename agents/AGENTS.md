@@ -8,28 +8,27 @@ If I'd wanted a cheerleader, I'd asked my Mum.
 
 ---
 
-**NEVER use `git -C <path>`** for any reason.
-**NEVER use `git --git-dir=<path>`** — it's the same workaround, same problem.
+**NEVER use `git --git-dir=<path>`** — it bypasses permission rules.
 **NEVER prefix Bash commands with `cd path &&` or `cd path;`.**
 **NEVER chain commands with `&&` or `;` after a `cd`.**
 
 The permission system matches on the first token of each Bash call.
-`git -C` and `git --git-dir` create unique permission prompts per path.
+`git --git-dir` creates unique permission prompts per path.
 `cd foo && git ...` makes the first token `cd`, bypassing all allowed-command rules.
 
-**Correct pattern — two separate Bash calls:**
+`git -C <path>` is fine — permission rules cover it.
 
-1. `cd /path/to/repo` (standalone Bash call)
-2. `git status` (separate Bash call)
+**Correct patterns:**
+
+- `git -C /path/to/repo status` (single Bash call)
+- `cd /path/to/repo` then `git status` (two separate Bash calls)
 
 **Wrong patterns (never do these):**
 
-- `git -C /path/to/repo status`
 - `git --git-dir=/path/to/repo/.git status`
 - `cd /path/to/repo && git status`
 - `cd /path/to/repo; git status`
 
-This applies everywhere — worktrees, submodules, any repo path.
 For non-git commands, prefer absolute paths (`ls /full/path`) over `cd` + relative.
 
 ---
