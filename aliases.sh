@@ -31,8 +31,6 @@ alias xbo='open -a /Applications/Xcode-beta.app .'
 alias aco='open -a AppCode .'
 alias rmd='rm -rf DerviedData'
 
-alias pii='nocorrect pod install'
-alias pi='nocorrect pod install && xco'
 # --repo-update is useful to avoid the occasional resolution dependency failure
 # in my "day" job at Automattic
 alias bpi='bundle exec pod install'
