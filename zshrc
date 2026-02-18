@@ -226,5 +226,9 @@ fi
 export PATH="$PATH:/Users/gio/.lmstudio/bin"
 # End of LM Studio CLI section
 
+# GPG needs to know which terminal to use for passphrase prompts.
+# Set in .zshrc (not .zshenv) because tty fails in non-interactive shells.
+export GPG_TTY=$(tty)
+
 # For Claude Code
 export PATH="$HOME/.local/bin:$PATH"
