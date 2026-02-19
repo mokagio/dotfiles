@@ -51,7 +51,8 @@ pwd="$(cd "$(dirname "$0")" && pwd)"
 
 if $do_links; then
 
-echo "==> Setting up symlinks"
+printf '\033[1;36m==> %s\033[0m\n' "Setting up symlinks"
+printf '\033[2m'
 
 dotfiles=(
   'editorconfig'
@@ -134,6 +135,7 @@ for skill in "$pwd"/agents/skills/*/; do
   skill_name="$(basename "$skill")"
   link "$skill" "$HOME/.claude/skills/$skill_name"
 done
+printf '\033[0m'
 
 fi # do_links
 
@@ -143,7 +145,8 @@ fi # do_links
 
 if $do_install; then
 
-echo "==> Installing tools"
+echo ""
+printf '\033[1;36m==> %s\033[0m\n' "Installing tools"
 
 if ! brew bundle; then
   printf "\033[1;31mbrew bundle finished with errors. Some formulae may not have installed.\033[0m\n"
@@ -225,7 +228,8 @@ fi # do_install
 
 if $do_ruby; then
 
-echo "==> Setting up Ruby"
+echo ""
+printf '\033[1;36m==> %s\033[0m\n' "Setting up Ruby"
 
 # Install latest Ruby and system wide gems
 if command -v rbenv &>/dev/null; then
