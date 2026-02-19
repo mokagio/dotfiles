@@ -2,24 +2,36 @@
 
 set -eu
 
-# Usage: setup.sh [--links-only | --ruby-only]
+# Usage: setup.sh [--links-only] [--ruby-only]
 #
 #   (no args)      Run everything: symlinks + all install steps
 #   --links-only   Only create symlinks and directories
 #   --ruby-only    Only run Ruby setup (rbenv install + bundle)
+#
+# Flags can be combined: --links-only --ruby-only runs both but skips
+# the heavy install steps (Homebrew, Node, Vim plugins, etc.).
 
-mode=all
-for arg in "$@"; do
-  case "$arg" in
-    --links-only) mode=links ;;
-    --ruby-only)  mode=ruby ;;
-    *)
-      printf "Unknown option: %s\n" "$arg" >&2
-      printf "Usage: setup.sh [--links-only | --ruby-only]\n" >&2
-      exit 1
-      ;;
-  esac
-done
+do_links=false
+do_install=false
+do_ruby=false
+
+if [[ $# -eq 0 ]]; then
+  do_links=true
+  do_install=true
+  do_ruby=true
+else
+  for arg in "$@"; do
+    case "$arg" in
+      --links-only) do_links=true ;;
+      --ruby-only)  do_ruby=true ;;
+      *)
+        printf "Unknown option: %s\n" "$arg" >&2
+        printf "Usage: setup.sh [--links-only] [--ruby-only]\n" >&2
+        exit 1
+        ;;
+    esac
+  done
+fi
 
 # Symlink $1 to $2 if $2 doesn't already exist
 link() {
@@ -37,7 +49,7 @@ pwd="$(cd "$(dirname "$0")" && pwd)"
 # Symlinks and directories
 # ---------------------------------------------------------------------------
 
-if [[ "$mode" != "ruby" ]]; then
+if $do_links; then
 
 dotfiles=(
   'editorconfig'
@@ -121,18 +133,13 @@ for skill in "$pwd"/agents/skills/*/; do
   link "$skill" "$HOME/.claude/skills/$skill_name"
 done
 
-fi # mode != ruby
-
-# --links-only stops here
-if [[ "$mode" == "links" ]]; then
-  exit 0
-fi
+fi # do_links
 
 # ---------------------------------------------------------------------------
 # Install steps (skipped by --links-only)
 # ---------------------------------------------------------------------------
 
-if [[ "$mode" == "all" ]]; then
+if $do_install; then
 
 if ! brew bundle; then
   printf "\033[1;31mbrew bundle finished with errors. Some formulae may not have installed.\033[0m\n"
@@ -206,11 +213,13 @@ if ! pecl install xdebug > /dev/null 2>&1; then
   printf "\033[1;31mpecl install xdebug failed. Run it manually to retry.\033[0m\n"
 fi
 
-fi # mode == all
+fi # do_install
 
 # ---------------------------------------------------------------------------
-# Ruby setup (runs for --ruby and default)
+# Ruby setup (runs for --ruby-only and default)
 # ---------------------------------------------------------------------------
+
+if $do_ruby; then
 
 # Install latest Ruby and system wide gems
 if command -v rbenv &>/dev/null; then
@@ -224,3 +233,5 @@ if command -v rbenv &>/dev/null; then
 else
   printf "\033[1;31mrbenv not found, skipping Ruby setup.\033[0m\n"
 fi
+
+fi # do_ruby
