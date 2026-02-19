@@ -1,6 +1,8 @@
 {
   "permissions": {
     "allow": [
+      "Bash(bundle exec fastlane)",
+      "Bash(bundle exec fastlane *)",
       "Bash(bundle exec pod install *)",
       "Bash(bundle exec rspec *)",
       "Bash(bundle exec rubocop *)",
@@ -8,6 +10,8 @@
       "Bash(bundle install *)",
       "Bash(cargo *)",
       "Bash(cd *)",
+      "Bash(cp *)",
+      "Bash(cp -R *)",
       "Bash(claude --version)",
       "Bash(command -v *)",
       "Bash(date *)",
@@ -110,7 +114,8 @@
       "Bash(ln *)",
       "Bash(make *)",
       "Bash(man *)",
-      "Bash(mkdir *)",
+      "Bash(mkdir)",
+      "Bash(mkdir -p)",
       "Bash(pwd *)",
       "Bash(readelf *)",
       "Bash(rbenv install)",
@@ -126,6 +131,7 @@
       "Bash(tree *)",
       "Bash(type *)",
       "Bash(uname *)",
+      "Bash(uuidgen)",
       "Bash(which *)",
       "Bash(xcbeautify *)",
       "Bash(xcodebuild *)",
@@ -135,6 +141,7 @@
       "Glob",
       "Grep",
       "Read",
+      "Skill(commit)",
       "Task",
       "WebFetch",
       "WebSearch",
