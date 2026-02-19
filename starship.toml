@@ -19,10 +19,9 @@ format = "[$time]($style) "
 min_time = 1_000
 format = "[took $duration]($style) "
 
-# Git branch in magenta, no prefix
 [git_branch]
-format = "[$branch(:$remote_branch)]($style) "
-style = "magenta"
+format = "[$branch(:$remote_branch)]($style) "
+style = "purple"
 
 # Git status with counts and thin symbols.
 # Starship has no join/separator for status items, so each symbol carries a
@@ -30,8 +29,8 @@ style = "magenta"
 # This means the last item leaves a space before ']' — accepted trade-off.
 # https://github.com/starship/starship/issues/1724
 [git_status]
-format = '([\[$all_status$ahead_behind\]](bold red) )'
-style = "bold red"
+format = '([\[$all_status$ahead_behind\]](bold dimmed red) )'
+style = "bold dimmed red"
 ahead = "⇡${count} "
 behind = "⇣${count} "
 conflicted = "≠ "
@@ -46,6 +45,7 @@ up_to_date = ""
 # Ruby version — no prefix clutter
 [ruby]
 format = "[$version]($style) "
+style = "bold dimmed red"
 
 # Hide modules we don't want
 [docker_context]
