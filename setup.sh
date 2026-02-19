@@ -111,6 +111,15 @@ done
 mkdir -p ~/.config/agents
 link "$pwd/agents/AGENTS.md" "$HOME/.config/agents/AGENTS.md"
 link "$pwd/claude/hooks" "$HOME/.claude/hooks"
+# Shared skills — whole-directory symlink for ~/.agents/skills
+mkdir -p ~/.agents
+link "$pwd/agents/skills" "$HOME/.agents/skills"
+# Per-skill symlinks for Claude so Claude-only skills can coexist
+mkdir -p ~/.claude/skills
+for skill in "$pwd"/agents/skills/*/; do
+  skill_name="$(basename "$skill")"
+  link "$skill" "$HOME/.claude/skills/$skill_name"
+done
 
 fi # mode != ruby
 
