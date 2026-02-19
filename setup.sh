@@ -51,6 +51,8 @@ pwd="$(cd "$(dirname "$0")" && pwd)"
 
 if $do_links; then
 
+echo "==> Setting up symlinks"
+
 dotfiles=(
   'editorconfig'
   'gemrc'
@@ -141,6 +143,8 @@ fi # do_links
 
 if $do_install; then
 
+echo "==> Installing tools"
+
 if ! brew bundle; then
   printf "\033[1;31mbrew bundle finished with errors. Some formulae may not have installed.\033[0m\n"
   printf "\033[1;31mRun 'brew bundle' manually to retry.\033[0m\n"
@@ -220,6 +224,8 @@ fi # do_install
 # ---------------------------------------------------------------------------
 
 if $do_ruby; then
+
+echo "==> Setting up Ruby"
 
 # Install latest Ruby and system wide gems
 if command -v rbenv &>/dev/null; then
