@@ -64,7 +64,7 @@ alias ast='open -a Android\ Studio'
 # Apps
 alias chrome='open -a Google\ Chrome'
 alias m='open -a MacDown'
-alias v='vim'
+alias v='nvim'
 alias ao='open -a /Applications/Android\ Studio.app'
 
 # Vim Wiki & Zettlekasen
