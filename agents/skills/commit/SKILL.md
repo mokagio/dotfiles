@@ -4,7 +4,7 @@ description: |
   Commit staged changes with a well-crafted message.
   Auto-invoked when Claude needs to create a git commit.
   Use when asked to commit, save changes, or after completing work that should be committed.
-allowed-tools: Bash(git *), Bash(git -C *), Write(/tmp/claude-commit-msg), Read, Grep, Glob
+allowed-tools: Bash(git *), Bash(git -C *), Write, Read, Grep, Glob
 ---
 
 # Commit
@@ -41,10 +41,10 @@ Run `git log --oneline -5` to see recent commit messages.
 
 Follow these conventions (from AGENTS.md):
 
-- **Title**: imperative mood, max 50 characters, describes *what* the change does.
+- **Title**: imperative mood, max 50 characters, describes _what_ the change does.
   Fence inline code and file names unless it would exceed 50 chars.
-- **Body** (only if the *why* isn't obvious from the title): explains *why*,
-  uses semantic line breaks, never repeats the *what*.
+- **Body** (only if the _why_ isn't obvious from the title): explains _why_,
+  uses semantic line breaks, never repeats the _what_.
 - **Trailer block** (always):
 
 ```
@@ -69,20 +69,26 @@ If `$ARGUMENTS` provides a hint, use it to guide the message focus.
 
 ### 4. Write the message file
 
-Use the `Write` tool to write the complete message to `/tmp/claude-commit-msg`.
+Determine the repo's `.git` directory:
+
+- Regular checkout: `<repo>/.git/COMMIT_MSG`
+- Worktree: the `.git` file contains a `gitdir:` pointer — resolve it.
+  Run `git -C <repo> rev-parse --git-dir` to get the actual path.
+
+Use the `Write` tool to write the complete message to `<git-dir>/COMMIT_MSG`.
 
 ### 5. Commit
 
 Run:
 
 ```
-git commit -F /tmp/claude-commit-msg
+git commit -F <git-dir>/COMMIT_MSG
 ```
 
 Or with `-C` if working in a worktree:
 
 ```
-git -C <path> commit -F /tmp/claude-commit-msg
+git -C <path> commit -F <git-dir>/COMMIT_MSG
 ```
 
 This is a single-line command that matches the permission globs.

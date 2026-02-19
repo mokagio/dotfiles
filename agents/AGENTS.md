@@ -91,6 +91,9 @@ Update `AGENTS.md` with rule for code fencing
 **NEVER amend commits** — create a new commit instead.
 Amending requires force-pushing, which is destructive and blocked by hooks.
 
+Always use the `/commit` skill when creating git commits.
+Never craft commit messages or run `git commit` directly.
+
 Commits should be **small and atomic** and so should be the way you approach changes.
 
 When doing mechanical migration work, commit each file migrated individually, unless there are dependencies.
