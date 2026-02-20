@@ -120,6 +120,9 @@ Example: If a Ruby project has `.rubocop.yml` ensure the code you write matches 
 
 ---
 
+Always use the `/worktree` skill when creating Git worktrees.
+Never run `git worktree add` directly.
+
 Always use Git worktrees for branch work — never work directly on the main branch.
 **Every new task gets its own worktree**, even if you're already inside one.
 A worktree is scoped to a single piece of work; unrelated changes must not land there.

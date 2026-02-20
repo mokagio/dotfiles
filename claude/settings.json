@@ -142,6 +142,7 @@
       "Grep",
       "Read",
       "Skill(commit)",
+      "Skill(worktree)",
       "Task",
       "WebFetch",
       "WebSearch",
