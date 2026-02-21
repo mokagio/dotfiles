@@ -130,15 +130,18 @@ A worktree is scoped to a single piece of work; unrelated changes must not land 
 At the start of a feature, project, or plan, create a worktree.
 Once the work is merged or abandoned, remove it.
 
-Place worktrees in a sibling `<repo>-worktrees/` folder:
+Place worktrees in `.git-worktrees/` inside the repo root:
 
 ```
 ~/Developer/
-├── my-repo/                  ← main checkout (trunk)
-└── my-repo-worktrees/
-    ├── feature-x/
-    └── bugfix/
+└── my-repo/
+    ├── .git-worktrees/       ← gitignored globally
+    │   ├── feature-x/
+    │   └── bugfix/
+    └── src/
 ```
+
+This keeps worktrees inside the repo's sandbox, avoiding permission prompts for `cd`.
 
 **Worktree Git Commands**
 

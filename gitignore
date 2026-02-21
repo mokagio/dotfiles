@@ -18,5 +18,8 @@ Session.vim
 .netrwhist
 *~
 
+# Git worktrees managed by Claude Code
+.git-worktrees/
+
 # Forget Me Not - See https://github.com/mokagio/forget-me-not
 .fmn.yml

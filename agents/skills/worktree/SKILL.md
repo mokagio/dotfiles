@@ -27,8 +27,8 @@ This skill automates the full procedure.
 
 Determine the main repo checkout path:
 
-- If cwd contains `-worktrees/`, the main checkout is the sibling directory without that suffix.
-  E.g., `/Users/gio/Developer/my-repo-worktrees/feature-x` → `/Users/gio/Developer/my-repo`.
+- If cwd contains `.git-worktrees/`, the main checkout is the ancestor directory before `.git-worktrees/`.
+  E.g., `/Users/gio/Developer/my-repo/.git-worktrees/feature-x` → `/Users/gio/Developer/my-repo`.
 - Otherwise, use cwd.
 
 Verify the resolved path is a git repo with `git -C <main> rev-parse --git-dir`.
@@ -57,13 +57,12 @@ From `$ARGUMENTS` or the task description, create a short slug:
 
 ### 5. Create the worktree
 
-Derive the repo name from the main checkout path's basename.
-The worktrees directory is always a sibling named `<repo-name>-worktrees/`.
+The worktrees directory is always `.git-worktrees/` inside the repo root.
 
 No need for `mkdir` — `git worktree add` creates intermediate directories.
 
 ```
-git -C <main> worktree add ../<repo-name>-worktrees/<slug> -b <slug> origin/<default>
+git -C <main> worktree add .git-worktrees/<slug> -b <slug> origin/<default>
 ```
 
 ### 6. Report
@@ -71,7 +70,7 @@ git -C <main> worktree add ../<repo-name>-worktrees/<slug> -b <slug> origin/<def
 Print the worktree path and confirm it's ready.
 Example:
 
-> Worktree created at `/Users/gio/Developer/my-repo-worktrees/add-user-auth`.
+> Worktree created at `/Users/gio/Developer/my-repo/.git-worktrees/add-user-auth`.
 > Branch `add-user-auth` tracking `origin/main`.
 
 ## Constraints
@@ -79,4 +78,4 @@ Example:
 - **Never** use `git --git-dir` or `cd path &&` — use `git -C` for all operations.
 - **Never** work directly on the main branch — always create a worktree first.
 - If already inside a worktree for a different task, resolve back to the main checkout before creating.
-- The worktree dir is always a sibling named `<repo-name>-worktrees/`.
+- The worktree dir is always `.git-worktrees/` inside the repo root.
