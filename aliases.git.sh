@@ -110,15 +110,3 @@ alias grb="git branch --sort=committerdate | tail -10 | more"
 # Custom script to interactively stash files
 # TODO: this needs to be parametric, can't depend on an hardcoded path
 alias gsa='ruby $DOTFILES_HOME/scripts/interactive-stage.rb'
-
-# Git-Flow aliases
-# https://github.com/nvie/gitflow
-CMD=git-flow
-if command -v $CMD &>/dev/null; then
-  alias gfl='git flow'
-  alias gff='git flow feature'
-  alias gffs='git flow feature start'
-  alias g3f='git flow feature finish'
-else
-  echo "$CMD not found. Dedicated aliases skipped."
-fi
