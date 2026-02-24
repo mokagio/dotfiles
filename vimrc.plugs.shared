@@ -54,6 +54,13 @@ Plug 'udalov/kotlin-vim'
 Plug 'hashivim/vim-terraform'
 Plug 'fatih/vim-go'
 
+" Fuzzy finder — fzf is lean, cross-platform (Linux/Android/macOS), and fast.
+" Alternative: telescope.nvim offers native LSP integration (symbol search,
+" references, diagnostics) but requires plenary.nvim and more config.
+" Sticking with fzf for now as the leaner option.
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim'
+
 " Test runner
 Plug 'janko/vim-test'
 
