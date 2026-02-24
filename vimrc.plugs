@@ -28,9 +28,6 @@ Plug 'vim-syntastic/syntastic'
 " Show invisible characters
 Plug 'vim-scripts/cream-showinvisibles'
 
-" Shows a sidebar with named registers and their content
-Plug 'junegunn/vim-peekaboo'
-
 " A collection of colorschemes
 Plug 'flazz/vim-colorschemes'
 Plug 'sonph/onehalf', { 'rtp': 'vim' }

@@ -54,6 +54,9 @@ Plug 'udalov/kotlin-vim'
 Plug 'hashivim/vim-terraform'
 Plug 'fatih/vim-go'
 
+" Shows a sidebar with named registers and their content when pressing "
+Plug 'junegunn/vim-peekaboo'
+
 " Fuzzy finder — fzf is lean, cross-platform (Linux/Android/macOS), and fast.
 " Alternative: telescope.nvim offers native LSP integration (symbol search,
 " references, diagnostics) but requires plenary.nvim and more config.
