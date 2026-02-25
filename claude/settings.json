@@ -172,7 +172,16 @@
       "Bash(git push * --force-with-lease*)",
       "Bash(git push * -f)",
       "Bash(rm *)",
-      "Bash(xargs rm *)"
+      "Bash(xargs rm *)",
+      "mcp__xcode-tools__XcodeGlob",
+      "mcp__xcode-tools__XcodeGrep",
+      "mcp__xcode-tools__XcodeLS",
+      "mcp__xcode-tools__XcodeMakeDir",
+      "mcp__xcode-tools__XcodeMV",
+      "mcp__xcode-tools__XcodeRead",
+      "mcp__xcode-tools__XcodeRM",
+      "mcp__xcode-tools__XcodeUpdate",
+      "mcp__xcode-tools__XcodeWrite"
     ],
     "ask": [
       "Bash(git -C * branch -D *)",
