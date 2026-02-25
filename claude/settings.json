@@ -125,6 +125,8 @@
       "Bash(rbenv version)",
       "Bash(rbenv versions)",
       "Bash(ruby --version)",
+      "Bash(sort)",
+      "Bash(sort *)",
       "Bash(source *)",
       "Bash(sw_vers *)",
       "Bash(swift build *)",
