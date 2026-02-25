@@ -46,7 +46,7 @@ highlight SpecialKey guifg=#777777 ctermfg=240 guibg=NONE ctermbg=NONE
 set cursorline
 hi CursorLine cterm=NONE ctermbg=darkgray
 " Highlight extra whitespace(s) at the end of a line
-hi ExtraWhitespace ctermbg=red guibg=red
+hi ExtraWhitespace ctermbg=94 guibg=#4d3328
 match ExtraWhitespace /\s\+$/
 " Visual mode selection color
 hi Visual term=NONE cterm=NONE ctermbg=darkgray
@@ -193,7 +193,7 @@ function! ApplyTheme()
     endif
   else
     if system("defaults read -g AppleInterfaceStyle") == "Dark\n"
-      if !empty(globpath(&rtp, 'colors/tokyonight.vim'))
+      if !empty(globpath(&rtp, 'colors/tokyonight.vim')) || !empty(globpath(&rtp, 'colors/tokyonight.lua'))
         colorscheme tokyonight
       endif
     else
