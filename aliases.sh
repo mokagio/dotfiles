@@ -156,3 +156,4 @@ alias ymlparse="ruby -ryaml -e 'puts YAML::load(STDIN.read, aliases: true)'"
 alias yamlparse=ymlparse
 
 alias cl='claude'
+alias cld='claude --dangerously-skip-permissions'
