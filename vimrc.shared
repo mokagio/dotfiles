@@ -154,6 +154,11 @@ let g:mkdp_preview_options = {
       \ }
 
 "
+" Typo aliases
+"
+cnoreabbrev qw wq
+
+"
 " Custom Commands
 "
 com! FormatJSON %!python -m json.tool
