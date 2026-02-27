@@ -4,10 +4,10 @@ set -eu
 
 # Ensures Claude Code project memory is shared across git worktrees.
 #
-# Convention: worktrees live in <repo>-worktrees/<name>/ alongside the
-# main checkout at <repo>/. This script detects when the CWD is a
-# worktree and symlinks its auto-memory directory to the main
-# checkout's memory directory (the canonical location).
+# Convention: worktrees live in <repo>/.git-worktrees/<name>/.
+# This script detects when the CWD is inside a worktree and symlinks
+# its auto-memory directory to the main checkout's memory directory
+# (the canonical location).
 #
 # Designed to run as a UserPromptSubmit hook — fires once per message,
 # short-circuits fast when the symlink already exists.
@@ -24,13 +24,13 @@ if ! [ -t 0 ]; then
   fi
 fi
 
-# Only act when inside a worktree (<repo>-worktrees/<name>).
-if [[ "$CWD" != *-worktrees/* ]]; then
+# Only act when inside a .git-worktrees directory.
+if [[ "$CWD" != */.git-worktrees/* ]]; then
   exit 0
 fi
 
-# Derive the main repo path: everything before -worktrees/<name>.
-MAIN_REPO="${CWD%%-worktrees/*}"
+# Derive the main repo path: strip /.git-worktrees/<name> (and any trailing subpath).
+MAIN_REPO="${CWD%%/.git-worktrees/*}"
 
 # Convert absolute paths to Claude's dash-encoded project key.
 # /Users/gio/Developer/foo → -Users-gio-Developer-foo

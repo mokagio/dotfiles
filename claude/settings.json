@@ -114,10 +114,11 @@
       "Bash(launchctl list *)",
       "Bash(ln *)",
       "Bash(ls *)",
+      "Bash(ls /Users/gio/.me/*)",
       "Bash(make *)",
       "Bash(man *)",
-      "Bash(mkdir)",
-      "Bash(mkdir -p)",
+      "Bash(mkdir *)",
+      "Bash(mkdir -p *)",
       "Bash(pwd *)",
       "Bash(readelf *)",
       "Bash(rbenv install)",
@@ -148,6 +149,8 @@
       "Grep",
       "Read",
       "Skill(commit)",
+      "Skill(ci-monitor)",
+      "Skill(fix-pr-checks)",
       "Skill(worktree)",
       "Task",
       "WebFetch",
@@ -257,17 +260,6 @@
         ]
       }
     ],
-    "Stop": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "$HOME/.claude/hooks/verify-on-stop.sh",
-            "timeout": 120
-          }
-        ]
-      }
-    ],
     "UserPromptSubmit": [
       {
         "hooks": [
@@ -279,6 +271,16 @@
           {
             "type": "command",
             "command": "$HOME/.claude/hooks/ensure-worktree-memory.sh",
+            "timeout": 5
+          },
+          {
+            "type": "command",
+            "command": "$HOME/.claude/hooks/sanitize-settings-local.sh",
+            "timeout": 5
+          },
+          {
+            "type": "command",
+            "command": "$HOME/.claude/hooks/log-prompt.sh",
             "timeout": 5
           }
         ]
@@ -293,5 +295,6 @@
     "rust-analyzer-lsp@claude-plugins-official": true,
     "swift-lsp@claude-plugins-official": true
   },
-  "alwaysThinkingEnabled": true
+  "alwaysThinkingEnabled": true,
+  "skipDangerousModePermissionPrompt": true
 }

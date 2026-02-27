@@ -21,6 +21,14 @@ ask() {
   exit 0
 }
 
+# Safe PR metadata endpoints (labels, milestones) — let through without prompting
+if echo "$COMMAND" | grep -qE 'repos/[^/]+/[^/]+/issues/[0-9]+/labels\b'; then
+  exit 0
+fi
+if echo "$COMMAND" | grep -qE 'repos/[^/]+/[^/]+/issues/[0-9]+\b.*-f\s+milestone='; then
+  exit 0
+fi
+
 # GraphQL: mutations are writes, queries are reads
 if echo "$COMMAND" | grep -qE '\bgraphql\b'; then
   if echo "$COMMAND" | grep -qiE '\bmutation\b'; then

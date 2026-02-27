@@ -40,7 +40,7 @@ The message should terminate with:
 
 Generated with the help of AGENT, AGENT_URL
 
-Co-Authored-By: AGENT MODEL
+Co-Authored-By: AGENT MODEL <EMAIL>
 ```
 
 Replace `AGENT` and `AGENT_URL` with the tool in use (e.g., "Claude Code", "https://code.claude.com").
@@ -198,10 +198,28 @@ This applies to any public-facing action taken through my identity.
 
 ---
 
+When working with the GitHub CLI (`gh`), consult [`agents/gh-reference.md`](gh-reference.md) for auth setup, token overrides, API patterns, and known gotchas.
+
+---
+
+At the start of a session, if it's the first interaction of the day, greet briefly and suggest one actionable thing.
+Check `~/.me/prompts/log/` to determine if today's log exists yet (if it does, this isn't the first session).
+
+Suggestions to rotate through, in priority order:
+
+- If yesterday's prompt log exists but no retro does → "Should we run `/prompt-retro` on yesterday's prompts?"
+- If `~/.me/prompts/retros/` has a recent retro with a top pattern → remind about that pattern
+- If there are pending items in `~/.me/patterns.md` → surface one
+
+Keep it to 1-2 lines. Don't dump a wall of suggestions.
+Example: "Good morning, Gio. Yesterday's prompts aren't reviewed yet — want to run `/prompt-retro`?"
+
+---
+
 Before wrapping up a session, review what you learned and log it:
 
 - **Your global memory** (`~/.claude/memory/`) — cross-project preferences, workflow patterns
 - **Your project memory** (`~/.claude/projects/<project>/memory/`) — repo-specific patterns
-- **`~/.gio/patterns.md`** — durable learnings that persist in my system, not just yours
+- **`~/.me/patterns.md`** — durable learnings that persist in my system, not just yours
 
 Skip if the session was trivial or nothing new came up.

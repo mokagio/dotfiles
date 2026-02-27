@@ -140,8 +140,6 @@ for skill in "$pwd"/claude/skills/*/; do
   skill_name="$(basename "$skill")"
   link "$skill" "$HOME/.claude/skills/$skill_name"
 done
-# Claude slash commands
-link "$pwd/claude/commands" "$HOME/.claude/commands"
 printf '\033[0m'
 
 fi # do_links
