@@ -133,5 +133,6 @@ export PATH="$PATH:/opt/cloud66/bin"
 export FASTLANE_PROMPT_REMINDER_MESSAGE=1
 export PATH="$PATH:/opt/ci/bin"
 
-# Local overrides (not tracked)
-[[ -f "$HOME/.zshenv.local" ]] && source "$HOME/.zshenv.local"
+# Machine-local overrides (not tracked in dotfiles)
+LOCAL_ZSHENV="${HOME}/.zshenv.local"
+[[ -f "$LOCAL_ZSHENV" ]] && source "$LOCAL_ZSHENV"
