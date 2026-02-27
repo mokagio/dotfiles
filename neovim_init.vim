@@ -13,11 +13,21 @@ Plug 'folke/tokyonight.nvim'
 Plug 'arcticicestudio/nord-vim', { 'branch': 'main' }
 Plug 'ayu-theme/ayu-vim'
 Plug 'sainnhe/everforest'
+Plug 'saghen/blink.cmp', { 'tag': 'v1.*' }
 
 call plug#end()
 
 " Native LSP
 lua vim.lsp.enable('ruby_lsp')
+
+" Completion engine (blink.cmp)
+lua require('blink.cmp').setup({
+  \ keymap = { preset = 'default' },
+  \ appearance = { nerd_font_variant = 'mono' },
+  \ completion = { documentation = { auto_show = true } },
+  \ sources = { default = { 'lsp', 'path', 'snippets', 'buffer' } },
+  \ fuzzy = { implementation = 'prefer_rust_with_warning' },
+  \ })
 
 " Show diagnostics as inline virtual text with source and error code
 lua vim.diagnostic.config({
