@@ -8,3 +8,5 @@ But also, Termux uses that custom init.vim instead of the setup in the dotfiles.
 
 I don't remember why I did that, but it was likely because of compatibility issues and/or wanting to keep the setup in Termux lean.
 After all, mosst of the stuff in the dotfiles is for my full dev environment on macOS, while the Termux setup is only for writing in NeoVim on my zettelkasten and articles drafts.
+
+Also note the .bashrc in the folder,as it shows how minimal the dotfiles integration in the Termux setup is.
