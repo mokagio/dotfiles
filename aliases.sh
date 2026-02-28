@@ -77,7 +77,7 @@ alias ao='open -a /Applications/Android\ Studio.app'
 if [[ -d $VIMWIKI_HOME ]]; then # Note that VIMWIKI_HOME should be define in the .zshrc.local
   alias wr='vim $(find $VIMWIKI_HOME/zettelkasten -type f -not -path "*/\.*" | shuf -n 1)'
   alias tc='pushd $VIMWIKI_HOME && ./bin/track_changes && popd'
-  alias ww='pushd $VIMWIKI_HOME && ./bin/fetch_if_stale && vim -c VimwikiIndex && ./bin/track_changes && popd'
+  alias ww='pushd $VIMWIKI_HOME && ./bin/fetch_if_stale && vim -c VimwikiIndex; ./bin/track_changes; popd'
 else
   # This is the one most likely to run, the others are secondary and it would
   # be redundant to do the same for them, too.
