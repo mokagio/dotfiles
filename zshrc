@@ -77,9 +77,6 @@ path_to_zsh_powerups=~/Developer/mokagio/zsh
 alias showFiles='defaults write com.apple.finder AppleShowAllFiles YES; killall Finder /System/Library/CoreServices/Finder.app'
 alias hideFiles='defaults write com.apple.finder AppleShowAllFiles NO; killall Finder /System/Library/CoreServices/Finder.app'
 
-# added by travis gem
-[ -f /Users/gio/.travis/travis.sh ] && source /Users/gio/.travis/travis.sh
-
 test -e ${HOME}/.iterm2_shell_integration.zsh && source ${HOME}/.iterm2_shell_integration.zsh
 
 # Ruby environment management setup
