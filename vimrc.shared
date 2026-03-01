@@ -84,6 +84,7 @@ xnoremap p pgvy
 " Spell checking settings
 set spellfile=$HOME/.vim/spell/custom-spell.utf-8.add
 au BufRead *.md setlocal spell spelllang=en_us
+autocmd FileType markdown setlocal commentstring=<!--%s-->
 au BufRead COMMIT_EDITMSG setlocal spell spelllang=en_us
 au BufRead PULLREQ_EDITMSG setlocal spell spelllang=en_us
 
