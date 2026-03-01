@@ -22,6 +22,7 @@ lua vim.lsp.enable('ruby_lsp')
 
 " Completion engine (blink.cmp)
 lua require('blink.cmp').setup({
+  \ enabled = function() return vim.g.blink_cmp_enabled ~= false end,
   \ keymap = { preset = 'default' },
   \ appearance = { nerd_font_variant = 'mono' },
   \ completion = { documentation = { auto_show = true } },
@@ -44,8 +45,15 @@ let g:tokyonight_enable_italic = 1
 " Apply the shared theme logic
 call ApplyTheme()
 
-" Goyo override for nord
-autocmd! User GoyoEnter colorscheme nord
+" Goyo - Focused writing mode
+"
+" Upon entering the focused mode:
+"
+" - switch theme to nord
+" - disable completion
+autocmd! User GoyoEnter colorscheme nord | let g:blink_cmp_enabled = v:false
+" Upon leaving, restore previous state
+autocmd! User GoyoLeave call ApplyTheme() | let g:blink_cmp_enabled = v:true
 
 " Vim Wiki & Zettelkasten settings
 let g:zettel_wikigrep_command = "rg -l %pattern %path --glob='*%ext'"
