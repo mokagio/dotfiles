@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+
+set -eu
+
+# Worktree-aware checkout: if the branch already lives in a worktree, print
+# the worktree path and exit 0.  Otherwise, run `git checkout`.
+#
+# Designed to be invoked as `git checkout-worktree <branch> [checkout flags]`.
+# When used from a shell function, the caller can `cd` to the printed path.
+
+branch="${1:?usage: git checkout-worktree <branch> [flags...]}"
+shift
+
+wt_path=$(git worktree list --porcelain | awk -v b="refs/heads/$branch" '
+  /^worktree /{ p=substr($0,10) } /^branch /{ if($2==b) print p }')
+
+if [[ -n "$wt_path" ]]; then
+  echo "$wt_path"
+else
+  git checkout "$@" "$branch"
+fi

@@ -29,17 +29,13 @@ alias gch.='git checkout .'
 alias gch-='git checkout -'
 # Checkout that's worktree-aware: if the branch is already in a worktree,
 # cd there instead of failing.
+# Logic lives in scripts/git-checkout-worktree (available as `git checkout-worktree`).
 gco() {
-  local branch="$1"
-  shift
-  local wt_path
-  wt_path=$(git worktree list --porcelain | awk -v b="refs/heads/$branch" '
-    /^worktree /{ p=substr($0,10) } /^branch /{ if($2==b) print p }')
-  if [[ -n "$wt_path" ]]; then
-    echo "Branch '$branch' is in worktree: $wt_path"
-    cd "$wt_path"
-  else
-    git checkout "$@" "$branch"
+  local result
+  result=$(git checkout-worktree "$@")
+  if [[ -d "$result" ]]; then
+    echo "Branch '$1' is in worktree: $result"
+    cd "$result"
   fi
 }
 _gco_branches() {
