@@ -117,9 +117,6 @@ export FASTLANE_SKIP_ACTION_SUMMARY=1
 # https://github.com/yonaskolb/Mint
 export PATH="$PATH:$HOME/.mint/bin"
 
-# Edit this line locally (but don't track the change) if the path is different
-# from the one here.
-# TODO: It'd be good to have a zshenv.local or something to decouple this.
 DOTFILES_HOME="$HOME/.dotfiles"
 
 export PATH="$PATH:$DOTFILES_HOME/scripts"
@@ -135,3 +132,6 @@ export PATH="$PATH:/opt/cloud66/bin"
 # https://github.com/wordpress-mobile/release-toolkit/blob/984a1854b42641daf43b29aa7ae36d0961be8f59/lib/fastlane/plugin/wpmreleasetoolkit/helper/interactive_prompt_reminder.rb#L10-L18
 export FASTLANE_PROMPT_REMINDER_MESSAGE=1
 export PATH="$PATH:/opt/ci/bin"
+
+# Local overrides (not tracked)
+[[ -f "$HOME/.zshenv.local" ]] && source "$HOME/.zshenv.local"
