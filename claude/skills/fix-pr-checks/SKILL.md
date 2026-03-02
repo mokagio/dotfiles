@@ -69,16 +69,20 @@ If unsure, list the top 3 candidates and ask the user to pick.
 
 ## Step 4: Determine the right milestone
 
-Fetch open milestones:
+Use the `gh-infer-milestone` script (on PATH via `scripts/`):
 
 ```
-gh api repos/<owner/repo>/milestones --jq '.[] | "\(.number) \(.title) \(.state)"'
+gh-infer-milestone <owner/repo> <base-branch>
 ```
 
-Rules for picking a milestone:
+Output is tab-separated: `<milestone_number>\t<milestone_title>`.
+Exit code 2 means ambiguous — ask the user.
 
-- If the base branch is `trunk`/`main`/`develop`: pick the **next** open milestone
-  (skip any milestone marked with frozen indicators like frozen or "frozen" in the title).
+If the script is unavailable, fall back to manual logic:
+
+- Fetch open milestones: `gh api repos/<owner/repo>/milestones?direction=asc&sort=due_date`
+- If the base branch is `trunk`/`main`/`develop`: pick the **next** open milestone with a due date
+  (skip any milestone marked with frozen indicators like ❄️ or "frozen" in the title).
 - If the base branch is `release/*`: pick the milestone matching the release version.
 - If unsure, ask the user.
 

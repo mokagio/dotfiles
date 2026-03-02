@@ -1,0 +1,79 @@
+#!/usr/bin/env bash
+
+set -eu
+
+# Infer the right GitHub milestone for a PR based on its base branch.
+#
+# Usage:
+#   gh-infer-milestone <owner/repo> [base-branch]
+#
+# If base-branch is omitted, defaults to the repo's default branch.
+#
+# Rules:
+#   - trunk/main/develop base → next open milestone (skip frozen, skip undated)
+#   - release/* base         → milestone matching the release version
+#
+# Output (tab-separated):
+#   <milestone_number>\t<milestone_title>
+#
+# Exit codes:
+#   0  milestone found
+#   1  usage error or no milestones available
+#   2  ambiguous — could not determine milestone
+
+repo="${1:?usage: gh-infer-milestone <owner/repo> [base-branch]}"
+base="${2:-}"
+
+# If no base branch given, discover the default
+if [[ -z "$base" ]]; then
+  base=$(gh api "repos/${repo}" --jq '.default_branch')
+fi
+
+# Fetch open milestones: number, title, due_on (sorted by due_on ascending)
+milestones=$(gh api "repos/${repo}/milestones?direction=asc&sort=due_date" \
+  --jq '.[] | "\(.number)\t\(.title)\t\(.due_on // "")"') || true
+
+if [[ -z "$milestones" ]]; then
+  echo "No open milestones found for ${repo}" >&2
+  exit 1
+fi
+
+pick_next_milestone() {
+  # 1. Must have a due date (field 3 non-empty)
+  # 2. Skip frozen milestones (❄️ in title or "frozen" in title)
+  # 3. Take the first (earliest due date)
+  echo "$milestones" \
+    | awk -F'\t' '$3 != ""' \
+    | grep -iv 'frozen' \
+    | grep -v '❄️' \
+    | head -1 \
+    | cut -f1,2
+}
+
+pick_release_milestone() {
+  local version="$1"
+  # Match milestone title containing the version number
+  echo "$milestones" \
+    | awk -F'\t' -v v="$version" '$2 ~ v { print $1 "\t" $2; exit }'
+}
+
+case "$base" in
+  trunk|main|develop|master)
+    result=$(pick_next_milestone)
+    ;;
+  release/*)
+    version="${base#release/}"
+    result=$(pick_release_milestone "$version")
+    ;;
+  *)
+    # Unknown base branch pattern — try next open milestone as fallback
+    result=$(pick_next_milestone)
+    ;;
+esac
+
+if [[ -z "$result" ]]; then
+  echo "Could not determine milestone for base '${base}' in ${repo}" >&2
+  exit 2
+fi
+
+echo "$result"
