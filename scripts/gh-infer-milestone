@@ -20,6 +20,15 @@ set -eu
 #   0  milestone found
 #   1  usage error or no milestones available
 #   2  ambiguous — could not determine milestone
+#
+# The various assumptions the script makes, in particular the frozen indicator,
+# are specific to the way various Automattic mobile teams run releases.
+# Still, it should be straightfoward to adjust to a different milestone-based workflow.
+#
+# More details:
+#
+# - https://mobile.blog/2019/05/06/wordpress-mobile-apps-the-heartbeat-release-process/
+# - https://mobile.blog/2021/03/12/two-simple-techniques-to-make-your-release-process-more-asynchronous-and-decentralized/
 
 repo="${1:?usage: gh-infer-milestone <owner/repo> [base-branch]}"
 base="${2:-}"
