@@ -31,6 +31,8 @@ brew 'node' # TODO: Is this necessary when using fnm?
 brew 'yarn'
 brew 'python'
 brew 'shellcheck'
+# Bash test framework
+brew 'bats-core'
 brew 'lua'
 # GitHub CLI
 # this is actually called via `gh` and is _another_ tool to work with GitHub
