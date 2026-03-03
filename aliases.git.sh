@@ -25,8 +25,9 @@ alias gp='git push'
 alias gpu='git push -u'
 alias gl='git pull'
 alias gch='git checkout'
-alias gch.='git checkout .'
-alias gch-='git checkout -'
+# Too much muscle memory on these to adopt the "gch" alias
+alias gh.='git checkout .'
+alias gh-='git checkout -'
 # Checkout that's worktree-aware: if the branch is already in a worktree,
 # cd there instead of failing.
 # Logic lives in scripts/git-checkout-worktree (available as `git checkout-worktree`).
