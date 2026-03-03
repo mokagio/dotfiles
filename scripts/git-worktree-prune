@@ -1,0 +1,200 @@
+#!/usr/bin/env bash
+
+set -eu
+
+# Remove Git worktrees whose branches have been merged or deleted.
+#
+# Usage:
+#   git-worktree-prune [options] [repo-path]
+#
+# Options:
+#   -b REF    Base branch to check merges against (default: auto-detect)
+#   -d DIR    Worktree subdirectory name (default: .git-worktrees)
+#   -n        Dry run — show what would be deleted (default)
+#   -f        Actually delete (opposite of -n)
+#   -F        Force — also delete worktrees with uncommitted changes
+#   -v        Verbose output
+#
+# A worktree is considered safe to delete when ALL of:
+#   1. Its branch has been merged into the base branch, OR
+#      its branch no longer exists on the remote (PR merged/closed)
+#   2. It has no uncommitted changes (unless -F)
+#   3. It has no unpushed commits
+#
+# Designed for the convention of placing Git worktrees in .git-worktrees/
+# inside the repo root.
+
+worktree_dir=".git-worktrees"
+base_branch=""
+dry_run=true
+force=false
+verbose=false
+
+usage() {
+  awk '/^#!/{next} /^$/&&!p{next} /^#/{p=1; sub(/^# ?/,""); print; next} p{exit}' "$0"
+  exit "${1:-0}"
+}
+
+log() { printf '%s\n' "$*"; }
+warn() { printf '%s\n' "$*" >&2; }
+info() { ! $verbose || printf '  %s\n' "$*"; }
+
+while getopts ":b:d:nfFvh" opt; do
+  case "$opt" in
+    b) base_branch="$OPTARG" ;;
+    d) worktree_dir="$OPTARG" ;;
+    n) dry_run=true ;;
+    f) dry_run=false ;;
+    F) force=true ;;
+    v) verbose=true ;;
+    h) usage 0 ;;
+    *) usage 1 ;;
+  esac
+done
+shift $((OPTIND - 1))
+
+repo="${1:-$(git rev-parse --show-toplevel 2>/dev/null || true)}"
+
+if [[ -z "$repo" ]]; then
+  warn "Not inside a Git repository and no repo path given."
+  exit 1
+fi
+
+wt_root="${repo}/${worktree_dir}"
+
+log "Inspecting worktrees at ${wt_root}"
+
+if [[ ! -d "$wt_root" ]]; then
+  log "No worktree directory found. Nothing to do."
+  exit 0
+fi
+
+# Count worktrees before starting
+wt_count=$(find "$wt_root" -mindepth 1 -maxdepth 1 -type d 2>/dev/null | wc -l | tr -d ' ')
+log "Found ${wt_count} worktree(s)"
+
+if [[ "$wt_count" -eq 0 ]]; then
+  log "Nothing to do."
+  exit 0
+fi
+
+if [[ -n "$base_branch" ]]; then
+  default_branch="$base_branch"
+  log "Base branch: ${default_branch}"
+else
+  log "Detecting base branch..."
+  default_branch=$(git -C "$repo" remote show origin 2>/dev/null \
+    | awk '/HEAD branch/ { print $NF }')
+
+  if [[ -z "$default_branch" ]]; then
+    default_branch="trunk"
+    warn "Could not detect base branch, assuming ${default_branch}"
+  else
+    log "Base branch: ${default_branch}"
+  fi
+fi
+
+# Fetch so merge checks are up-to-date
+log "Fetching latest from origin..."
+git -C "$repo" fetch --quiet --prune 2>/dev/null || true
+
+deleted=0
+skipped=0
+total=0
+candidates=0
+
+for wt_path in "$wt_root"/*/; do
+  [[ -d "$wt_path" ]] || continue
+  total=$((total + 1))
+
+  wt_path="${wt_path%/}"
+  name=$(basename "$wt_path")
+
+  # Get the branch for this worktree
+  branch=$(git -C "$repo" worktree list --porcelain \
+    | awk -v p="$wt_path" '
+        /^worktree / { wt = substr($0, 10) }
+        /^branch /   { if (wt == p) { sub(/^refs\/heads\//, "", $2); print $2 } }
+      ')
+
+  if [[ -z "$branch" ]]; then
+    info "${name}: not tracked by git worktree list, skipping"
+    skipped=$((skipped + 1))
+    continue
+  fi
+
+  reasons=()
+
+  # Check 1: Is the branch merged into the default branch?
+  merged=false
+  if git -C "$repo" merge-base --is-ancestor "$branch" "origin/${default_branch}" 2>/dev/null; then
+    merged=true
+    reasons+=("branch merged into ${default_branch}")
+  fi
+
+  # Check 2: Does the branch still exist on the remote?
+  remote_gone=false
+  if ! git -C "$repo" ls-remote --heads --quiet origin "$branch" 2>/dev/null | grep -q .; then
+    remote_gone=true
+    reasons+=("remote branch gone")
+  fi
+
+  # Not a candidate unless merged or remote-gone
+  if ! $merged && ! $remote_gone; then
+    info "${name}: branch '${branch}' is not merged and still exists on remote"
+    skipped=$((skipped + 1))
+    continue
+  fi
+
+  # Check 3: Any uncommitted changes?
+  dirty=false
+  if [[ -n "$(git -C "$wt_path" status --porcelain 2>/dev/null)" ]]; then
+    dirty=true
+  fi
+
+  if $dirty && ! $force; then
+    warn "SKIP ${name}: has uncommitted changes (use -F to override)"
+    skipped=$((skipped + 1))
+    continue
+  fi
+  ! $dirty || reasons+=("has uncommitted changes — forced")
+
+  # Check 4: Any unpushed commits?
+  unpushed=false
+  ahead=$(git -C "$wt_path" rev-list --count "origin/${default_branch}..${branch}" 2>/dev/null || echo 0)
+  if [[ "$ahead" -gt 0 ]] && ! $merged; then
+    unpushed=true
+  fi
+
+  if $unpushed && ! $force; then
+    warn "SKIP ${name}: ${ahead} unpushed commit(s) (use -F to override)"
+    skipped=$((skipped + 1))
+    continue
+  fi
+  ! $unpushed || reasons+=("${ahead} unpushed commits — forced")
+
+  reason=$(IFS=', '; echo "${reasons[*]}")
+
+  candidates=$((candidates + 1))
+
+  if $dry_run; then
+    log "  WOULD DELETE ${name} (${reason})"
+  else
+    log "  DELETING ${name} (${reason})"
+    git -C "$repo" worktree remove --force "$wt_path" 2>/dev/null \
+      || rm -rf "$wt_path"
+    # Also delete the local branch if it still exists
+    git -C "$repo" branch -D "$branch" 2>/dev/null || true
+    deleted=$((deleted + 1))
+  fi
+done
+
+if $dry_run; then
+  if [[ "$candidates" -eq 0 ]]; then
+    log "No worktrees are safe to delete. All ${total} have unmerged or active branches."
+  else
+    log "Found ${candidates} worktree(s) safe to delete out of ${total}. Re-run with -f to delete."
+  fi
+else
+  log "Deleted ${deleted} worktree(s), kept ${skipped} out of ${total}."
+fi
