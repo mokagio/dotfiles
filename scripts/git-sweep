@@ -1,4 +1,6 @@
-#!/bin/bash -eu
+#!/usr/bin/env bash
+
+set -eu
 
 # Sweep away branches that have already been merged in the remote.
 
@@ -6,10 +8,16 @@ DEFAULT_MAIN_BRANCH=trunk
 MAIN_BRANCH=${1:-$DEFAULT_MAIN_BRANCH}
 
 echo "Deleting all local branches that have been merged into $MAIN_BRANCH..."
-# if [[  $MAIN_BRANCH = "$DEFAULT_MAIN_BRANCH" ]]; then
-#   echo ''
-#   echo "Pass a different branch name when calling $0 if $DEFAULT_MAIN_BRANCH is not your main branch"
-# fi
 
 git fetch
-git branch --merged | grep -E -v "(^\*|$MAIN_BRANCH)" | xargs git branch -d
+
+# Collect branches checked out in worktrees so we can skip them.
+worktree_branches=$(git worktree list --porcelain | sed -n 's/^branch refs\/heads\///p')
+
+git branch --merged | grep -E -v "(^\*|$MAIN_BRANCH)" | while read -r branch; do
+  if echo "$worktree_branches" | grep -qxF "$branch"; then
+    echo "Skipping '$branch' (checked out in a worktree)"
+  else
+    git branch -d "$branch"
+  fi
+done
