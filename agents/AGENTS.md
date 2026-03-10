@@ -178,6 +178,11 @@ Continue working while they run; check results when done.
 
 ---
 
+After any rebase or merge that touches an Xcode project file (`*.pbxproj`), run `/audit-xcodeproj` before proceeding.
+Merge conflicts in project files often produce silent corruption (truncated entries, dangling UUIDs) that only surfaces later as build failures.
+
+---
+
 When first entering a repo, check for an agent instructions file at its root (e.g., `CLAUDE.md`, `AGENTS.md`).
 If there isn't one, prompt me to create it before doing anything else.
 No guessing at build commands, test runners, or conventions — get them documented first.
