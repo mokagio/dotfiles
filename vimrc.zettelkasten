@@ -62,3 +62,47 @@ function! OpenRandomWithQuoteNote()
     " Step 3: Open the random file in Vim
     execute 'edit ' . l:random_file
 endfunction
+
+" Navigate zettelkasten notes chronologically.
+"
+" Notes use YYMMDD-HHMM.md filenames, so lexicographic sort = chronological
+" order.
+"
+" [z / ]z to go to previous / next note.
+" <Leader>zl to jump to the latest note.
+" If the current buffer isn't a dated note, ZkPrev starts from the latest.
+
+function! s:ZkNotes() abort
+  return sort(globpath($VIMWIKI_HOME . '/zettelkasten',
+        \ '[0-9][0-9][0-9][0-9][0-9][0-9]-[0-9][0-9][0-9][0-9].md', 0, 1))
+endfunction
+
+function! s:ZkNavigate(delta) abort
+  let l:notes = s:ZkNotes()
+  if empty(l:notes) | echo 'No notes found' | return | endif
+
+  let l:current = expand('%:p')
+  let l:idx = index(l:notes, l:current)
+
+  if l:idx == -1
+    " Not on a dated note — start from latest
+    let l:idx = len(l:notes) - 1
+  else
+    let l:idx = l:idx + a:delta
+  endif
+
+  if l:idx < 0 || l:idx >= len(l:notes)
+    echo (a:delta < 0 ? 'Already at oldest note' : 'Already at latest note')
+    return
+  endif
+
+  execute 'edit ' . fnameescape(l:notes[l:idx])
+endfunction
+
+command! ZkPrev call s:ZkNavigate(-1)
+command! ZkNext call s:ZkNavigate(1)
+command! ZkLatest execute 'edit ' . fnameescape(s:ZkNotes()[-1])
+
+nnoremap <silent> [z :ZkPrev<CR>
+nnoremap <silent> ]z :ZkNext<CR>
+nnoremap <silent> <Leader>zl :ZkLatest<CR>
