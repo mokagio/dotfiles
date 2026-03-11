@@ -156,3 +156,4 @@ alias yamlparse=ymlparse
 
 alias cl='claude'
 alias cld='claude --dangerously-skip-permissions'
+alias /cld='cld'
