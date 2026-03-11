@@ -1,0 +1,36 @@
+#!/usr/bin/env bash
+
+set -eu
+
+# Worktree-aware branch delete: if the branch lives in a worktree, remove the
+# worktree first, then delete the branch.
+#
+# Designed to be invoked as `git branch-delete <branch>` or via the `gbd` alias.
+
+force=false
+if [[ "${1:-}" == "--force" || "${1:-}" == "-f" ]]; then
+  force=true
+  shift
+fi
+
+branch="${1:?usage: git branch-delete [-f|--force] <branch>}"
+
+wt_path=$(git worktree list --porcelain | awk -v b="refs/heads/$branch" '
+  /^worktree /{ p=substr($0,10) } /^branch /{ if($2==b) print p }')
+
+sha=$(git rev-parse --short "$branch")
+had_worktree=false
+
+if [[ -n "$wt_path" ]]; then
+  echo "Removing worktree at $wt_path"
+  if $force; then
+    git worktree remove --force "$wt_path"
+  else
+    git worktree remove "$wt_path"
+  fi
+  had_worktree=true
+fi
+
+git branch -D "$branch"
+
+printf 'Restore with: git branch %s %s\n' "$branch" "$sha"

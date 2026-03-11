@@ -43,6 +43,12 @@ _gco_branches() {
   reply=(${(f)"$(git branch --format='%(refname:short)' 2>/dev/null)"})
 }
 compctl -K _gco_branches gco
+# Worktree-aware branch delete: removes the worktree first if needed.
+# Logic lives in scripts/git-branch-delete (available as `git branch-delete`).
+gbd() {
+  git branch-delete "$@"
+}
+compctl -K _gco_branches gbd
 # These break the gch pattern, but I already have muscle memory for these shorted alternatives
 alias ghp='git checkout -p'
 alias gnb='git checkout -b'
