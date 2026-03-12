@@ -190,9 +190,10 @@ if command -v mise &>/dev/null; then
   eval "$(mise activate zsh)"
 fi
 
-# Added by LM Studio CLI (lms)
-export PATH="$PATH:/Users/gio/.lmstudio/bin"
-# End of LM Studio CLI section
+# LM Studio CLI (lms)
+if [[ -d "$HOME/.lmstudio/bin" ]]; then
+  export PATH="$PATH:$HOME/.lmstudio/bin"
+fi
 
 # GPG needs to know which terminal to use for passphrase prompts.
 # Set in .zshrc (not .zshenv) because tty fails in non-interactive shells.
