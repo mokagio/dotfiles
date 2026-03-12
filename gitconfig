@@ -10,6 +10,8 @@
   excludesfile = ~/.gitignore
 [rebase]
   autosquash = true
+  autostash = true
+  updateRefs = true
 [github]
   user = mokagio
 [pull]
