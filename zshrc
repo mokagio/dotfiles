@@ -128,7 +128,7 @@ export PATH=$PATH:$GOPATH/bin
 # AWS CLI Autocompleter
 # https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-completion.html
 autoload bashcompinit && bashcompinit
-complete -C '/usr/local/bin/aws_completer' aws
+complete -C "$HOMEBREW_PREFIX/bin/aws_completer" aws
 
 # Xcode build autocompletion, via https://github.com/keith/zsh-xcode-completions
 fpath=($HOMEBREW_PREFIX/share/zsh/site-functions $fpath)
