@@ -79,25 +79,6 @@ alias hideFiles='defaults write com.apple.finder AppleShowAllFiles NO; killall F
 
 test -e ${HOME}/.iterm2_shell_integration.zsh && source ${HOME}/.iterm2_shell_integration.zsh
 
-# Ruby environment management setup
-if command -v rbenv &>/dev/null; then
-  eval "$(rbenv init -)"
-fi
-
-if which swiftenv > /dev/null; then eval "$(swiftenv init -)"; fi
-
-if gem which lunchy &> /dev/null; then
-  LUNCHY_DIR=$(dirname `gem which lunchy`)/../extras
-  if [ -f $LUNCHY_DIR/lunchy-completion.zsh  ]; then
-    . $LUNCHY_DIR/lunchy-completion.zsh
-  fi
-fi
-
-# fnm — fast Node version manager (replaces nvm)
-if command -v fnm &>/dev/null; then
-  eval "$(fnm env --use-on-cd)"
-fi
-
 # Convert an input `.md` file to HTML and paste it to the clipboard.
 # I use this everytime I work on a newsletter or other text content to paste
 # into an HTML editor.
@@ -211,10 +192,8 @@ export PATH="$PATH:$HOME/Developer/roc_lang/roc_nightly-macos_apple_silicon-$ROC
 # I'll need something installed fast and Homebrew will spend minutes updating unrelated packages.
 # Reminds me of Windows installing updates every other day...
 export HOMEBREW_NO_AUTO_UPDATE=1
-# mise — polyglot version manager (currently only managing tuist).
-# Could replace rbenv and fnm too, since it reads .ruby-version, .nvmrc, etc.
-# Tradeoff: one tool for everything vs purpose-built tools per language.
-# Sticking with rbenv (Ruby) and fnm (Node) for now — both are mature and fast.
+# mise — polyglot version manager (Ruby, Node, tuist, etc.).
+# Reads legacy version files (.ruby-version, .nvmrc) via legacy_version_file.
 if command -v mise &>/dev/null; then
   eval "$(mise activate zsh)"
 fi

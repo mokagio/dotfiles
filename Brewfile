@@ -16,18 +16,11 @@ brew 'antigen'
 brew 'starship'
 # Fast folder jump - Replaces autojump
 brew 'zoxide'
-# Fast node version manager - Replaces nvm
-brew 'fnm'
-# Multipurpose version manager
-# TODO: Need to consider whether to go all in on this instead of dedicated managers
+# Polyglot version manager — manages Ruby, Node, and other runtimes
 brew 'mise'
 brew 'git'
-# Ruby version manager
-brew 'rbenv'
-brew 'ruby-build'
 brew 'vim'
 brew 'neovim'
-brew 'node' # TODO: Is this necessary when using fnm?
 brew 'yarn'
 brew 'python'
 brew 'shellcheck'

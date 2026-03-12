@@ -6,7 +6,7 @@ set -eu
 #
 #   (no args)      Run everything: symlinks + all install steps
 #   --links-only   Only create symlinks and directories
-#   --ruby-only    Only run Ruby setup (rbenv install + bundle)
+#   --ruby-only    Only run Ruby setup (mise install + bundle)
 #
 # Flags can be combined: --links-only --ruby-only runs both but skips
 # the heavy install steps (Homebrew, Node, Vim plugins, etc.).
@@ -173,13 +173,13 @@ if [[ -d "$qlcolorcode_path" ]]; then
   xattr -cr "$qlcolorcode_path"
 fi
 
-# Install latest Node via fnm (installed via Brewfile)
-if command -v fnm &>/dev/null; then
-  eval "$(fnm env)"
-  fnm install --lts
-  echo "Node $(node --version) installed via fnm"
+# Install latest Node LTS via mise (installed via Brewfile)
+if command -v mise &>/dev/null; then
+  mise install node@lts
+  mise use --global node@lts
+  echo "Node $(mise exec -- node --version) installed via mise"
 else
-  printf "\033[1;31mfnm not found, skipping Node setup.\033[0m\n"
+  printf "\033[1;31mmise not found, skipping Node setup.\033[0m\n"
 fi
 
 # Install Vim-Plug to manage Vim plugins
@@ -244,16 +244,15 @@ echo ""
 printf '\033[1;36m==> %s\033[0m\n' "Setting up Ruby"
 
 # Install latest Ruby and system wide gems
-if command -v rbenv &>/dev/null; then
-  latest_ruby=$(rbenv install -l | grep -v - | tail -1)
-  rbenv install --skip-existing "$latest_ruby"
-  rbenv global "$latest_ruby"
-  gem install bundler
-  if ! bundle install; then
+if command -v mise &>/dev/null; then
+  mise install ruby@latest
+  mise use --global ruby@latest
+  mise exec -- gem install bundler
+  if ! mise exec -- bundle install; then
     printf "\033[1;31mbundle install failed. Run it manually to retry.\033[0m\n"
   fi
 else
-  printf "\033[1;31mrbenv not found, skipping Ruby setup.\033[0m\n"
+  printf "\033[1;31mmise not found, skipping Ruby setup.\033[0m\n"
 fi
 
 fi # do_ruby
