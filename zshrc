@@ -131,7 +131,7 @@ autoload bashcompinit && bashcompinit
 complete -C '/usr/local/bin/aws_completer' aws
 
 # Xcode build autocompletion, via https://github.com/keith/zsh-xcode-completions
-fpath=(/usr/local/share/zsh/site-functions $fpath)
+fpath=($HOMEBREW_PREFIX/share/zsh/site-functions $fpath)
 
 # Paste content of file to clipboard
 pastetoclipboard() {
