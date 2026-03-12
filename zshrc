@@ -77,9 +77,6 @@ fi
 alias jake='nocorrect jake'
 alias leiningen='nocorrect leiningen'
 
-# As reccomended in the bower installer
-alias bower='noglob bower'
-
 alias showFiles='defaults write com.apple.finder AppleShowAllFiles YES; killall Finder /System/Library/CoreServices/Finder.app'
 alias hideFiles='defaults write com.apple.finder AppleShowAllFiles NO; killall Finder /System/Library/CoreServices/Finder.app'
 
