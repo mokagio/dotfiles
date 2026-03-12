@@ -40,11 +40,9 @@ Plug 'ghifarit53/tokyonight-vim'
 Plug 'dbmrq/vim-dialect'
 
 " Legacy language plugins
-Plug 'cfdrake/vim-carthage'
 Plug 'tpope/vim-cucumber'
 Plug 'digitaltoad/vim-jade'
 Plug 'keith/sourcekittendaemon.vim'
-Plug 'gfontenot/vim-xcode', { 'branch': 'main' }
 Plug 'cfdrake/vim-pbxproj'
 Plug 'keith/xcconfig.vim'
 Plug 'darfink/vim-plist'
@@ -53,9 +51,6 @@ Plug 'chrisbra/csv.vim'
 Plug 'pprovost/vim-ps1'
 Plug 'cappyzawa/starlark.vim'
 Plug 'madzak/vim-proselint'
-
-" Run rspec tests via leader commands
-Plug 'thoughtbot/vim-rspec', { 'for': 'ruby' }
 
 " Cycle through color schemes
 Plug 'vim-scripts/setcolors.vim'
