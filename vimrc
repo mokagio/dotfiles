@@ -73,17 +73,6 @@ let g:syntastic_loc_list_height = 4
 let g:syntastic_swift_checkers = ['swiftpm', 'swiftlint']
 let g:syntastic_javascript_checkers = ['eslint']
 
-" vim-rspec
-map <Leader>t :call RunCurrentSpecFile()<CR>
-map <Leader>n :call RunNearestSpec()<CR>
-map <Leader>l :call RunLastSpec()<CR>
-map <Leader>a :call RunAllSpecs()<CR>
-let g:rspec_runner = "os_x_iterm2"
-
-" vim-xcode
-map <Leader>b :Xbuild<CR>
-map <Leader>u :Xtest<CR>
-
 " Vim Wiki & Zettelkasten settings
 let g:zettel_wikigrep_command = "rg -l %pattern %path --glob='*%ext'"
 
