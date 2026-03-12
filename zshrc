@@ -72,11 +72,6 @@ if command -v zoxide &>/dev/null; then
   alias j=z
 fi
 
-# Turn off autocorrect for some commands
-# See http://yountlabs.com/blog/2010/11/06/disable-autocorrect-in-zsh/
-alias jake='nocorrect jake'
-alias leiningen='nocorrect leiningen'
-
 alias showFiles='defaults write com.apple.finder AppleShowAllFiles YES; killall Finder /System/Library/CoreServices/Finder.app'
 alias hideFiles='defaults write com.apple.finder AppleShowAllFiles NO; killall Finder /System/Library/CoreServices/Finder.app'
 
