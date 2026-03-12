@@ -20,6 +20,9 @@ if [[ -d "$HOMEBREW_PREFIX/share/zsh-completions" ]]; then
   fpath=("$HOMEBREW_PREFIX/share/zsh-completions" $fpath)
 fi
 
+# Xcode build autocompletion, via https://github.com/keith/zsh-xcode-completions
+fpath=($HOMEBREW_PREFIX/share/zsh/site-functions $fpath)
+
 # Case-insensitive tab completion
 zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z} m:=_ m:=- m:=.'
 
@@ -129,9 +132,6 @@ export PATH=$PATH:$GOPATH/bin
 # https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-completion.html
 autoload bashcompinit && bashcompinit
 complete -C "$HOMEBREW_PREFIX/bin/aws_completer" aws
-
-# Xcode build autocompletion, via https://github.com/keith/zsh-xcode-completions
-fpath=($HOMEBREW_PREFIX/share/zsh/site-functions $fpath)
 
 # Paste content of file to clipboard
 pastetoclipboard() {
