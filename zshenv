@@ -105,8 +105,6 @@ fi
 # PHP / Composer / Valet
 export PATH="$PATH:$HOME/.composer/vendor/bin"
 
-export GPG_TTY=$(tty)
-
 # Get rid of Fastlane noise
 export FASTLANE_SKIP_UPDATE_CHECK=1
 export FASTLANE_HIDE_CHANGELOG=1
