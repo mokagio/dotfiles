@@ -35,10 +35,6 @@ alias rmd='rm -rf DerviedData'
 # https://github.com/dblock/fui
 alias fui='nocorrect fui'
 
-# Note! this assumes you have xctool available in your path
-# and the .xctoolargs in the current working directory
-alias xt='xctool test'
-
 # Ruby
 alias r='ruby'
 alias rr='rake'
