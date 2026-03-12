@@ -6,6 +6,8 @@
 [push]
   default = simple
   autoSetupRemote = true
+[diff]
+  algorithm = histogram
 [core]
   excludesfile = ~/.gitignore
 [rebase]
