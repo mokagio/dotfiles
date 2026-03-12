@@ -37,6 +37,8 @@ fi
 link() {
   if [[ -h "$2" ]]; then
     echo "$2 exists already, skipping"
+  elif [[ -e "$2" ]]; then
+    echo "WARNING: $2 exists and is not a symlink, skipping"
   else
     echo "Will run: ln -s $1 $2"
     ln -s "$1" "$2"
