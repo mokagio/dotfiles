@@ -28,7 +28,6 @@ alias hb='gh browse' # open GitHub for the current repo and branch combo
 # iOS & OS X development
 alias xco='[[ -f Project.swift ]] && tuist generate || open -a Xcode .'
 alias xbo='open -a /Applications/Xcode-beta.app .'
-alias aco='open -a AppCode .'
 alias rmd='rm -rf DerviedData'
 
 # Ruby gem to find unused Objective-C imports, and eventually delete them
