@@ -31,11 +31,6 @@ alias xbo='open -a /Applications/Xcode-beta.app .'
 alias aco='open -a AppCode .'
 alias rmd='rm -rf DerviedData'
 
-# --repo-update is useful to avoid the occasional resolution dependency failure
-# in my "day" job at Automattic
-alias bpi='bundle exec pod install'
-alias bip='bpi' # for typos
-
 # Ruby gem to find unused Objective-C imports, and eventually delete them
 # https://github.com/dblock/fui
 alias fui='nocorrect fui'
@@ -63,7 +58,6 @@ alias ast='open -a Android\ Studio'
 
 # Apps
 alias chrome='open -a Google\ Chrome'
-alias m='open -a MacDown'
 alias v='nvim'
 alias ao='open -a /Applications/Android\ Studio.app'
 
@@ -91,11 +85,6 @@ alias cask='brew cask'
 # Utils
 # (You can download the "Lee" voice from the Voice Utility app)
 alias sey="say -v Oliver \"Joe, I've completed the task you gave me\""
-
-# Carthage
-# using tu because cu is already taken by a system command
-alias tu='carthage update --no-build'
-alias tub='carthage update --build'
 
 # Fastlane
 alias f='fastlane'
