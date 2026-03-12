@@ -121,7 +121,7 @@ fi
 # This used to be on by default in my pre-antigen prezto setup...
 # See also
 # https://stackoverflow.com/questions/24513873/git-tab-completion-not-working-in-zsh-on-mac/58517668#58517668
-autoload -Uz compinit && compinit
+autoload -Uz compinit && compinit -u
 
 # Go
 export GOPATH=$HOME/.go
