@@ -109,7 +109,15 @@ alias gpt="git push; git push --tags"
 alias gap="git add -p"
 alias gchp="git checkout -p"
 # List the 10 most recent branches
-alias grb="git branch --sort=committerdate | tail -10 | more"
+# List recent branches (non-interactive)
+alias gbs="git branch --sort=committerdate | tail -10 | more"
+# Interactive branch switch via fzf + worktree-aware checkout
+grb() {
+  local selection branch
+  selection=$(git branch --sort=-committerdate | fzf --height=20 --reverse) || return
+  branch=$(echo "$selection" | sed 's/^[* +]*//')
+  gco "$branch"
+}
 # Custom script to interactively stash files
 # TODO: this needs to be parametric, can't depend on an hardcoded path
 alias gsa='ruby $DOTFILES_HOME/scripts/interactive-stage.rb'
