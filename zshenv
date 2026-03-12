@@ -79,8 +79,6 @@ TMPPREFIX="${TMPDIR%/}/zsh"
 # mokagio
 #
 
-PATH=$PATH:/usr/local/share/npm/bin
-
 # Android dev stuff
 #
 export ANDROID_HOME=~/Library/Android/sdk
