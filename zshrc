@@ -121,6 +121,7 @@ fi
 # This used to be on by default in my pre-antigen prezto setup...
 # See also
 # https://stackoverflow.com/questions/24513873/git-tab-completion-not-working-in-zsh-on-mac/58517668#58517668
+# -u: skip insecure-directory check — Homebrew sets group-write on its share dir
 autoload -Uz compinit && compinit -u
 
 # Go
