@@ -1,46 +1,52 @@
 # Executes commands at the start of an interactive session.
 
-# ZSH Plugin manager
-antigen_intel_path=/usr/local/share/antigen/antigen.zsh
-antigen_apple_silicon_path=/opt/homebrew/share/antigen/antigen.zsh
-if [[ -f $antigen_apple_silicon_path ]] || [[ -f $antigen_intel_path ]]; then
-  if [[ -f $antigen_apple_silicon_path ]]; then
-    source $antigen_apple_silicon_path
+# Resolve Homebrew prefix: read from disk cache, or resolve once and cache
+_brew_cache="${XDG_CACHE_HOME:-$HOME/.cache}/dotfiles/homebrew_prefix"
+if [[ -r "$_brew_cache" ]]; then
+  HOMEBREW_PREFIX=$(<"$_brew_cache")
+elif command -v brew &>/dev/null; then
+  HOMEBREW_PREFIX=$(brew --prefix)
+  mkdir -p "${_brew_cache:h}"
+  print -n "$HOMEBREW_PREFIX" > "$_brew_cache"
+fi
+unset _brew_cache
+export HOMEBREW_PREFIX
+
+# --- ZSH plugins (direct sourcing) ---
+# If startup feels slow, consider migrating to zinit for turbo/lazy-loading.
+
+# Completions from Homebrew (must precede compinit)
+if [[ -d "$HOMEBREW_PREFIX/share/zsh-completions" ]]; then
+  fpath=("$HOMEBREW_PREFIX/share/zsh-completions" $fpath)
+fi
+
+# Case-insensitive tab completion
+zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z} m:=_ m:=- m:=.'
+
+# Colored man pages
+source "$DOTFILES_HOME/zsh/plugins/colored-man-pages.plugin.zsh"
+
+# Ctrl-Z toggles between shell and fg (replaces zsh-vim-crtl-z plugin)
+fancy-ctrl-z() {
+  if [[ $#BUFFER -eq 0 ]]; then
+    BUFFER="fg"
+    zle accept-line
   else
-    # Because of the nested if, we know that the intel path exist
-    source $antigen_intel_path
+    zle push-input
+    zle clear-screen
   fi
+}
+zle -N fancy-ctrl-z
+bindkey '^Z' fancy-ctrl-z
 
-  antigen use oh-my-zsh
+# Fish-like autosuggestions
+if [[ -f "$HOMEBREW_PREFIX/share/zsh-autosuggestions/zsh-autosuggestions.zsh" ]]; then
+  source "$HOMEBREW_PREFIX/share/zsh-autosuggestions/zsh-autosuggestions.zsh"
+fi
 
-  # When you try to use a command that is not available locally, searches the
-  # package manager for a package offering that command and suggests the proper
-  # install command.
-  antigen bundle command-not-found
-  antigen bundle colored-man-pages
-  # A bunch of handy aliases. See:
-  # https://github.com/sorin-ionescu/prezto/tree/95ff0360aeef951111c5ca6a80939e9329ddb434/modules/utility
-  antigen bundle utility
-  # Syntax highlighting (commands are one color, text in quotes is another, etc.)
-  antigen bundle zsh-users/zsh-syntax-highlighting
-  antigen bundle zsh-users/zsh-autosuggestions
-  # Better completions
-  antigen bundle zsh-users/zsh-completions
-  # This makes it so that tab completions are case insensitive
-  zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z} m:=_ m:=- m:=.'
-
-  # "open Vim and hit Crtl-Z. Now you don't need anymore hit fg, but only Crtl-Z
-  # again"
-  antigen bundle alexrochas/zsh-vim-crtl-z
-  zle -N fancy-ctrl-z
-  bindkey '^Z' fancy-ctrl-z
-
-  # You can find more modules for prezto at
-  # https://github.com/sorin-ionescu/prezto/tree/master/modules
-
-  antigen apply
-else
-  echo "❌ Cannot find Antigen ZSH plugin manager in the system"
+# Syntax highlighting (must be last among plugins)
+if [[ -f "$HOMEBREW_PREFIX/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" ]]; then
+  source "$HOMEBREW_PREFIX/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
 fi
 
 # Starship prompt (replaces spaceship-prompt)
@@ -150,18 +156,6 @@ fi
 # it).
 LOCAL_ZSHRC="${HOME}/.zshrc.local"
 [ -f "$LOCAL_ZSHRC" ] && source "$LOCAL_ZSHRC"
-
-# Resolve Homebrew prefix: read from disk cache, or resolve once and cache
-_brew_cache="${XDG_CACHE_HOME:-$HOME/.cache}/dotfiles/homebrew_prefix"
-if [[ -r "$_brew_cache" ]]; then
-  HOMEBREW_PREFIX=$(<"$_brew_cache")
-elif command -v brew &>/dev/null; then
-  HOMEBREW_PREFIX=$(brew --prefix)
-  mkdir -p "${_brew_cache:h}"
-  print -n "$HOMEBREW_PREFIX" > "$_brew_cache"
-fi
-unset _brew_cache
-export HOMEBREW_PREFIX
 
 # Load the aliases after the local zshrc, just in case there are env var
 # overrides in it.

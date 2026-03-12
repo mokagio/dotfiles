@@ -8,8 +8,10 @@
 # The shell of choice. This is actually the default in macOS 10.15, but it
 # doesn't hurt to install it with Homebrew, does it?
 brew 'zsh'
-# Zsh package manager
-brew 'antigen'
+# Zsh plugins (direct sourcing)
+brew 'zsh-syntax-highlighting'
+brew 'zsh-autosuggestions'
+brew 'zsh-completions'
 # Shell tools
 #
 # Custom promt
