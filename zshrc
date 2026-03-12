@@ -179,11 +179,6 @@ export PATH="$BUN_INSTALL/bin:$PATH"
 ROC_ID=2024-06-26-f8c6786502b
 export PATH="$PATH:$HOME/Developer/roc_lang/roc_nightly-macos_apple_silicon-$ROC_ID"
 
-# Stop Homebrew from auto-updating because it is often inconvenient.
-#
-# I'll need something installed fast and Homebrew will spend minutes updating unrelated packages.
-# Reminds me of Windows installing updates every other day...
-export HOMEBREW_NO_AUTO_UPDATE=1
 # mise — polyglot version manager (Ruby, Node, tuist, etc.).
 # Reads legacy version files (.ruby-version, .nvmrc) via legacy_version_file.
 if command -v mise &>/dev/null; then

@@ -129,6 +129,10 @@ export PATH="$PATH:/opt/cloud66/bin"
 export FASTLANE_PROMPT_REMINDER_MESSAGE=1
 export PATH="$PATH:/opt/ci/bin"
 
+# Stop Homebrew from auto-updating because it is often inconvenient.
+# In zshenv so non-interactive calls (Makefiles, scripts) also skip it.
+export HOMEBREW_NO_AUTO_UPDATE=1
+
 # Machine-local overrides (not tracked in dotfiles)
 LOCAL_ZSHENV="${HOME}/.zshenv.local"
 [[ -f "$LOCAL_ZSHENV" ]] && source "$LOCAL_ZSHENV"
