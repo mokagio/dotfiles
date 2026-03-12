@@ -126,10 +126,6 @@ alias npg='vim -c Goyo ~/Dropbox/writing/night-pages/$(date "+%Y-%m-%d-%H%M").md
 # last-night-questions
 alias lnq='cat "$(ls -1rt ~/Dropbox/writing/night-pages/*.md | tail -n1)"'
 
-# Use this in a Pod libray repo to check if the version is
-# stable or beta and whether a new release is required
-alias check_pod_version='gh trunk && gl && cat *.podspec | grep version'
-
 # This might be better as a scripts, to be fair
 #
 # Use like: cat file.yml | ymlparse
