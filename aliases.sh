@@ -80,8 +80,6 @@ fi
 
 alias wlg='vim $HOME/Dropbox/.worklog_wiki/index.md'
 
-alias cask='brew cask'
-
 # Utils
 # (You can download the "Lee" voice from the Voice Utility app)
 alias sey="say -v Oliver \"Joe, I've completed the task you gave me\""
