@@ -17,8 +17,10 @@ set tabstop=2
 set shiftwidth=2
 set expandtab
 
-" Automatically :write before running commands
-set autowrite
+" Automatically :write before running commands and on focus/buffer changes
+set autowriteall
+autocmd FocusLost * silent! wall
+autocmd BufLeave * silent! wall
 
 " Enable project-specific vimrc
 set exrc
