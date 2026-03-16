@@ -173,6 +173,10 @@ export PATH="$PATH:$HOME/Developer/roc_lang/roc_nightly-macos_apple_silicon-$ROC
 
 # mise — polyglot version manager (Ruby, Node, tuist, etc.).
 # Reads legacy version files (.ruby-version, .nvmrc) via legacy_version_file.
+# ~/.local/bin must be on PATH first so `command -v mise` succeeds.
+# Shims are also prepended here because macOS path_helper (/etc/zprofile) runs
+# between .zshenv and .zshrc and reorders system paths to the front.
+path=($HOME/.local/bin $HOME/.local/share/mise/shims $path)
 if command -v mise &>/dev/null; then
   eval "$(mise activate zsh)"
 fi
@@ -186,5 +190,3 @@ fi
 # Set in .zshrc (not .zshenv) because tty fails in non-interactive shells.
 export GPG_TTY=$(tty)
 
-# For Claude Code
-export PATH="$HOME/.local/bin:$PATH"

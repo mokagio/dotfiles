@@ -44,7 +44,10 @@ typeset -gU cdpath fpath mailpath path
 # )
 
 # Set the list of directories that Zsh searches for programs.
+# mise shims go first so managed tools (ruby, node, etc.) win over
+# system copies in /usr/local/bin.
 path=(
+  $HOME/.local/share/mise/shims
   /usr/local/{bin,sbin}
   $path
 )
