@@ -108,6 +108,12 @@ fi
 
 # Useful keybindings and fuzzy completion for fzf
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+# Use fd for fzf if available (faster, respects .gitignore)
+if command -v fd &>/dev/null; then
+  export FZF_DEFAULT_COMMAND='fd --type f'
+  export FZF_CTRL_T_COMMAND='fd --type f'
+  export FZF_ALT_C_COMMAND='fd --type d'
+fi
 
 # Enable Zsh Git tab completions
 # This used to be on by default in my pre-antigen prezto setup...

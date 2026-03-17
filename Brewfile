@@ -67,6 +67,8 @@ brew 'rar'
 brew 'eza'
 # Syntax-highlighted pager for git diffs
 brew 'git-delta'
+# Fast find alternative, respects .gitignore
+brew 'fd'
 # macOS doesn't have a built-in version of `tree`
 brew 'tree'
 # Mint is an installer for tools distributed via SPM

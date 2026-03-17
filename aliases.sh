@@ -84,8 +84,7 @@ alias f='fastlane'
 alias bf='bundle exec fastlane'
 
 # Update any software installed via Homebrew
-# fd = fresh drink
-alias fd='brew update && brew upgrade'
+alias fresh='brew update && brew upgrade'
 
 alias pb='pbcopy'
 
