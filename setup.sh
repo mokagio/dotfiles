@@ -236,6 +236,12 @@ else
   echo "Powerline fonts installed"
 fi
 
+# GitHub CLI extensions
+if command -v gh &>/dev/null; then
+  gh extension install dlvhdr/gh-dash
+  gh extension install github/gh-copilot
+fi
+
 # Claude Code global MCP servers (requires claude from Brewfile)
 if command -v claude >/dev/null 2>&1; then
   claude mcp add --transport http --scope user buildkite https://mcp.buildkite.com/mcp/readonly

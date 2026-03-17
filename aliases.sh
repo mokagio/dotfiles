@@ -139,6 +139,7 @@ alias lnq='cat "$(ls -1rt ~/Dropbox/writing/night-pages/*.md | tail -n1)"'
 alias ymlparse="ruby -ryaml -e 'puts YAML::load(STDIN.read, aliases: true)'"
 alias yamlparse=ymlparse
 
+alias cop='gh copilot'
 alias cl='claude'
 alias cld='claude --dangerously-skip-permissions'
 alias /cld='cld'
