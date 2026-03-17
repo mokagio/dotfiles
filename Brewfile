@@ -63,6 +63,8 @@ brew 'wget'
 # RAR archiver (`rar`) and unarchiver (`unrar`)
 # FIXME: This can no longer be found
 brew 'rar'
+# Modern ls replacement with git awareness, tree view, icons
+brew 'eza'
 # macOS doesn't have a built-in version of `tree`
 brew 'tree'
 # Mint is an installer for tools distributed via SPM

@@ -89,6 +89,13 @@ alias fd='brew update && brew upgrade'
 
 alias pb='pbcopy'
 
+# Modern ls with git awareness
+# https://github.com/eza-community/eza
+alias ls='eza'
+alias ll='eza -l --git'
+alias la='eza -la --git'
+alias lt='eza --tree --level=2'
+
 # A cat with syntax highlighting and Git support
 # https://github.com/sharkdp/bat
 alias cat='bat --style="plain,header,grid"'
