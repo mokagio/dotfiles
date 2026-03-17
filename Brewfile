@@ -65,6 +65,8 @@ brew 'wget'
 brew 'rar'
 # Modern ls replacement with git awareness, tree view, icons
 brew 'eza'
+# Syntax-highlighted pager for git diffs
+brew 'git-delta'
 # macOS doesn't have a built-in version of `tree`
 brew 'tree'
 # Mint is an installer for tools distributed via SPM
