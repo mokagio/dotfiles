@@ -155,10 +155,27 @@ if $do_install; then
 echo ""
 printf '\033[1;36m==> %s\033[0m\n' "Installing tools"
 
+if ! xcodebuild -license check &>/dev/null; then
+  printf "\033[1;31mXcode CLI tools license not accepted. Run 'sudo xcodebuild -license' first.\033[0m\n"
+  exit 1
+fi
+
+if ! command -v brew &>/dev/null; then
+  printf "\033[1;31mHomebrew not found. Install it from https://brew.sh first.\033[0m\n"
+  exit 1
+fi
+
 if ! brew bundle; then
   printf "\033[1;31mbrew bundle finished with errors. Some formulae may not have installed.\033[0m\n"
   printf "\033[1;31mRun 'brew bundle' manually to retry.\033[0m\n"
 fi
+
+for cmd in nvim mise; do
+  if ! command -v "$cmd" &>/dev/null; then
+    printf "\033[1;31m%s not found after brew bundle. Cannot continue.\033[0m\n" "$cmd"
+    exit 1
+  fi
+done
 # Some of the tools installed via Homebrew might need additional manual steps.
 #
 # Install fzf useful keybindings and fuzzy completion for ZSH
