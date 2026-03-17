@@ -54,6 +54,13 @@ alias ghp='git checkout -p'
 alias gnb='git checkout -b'
 alias gd='git diff'
 alias gdc='git diff --cached'
+# Delta-powered diff variants (only when delta is the pager)
+if command -v delta &>/dev/null; then
+  alias gds='git -c delta.side-by-side=true diff'
+  alias gdw='git -c delta.word-diff=true diff'
+fi
+# Plain diff, bypassing the pager
+alias gdp='git --no-pager diff'
 alias gm='git merge'
 alias gr='git rebase'
 alias gf='git fetch'
