@@ -10,13 +10,6 @@
   algorithm = histogram
 [core]
   excludesfile = ~/.gitignore
-  pager = delta
-[interactive]
-  diffFilter = delta --color-only
-[delta]
-  navigate = true
-  line-numbers = true
-  syntax-theme = Nord
 [rebase]
   autosquash = true
   autostash = true

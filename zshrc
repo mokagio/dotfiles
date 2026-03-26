@@ -108,6 +108,16 @@ fi
 
 # Useful keybindings and fuzzy completion for fzf
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+# delta — fancy Git pager (side-by-side diffs, syntax highlighting)
+# Config lives in gitconfig.delta; injected via env so Git degrades gracefully
+# when delta isn't installed.
+if command -v delta &>/dev/null; then
+  export GIT_CONFIG_COUNT=1
+  export GIT_CONFIG_KEY_0='include.path'
+  export GIT_CONFIG_VALUE_0="$DOTFILES_HOME/gitconfig.delta"
+fi
+
 # Use fd for fzf if available (faster, respects .gitignore)
 if command -v fd &>/dev/null; then
   export FZF_DEFAULT_COMMAND='fd --type f'
