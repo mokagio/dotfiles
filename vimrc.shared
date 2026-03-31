@@ -18,6 +18,7 @@ set shiftwidth=2
 set expandtab
 
 " Automatically :write before running commands and on focus/buffer changes
+set clipboard=unnamedplus
 set autowriteall
 autocmd FocusLost * silent! wall
 autocmd BufLeave * silent! wall
