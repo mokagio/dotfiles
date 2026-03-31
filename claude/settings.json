@@ -1,5 +1,6 @@
 {
   "permissions": {
+    "defaultMode": "auto",
     "allow": [
       "Bash(bundle exec fastlane)",
       "Bash(bundle exec fastlane *)",
