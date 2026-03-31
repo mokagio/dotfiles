@@ -193,13 +193,13 @@ function! StraightenQuotes()
 endfunction
 
 command! StraightenQuotes call StraightenQuotes()
-nnoremap <silent><leader>q :StraightenQuotes<CR>
+nnoremap <silent><leader>qq :StraightenQuotes<CR>
 function! QuoteLines(type) abort
   '[,']s/^/> /
   nohlsearch
 endfunction
-nnoremap <silent><leader>qq :set operatorfunc=QuoteLines<CR>g@
-vnoremap <silent><leader>qq :s/^/> /<CR>:noh<CR>
+nnoremap <silent><leader>q :set operatorfunc=QuoteLines<CR>g@
+vnoremap <silent><leader>q :s/^/> /<CR>:noh<CR>
 
 function! CleanGiosLinks()
   %s#https://www\.#https://#g
