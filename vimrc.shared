@@ -183,6 +183,18 @@ endfunction
 command! SplitLineOnPeriod call SplitLineOnPeriod()
 nnoremap <silent><leader>n :SplitLineOnPeriod<CR>
 
+function! StraightenQuotes()
+  let l:save = winsaveview()
+  execute "silent! %s/\\%u2018/'/ge"
+  execute "silent! %s/\\%u2019/'/ge"
+  execute 'silent! %s/\%u201c/"/ge'
+  execute 'silent! %s/\%u201d/"/ge'
+  call winrestview(l:save)
+endfunction
+
+command! StraightenQuotes call StraightenQuotes()
+nnoremap <silent><leader>q :StraightenQuotes<CR>
+
 function! CleanGiosLinks()
   %s#https://www\.#https://#g
   %s#\(https://[^/]\+\)/p/#\1/#g
