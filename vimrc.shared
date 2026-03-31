@@ -169,10 +169,10 @@ com! FormatJSON %!python -m json.tool
 command! CapitalizeSelection :'<,'>s/\(\w\)\(\w*\)/\u\1\L\2/g
 
 function! SplitLineOnPeriod()
-  execute "silent! s/^"//"
-  execute "silent! s/^"//"
-  execute "silent! s/"$//"
-  execute "silent! s/"$//"
+  execute 'silent! s/^"//'
+  execute 'silent! s/^"//'
+  execute 'silent! s/"$//'
+  execute 'silent! s/"$//'
 
   execute "silent! s/\\.\\s\\+/.\\r/g"
   execute "silent! s/\\;\\s\\+/;\\r/g"
