@@ -178,6 +178,24 @@ Continue working while they run; check results when done.
 
 ---
 
+**Close the loop on every change.**
+
+After modifying code, verify it works — don't assume.
+After verification fails, fix and verify again.
+Repeat until clean or stuck.
+
+Concretely:
+
+- After editing code → run the relevant tests or build.
+- After a test/build fails → read the output, fix, re-run.
+- After pushing to a remote → check CI (e.g. `/ci-monitor`). If it fails, diagnose from the logs, fix, push, and check again.
+- After opening a PR → confirm checks pass before reporting it as done.
+
+Never hand back work with an untested change or an unverified push.
+One cycle of "edit → hope it works" is not enough; the loop closes when the result is confirmed.
+
+---
+
 After any rebase or merge that touches an Xcode project file (`*.pbxproj`), run `/audit-xcodeproj` before proceeding.
 Merge conflicts in project files often produce silent corruption (truncated entries, dangling UUIDs) that only surfaces later as build failures.
 
