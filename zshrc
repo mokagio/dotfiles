@@ -120,9 +120,9 @@ fi
 
 # Use fd for fzf if available (faster, respects .gitignore)
 if command -v fd &>/dev/null; then
-  export FZF_DEFAULT_COMMAND='fd --type f'
-  export FZF_CTRL_T_COMMAND='fd --type f'
-  export FZF_ALT_C_COMMAND='fd --type d'
+  export FZF_DEFAULT_COMMAND='fd --type f --hidden --exclude .git'
+  export FZF_CTRL_T_COMMAND='fd --type f --hidden --exclude .git'
+  export FZF_ALT_C_COMMAND='fd --type d --hidden --exclude .git'
 fi
 
 # Enable Zsh Git tab completions
