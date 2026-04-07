@@ -212,6 +212,10 @@ Prefer unquoted strings for cleaner, leaner files.
 
 ---
 
+When opening a PR, always assign it to `@mokagio`.
+
+---
+
 When posting to GitHub using my account (PR comments, issue comments, reviews, etc.), always close with a note like:
 
 > *Posted by AGENT (MODEL) on behalf of @mokagio with approval.*

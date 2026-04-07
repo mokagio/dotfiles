@@ -1,4 +1,7 @@
 {
+  "env": {
+    "ENGRAM_DIR": "/Users/gio/Developer/mokacoding-pty-ltd/engram"
+  },
   "permissions": {
     "defaultMode": "auto",
     "allow": [
@@ -10,6 +13,7 @@
       "Bash(bundle info *)",
       "Bash(bundle install *)",
       "Bash(cargo *)",
+      "Bash(cat *)",
       "Bash(cd *)",
       "Bash(cp *)",
       "Bash(cp -R *)",
@@ -19,7 +23,9 @@
       "Bash(df *)",
       "Bash(diff *)",
       "Bash(du *)",
+      "Bash(env *)",
       "Bash(file *)",
+      "Bash(find *)",
       "Bash(gh api *)",
       "Bash(gh auth status)",
       "Bash(gh issue list *)",
@@ -143,17 +149,20 @@
       "Bash(uname *)",
       "Bash(uuidgen)",
       "Bash(which *)",
+      "Bash(zk *)",
       "Bash(xcbeautify *)",
       "Bash(xcodebuild *)",
       "Bash(xcrun simctl list devices available)",
       "Bash(xcrun xcresulttool *)",
       "Edit",
+      "ExitPlanMode",
       "Glob",
       "Grep",
       "Read",
       "Skill(commit)",
       "Skill(ci-monitor)",
       "Skill(fix-pr-checks)",
+      "Skill(release-library)",
       "Skill(worktree)",
       "Task",
       "WebFetch",
@@ -296,7 +305,17 @@
   },
   "enabledPlugins": {
     "rust-analyzer-lsp@claude-plugins-official": true,
-    "swift-lsp@claude-plugins-official": true
+    "swift-lsp@claude-plugins-official": true,
+    "engram@engram": true
+  },
+  "extraKnownMarketplaces": {
+    "engram": {
+      "source": {
+        "source": "github",
+        "repo": "mokacoding/engram"
+      },
+      "autoUpdate": true
+    }
   },
   "alwaysThinkingEnabled": true,
   "voiceEnabled": true,
