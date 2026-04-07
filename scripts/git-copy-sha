@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+set -eu
+
+if ! command -v pbcopy &>/dev/null; then
+  echo "Error: pbcopy not found. This script requires macOS." >&2
+  exit 1
+fi
+
+sha=$(git rev-parse HEAD)
+echo -n "$sha" | pbcopy
+echo "$sha copied to clipboard"
