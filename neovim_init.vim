@@ -19,6 +19,7 @@ call plug#end()
 
 " Native LSP
 lua vim.lsp.enable('ruby_lsp')
+lua vim.lsp.enable('bashls')
 
 " Completion engine (blink.cmp)
 lua require('blink.cmp').setup({
@@ -30,13 +31,16 @@ lua require('blink.cmp').setup({
   \ fuzzy = { implementation = 'prefer_rust_with_warning' },
   \ })
 
-" Show diagnostics as inline virtual text with source and error code
+" Show diagnostics: signs in gutter, underline, and inline virtual text.
 lua vim.diagnostic.config({
   \ virtual_text = { source = true, spacing = 2 },
   \ signs = { text = { [1] = 'E', [2] = 'W', [3] = 'I', [4] = 'H' } },
   \ underline = true,
   \ severity_sort = true,
   \ })
+" Populate the location list with diagnostics (like Syntastic's loc list).
+" Cap the window height at 3 lines.
+autocmd DiagnosticChanged * lua vim.diagnostic.setloclist({ open = false }); vim.cmd('lclose | lwindow 3 | wincmd p')
 
 " Theme — use NeoVim-native tokyonight config
 let g:tokyonight_style = 'night'

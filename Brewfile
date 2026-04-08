@@ -25,6 +25,7 @@ brew 'vim'
 brew 'neovim'
 brew 'yarn'
 brew 'python'
+brew 'bash-language-server'
 brew 'shellcheck'
 # Bash test framework
 brew 'bats-core'
