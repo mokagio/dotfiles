@@ -1,5 +1,8 @@
 # Executes commands at the start of an interactive session.
 
+# Typing a directory path (e.g. ../foo) auto-cds into it
+setopt AUTO_CD
+
 # Resolve Homebrew prefix: read from disk cache, or resolve once and cache
 _brew_cache="${XDG_CACHE_HOME:-$HOME/.cache}/dotfiles/homebrew_prefix"
 if [[ -r "$_brew_cache" ]]; then
