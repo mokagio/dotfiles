@@ -21,11 +21,17 @@ ask() {
   exit 0
 }
 
-# Safe PR metadata endpoints (labels, milestones) — let through without prompting
+# Safe PR metadata endpoints (labels, milestones, PR body/title) — let through without prompting
 if echo "$COMMAND" | grep -qE 'repos/[^/]+/[^/]+/issues/[0-9]+/labels\b'; then
   exit 0
 fi
 if echo "$COMMAND" | grep -qE 'repos/[^/]+/[^/]+/issues/[0-9]+\b.*-f\s+milestone='; then
+  exit 0
+fi
+if echo "$COMMAND" | grep -qE 'repos/[^/]+/[^/]+/pulls/[0-9]+\b.*-f\s+body='; then
+  exit 0
+fi
+if echo "$COMMAND" | grep -qE 'repos/[^/]+/[^/]+/pulls/[0-9]+\b.*-f\s+title='; then
   exit 0
 fi
 
@@ -37,19 +43,27 @@ if echo "$COMMAND" | grep -qE '\bgraphql\b'; then
   exit 0
 fi
 
+# Detect explicit GET — field flags and --input are safe with GET
+EXPLICIT_GET=false
+if echo "$COMMAND" | grep -qE -- '\s(-X|--method)\s+GET\b'; then
+  EXPLICIT_GET=true
+fi
+
 # Explicit write method (-X / --method)
 if echo "$COMMAND" | grep -qE -- '\s(-X|--method)\s+(POST|PUT|PATCH|DELETE)\b'; then
   ask "gh api: explicit write method"
 fi
 
-# Field flags imply POST (-f / -F / --field / --raw-field)
-if echo "$COMMAND" | grep -qE -- '\s(-f|-F|--field|--raw-field)[ =]'; then
-  ask "gh api: field flags imply POST"
-fi
+if [ "$EXPLICIT_GET" = false ]; then
+  # Field flags imply POST (-f / -F / --field / --raw-field)
+  if echo "$COMMAND" | grep -qE -- '\s(-f|-F|--field|--raw-field)[ =]'; then
+    ask "gh api: field flags imply POST"
+  fi
 
-# Body from file implies POST
-if echo "$COMMAND" | grep -qE -- '\s--input[ =]'; then
-  ask "gh api: --input implies POST"
+  # Body from file implies POST
+  if echo "$COMMAND" | grep -qE -- '\s--input[ =]'; then
+    ask "gh api: --input implies POST"
+  fi
 fi
 
 # No write signals — pass through to normal permission rules
