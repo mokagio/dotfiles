@@ -5,6 +5,7 @@
   "permissions": {
     "defaultMode": "auto",
     "allow": [
+      "Bash(BRIEF_AGENT=*)",
       "Bash(bundle exec fastlane)",
       "Bash(bundle exec fastlane *)",
       "Bash(bundle exec pod install *)",
@@ -267,6 +268,11 @@
           {
             "type": "command",
             "command": "$HOME/.claude/hooks/gh-api-guard.sh",
+            "timeout": 5
+          },
+          {
+            "type": "command",
+            "command": "$HOME/.claude/hooks/pre-bash-brief.sh",
             "timeout": 5
           }
         ]
