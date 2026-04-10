@@ -18,7 +18,6 @@ set shiftwidth=2
 set expandtab
 
 " Automatically :write before running commands and on focus/buffer changes
-set clipboard=unnamedplus
 set autowriteall
 autocmd FocusLost * silent! wall
 autocmd BufLeave * silent! wall
@@ -80,6 +79,12 @@ set backspace=indent,eol,start
 " Keep text selected after indentation
 vnoremap < <gv
 vnoremap > >gv
+
+" Yank to system clipboard; other operations (d, c, x) stay local
+nnoremap y "+y
+vnoremap y "+y
+nnoremap Y "+Y
+nnoremap yy "+yy
 
 " Keep pasted pieces of code "in the buffer" to paste multiple times
 xnoremap p pgvy
