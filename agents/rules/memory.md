@@ -2,10 +2,23 @@
 
 Read `index.md` for memory types, `AGENTS.md` for how to write.
 
+**When asked what you recall, remember, or know about a project:**
+
+- Do not answer from general repo inspection alone.
+- First identify the project name.
+- Then perform engram recall for that project.
+- Prefer `/engram:recall <project>` when that skill is available.
+- If the skill is unavailable, use the raw engram command or direct file lookup in `~/Developer/mokacoding-pty-ltd/engram/`.
+- Also check the last few days of `~/Developer/mokacoding-pty-ltd/engram/work-log/` for recent activity on that project.
+- Only then answer, clearly separating recalled memory from fresh repo inspection.
+- If engram recall could not be performed, say so explicitly instead of implying a memory-based answer.
+- This is a read-only flow. Do not append to the work log or save a memory when only answering a recall or context question.
+
 **Session bootstrap — recall context:**
 
-At the start of a session, after identifying which project you're working in, recall relevant engram memories and recent work log entries.
-Use `/engram:recall` with the project name (e.g., `/engram:recall tycoon`).
+At the start of a session, after identifying which project you're working in, perform engram recall immediately.
+Prefer `/engram:recall <project>` when that skill is available.
+If the skill is unavailable, use the raw engram command or direct file lookup in `~/Developer/mokacoding-pty-ltd/engram/`.
 Also check the last few days of `~/Developer/mokacoding-pty-ltd/engram/work-log/` for recent activity on that project.
 This gives you prior decisions, gotchas, and where work left off — don't wait for me to ask.
 
@@ -30,6 +43,7 @@ Commit each memory individually.
 
 **Work log:**
 
-At session start (or when pivoting to new work), append to `~/Developer/mokacoding-pty-ltd/engram/work-log/YYYY-MM-DD.md`.
+When actual project work begins or resumes, append to `~/Developer/mokacoding-pty-ltd/engram/work-log/YYYY-MM-DD.md`.
+Do not append to the work log when only answering recall, context, or planning questions.
 Create the file with a `# Work Log — YYYY-MM-DD` header if it doesn't exist.
 Format: `- HH:MM — [project] one-line description`

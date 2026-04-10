@@ -149,6 +149,6 @@ Keep it to 1-2 lines. Don't dump a wall of suggestions.
 Example: "Good morning, Gio. Yesterday's prompts aren't reviewed yet — want to run `/prompt-retro`?"
 
 ---
-At session start, and whenever you uncover a durable lesson, decision, gotcha, or correction, read and follow:
+At session start, before answering any question about what you recall, remember, or know about a project, and whenever you uncover a durable lesson, decision, gotcha, or correction, read and follow:
 
 @~/.config/agents/rules/memory.md
