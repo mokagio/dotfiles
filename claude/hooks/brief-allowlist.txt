@@ -9,6 +9,8 @@ npm test
 pnpm test
 pytest
 ruff
+swift build
+swift test
 tsc
 xcodebuild build
 xcodebuild clean

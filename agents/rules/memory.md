@@ -6,9 +6,10 @@ Read `index.md` for memory types, `AGENTS.md` for how to write.
 
 - Do not answer from general repo inspection alone.
 - First identify the project name.
-- Then perform engram recall for that project.
+- Then perform engram recall for that project as the first recall step.
 - Prefer `/engram:recall <project>` when that skill is available.
-- If the skill is unavailable, use the raw engram command or direct file lookup in `~/Developer/mokacoding-pty-ltd/engram/`.
+- If the skill is unavailable, run the raw recall command: `node "$ENGRAM_DIR/bin/engram.js" recall "<project>" --dir "$ENGRAM_DIR"`.
+- Only if the skill and raw recall command are both unavailable or fail should you fall back to direct file lookup or search in `~/Developer/mokacoding-pty-ltd/engram/`.
 - Also check the last few days of `~/Developer/mokacoding-pty-ltd/engram/work-log/` for recent activity on that project.
 - Only then answer, clearly separating recalled memory from fresh repo inspection.
 - If engram recall could not be performed, say so explicitly instead of implying a memory-based answer.
@@ -18,7 +19,8 @@ Read `index.md` for memory types, `AGENTS.md` for how to write.
 
 At the start of a session, after identifying which project you're working in, perform engram recall immediately.
 Prefer `/engram:recall <project>` when that skill is available.
-If the skill is unavailable, use the raw engram command or direct file lookup in `~/Developer/mokacoding-pty-ltd/engram/`.
+If the skill is unavailable, run the raw recall command: `node "$ENGRAM_DIR/bin/engram.js" recall "<project>" --dir "$ENGRAM_DIR"`.
+Only if the skill and raw recall command are both unavailable or fail should you fall back to direct file lookup or search in `~/Developer/mokacoding-pty-ltd/engram/`.
 Also check the last few days of `~/Developer/mokacoding-pty-ltd/engram/work-log/` for recent activity on that project.
 This gives you prior decisions, gotchas, and where work left off — don't wait for me to ask.
 
