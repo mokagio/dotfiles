@@ -1,0 +1,74 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+usage() {
+  cat >&2 <<'EOF'
+Usage: agentic-commit [-C <repo>] -m <message-file> [--] <file>...
+
+Stage the listed files and commit with the given message.
+
+Options:
+  -C <repo>          Repository path (default: cwd)
+  -m <message-file>  Path to file containing the commit message (required)
+
+On success, prints: <short-hash> <title-line>
+On failure, prints git errors to stderr and exits with the original code.
+EOF
+  exit 2
+}
+
+repo=""
+message_file=""
+
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    -C)
+      [[ $# -lt 2 ]] && usage
+      repo="$2"
+      shift 2
+      ;;
+    -m)
+      [[ $# -lt 2 ]] && usage
+      message_file="$2"
+      shift 2
+      ;;
+    --)
+      shift
+      break
+      ;;
+    -*)
+      usage
+      ;;
+    *)
+      break
+      ;;
+  esac
+done
+
+if [[ -z "$message_file" ]]; then
+  echo "error: -m <message-file> is required" >&2
+  usage
+fi
+
+if [[ ! -f "$message_file" ]]; then
+  echo "error: message file not found: $message_file" >&2
+  exit 1
+fi
+
+if [[ $# -eq 0 ]]; then
+  echo "error: no files to stage" >&2
+  usage
+fi
+
+git_args=()
+if [[ -n "$repo" ]]; then
+  git_args+=(-C "$repo")
+fi
+
+for file in "$@"; do
+  git "${git_args[@]}" add "$file"
+done
+
+git "${git_args[@]}" commit -F "$message_file" >/dev/null
+
+git "${git_args[@]}" log --oneline -1
