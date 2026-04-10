@@ -2,6 +2,8 @@
 # The hook wraps Bash commands whose content starts with one of these prefixes.
 
 bats
+bundle exec rspec
+bundle exec rake
 cargo test
 eslint
 go test
