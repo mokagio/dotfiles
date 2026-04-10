@@ -129,6 +129,13 @@ done
 link "$pwd/agents/AGENTS.md" "$HOME/AGENTS.md"
 mkdir -p ~/.config/agents
 link "$pwd/agents/AGENTS.md" "$HOME/.config/agents/AGENTS.md"
+mkdir -p ~/.config/agents/rules
+mkdir -p ~/.claude/rules
+for rule in "$pwd"/agents/rules/*.md; do
+  rule_name="$(basename "$rule")"
+  link "$rule" "$HOME/.config/agents/rules/$rule_name"
+  link "$rule" "$HOME/.claude/rules/$rule_name"
+done
 link "$pwd/claude/hooks" "$HOME/.claude/hooks"
 # Shared skills — whole-directory symlink for ~/.agents/skills
 mkdir -p ~/.agents
