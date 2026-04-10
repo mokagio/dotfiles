@@ -23,7 +23,7 @@ lua vim.lsp.enable('bashls')
 
 " Completion engine (blink.cmp)
 lua require('blink.cmp').setup({
-  \ enabled = function() return vim.g.blink_cmp_enabled ~= false end,
+  \ enabled = function() return vim.b.blink_cmp_enabled ~= false and vim.g.blink_cmp_enabled ~= false end,
   \ keymap = { preset = 'default' },
   \ appearance = { nerd_font_variant = 'mono' },
   \ completion = { documentation = { auto_show = true } },
@@ -48,6 +48,9 @@ let g:tokyonight_enable_italic = 1
 
 " Apply the shared theme logic
 call ApplyTheme()
+
+" Disable blink.cmp completion for markdown
+autocmd FileType markdown let b:blink_cmp_enabled = v:false
 
 " Goyo - Focused writing mode
 "
