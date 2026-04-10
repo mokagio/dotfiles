@@ -127,6 +127,8 @@ done
 # AGENTS.md at both the conventional home location and the XDG location.
 # Keep both so different agent tools can discover the same shared file.
 link "$pwd/agents/AGENTS.md" "$HOME/AGENTS.md"
+mkdir -p ~/.codex
+link "$pwd/agents/AGENTS.md" "$HOME/.codex/AGENTS.md"
 mkdir -p ~/.config/agents
 link "$pwd/agents/AGENTS.md" "$HOME/.config/agents/AGENTS.md"
 mkdir -p ~/.config/agents/rules
