@@ -1,56 +1,68 @@
 ---
 name: commit
-description: |
-  Commit staged changes with a well-crafted message.
-  Auto-invoked when Claude needs to create a git commit.
-  Use when asked to commit, save changes, or after completing work that should be committed.
-allowed-tools: Bash(git *), Bash(git -C *), Write, Read, Grep, Glob
+description: Commit changes with a well-crafted message.
+allowed-tools: Bash(git *), Bash(git -C *), Bash(uuidgen), Write(/tmp/*), Read, Grep, Glob, AskUserQuestion
+user-invocable: true
 ---
 
 # Commit
 
-Create a git commit for staged changes, following the project's commit conventions.
-
-## Why this skill exists
-
-Multi-line heredoc commit messages don't match `Bash(git commit *)` permission globs
-because `*` doesn't cross newlines.
-This skill writes the message to a file and uses `git commit -F`, which is a single-line
-command that matches the existing globs.
+Auto-invoked when Claude needs to create a git commit.
+Use when asked to commit, save changes, or after completing work that should be committed.
 
 ## Arguments
 
-`$ARGUMENTS` — optional hint for what the commit message should focus on.
+`$ARGUMENTS` — optional commit description or guidance.
+If empty, infer from staged/unstaged changes.
 
 ## Workflow
 
-### 1. Understand the changes
+### 1. Gather context
 
-Run in parallel:
+Run these in parallel:
 
-- `git status` (or `git -C <path> status` if in a worktree)
-- `git diff --cached` (to see what's staged)
+- `git status` — staged and unstaged changes (never use `-uall`)
+- `git diff --cached` — what's already staged
+- `git diff` — unstaged changes
+- `git log --oneline -10` — recent commits for style reference
 
-If nothing is staged, tell the user and stop.
+### 2. Determine what to commit
 
-### 2. Match recent style
+- If changes are already staged, use those.
+- If nothing is staged, ask the user what to stage.
+- Default to **one file per commit** unless the user specifies otherwise or the changes are logically coupled (e.g., a test double update required by a test migration).
+- If multiple files have unrelated changes, propose splitting into separate commits and confirm with the user.
 
-Run `git log --oneline -5` to see recent commit messages.
+### 3. Stage files
 
-### 3. Draft the commit message
+Stage files individually by name.
+**Never** use `git add -A` or `git add .`.
 
-Follow these conventions (from AGENTS.md):
+### 4. Compose the commit message
 
-- **Title**: imperative mood, max 50 characters, describes _what_ the change does.
-  Fence inline code and file names unless it would exceed 50 chars.
-- **Body** (only if the _why_ isn't obvious from the title): explains _why_,
-  uses semantic line breaks, never repeats the _what_.
-- **Trailer block** (always):
+**Title (first line):**
+
+- Describes *what* the change does
+- Imperative mood ("Add feature", not "Added feature")
+- Maximum 50 characters
+- Drop backtick fencing from the title if needed to fit
+- Must be sufficient on its own
+
+**Body (optional, separated by blank line):**
+
+- Explains *why* if not obvious from the title
+- Never repeats the *what* — the diff covers that
+- Use semantic line breaks (one sentence per line)
+- Fence inline code and file names with backticks
+- Track rationale and conversation details
+- If the *why* is unclear, ask the user rather than guessing
+
+**Footer (always present, separated by blank line):**
 
 ```
 ---
 
-Generated with the help of <agent harness and/or model name, URL (if avalilable)>
+Generated with the help of <agent harness and/or model name, URL (if available)>
 
 <Co-Authored-By: Agent+Model email (if available)>
 ```
@@ -67,32 +79,51 @@ Co-Authored-By: Claude Code Opus 4.6 <noreply@anthropic.com>
 
 If `$ARGUMENTS` provides a hint, use it to guide the message focus.
 
-### 4. Write the message file
+### 5. Write the message file
 
-Determine the repo's `.git` directory:
+Generate a unique file path in `/tmp`:
 
-- Regular checkout: `<repo>/.git/COMMIT_MSG`
-- Worktree: the `.git` file contains a `gitdir:` pointer — resolve it.
-  Run `git -C <repo> rev-parse --git-dir` to get the actual path.
+```
+/tmp/commit-msg-<uuid>
+```
 
-Use the `Write` tool to write the complete message to `<git-dir>/COMMIT_MSG`.
+Use `uuidgen` to produce the UUID, then **Write** the complete message to that path.
 
-### 5. Commit
+**Why `/tmp` instead of `.git/COMMIT_MSG`?**
+Writing to `.git/COMMIT_MSG` triggers permission prompts in Claude Code even when the `--skip-permissions` flag is set for `Write` on `.git/` paths.
+`/tmp` is flushed on reboot and avoids the issue entirely.
+
+### 6. Commit
 
 Run:
 
 ```
-git commit -F <git-dir>/COMMIT_MSG
+git commit -F /tmp/commit-msg-<uuid>
 ```
 
 Or with `-C` if working in a worktree:
 
 ```
-git -C <path> commit -F <git-dir>/COMMIT_MSG
+git -C <path> commit -F /tmp/commit-msg-<uuid>
 ```
 
 This is a single-line command that matches the permission globs.
 
-### 6. Verify
+### 7. Verify
 
-Run `git status` to confirm the commit succeeded.
+Run `git status` after the commit to confirm success.
+
+If a pre-commit hook fails:
+
+1. Fix the issue
+2. Re-stage the file(s)
+3. Create a **new** commit — **never amend**
+
+## Constraints
+
+- **Never amend** — always create new commits.
+- **Never use `git --git-dir`** — use `git -C` or `cd` then `git` in separate calls.
+- **Never `cd path && git ...`** — the permission system matches on first token.
+- **Never `git add -A`** or **`git add .`** — stage files by name.
+- **Never skip hooks** (`--no-verify`) unless explicitly asked.
+- If there are no changes to commit, say so and stop.
