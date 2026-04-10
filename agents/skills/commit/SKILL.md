@@ -24,7 +24,6 @@ Run these in parallel:
 - `git status` — staged and unstaged changes (never use `-uall`)
 - `git diff --cached` — what's already staged
 - `git diff` — unstaged changes
-- `git log --oneline -10` — recent commits for style reference
 
 ### 2. Determine what to commit
 
