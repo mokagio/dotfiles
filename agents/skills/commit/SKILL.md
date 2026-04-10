@@ -1,7 +1,7 @@
 ---
 name: commit
 description: Commit changes with a well-crafted message.
-allowed-tools: Bash(git *), Bash(git -C *), Bash(uuidgen), Bash(agentic-commit *), Write(/tmp/*), Read, Grep, Glob, AskUserQuestion
+allowed-tools: Bash(git *), Bash(git -C *), Bash(agentic-commit *), Read, Grep, Glob, AskUserQuestion
 user-invocable: true
 ---
 
@@ -74,30 +74,21 @@ Co-Authored-By: Claude Code Opus 4.6 <noreply@anthropic.com>
 
 If `$ARGUMENTS` provides a hint, use it to guide the message focus.
 
-### 4. Write the message file
+### 4. Stage and commit
 
-Generate a unique file path in `/tmp`:
+Use `agentic-commit` with a heredoc to stage files and commit in one call:
 
-```
-/tmp/commit-msg-<uuid>
-```
-
-Use `uuidgen` to produce the UUID, then **Write** the complete message to that path.
-
-**Why `/tmp` instead of `.git/COMMIT_MSG`?**
-Writing to `.git/COMMIT_MSG` triggers permission prompts in Claude Code even when the `--skip-permissions` flag is set for `Write` on `.git/` paths.
-`/tmp` is flushed on reboot and avoids the issue entirely.
-
-### 5. Stage and commit
-
-Use `agentic-commit` to stage files and commit in one call:
-
-```
-agentic-commit [-C <path>] -m /tmp/commit-msg-<uuid> -- file1 file2 ...
+```bash
+agentic-commit [-C <path>] -- file1 file2 ... <<'EOF'
+<commit message>
+EOF
 ```
 
 On success it prints: `<short-hash> <title-line>`
 On failure it prints git errors to stderr and exits non-zero.
+
+Use a heredoc (`<<'EOF'`) so the message can contain backticks and special characters.
+The single quotes around `EOF` prevent shell expansion inside the message.
 
 If a pre-commit hook fails:
 

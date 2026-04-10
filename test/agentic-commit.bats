@@ -60,10 +60,29 @@ teardown() {
   [[ "$result" =~ ^[0-9a-f]+ ]]
 }
 
-@test "missing -m flag exits 2" {
+@test "reads message from stdin when -m omitted" {
   echo "hello" > "$REPO/a.txt"
-  run "$SCRIPT" -C "$REPO" -- a.txt
-  [[ "$status" -eq 2 ]]
+  result="$(echo "Stdin commit message" | "$SCRIPT" -C "$REPO" -- a.txt)"
+  [[ "$result" =~ ^[0-9a-f]+\ Stdin\ commit\ message$ ]]
+}
+
+@test "stdin heredoc with multiline message" {
+  echo "hello" > "$REPO/a.txt"
+  result="$("$SCRIPT" -C "$REPO" -- a.txt <<'EOF'
+Multiline title
+
+Body line one.
+Body line two.
+EOF
+)"
+  [[ "$result" =~ ^[0-9a-f]+\ Multiline\ title$ ]]
+}
+
+@test "empty stdin exits 1" {
+  echo "hello" > "$REPO/a.txt"
+  run bash -c 'echo -n "" | '"'$SCRIPT'"' -C '"'$REPO'"' -- a.txt'
+  [[ "$status" -eq 1 ]]
+  [[ "$output" == *"empty message"* ]]
 }
 
 @test "no files provided exits 2" {

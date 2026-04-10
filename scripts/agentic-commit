@@ -3,13 +3,15 @@ set -euo pipefail
 
 usage() {
   cat >&2 <<'EOF'
-Usage: agentic-commit [-C <repo>] -m <message-file> [--] <file>...
+Usage: agentic-commit [-C <repo>] [-m <message-file>] [--] <file>...
 
 Stage the listed files and commit with the given message.
 
 Options:
   -C <repo>          Repository path (default: cwd)
-  -m <message-file>  Path to file containing the commit message (required)
+  -m <message-file>  Path to file containing the commit message
+
+If -m is omitted, the message is read from stdin.
 
 On success, prints: <short-hash> <title-line>
 On failure, prints git errors to stderr and exits with the original code.
@@ -45,19 +47,23 @@ while [[ $# -gt 0 ]]; do
   esac
 done
 
-if [[ -z "$message_file" ]]; then
-  echo "error: -m <message-file> is required" >&2
-  usage
-fi
-
-if [[ ! -f "$message_file" ]]; then
-  echo "error: message file not found: $message_file" >&2
-  exit 1
-fi
-
 if [[ $# -eq 0 ]]; then
   echo "error: no files to stage" >&2
   usage
+fi
+
+if [[ -z "$message_file" ]]; then
+  # Read message from stdin
+  message_file="$(mktemp)"
+  cat > "$message_file"
+  trap 'rm -f "$message_file"' EXIT
+  if [[ ! -s "$message_file" ]]; then
+    echo "error: empty message from stdin" >&2
+    exit 1
+  fi
+elif [[ ! -f "$message_file" ]]; then
+  echo "error: message file not found: $message_file" >&2
+  exit 1
 fi
 
 git_args=()
