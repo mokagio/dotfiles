@@ -1,7 +1,7 @@
 ---
 name: commit
 description: Commit changes with a well-crafted message.
-allowed-tools: Bash(git *), Bash(git -C *), Bash(uuidgen), Write(/tmp/*), Read, Grep, Glob, AskUserQuestion
+allowed-tools: Bash(git *), Bash(git -C *), Bash(uuidgen), Bash(agentic-commit *), Write(/tmp/*), Read, Grep, Glob, AskUserQuestion
 user-invocable: true
 ---
 
@@ -33,12 +33,7 @@ Run these in parallel:
 - Default to **one file per commit** unless the user specifies otherwise or the changes are logically coupled (e.g., a test double update required by a test migration).
 - If multiple files have unrelated changes, propose splitting into separate commits and confirm with the user.
 
-### 3. Stage files
-
-Stage files individually by name.
-**Never** use `git add -A` or `git add .`.
-
-### 4. Compose the commit message
+### 3. Compose the commit message
 
 **Title (first line):**
 
@@ -79,7 +74,7 @@ Co-Authored-By: Claude Code Opus 4.6 <noreply@anthropic.com>
 
 If `$ARGUMENTS` provides a hint, use it to guide the message focus.
 
-### 5. Write the message file
+### 4. Write the message file
 
 Generate a unique file path in `/tmp`:
 
@@ -93,31 +88,21 @@ Use `uuidgen` to produce the UUID, then **Write** the complete message to that p
 Writing to `.git/COMMIT_MSG` triggers permission prompts in Claude Code even when the `--skip-permissions` flag is set for `Write` on `.git/` paths.
 `/tmp` is flushed on reboot and avoids the issue entirely.
 
-### 6. Commit
+### 5. Stage and commit
 
-Run:
-
-```
-git commit -F /tmp/commit-msg-<uuid>
-```
-
-Or with `-C` if working in a worktree:
+Use `agentic-commit` to stage files and commit in one call:
 
 ```
-git -C <path> commit -F /tmp/commit-msg-<uuid>
+agentic-commit [-C <path>] -m /tmp/commit-msg-<uuid> -- file1 file2 ...
 ```
 
-This is a single-line command that matches the permission globs.
-
-### 7. Verify
-
-Run `git status` after the commit to confirm success.
+On success it prints: `<short-hash> <title-line>`
+On failure it prints git errors to stderr and exits non-zero.
 
 If a pre-commit hook fails:
 
 1. Fix the issue
-2. Re-stage the file(s)
-3. Create a **new** commit — **never amend**
+2. Create a **new** commit — **never amend**
 
 ## Constraints
 

@@ -5,6 +5,7 @@
   "permissions": {
     "defaultMode": "auto",
     "allow": [
+      "Bash(agentic-commit *)",
       "Bash(BRIEF_AGENT=*)",
       "Bash(bundle exec fastlane)",
       "Bash(bundle exec fastlane *)",
