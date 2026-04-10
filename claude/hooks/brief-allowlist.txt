@@ -1,0 +1,16 @@
+# One command prefix per line.
+# The hook wraps Bash commands whose content starts with one of these prefixes.
+
+pytest
+npm test
+pnpm test
+yarn test
+cargo test
+go test
+ruff
+eslint
+tsc
+xcodebuild build
+xcodebuild clean
+xcodebuild test
+bats

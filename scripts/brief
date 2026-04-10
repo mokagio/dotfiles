@@ -1,0 +1,67 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+usage() {
+  cat >&2 <<'EOF'
+Usage: brief <label> -- <command...>
+EOF
+  exit 2
+}
+
+if [[ $# -lt 3 ]]; then
+  usage
+fi
+
+label="$1"
+shift
+
+if [[ "$1" != "--" ]]; then
+  usage
+fi
+shift
+
+if [[ $# -eq 0 ]]; then
+  usage
+fi
+
+agent="${BRIEF_AGENT:-unknown}"
+project="${BRIEF_PROJECT:-$(basename "${PWD}")}"
+timestamp="$(date -u +"%Y-%m-%dT%H-%M-%SZ")"
+
+slugify() {
+  printf '%s' "$1" | tr '[:upper:]' '[:lower:]' | sed -E 's/[^a-z0-9]+/-/g; s/^-+//; s/-+$//'
+}
+
+command_slug="$(slugify "$label")"
+if [[ -z "$command_slug" ]]; then
+  command_slug="command"
+fi
+
+log_dir="/tmp/brief-logs/${project}"
+log_file="${log_dir}/${timestamp}-${agent}-${command_slug}.log"
+mkdir -p "$log_dir"
+
+supports_color=false
+if [[ -z "${NO_COLOR:-}" ]]; then
+  if [[ -t 1 || "${BRIEF_COLOR:-}" == "1" ]]; then
+    supports_color=true
+  fi
+fi
+
+green=""
+gray=""
+reset=""
+if [[ "$supports_color" == true ]]; then
+  green=$'\033[32m'
+  gray=$'\033[90m'
+  reset=$'\033[0m'
+fi
+
+if "$@" >"$log_file" 2>&1; then
+  printf '%s✓ %s%s %s[log: %s]%s\n' "$green" "$label" "$reset" "$gray" "$log_file" "$reset"
+  exit 0
+else
+  status=$?
+  cat "$log_file" >&2
+  exit "$status"
+fi
