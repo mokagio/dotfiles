@@ -53,7 +53,7 @@ Example: If a Ruby project has `.rubocop.yml` ensure the code you write matches 
 
 ---
 
-Git and GitHub workflow rules live in:
+Git workflow rules live in:
 
 @~/.config/agents/rules/git.md
 
