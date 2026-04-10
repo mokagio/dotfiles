@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+REAL_PATH="$(readlink -f "$0" 2>/dev/null || realpath "$0")"
+SCRIPT_DIR="$(dirname "$REAL_PATH")"
 DOTFILES="$(cd "$SCRIPT_DIR/../.." && pwd)"
 ALLOWLIST="${SCRIPT_DIR}/brief-allowlist.txt"
 BRIEF="${DOTFILES}/scripts/brief"
