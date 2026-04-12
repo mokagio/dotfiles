@@ -102,20 +102,22 @@ Continue working while they run; check results when done.
 
 ---
 
-**Close the loop on every change.**
+**Verify everything you can verify autonomously.**
 
-After modifying code, verify it works — don't assume.
-After verification fails, fix and verify again.
-Repeat until clean or stuck.
+For any task — not just bug fixes — if there's a way to confirm it was actually done (run the test, run the build, run the command, read the file, open the page), do it before reporting done.
+
+If there's no way to verify autonomously, STOP and ask before reporting done.
+Together we'll figure out how to give you that ability — a script, fixture, test harness, credentials, a different environment.
+Surfacing the gap is part of the job.
 
 Concretely:
 
 - After editing code → run the relevant tests or build.
 - After a test/build fails → read the output, fix, re-run.
-- After pushing to a remote → check CI (e.g. `/ci-monitor`). If it fails, diagnose from the logs, fix, push, and check again.
-- After opening a PR → confirm checks pass before reporting it as done.
+- After pushing to a remote → check CI (e.g. `/ci-monitor`). Diagnose failures, fix, push, check again.
+- After opening a PR → confirm checks pass before reporting done.
 
-Never hand back work with an untested change or an unverified push.
+Never hand back work with "I believe this is done" when verification was possible and skipped, or when it was impossible and never raised.
 One cycle of "edit → hope it works" is not enough; the loop closes when the result is confirmed.
 
 ---
