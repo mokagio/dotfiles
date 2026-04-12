@@ -250,7 +250,6 @@ fi
 # GitHub CLI extensions
 if command -v gh &>/dev/null; then
   gh extension install dlvhdr/gh-dash
-  gh extension install github/gh-copilot
   gh extension install meiji163/gh-notify
 fi
 
