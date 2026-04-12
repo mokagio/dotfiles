@@ -39,9 +39,16 @@ If unsure whether something is worth saving, save it. Pruning is cheaper than re
 
 **How to save:**
 
-Use `zk --notebook-dir=~/Developer/mokacoding-pty-ltd/engram new ~/Developer/mokacoding-pty-ltd/engram/memories/ --title "..." --extra type=<type> --extra scope=<scope> --print-path --no-input` to create, then edit the file to add content.
-If `zk` is unavailable, write a markdown file directly with frontmatter matching `.zk/templates/memory.md`.
-Commit each memory individually.
+Prefer `/engram:remember` when that skill is available — it handles creation, commit, and dedup in one step.
+
+If the skill is unavailable, follow this workflow end-to-end. **Do not stop after creating the file** — saving a memory is not done until it is committed.
+
+1. Create the file:
+   `zk --notebook-dir=~/Developer/mokacoding-pty-ltd/engram new ~/Developer/mokacoding-pty-ltd/engram/memories/ --title "..." --extra type=<type> --extra scope=<scope> --print-path --no-input`
+   If `zk` is unavailable, write a markdown file directly with frontmatter matching `.zk/templates/memory.md`.
+2. Edit the file to add content.
+3. Commit the file via the `/commit` skill, one memory per commit.
+   This step is mandatory — an uncommitted memory is lost on the next branch switch and invisible to recall on other machines.
 
 **Work log:**
 
