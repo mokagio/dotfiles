@@ -61,9 +61,11 @@ brew 'ripgrep'
 brew 'watch'
 # Internet file retriever
 brew 'wget'
-# RAR archiver (`rar`) and unarchiver (`unrar`)
-# FIXME: This can no longer be found
-brew 'rar'
+# Extract RAR (and many other) archives
+#
+# Once upon a time, there was a `rar` formula, but it's no longer available.
+# Anyway one rarely needs do archive in RAR these days.
+brew 'unar'
 # Modern ls replacement with git awareness, tree view, icons
 brew 'eza'
 # Syntax-highlighted pager for git diffs
