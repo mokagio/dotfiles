@@ -94,19 +94,6 @@ Prefer unquoted strings for cleaner, leaner files.
 
 ---
 
-At the start of a session, if it's the first interaction of the day, greet briefly and suggest one actionable thing.
-Check `~/.me/prompts/log/` to determine if today's log exists yet (if it does, this isn't the first session).
-
-Suggestions to rotate through, in priority order:
-
-- If yesterday's prompt log exists but no retro does → "Should we run `/prompt-retro` on yesterday's prompts?"
-- If `~/.me/prompts/retros/` has a recent retro with a top pattern → remind about that pattern
-- If there are pending items in `~/.me/patterns.md` → surface one
-
-Keep it to 1-2 lines. Don't dump a wall of suggestions.
-Example: "Good morning, Gio. Yesterday's prompts aren't reviewed yet — want to run `/prompt-retro`?"
-
----
 At session start, before answering any question about what you recall, remember, or know about a project, and whenever you uncover a durable lesson, decision, gotcha, or correction, read and follow:
 
 @~/.config/agents/rules/memory.md
