@@ -31,6 +31,11 @@ Run these in parallel:
 - If nothing is staged, ask the user what to stage.
 - Default to **one file per commit** unless the user specifies otherwise or the changes are logically coupled (e.g., a test double update required by a test migration).
 - If multiple files have unrelated changes, propose splitting into separate commits and confirm with the user.
+- **Only commit changes that came from the work just done.** A `/commit` request after finishing a task means "commit *our* work" — not "sweep up everything dirty in the tree". Pre-existing or user-made changes unrelated to the current task must not be bundled in silently.
+- **Think in hunks, not files.** The unit of authorship is the hunk, not the file. The user and the agent may both edit the same file in one session; staging the whole file sweeps up whatever the user was doing. Before staging, audit `git diff` and identify which hunks came from Edit/Write calls in this conversation vs. which were already there or added by the user.
+  - When a file contains *only* hunks you authored, `agentic-commit -- file` is fine.
+  - When a file contains mixed authorship, stage only your hunks. Options: generate a patch of just your hunks and `git apply --cached`, or ask the user to confirm before including anything ambiguous. Never stage a whole file blind.
+  - When in doubt — list the hunks back to the user and ask. The cost of asking is cheap; the cost of burying a user's unfinished work in an unrelated commit is not.
 
 ### 3. Compose the commit message
 
