@@ -25,13 +25,13 @@ ask() {
 if echo "$COMMAND" | grep -qE 'repos/[^/]+/[^/]+/issues/[0-9]+/labels\b'; then
   exit 0
 fi
-if echo "$COMMAND" | grep -qE 'repos/[^/]+/[^/]+/issues/[0-9]+\b.*-f\s+milestone='; then
+if echo "$COMMAND" | grep -qE 'repos/[^/]+/[^/]+/issues/[0-9]+\b.*(-f|-F|--field|--raw-field)[ =]milestone='; then
   exit 0
 fi
-if echo "$COMMAND" | grep -qE 'repos/[^/]+/[^/]+/pulls/[0-9]+\b.*-f\s+body='; then
+if echo "$COMMAND" | grep -qE 'repos/[^/]+/[^/]+/pulls/[0-9]+\b.*(-f|-F|--field|--raw-field)[ =]body='; then
   exit 0
 fi
-if echo "$COMMAND" | grep -qE 'repos/[^/]+/[^/]+/pulls/[0-9]+\b.*-f\s+title='; then
+if echo "$COMMAND" | grep -qE 'repos/[^/]+/[^/]+/pulls/[0-9]+\b.*(-f|-F|--field|--raw-field)[ =]title='; then
   exit 0
 fi
 
