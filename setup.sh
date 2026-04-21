@@ -119,6 +119,11 @@ link "$pwd/nvim/lsp" "$neovim_root/lsp"
 mkdir -p ~/.hammerspoon
 link "$pwd/hammerspoon_init.lua" "$HOME/.hammerspoon/init.lua"
 
+# mise — needs idiomatic_version_file_enable_tools = ["ruby"] so `.ruby-version`
+# files in repos (pinning 3.2.2 for a8c iOS work) win over the global 3.4.7 pin.
+mkdir -p ~/.config/mise
+link "$pwd/mise/config.toml" "$HOME/.config/mise/config.toml"
+
 # Claude Code
 mkdir -p ~/.claude
 for f in claude/settings.json claude/CLAUDE.md claude/statusline.sh; do

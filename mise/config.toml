@@ -1,0 +1,13 @@
+# Global defaults. Override per-directory via `.mise.toml` or
+# (for `ruby`/`node`) via `.ruby-version` / `.node-version` files —
+# see idiomatic_version_file_enable_tools below.
+[tools]
+ruby = "3.4.7"
+node = "lts"
+
+[settings]
+# Let mise honour `.ruby-version` files in project directories.
+# The a8c iOS repos pin Ruby 3.2.2 via `.ruby-version` (matching CI);
+# without this, the global 3.4.7 pin above overrides them and fastlane
+# 2.225.0 crashes because Ruby 3.4 dropped stdlib gems (abbrev, kconv).
+idiomatic_version_file_enable_tools = ["ruby"]
