@@ -64,6 +64,14 @@ That's what I mean with small and atomic.
 
 ---
 
+**Branch names:**
+
+- If a Linear/issue ID is available from context, include it in the branch name.
+- Shared repos: prefix with `mokagio/` so authorship is obvious at a glance.
+- Personal repos: short self-explanatory name, no prefix.
+
+---
+
 Always use the `/worktree` skill when creating Git worktrees.
 Never run `git worktree add` directly.
 
