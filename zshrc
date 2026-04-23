@@ -3,6 +3,16 @@
 # Typing a directory path (e.g. ../foo) auto-cds into it
 setopt AUTO_CD
 
+# History
+HISTSIZE=50000
+SAVEHIST=10000
+setopt EXTENDED_HISTORY
+setopt INC_APPEND_HISTORY
+setopt SHARE_HISTORY
+setopt HIST_IGNORE_DUPS
+setopt HIST_IGNORE_SPACE
+setopt HIST_VERIFY
+
 # Resolve Homebrew prefix: read from disk cache, or resolve once and cache
 _brew_cache="${XDG_CACHE_HOME:-$HOME/.cache}/dotfiles/homebrew_prefix"
 if [[ -r "$_brew_cache" ]]; then
