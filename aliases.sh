@@ -25,11 +25,13 @@ alias grpn='gh pr create'
 alias cpr='gh pr checkout' # usage `cpr <PR id>`
 alias hb='gh browse' # open GitHub for the current repo and branch combo
 
-# iOS & OS X development
+# Apple platforms development
 alias xco='[[ -f Project.swift ]] && tuist generate || open -a Xcode .'
 alias xoc='xco'
 alias xbo='open -a /Applications/Xcode-beta.app .'
 alias rmd='rm -rf DerviedData'
+alias sb='swift build'
+alias st='swift test'
 
 # Ruby gem to find unused Objective-C imports, and eventually delete them
 # https://github.com/dblock/fui
