@@ -32,13 +32,9 @@ GitHub interaction rules live in:
 
 ---
 
-Use `/usr/bin/env` and single parameter in shebangs. Example:
+Bash scripting rules live in:
 
-```bash
-#!/usr/bin/env bash
-
-set -eu
-```
+@~/.config/agents/rules/bash.md
 
 ---
 
