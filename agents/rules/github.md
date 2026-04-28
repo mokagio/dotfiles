@@ -36,3 +36,8 @@ If the PR is not small, list the changes at the architecture overview only, as a
 
 Do not include "How it differs from sibling repos" sections, failure-trace appendices, or rule-by-rule design justification — those belong in commit message bodies or a lessons doc, not the PR.
 If crucial information is tracked in the commit messages, mention it so the reviewers can look at them, but do not duplicate it.
+
+Do not require reviewers to have context about adjacent or sibling projects.
+If a sentence only makes sense to someone who knows another repo's setup, rewrite it so the point stands on its own.
+Cross-project references are fine when they motivate the change, but only with a link the reviewer can follow.
+Without a link, drop the reference and explain the technical point directly.
