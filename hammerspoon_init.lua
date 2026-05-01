@@ -1,5 +1,6 @@
 local mash = { "cmd", "alt" }
 local powermash = { "cmd", "alt", "ctrl" }
+local shiftmash = { "cmd", "alt", "shift" }
 
 -- Make the grid a 4x4, that is, each screen will have 4 quadrants
 hs.grid.setGrid('4x4')
@@ -129,5 +130,30 @@ hs.hotkey.bind(powermash, "Left", function()
   local win = hs.window.focusedWindow()
   hs.grid.pushWindowLeft(win)
 end)
+
+-- Move every window of the focused app to the left/right half of its screen.
+local function moveAllAppWindowsToHalf(side)
+  local focused = hs.window.focusedWindow()
+  if not focused then return end
+  local app = focused:application()
+  if not app then return end
+
+  for _, win in ipairs(app:allWindows()) do
+    if win:isStandard() then
+      local screen = win:screen()
+      local max = screen:frame()
+      local f = win:frame()
+
+      f.y = max.y
+      f.w = max.w / 2
+      f.h = max.h
+      f.x = side == "left" and max.x or (max.x + max.w / 2)
+      win:setFrame(f)
+    end
+  end
+end
+
+hs.hotkey.bind(shiftmash, "Left", function() moveAllAppWindowsToHalf("left") end)
+hs.hotkey.bind(shiftmash, "Right", function() moveAllAppWindowsToHalf("right") end)
 
 hs.alert.show("Config loaded")
