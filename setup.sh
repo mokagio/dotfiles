@@ -258,9 +258,15 @@ if command -v gh &>/dev/null; then
   gh extension install meiji163/gh-notify
 fi
 
-# Claude Code global MCP servers (requires claude from Brewfile)
+# Claude Code global MCP servers (requires claude from Brewfile).
+# `claude mcp add` exits non-zero if the server already exists, which would
+# abort the script under `set -e`, so check first.
 if command -v claude >/dev/null 2>&1; then
-  claude mcp add --transport http --scope user buildkite https://mcp.buildkite.com/mcp/readonly
+  if claude mcp get buildkite >/dev/null 2>&1; then
+    echo "MCP server buildkite already configured, skipping"
+  else
+    claude mcp add --transport http --scope user buildkite https://mcp.buildkite.com/mcp/readonly
+  fi
 else
   printf "\033[1;33mclaude not found, skipping MCP server setup.\033[0m\n"
 fi
