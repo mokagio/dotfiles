@@ -282,10 +282,11 @@ if $do_ruby; then
 echo ""
 printf '\033[1;36m==> %s\033[0m\n' "Setting up Ruby"
 
-# Install latest Ruby and system wide gems
+# Install the Ruby version pinned in the global mise config and system-wide
+# gems. Don't `mise use --global` here: the global config is symlinked into
+# this repo, so writing to it would clobber the pinned version.
 if command -v mise &>/dev/null; then
-  mise install ruby@latest
-  mise use --global ruby@latest
+  mise install ruby
   mise exec -- gem install bundler
   if ! mise exec -- bundle install; then
     printf "\033[1;31mbundle install failed. Run it manually to retry.\033[0m\n"
