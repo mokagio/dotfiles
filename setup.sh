@@ -208,10 +208,11 @@ if [[ -d "$qlcolorcode_path" ]]; then
   xattr -cr "$qlcolorcode_path"
 fi
 
-# Install latest Node LTS via mise (installed via Brewfile)
+# Install the Node version pinned in the global mise config (currently `lts`).
+# Don't `mise use --global` here: the global config is symlinked into this
+# repo, so writing to it would clobber the pinned version.
 if command -v mise &>/dev/null; then
-  mise install node@lts
-  mise use --global node@lts
+  mise install node
   echo "Node $(mise exec -- node --version) installed via mise"
 else
   printf "\033[1;31mmise not found, skipping Node setup.\033[0m\n"
