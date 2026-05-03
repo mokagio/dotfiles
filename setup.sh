@@ -234,8 +234,11 @@ else
   curl -fLo "$nvim_plug_path" --create-dirs "$plug_url"
 fi
 
-# Install Vim and Neovim plugins
-vim --not-a-term +PlugInstall +qall
+# Install Vim and Neovim plugins.
+# Use `-es` (ex + silent) for vim instead of `--not-a-term`: the latter still
+# draws to the alt-screen in non-TTY contexts and leaves `[No Name] / buffers`
+# artifacts in setup output. `-i NONE` skips viminfo to keep the run hermetic.
+vim -es -u ~/.vimrc -i NONE -c 'PlugInstall! --sync' -c 'qall'
 if command -v nvim &>/dev/null; then
   nvim --headless +PlugInstall +qall
 fi
