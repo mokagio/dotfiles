@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-set -eu
+set -euo pipefail
 
 # Remove Git worktrees whose branches have been merged or deleted.
 #
@@ -9,7 +9,7 @@ set -eu
 #
 # Options:
 #   -b REF    Base branch to check merges against (default: auto-detect)
-#   -d DIR    Worktree subdirectory name (default: .git-worktrees)
+#   -d DIR    Legacy repo-local worktree subdirectory name
 #   -n        Dry run — show what would be deleted (default)
 #   -f        Actually delete (opposite of -n)
 #   -F        Force — also delete worktrees with uncommitted changes
@@ -21,8 +21,8 @@ set -eu
 #   2. It has no uncommitted changes (unless -F)
 #   3. It has no unpushed commits
 #
-# Designed for the convention of placing Git worktrees in .git-worktrees/
-# inside the repo root.
+# Checks worktrees in the preferred `~/Developer/git-worktrees/<repo>/`
+# location and the legacy `.git-worktrees/` directory inside the repo.
 
 worktree_dir=".git-worktrees"
 base_branch=""
@@ -38,6 +38,22 @@ usage() {
 log() { printf '%s\n' "$*"; }
 warn() { printf '%s\n' "$*" >&2; }
 info() { ! $verbose || printf '  %s\n' "$*"; }
+git_noninteractive() {
+  env GIT_TERMINAL_PROMPT=0 \
+    GIT_SSH_COMMAND="ssh -o BatchMode=yes -o ConnectTimeout=3" \
+    git "$@"
+}
+canonical_path() {
+  local path="$1"
+  if [[ -d "$path" ]]; then
+    (
+      cd "$path"
+      pwd -P
+    )
+  else
+    printf '%s\n' "$path"
+  fi
+}
 
 while getopts ":b:d:nfFvh" opt; do
   case "$opt" in
@@ -53,24 +69,71 @@ while getopts ":b:d:nfFvh" opt; do
 done
 shift $((OPTIND - 1))
 
-repo="${1:-$(git rev-parse --show-toplevel 2>/dev/null || true)}"
+repo_input="${1:-$(git rev-parse --show-toplevel 2>/dev/null || true)}"
 
-if [[ -z "$repo" ]]; then
+if [[ -z "$repo_input" ]]; then
   warn "Not inside a Git repository and no repo path given."
   exit 1
 fi
 
-wt_root="${repo}/${worktree_dir}"
+repo_top=$(git -C "$repo_input" rev-parse --show-toplevel 2>/dev/null || true)
+if [[ -z "$repo_top" ]]; then
+  warn "Invalid repo path: ${repo_input}"
+  exit 1
+fi
 
-log "Inspecting worktrees at ${wt_root}"
+common_dir=$(git -C "$repo_top" rev-parse --path-format=absolute --git-common-dir)
+case "$common_dir" in
+  */.git) repo="${common_dir%/.git}" ;;
+  *)
+    warn "Unsupported git common dir: ${common_dir}"
+    exit 1
+    ;;
+esac
 
-if [[ ! -d "$wt_root" ]]; then
+repo_name=$(basename "$repo")
+preferred_root="$HOME/Developer/git-worktrees/$repo_name"
+legacy_root="$repo/$worktree_dir"
+
+roots=()
+if [[ -d "$preferred_root" ]]; then
+  roots+=("$(canonical_path "$preferred_root")")
+fi
+if [[ -d "$legacy_root" ]]; then
+  roots+=("$(canonical_path "$legacy_root")")
+fi
+
+if [[ "${#roots[@]}" -eq 0 ]]; then
   log "No worktree directory found. Nothing to do."
   exit 0
 fi
 
-# Count worktrees before starting
-wt_count=$(find "$wt_root" -mindepth 1 -maxdepth 1 -type d 2>/dev/null | wc -l | tr -d ' ')
+log "Inspecting worktrees for ${repo}"
+for root in "${roots[@]}"; do
+  log "  ${root}"
+done
+
+worktree_list=$(git -C "$repo" worktree list --porcelain)
+
+worktree_paths=()
+current_path=""
+while IFS= read -r line; do
+  case "$line" in
+    worktree\ *)
+      current_path="${line#worktree }"
+      for root in "${roots[@]}"; do
+        if [[ "$current_path" == "$root/"* ]]; then
+          worktree_paths+=("$current_path")
+          break
+        fi
+      done
+      ;;
+    *)
+      ;;
+  esac
+done <<< "$worktree_list"
+
+wt_count="${#worktree_paths[@]}"
 log "Found ${wt_count} worktree(s)"
 
 if [[ "$wt_count" -eq 0 ]]; then
@@ -83,8 +146,15 @@ if [[ -n "$base_branch" ]]; then
   log "Base branch: ${default_branch}"
 else
   log "Detecting base branch..."
-  default_branch=$(git -C "$repo" remote show origin 2>/dev/null \
-    | awk '/HEAD branch/ { print $NF }')
+  default_branch=$(git -C "$repo" symbolic-ref --quiet --short refs/remotes/origin/HEAD 2>/dev/null || true)
+  default_branch="${default_branch#origin/}"
+  if [[ -z "$default_branch" ]]; then
+    default_branch=$(git -C "$repo" branch --show-current 2>/dev/null || true)
+  fi
+  if [[ -z "$default_branch" ]]; then
+    default_branch=$(git_noninteractive -C "$repo" remote show origin 2>/dev/null \
+      | awk '/HEAD branch/ { print $NF }' || true)
+  fi
 
   if [[ -z "$default_branch" ]]; then
     default_branch="trunk"
@@ -96,18 +166,16 @@ fi
 
 # Fetch so merge checks are up-to-date
 log "Fetching latest from origin..."
-git -C "$repo" fetch --quiet --prune 2>/dev/null || true
+git_noninteractive -C "$repo" fetch --quiet --prune 2>/dev/null || true
 
 deleted=0
 skipped=0
 total=0
 candidates=0
 
-for wt_path in "$wt_root"/*/; do
-  [[ -d "$wt_path" ]] || continue
+for wt_path in "${worktree_paths[@]}"; do
   total=$((total + 1))
 
-  wt_path="${wt_path%/}"
   name=$(basename "$wt_path")
 
   # Get the branch for this worktree
@@ -134,7 +202,7 @@ for wt_path in "$wt_root"/*/; do
 
   # Check 2: Does the branch still exist on the remote?
   remote_gone=false
-  if ! git -C "$repo" ls-remote --heads --quiet origin "$branch" 2>/dev/null | grep -q .; then
+  if ! git -C "$repo" show-ref --verify --quiet "refs/remotes/origin/$branch"; then
     remote_gone=true
     reasons+=("remote branch gone")
   fi

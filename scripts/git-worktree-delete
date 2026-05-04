@@ -1,0 +1,211 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+# Remove a single Git worktree and its branch.
+#
+# Usage:
+#   git-worktree-delete [options] <name>
+#
+# Options:
+#   -d DIR    Legacy repo-local worktree subdirectory name
+#   -y        Assume yes to force-delete prompt
+#   -h        Show this help
+#
+# <name> is either the worktree folder name or a
+# branch name that is checked out in such a worktree.
+#
+# When the branch is merged into the base branch OR its remote counterpart
+# is gone, the worktree is deleted without prompting.
+# Otherwise the script reports why it's unsafe (unmerged, dirty, unpushed)
+# and asks y/n before force-deleting. -y skips the prompt.
+#
+# Checks the preferred `~/Developer/git-worktrees/<repo>/` location first,
+# then falls back to the legacy `.git-worktrees/` directory inside the repo.
+
+worktree_dir=".git-worktrees"
+assume_yes=false
+
+usage() {
+  awk '/^#!/{next} /^$/&&!p{next} /^#/{p=1; sub(/^# ?/,""); print; next} p{exit}' "$0"
+  exit "${1:-0}"
+}
+
+log() { printf '%s\n' "$*"; }
+warn() { printf '%s\n' "$*" >&2; }
+git_noninteractive() {
+  env GIT_TERMINAL_PROMPT=0 \
+    GIT_SSH_COMMAND="ssh -o BatchMode=yes -o ConnectTimeout=3" \
+    git "$@"
+}
+canonical_path() {
+  local path="$1"
+  if [[ -d "$path" ]]; then
+    (
+      cd "$path"
+      pwd -P
+    )
+  else
+    printf '%s\n' "$path"
+  fi
+}
+
+while getopts ":d:yh" opt; do
+  case "$opt" in
+    d) worktree_dir="$OPTARG" ;;
+    y) assume_yes=true ;;
+    h) usage 0 ;;
+    *) usage 1 ;;
+  esac
+done
+shift $((OPTIND - 1))
+
+if [[ $# -lt 1 ]]; then
+  usage 1
+fi
+
+name="$1"
+
+repo_top=$(git rev-parse --show-toplevel 2>/dev/null || true)
+if [[ -z "$repo_top" ]]; then
+  warn "Not inside a Git repository."
+  exit 1
+fi
+
+common_dir=$(git -C "$repo_top" rev-parse --path-format=absolute --git-common-dir)
+case "$common_dir" in
+  */.git) repo="${common_dir%/.git}" ;;
+  *)
+    warn "Unsupported git common dir: ${common_dir}"
+    exit 1
+    ;;
+esac
+
+repo_name=$(basename "$repo")
+preferred_root="$HOME/Developer/git-worktrees/$repo_name"
+legacy_root="$repo/$worktree_dir"
+preferred_root=$(canonical_path "$preferred_root")
+legacy_root=$(canonical_path "$legacy_root")
+
+# Resolve <name> to a worktree path and branch.
+# Strategy: prefer a folder match under preferred_root, then legacy_root,
+# then fall back to matching the branch name of any worktree tracked by git.
+wt_path=""
+branch=""
+
+if [[ -d "$preferred_root/$name" ]]; then
+  wt_path="$preferred_root/$name"
+elif [[ -d "$legacy_root/$name" ]]; then
+  wt_path="$legacy_root/$name"
+fi
+
+if [[ -n "$wt_path" ]]; then
+  wt_path=$(canonical_path "$wt_path")
+  branch=$(git -C "$repo" worktree list --porcelain \
+    | awk -v p="$wt_path" '
+        /^worktree / { wt = substr($0, 10) }
+        /^branch /   { if (wt == p) { sub(/^refs\/heads\//, "", $2); print $2 } }
+      ')
+fi
+
+if [[ -z "$wt_path" ]]; then
+  # Try treating <name> as a branch name.
+  wt_path=$(git -C "$repo" worktree list --porcelain \
+    | awk -v b="refs/heads/$name" '
+        /^worktree / { wt = substr($0, 10) }
+        /^branch /   { if ($2 == b) print wt }
+      ')
+  if [[ -n "$wt_path" ]]; then
+    branch="$name"
+  fi
+fi
+
+if [[ -z "$wt_path" ]]; then
+  warn "No worktree found for '${name}'."
+  warn "Looked under ${preferred_root}, ${legacy_root}, and in 'git worktree list'."
+  exit 1
+fi
+
+log "Worktree: ${wt_path}"
+log "Branch:   ${branch:-<none>}"
+
+# Figure out base branch for merge checks.
+default_branch=$(git -C "$repo" symbolic-ref --quiet --short refs/remotes/origin/HEAD 2>/dev/null || true)
+default_branch="${default_branch#origin/}"
+if [[ -z "$default_branch" ]]; then
+  default_branch=$(git -C "$repo" branch --show-current 2>/dev/null || true)
+fi
+if [[ -z "$default_branch" ]]; then
+  default_branch=$(git_noninteractive -C "$repo" remote show origin 2>/dev/null \
+    | awk '/HEAD branch/ { print $NF }' || true)
+fi
+if [[ -z "$default_branch" ]]; then
+  default_branch="trunk"
+  warn "Could not detect base branch, assuming ${default_branch}"
+fi
+
+log "Fetching latest from origin..."
+git_noninteractive -C "$repo" fetch --quiet --prune 2>/dev/null || true
+
+reasons=()
+safe=true
+
+if [[ -n "$branch" ]]; then
+  merged=false
+  if git -C "$repo" merge-base --is-ancestor "$branch" "origin/${default_branch}" 2>/dev/null; then
+    merged=true
+    reasons+=("branch merged into ${default_branch}")
+  fi
+
+  remote_gone=false
+  if ! git -C "$repo" show-ref --verify --quiet "refs/remotes/origin/$branch"; then
+    remote_gone=true
+    reasons+=("remote branch gone")
+  fi
+
+  if ! $merged && ! $remote_gone; then
+    reasons+=("branch not merged into ${default_branch} and still on remote")
+    safe=false
+  fi
+
+  ahead=$(git -C "$wt_path" rev-list --count "origin/${default_branch}..${branch}" 2>/dev/null || echo 0)
+  if [[ "$ahead" -gt 0 ]] && ! $merged; then
+    reasons+=("${ahead} unpushed commit(s)")
+    safe=false
+  fi
+else
+  reasons+=("detached worktree — no branch to check")
+  safe=false
+fi
+
+if [[ -n "$(git -C "$wt_path" status --porcelain 2>/dev/null)" ]]; then
+  reasons+=("has uncommitted changes")
+  safe=false
+fi
+
+reason=$(IFS=', '; echo "${reasons[*]}")
+
+if ! $safe; then
+  warn "Not safe to delete: ${reason}"
+  if ! $assume_yes; then
+    printf 'Force-delete anyway? [y/N] '
+    read -r answer
+    case "$answer" in
+      y|Y|yes|YES) ;;
+      *) log "Aborted."; exit 1 ;;
+    esac
+  fi
+else
+  log "Safe to delete: ${reason}"
+fi
+
+log "Removing worktree ${wt_path}"
+git -C "$repo" worktree remove --force "$wt_path" 2>/dev/null \
+  || rm -rf "$wt_path"
+
+if [[ -n "$branch" ]]; then
+  log "Deleting branch ${branch}"
+  git -C "$repo" branch -D "$branch" 2>/dev/null || true
+fi
+
+log "Done."

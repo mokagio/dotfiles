@@ -1,0 +1,27 @@
+#compdef git-worktree-delete
+
+# Completes the <name> argument for `git worktree-delete` with the folder
+# names found under the preferred or legacy worktree directories.
+
+local repo repo_name wt_root legacy_root
+repo=$(git rev-parse --show-toplevel 2>/dev/null) || return 1
+repo_name=$(basename "$repo")
+wt_root="$HOME/Developer/git-worktrees/$repo_name"
+legacy_root="$repo/.git-worktrees"
+
+if [[ -d "$wt_root" ]]; then
+  :
+elif [[ -d "$legacy_root" ]]; then
+  wt_root="$legacy_root"
+else
+  return 1
+fi
+
+local -a names
+names=("$wt_root"/*(/N:t))
+
+_arguments \
+  '-d[worktree subdirectory name]:dir:_files -/' \
+  '-y[assume yes to force-delete prompt]' \
+  '-h[show help]' \
+  "1:worktree:($names)"
