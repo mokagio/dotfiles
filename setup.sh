@@ -238,7 +238,14 @@ fi
 # Use `-es` (ex + silent) for vim instead of `--not-a-term`: the latter still
 # draws to the alt-screen in non-TTY contexts and leaves `[No Name] / buffers`
 # artifacts in setup output. `-i NONE` skips viminfo to keep the run hermetic.
-vim -es -u ~/.vimrc -i NONE -c 'PlugInstall! --sync' -c 'qall'
+#
+# `vim-tagquery`'s `install.sh` exits non-zero on every run after the first
+# (https://github.com/matt-snider/vim-tagquery/issues/3), and `PlugInstall!`
+# (with bang) re-runs `do` hooks even when the plugin is already installed.
+# Don't let that abort the whole setup script — match the `brew bundle` pattern.
+if ! vim -es -u ~/.vimrc -i NONE -c 'PlugInstall! --sync' -c 'qall'; then
+  printf "\033[1;33mvim PlugInstall finished with errors. Check the output above for plugin install failures.\033[0m\n"
+fi
 if command -v nvim &>/dev/null; then
   nvim --headless +PlugInstall +qall
 fi
