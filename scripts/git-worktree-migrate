@@ -1,0 +1,150 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+# Migrate legacy repo-local worktrees to ~/Developer/git-worktrees/<repo>/<branch>.
+#
+# Usage:
+#   git-worktree-migrate [options] [repo-path]
+#
+# Options:
+#   -n        Dry run
+#   -v        Verbose output
+#   -h        Show this help
+
+dry_run=false
+verbose=false
+
+usage() {
+  awk '/^#!/{next} /^$/&&!p{next} /^#/{p=1; sub(/^# ?/,""); print; next} p{exit}' "$0"
+  exit "${1:-0}"
+}
+
+log() { printf '%s\n' "$*"; }
+info() { ! $verbose || printf '  %s\n' "$*"; }
+warn() { printf '%s\n' "$*" >&2; }
+
+while getopts ":nvh" opt; do
+  case "$opt" in
+    n) dry_run=true ;;
+    v) verbose=true ;;
+    h) usage 0 ;;
+    *) usage 1 ;;
+  esac
+done
+shift $((OPTIND - 1))
+
+repo_input="${1:-$PWD}"
+
+repo_top=$(git -C "$repo_input" rev-parse --show-toplevel 2>/dev/null || true)
+if [[ -z "$repo_top" ]]; then
+  warn "Not inside a Git repository and no valid repo path given."
+  exit 1
+fi
+
+common_dir=$(git -C "$repo_top" rev-parse --path-format=absolute --git-common-dir)
+case "$common_dir" in
+  */.git) main_repo="${common_dir%/.git}" ;;
+  *)
+    warn "Unsupported git common dir: ${common_dir}"
+    exit 1
+    ;;
+esac
+
+repo_name=$(basename "$main_repo")
+legacy_root="$main_repo/.git-worktrees"
+preferred_root="$HOME/Developer/git-worktrees/$repo_name"
+
+log "Main repo: ${main_repo}"
+log "Legacy root: ${legacy_root}"
+log "Preferred root: ${preferred_root}"
+
+if [[ ! -d "$legacy_root" ]]; then
+  log "No legacy .git-worktrees directory found. Nothing to migrate."
+  exit 0
+fi
+
+worktree_list=$(git -C "$main_repo" worktree list --porcelain)
+if [[ -z "$worktree_list" ]]; then
+  log "No worktrees found."
+  exit 0
+fi
+
+entries=()
+current_path=""
+current_branch=""
+
+while IFS= read -r line; do
+  case "$line" in
+    worktree\ *)
+      if [[ -n "$current_path" && "$current_path" == "$legacy_root/"* ]]; then
+        branch_name="${current_branch#refs/heads/}"
+        if [[ -z "$branch_name" || "$branch_name" == "$current_branch" ]]; then
+          branch_name=$(basename "$current_path")
+        fi
+        entries+=("$current_path"$'\t'"$branch_name")
+      fi
+      current_path="${line#worktree }"
+      current_branch=""
+      ;;
+    branch\ *)
+      current_branch="${line#branch }"
+      ;;
+    "")
+      ;;
+  esac
+done <<< "$worktree_list"
+
+if [[ -n "$current_path" && "$current_path" == "$legacy_root/"* ]]; then
+  branch_name="${current_branch#refs/heads/}"
+  if [[ -z "$branch_name" || "$branch_name" == "$current_branch" ]]; then
+    branch_name=$(basename "$current_path")
+  fi
+  entries+=("$current_path"$'\t'"$branch_name")
+fi
+
+if [[ "${#entries[@]}" -eq 0 ]]; then
+  log "No legacy worktrees are currently registered with Git."
+  exit 0
+fi
+
+for entry in "${entries[@]}"; do
+  wt_path=${entry%%$'\t'*}
+  branch_name=${entry#*$'\t'}
+  target_path="$preferred_root/$branch_name"
+
+  info "Plan: ${wt_path} -> ${target_path}"
+
+  if [[ -e "$target_path" && "$target_path" != "$wt_path" ]]; then
+    warn "Target already exists: ${target_path}"
+    exit 1
+  fi
+done
+
+if $dry_run; then
+  for entry in "${entries[@]}"; do
+    wt_path=${entry%%$'\t'*}
+    branch_name=${entry#*$'\t'}
+    log "WOULD MOVE ${wt_path} -> ${preferred_root}/${branch_name}"
+  done
+  exit 0
+fi
+
+mkdir -p "$preferred_root"
+
+for entry in "${entries[@]}"; do
+  wt_path=${entry%%$'\t'*}
+  branch_name=${entry#*$'\t'}
+  target_path="$preferred_root/$branch_name"
+
+  log "Moving ${wt_path} -> ${target_path}"
+  mkdir -p "$(dirname "$target_path")"
+  git -C "$main_repo" worktree move "$wt_path" "$target_path"
+done
+
+if find "$legacy_root" -mindepth 1 -print -quit | grep -q .; then
+  log "Migration complete. Legacy root still contains files."
+else
+  rmdir "$legacy_root"
+  log "Migration complete. Removed empty legacy root."
+fi

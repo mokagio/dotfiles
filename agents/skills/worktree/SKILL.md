@@ -27,9 +27,11 @@ This skill automates the full procedure.
 
 Determine the main repo checkout path:
 
-- If cwd contains `.git-worktrees/`, the main checkout is the ancestor directory before `.git-worktrees/`.
-  E.g., `/Users/gio/Developer/my-repo/.git-worktrees/feature-x` → `/Users/gio/Developer/my-repo`.
-- Otherwise, use cwd.
+- First resolve Git's common dir with `git -C <cwd-or-main> rev-parse --path-format=absolute --git-common-dir`.
+- If the common dir ends in `/.git`, the main checkout is its parent directory.
+- This works for both legacy repo-local worktrees and preferred worktrees under `~/Developer/git-worktrees/<repo>/<branch>`.
+- Legacy example: `/Users/gio/Developer/my-repo/.git-worktrees/feature-x` → `/Users/gio/Developer/my-repo`.
+- Preferred example: `/Users/gio/Developer/git-worktrees/my-repo/feature-x` → `/Users/gio/Developer/my-repo`.
 
 Verify the resolved path is a git repo with `git -C <main> rev-parse --git-dir`.
 
@@ -57,12 +59,21 @@ From `$ARGUMENTS` or the task description, create a short slug:
 
 ### 5. Create the worktree
 
-The worktrees directory is always `.git-worktrees/` inside the repo root.
+Resolve the preferred and legacy worktree roots in this order:
 
-No need for `mkdir` — `git worktree add` creates intermediate directories.
+- Preferred root: `~/Developer/git-worktrees/<repo-name>/`
+- Legacy root: `<main>/.git-worktrees/`
+
+Search the preferred root first when checking for existing migrated worktrees.
+Only fall back to the legacy root when the preferred root is absent or the repo has not been migrated yet.
+
+New worktrees always go in the preferred root.
+If the repo still has legacy worktrees under `<main>/.git-worktrees/`, suggest running `git-worktree-migrate <main>` to migrate them.
+
+Create the preferred root if needed, then add the new worktree there.
 
 ```
-git -C <main> worktree add .git-worktrees/<slug> -b <slug> origin/<default>
+git -C <main> worktree add ~/Developer/git-worktrees/<repo-name>/<slug> -b <slug> origin/<default>
 ```
 
 ### 6. Report
@@ -70,7 +81,7 @@ git -C <main> worktree add .git-worktrees/<slug> -b <slug> origin/<default>
 Print the worktree path and confirm it's ready.
 Example:
 
-> Worktree created at `/Users/gio/Developer/my-repo/.git-worktrees/add-user-auth`.
+> Worktree created at `/Users/gio/Developer/git-worktrees/my-repo/add-user-auth`.
 > Branch `add-user-auth` tracking `origin/main`.
 
 ## Constraints
@@ -78,4 +89,5 @@ Example:
 - **Never** use `git --git-dir` or `cd path &&` — use `git -C` for all operations.
 - **Never** work directly on the main branch — always create a worktree first.
 - If already inside a worktree for a different task, resolve back to the main checkout before creating.
-- The worktree dir is always `.git-worktrees/` inside the repo root.
+- New worktrees go in `~/Developer/git-worktrees/<repo-name>/`.
+- `.git-worktrees/` is legacy fallback only.
