@@ -312,17 +312,7 @@
   },
   "enabledPlugins": {
     "rust-analyzer-lsp@claude-plugins-official": true,
-    "swift-lsp@claude-plugins-official": true,
-    "engram@engram": true
-  },
-  "extraKnownMarketplaces": {
-    "engram": {
-      "source": {
-        "source": "github",
-        "repo": "mokacoding/engram"
-      },
-      "autoUpdate": true
-    }
+    "swift-lsp@claude-plugins-official": true
   },
   "alwaysThinkingEnabled": true,
   "voiceEnabled": true,
