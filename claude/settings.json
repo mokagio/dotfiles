@@ -36,6 +36,8 @@
       "Bash(gh pr checkout *)",
       "Bash(gh pr create *)",
       "Bash(gh pr diff *)",
+      "Bash(gh pr edit *)",
+      "Bash(HTTPS_PROXY=* gh pr edit *)",
       "Bash(gh pr list *)",
       "Bash(gh pr merge *)",
       "Bash(gh pr view *)",
