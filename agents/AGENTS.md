@@ -96,6 +96,12 @@ At session start, before answering any question about what you recall, remember,
 
 ---
 
+Rules for interpreting tool output — verifying what a thing is before acting on it, investigating surprising results before narrating, and the limits of headless rendering — live in:
+
+@~/.config/agents/rules/tool-results.md
+
+---
+
 Rules for closing the verification loop efficiently — tiering changes by validation cost, deciding when to run locally vs. push and watch, and the Tier 2 traps that bite without a smoke invocation — live in:
 
 @~/.config/agents/rules/closing-the-loop.md
