@@ -218,17 +218,6 @@
     ]
   },
   "hooks": {
-    "Notification": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "$HOME/.claude/hooks/iterm-tab-notify.sh",
-            "timeout": 5
-          }
-        ]
-      }
-    ],
     "PermissionRequest": [
       {
         "hooks": [
@@ -282,11 +271,6 @@
     "UserPromptSubmit": [
       {
         "hooks": [
-          {
-            "type": "command",
-            "command": "$HOME/.claude/hooks/iterm-tab-reset.sh",
-            "timeout": 5
-          },
           {
             "type": "command",
             "command": "$HOME/.claude/hooks/ensure-worktree-memory.sh",
