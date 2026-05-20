@@ -3,7 +3,6 @@
     "ENGRAM_DIR": "/Users/gio/Developer/mokacoding-pty-ltd/engram"
   },
   "permissions": {
-    "defaultMode": "auto",
     "allow": [
       "Bash(agentic-commit *)",
       "Bash(BRIEF_AGENT=*)",
