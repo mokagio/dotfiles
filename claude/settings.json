@@ -300,6 +300,7 @@
     "swift-lsp@claude-plugins-official": true
   },
   "alwaysThinkingEnabled": true,
+  "skipDangerousModePermissionPrompt": true,
   "voiceEnabled": true,
-  "skipDangerousModePermissionPrompt": true
+  "agentPushNotifEnabled": true
 }
