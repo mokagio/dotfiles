@@ -136,6 +136,9 @@ export PATH="$PATH:/opt/ci/bin"
 # In zshenv so non-interactive calls (Makefiles, scripts) also skip it.
 export HOMEBREW_NO_AUTO_UPDATE=1
 
+# gh-dash config lives in dotfiles instead of ~/.config/gh-dash/
+export GH_DASH_CONFIG="$DOTFILES_HOME/gh-dash.yml"
+
 # Machine-local overrides (not tracked in dotfiles)
 LOCAL_ZSHENV="${HOME}/.zshenv.local"
 [[ -f "$LOCAL_ZSHENV" ]] && source "$LOCAL_ZSHENV"

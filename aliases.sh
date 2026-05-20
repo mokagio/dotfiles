@@ -24,6 +24,7 @@ alias grp=gpr
 alias grpn='gh pr create'
 alias cpr='gh pr checkout' # usage `cpr <PR id>`
 alias hb='gh browse' # open GitHub for the current repo and branch combo
+alias gui='gh dash'
 
 # Apple platforms development
 alias xco='[[ -f Project.swift ]] && tuist generate || open -a Xcode .'
