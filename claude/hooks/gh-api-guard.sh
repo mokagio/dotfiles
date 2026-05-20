@@ -21,7 +21,7 @@ ask() {
   exit 0
 }
 
-# Safe PR metadata endpoints (labels, milestones, PR body/title) — let through without prompting
+# Safe PR/issue metadata endpoints (labels, milestones, PR body/title, comments) — let through without prompting
 if echo "$COMMAND" | grep -qE 'repos/[^/]+/[^/]+/issues/[0-9]+/labels\b'; then
   exit 0
 fi
@@ -32,6 +32,18 @@ if echo "$COMMAND" | grep -qE 'repos/[^/]+/[^/]+/pulls/[0-9]+\b.*(-f|-F|--field|
   exit 0
 fi
 if echo "$COMMAND" | grep -qE 'repos/[^/]+/[^/]+/pulls/[0-9]+\b.*(-f|-F|--field|--raw-field)[ =]title='; then
+  exit 0
+fi
+# Post a comment on a PR or issue (POST repos/.../issues/N/comments with body=)
+if echo "$COMMAND" | grep -qE 'repos/[^/]+/[^/]+/issues/[0-9]+/comments\b.*(-f|-F|--field|--raw-field)[ =]body='; then
+  exit 0
+fi
+# Edit an existing issue or PR comment (PATCH repos/.../issues/comments/N with body=)
+if echo "$COMMAND" | grep -qE 'repos/[^/]+/[^/]+/issues/comments/[0-9]+\b.*(-f|-F|--field|--raw-field)[ =]body='; then
+  exit 0
+fi
+# Edit an existing PR review comment (PATCH repos/.../pulls/comments/N with body=)
+if echo "$COMMAND" | grep -qE 'repos/[^/]+/[^/]+/pulls/comments/[0-9]+\b.*(-f|-F|--field|--raw-field)[ =]body='; then
   exit 0
 fi
 
