@@ -71,8 +71,13 @@ if [[ -n "$repo" ]]; then
   git_args+=(-C "$repo")
 fi
 
+# Files that already have staged hunks are left alone so that partial staging
+# (e.g. via `git add -p`) is preserved.  Only unstaged/untracked files get added.
+staged_files="$(git "${git_args[@]}" diff --cached --name-only)"
 for file in "$@"; do
-  git "${git_args[@]}" add "$file"
+  if ! echo "$staged_files" | grep -qxF "$file"; then
+    git "${git_args[@]}" add "$file"
+  fi
 done
 
 git "${git_args[@]}" commit -F "$message_file" >/dev/null
