@@ -148,6 +148,12 @@ mkdir -p ~/.codex
 link "$pwd/agents/AGENTS.md" "$HOME/.codex/AGENTS.md"
 mkdir -p ~/.config/agents
 link "$pwd/agents/AGENTS.md" "$HOME/.config/agents/AGENTS.md"
+# `nullglob` makes unmatched globs expand to nothing rather than to the
+# literal pattern, which would otherwise be passed to `link` and trip
+# the source-existence guard. Scoped to just the rule + skill loops so
+# the later Powerline `*owerline*` glob (which relies on the default
+# pass-literal behavior to make `ls` fail) is unaffected.
+shopt -s nullglob
 mkdir -p ~/.config/agents/rules
 mkdir -p ~/.claude/rules
 for rule in "$pwd"/agents/rules/*.md; do
@@ -170,6 +176,7 @@ for skill in "$pwd"/claude/skills/*/; do
   skill_name="$(basename "$skill")"
   link "$skill" "$HOME/.claude/skills/$skill_name"
 done
+shopt -u nullglob
 printf '\033[0m'
 
 fi # do_links
