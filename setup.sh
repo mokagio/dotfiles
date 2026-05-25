@@ -9,13 +9,20 @@
 # Flags can be combined: --links-only --ruby-only runs both but skips
 # the heavy install steps (Homebrew, Node, Vim plugins, etc.).
 
+# Print a red, attention-grabbing message. Used for both warnings (which
+# continue execution) and fatal errors (via `die`). Goes to stdout to
+# match the rest of the script's logging and to keep `bats run` able to
+# capture it in `$output`.
+warn() { printf '\033[1;31m%s\033[0m\n' "$*"; }
+die()  { warn "$@"; exit 1; }
+
 # Symlink $1 to $2 if $2 doesn't already exist.
 # Fails loud if the source doesn't exist — catches typos in the dotfiles
 # array and stale entries whose source file has since been removed,
 # rather than silently producing a dangling symlink.
 link() {
   if [[ ! -e "$1" ]]; then
-    printf '\033[1;31mERROR: source %s does not exist, cannot link\033[0m\n' "$1"
+    warn "ERROR: source $1 does not exist, cannot link"
     return 1
   fi
   if [[ -h "$2" ]]; then
@@ -191,28 +198,24 @@ echo ""
 printf '\033[1;36m==> %s\033[0m\n' "Installing tools"
 
 if ! command -v xcodebuild &>/dev/null; then
-  printf "\033[1;31mxcodebuild not found. Run 'xcode-select --install' first to install the Xcode Command Line Tools.\033[0m\n"
-  exit 1
+  die "xcodebuild not found. Run 'xcode-select --install' first to install the Xcode Command Line Tools."
 fi
 if ! xcodebuild -license check &>/dev/null; then
-  printf "\033[1;31mXcode CLI tools license not accepted. Run 'sudo xcodebuild -license' first.\033[0m\n"
-  exit 1
+  die "Xcode CLI tools license not accepted. Run 'sudo xcodebuild -license' first."
 fi
 
 if ! command -v brew &>/dev/null; then
-  printf "\033[1;31mHomebrew not found. Install it from https://brew.sh first.\033[0m\n"
-  exit 1
+  die "Homebrew not found. Install it from https://brew.sh first."
 fi
 
 if ! brew bundle; then
-  printf "\033[1;31mbrew bundle finished with errors. Some formulae may not have installed.\033[0m\n"
-  printf "\033[1;31mRun 'brew bundle' manually to retry.\033[0m\n"
+  warn "brew bundle finished with errors. Some formulae may not have installed."
+  warn "Run 'brew bundle' manually to retry."
 fi
 
 for cmd in nvim mise; do
   if ! command -v "$cmd" &>/dev/null; then
-    printf "\033[1;31m%s not found after brew bundle. Cannot continue.\033[0m\n" "$cmd"
-    exit 1
+    die "$cmd not found after brew bundle. Cannot continue."
   fi
 done
 # Some of the tools installed via Homebrew might need additional manual steps.
@@ -249,7 +252,7 @@ fi
 # repo, so writing to it would clobber the pinned version.
 if command -v mise &>/dev/null; then
   if ! mise install node; then
-    printf '\033[1;33mmise install node failed; continuing.\033[0m\n'
+    warn "mise install node failed; continuing."
   # Read the version into a variable so a failing `node --version` is
   # reported instead of producing `Node  installed via mise` (with an
   # empty version) — command-substitution failures don't propagate
@@ -257,10 +260,10 @@ if command -v mise &>/dev/null; then
   elif node_version=$(mise exec -- node --version); then
     echo "Node $node_version installed via mise"
   else
-    printf '\033[1;33mNode install completed but reading the version failed.\033[0m\n'
+    warn "Node install completed but reading the version failed."
   fi
 else
-  printf "\033[1;31mmise not found, skipping Node setup.\033[0m\n"
+  warn "mise not found, skipping Node setup."
 fi
 
 # Install Vim-Plug to manage Vim plugins
@@ -270,13 +273,13 @@ vim_plug_path="$HOME/.vim/autoload/plug.vim"
 if [[ -f "$vim_plug_path" ]]; then
   echo "Looks like you already have Vim-Plug installed for Vim, skipping"
 elif ! curl -fLo "$vim_plug_path" --create-dirs "$plug_url"; then
-  printf "\033[1;33mVim-Plug download for Vim failed; PlugInstall will be skipped.\033[0m\n"
+  warn "Vim-Plug download for Vim failed; PlugInstall will be skipped."
 fi
 nvim_plug_path="$HOME/.local/share/nvim/site/autoload/plug.vim"
 if [[ -f "$nvim_plug_path" ]]; then
   echo "Looks like you already have Vim-Plug installed for Neovim, skipping"
 elif ! curl -fLo "$nvim_plug_path" --create-dirs "$plug_url"; then
-  printf "\033[1;33mVim-Plug download for Neovim failed; PlugInstall will be skipped.\033[0m\n"
+  warn "Vim-Plug download for Neovim failed; PlugInstall will be skipped."
 fi
 
 # Install Vim and Neovim plugins.
@@ -289,11 +292,11 @@ fi
 # (with bang) re-runs `do` hooks even when the plugin is already installed.
 # Don't let that abort the whole setup script — match the `brew bundle` pattern.
 if ! vim -es -u ~/.vimrc -i NONE -c 'PlugInstall! --sync' -c 'qall'; then
-  printf "\033[1;33mvim PlugInstall finished with errors. Check the output above for plugin install failures.\033[0m\n"
+  warn "vim PlugInstall finished with errors. Check the output above for plugin install failures."
 fi
 if command -v nvim &>/dev/null; then
   if ! nvim --headless +PlugInstall +qall; then
-    printf "\033[1;33mnvim PlugInstall finished with errors. Check the output above for plugin install failures.\033[0m\n"
+    warn "nvim PlugInstall finished with errors. Check the output above for plugin install failures."
   fi
 fi
 
@@ -314,7 +317,7 @@ else
   ); then
     echo "Powerline fonts installed"
   else
-    printf "\033[1;33mPowerline font install failed; tmpdir cleaned up; continuing.\033[0m\n"
+    warn "Powerline font install failed; tmpdir cleaned up; continuing."
   fi
 fi
 
@@ -325,7 +328,7 @@ if command -v gh &>/dev/null; then
     if gh extension list 2>/dev/null | grep -q "$ext"; then
       echo "gh extension $ext already installed, skipping"
     elif ! gh extension install "$ext"; then
-      printf "\033[1;33mgh extension install %s failed; continuing.\033[0m\n" "$ext"
+      warn "gh extension install $ext failed; continuing."
     fi
   done
 fi
@@ -344,10 +347,10 @@ if command -v claude >/dev/null 2>&1; then
   if claude mcp get buildkite >/dev/null 2>&1; then
     echo "MCP server buildkite already configured, skipping"
   elif ! claude mcp add --transport http --scope user buildkite https://mcp.buildkite.com/mcp/readonly; then
-    printf "\033[1;33mclaude mcp add buildkite failed; continuing.\033[0m\n"
+    warn "claude mcp add buildkite failed; continuing."
   fi
 else
-  printf "\033[1;33mclaude not found, skipping MCP server setup.\033[0m\n"
+  warn "claude not found, skipping MCP server setup."
 fi
 
 fi # do_install
@@ -366,14 +369,14 @@ printf '\033[1;36m==> %s\033[0m\n' "Setting up Ruby"
 # this repo, so writing to it would clobber the pinned version.
 if command -v mise &>/dev/null; then
   if ! mise install ruby; then
-    printf "\033[1;31mmise install ruby failed; skipping gem setup.\033[0m\n"
+    warn "mise install ruby failed; skipping gem setup."
   elif ! mise exec -- gem install bundler; then
-    printf "\033[1;31mgem install bundler failed; skipping bundle install.\033[0m\n"
+    warn "gem install bundler failed; skipping bundle install."
   elif ! mise exec -- bundle install; then
-    printf "\033[1;31mbundle install failed. Run it manually to retry.\033[0m\n"
+    warn "bundle install failed. Run it manually to retry."
   fi
 else
-  printf "\033[1;31mmise not found, skipping Ruby setup.\033[0m\n"
+  warn "mise not found, skipping Ruby setup."
 fi
 
 fi # do_ruby
