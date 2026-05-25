@@ -15,7 +15,6 @@ Apps you'll want to launch and configure next:
 
 - Alfred (wait for its `.preferences` folder to appear in Dropbox)
 - Tadam
-- Hammerspoon
 - flux
 
 ### zsh
@@ -25,16 +24,6 @@ Zsh will be installed through Homebrew, but it needs to be set as the default sh
 If the command errors saying `chsh: <# path #>: non-standard shell` make sure that the path is listed in `/etc/shells`, if not `sudo vim /etc/shells` and add it. Now run `chsh` again.
 
 Open a new shell instance and type `echo $SHELL` to make sure zsh is the current shell. If it isn't maybe try logging in and out.
-
-The setup is currently depending on [prezto](https://github.com/sorin-ionescu/prezto), have a look at the **entire** installation section of the README.
-
-You will also need to `ln -s ~/.zprezto/runcoms/zpreztorc ~/.zpreztorc` to enable the Prezto modules, as at the moment those are not configure in this setup.
-
-If you get some errors about insecure folders when starting a Zsh session, check [this issue](https://github.com/zsh-users/zsh-completions/issues/433#issuecomment-608772809).
-
-### PHP
-
-The script installs PHP, but doesn't install Composer, which you'll have to do manually following the instructions [here](https://getcomposer.org/doc/00-intro.md#installation-linux-unix-macos).
 
 ## macOS notes
 
