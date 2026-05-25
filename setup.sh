@@ -269,7 +269,14 @@ if command -v gh &>/dev/null; then
   gh extension install meiji163/gh-notify
 fi
 
-# Claude Code global MCP servers (requires claude from Brewfile).
+# Claude Code — install via the native installer rather than the Homebrew
+# cask. The cask lags behind, while the native install auto-updates via
+# `claude update` and is what's actually on PATH on this machine.
+if ! command -v claude >/dev/null 2>&1; then
+  curl -fsSL https://claude.ai/install.sh | bash
+fi
+
+# Claude Code global MCP servers.
 # `claude mcp add` exits non-zero if the server already exists, which would
 # abort the script under `set -e`, so check first.
 if command -v claude >/dev/null 2>&1; then
