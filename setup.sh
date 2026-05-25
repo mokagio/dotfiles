@@ -235,12 +235,13 @@ fi
 # Don't `mise use --global` here: the global config is symlinked into this
 # repo, so writing to it would clobber the pinned version.
 if command -v mise &>/dev/null; then
-  mise install node
+  if ! mise install node; then
+    printf '\033[1;33mmise install node failed; continuing.\033[0m\n'
   # Read the version into a variable so a failing `node --version` is
   # reported instead of producing `Node  installed via mise` (with an
   # empty version) — command-substitution failures don't propagate
   # through `echo`.
-  if node_version=$(mise exec -- node --version); then
+  elif node_version=$(mise exec -- node --version); then
     echo "Node $node_version installed via mise"
   else
     printf '\033[1;33mNode install completed but reading the version failed.\033[0m\n'
@@ -351,9 +352,11 @@ printf '\033[1;36m==> %s\033[0m\n' "Setting up Ruby"
 # gems. Don't `mise use --global` here: the global config is symlinked into
 # this repo, so writing to it would clobber the pinned version.
 if command -v mise &>/dev/null; then
-  mise install ruby
-  mise exec -- gem install bundler
-  if ! mise exec -- bundle install; then
+  if ! mise install ruby; then
+    printf "\033[1;31mmise install ruby failed; skipping gem setup.\033[0m\n"
+  elif ! mise exec -- gem install bundler; then
+    printf "\033[1;31mgem install bundler failed; skipping bundle install.\033[0m\n"
+  elif ! mise exec -- bundle install; then
     printf "\033[1;31mbundle install failed. Run it manually to retry.\033[0m\n"
   fi
 else
