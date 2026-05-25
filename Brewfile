@@ -136,25 +136,3 @@ cask 'qlmarkdown'
 cask 'quicklook-json'
 # view .ipa and .mobileprovision files
 cask 'provisionql'
-
-#
-# Stuff beneath here is handy, but not a must have right out the bat. Good to
-# remember, thought.
-#
-
-#brew 'go'
-# imagemagick needs ghostscript to convert pdfs
-#brew 'ghostscript'
-# ffmpeg is a CLI tool for video editing
-#brew 'ffmpeg'
-# the Clojure dependency manager and build automation tool
-#brew 'leiningen'
-# some lldb functions to help debugging from the Xcode console
-#brew 'chisel'
-# an app that inspects Xcode's projects and highlights issues and possible optimizations
-#cask 'fauxpas'
-# offline documentation browser
-#cask 'dash'
-# Nintendo 64 emulator
-#cask 'sixtyforce'
-#cask 'java'
