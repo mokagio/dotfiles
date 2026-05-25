@@ -336,8 +336,8 @@ fi
 if command -v claude >/dev/null 2>&1; then
   if claude mcp get buildkite >/dev/null 2>&1; then
     echo "MCP server buildkite already configured, skipping"
-  else
-    claude mcp add --transport http --scope user buildkite https://mcp.buildkite.com/mcp/readonly
+  elif ! claude mcp add --transport http --scope user buildkite https://mcp.buildkite.com/mcp/readonly; then
+    printf "\033[1;33mclaude mcp add buildkite failed; continuing.\033[0m\n"
   fi
 else
   printf "\033[1;33mclaude not found, skipping MCP server setup.\033[0m\n"
