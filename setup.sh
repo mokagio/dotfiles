@@ -58,7 +58,7 @@ else
   done
 fi
 
-pwd="$(cd "$(dirname "$0")" && pwd)"
+dotfiles_dir="$(cd "$(dirname "$0")" && pwd)"
 
 # ---------------------------------------------------------------------------
 # Symlinks and directories
@@ -92,7 +92,7 @@ for dot in "${dotfiles[@]}"
 do
   destination="$HOME/.$dot"
 
-  link "$pwd/$dot" "$destination"
+  link "$dotfiles_dir/$dot" "$destination"
 done
 
 # Link Vim spellfile.
@@ -100,7 +100,7 @@ done
 mkdir -p ~/.vim/spell
 # Note that you should not use `_` in the file name, see
 # https://unix.stackexchange.com/questions/85538/how-can-i-create-my-own-spelling-file-for-vim
-vim_spell_path="$pwd/vim/spell/custom-spell.utf-8.add"
+vim_spell_path="$dotfiles_dir/vim/spell/custom-spell.utf-8.add"
 if [[ -f $vim_spell_path ]]; then
   # Interestingly, I had to use $HOME here instead of ~, otherwise, ln would
   # fail with "No such file or directory". Why does ~ work above but not here?
@@ -114,7 +114,7 @@ fi
 
 # NeoVim
 neovim_root=~/.config/nvim
-neovim_init="$pwd/neovim_init.vim"
+neovim_init="$dotfiles_dir/neovim_init.vim"
 mkdir -p "$neovim_root"
 if [[ -f $neovim_init ]]; then
   destination="$neovim_root/init.vim"
@@ -124,30 +124,30 @@ else
   exit 1
 fi
 # Native LSP configs
-link "$pwd/nvim/lsp" "$neovim_root/lsp"
+link "$dotfiles_dir/nvim/lsp" "$neovim_root/lsp"
 
 # Hammerspoon window manager
 # http://www.hammerspoon.org/
 mkdir -p ~/.hammerspoon
-link "$pwd/hammerspoon_init.lua" "$HOME/.hammerspoon/init.lua"
+link "$dotfiles_dir/hammerspoon_init.lua" "$HOME/.hammerspoon/init.lua"
 
 # mise — needs idiomatic_version_file_enable_tools = ["ruby"] so `.ruby-version`
 # files in repos (pinning 3.2.2 for a8c iOS work) win over the global 3.4.7 pin.
 mkdir -p ~/.config/mise
-link "$pwd/mise/global-config.toml" "$HOME/.config/mise/config.toml"
+link "$dotfiles_dir/mise/global-config.toml" "$HOME/.config/mise/config.toml"
 
 # Claude Code
 mkdir -p ~/.claude
 for f in claude/settings.json claude/CLAUDE.md claude/statusline.sh; do
-  link "$pwd/$f" "$HOME/.${f}"
+  link "$dotfiles_dir/$f" "$HOME/.${f}"
 done
 # AGENTS.md at both the conventional home location and the XDG location.
 # Keep both so different agent tools can discover the same shared file.
-link "$pwd/agents/AGENTS.md" "$HOME/AGENTS.md"
+link "$dotfiles_dir/agents/AGENTS.md" "$HOME/AGENTS.md"
 mkdir -p ~/.codex
-link "$pwd/agents/AGENTS.md" "$HOME/.codex/AGENTS.md"
+link "$dotfiles_dir/agents/AGENTS.md" "$HOME/.codex/AGENTS.md"
 mkdir -p ~/.config/agents
-link "$pwd/agents/AGENTS.md" "$HOME/.config/agents/AGENTS.md"
+link "$dotfiles_dir/agents/AGENTS.md" "$HOME/.config/agents/AGENTS.md"
 # `nullglob` makes unmatched globs expand to nothing rather than to the
 # literal pattern, which would otherwise be passed to `link` and trip
 # the source-existence guard. Scoped to just the rule + skill loops so
@@ -156,23 +156,23 @@ link "$pwd/agents/AGENTS.md" "$HOME/.config/agents/AGENTS.md"
 shopt -s nullglob
 mkdir -p ~/.config/agents/rules
 mkdir -p ~/.claude/rules
-for rule in "$pwd"/agents/rules/*.md; do
+for rule in "$dotfiles_dir"/agents/rules/*.md; do
   rule_name="$(basename "$rule")"
   link "$rule" "$HOME/.config/agents/rules/$rule_name"
   link "$rule" "$HOME/.claude/rules/$rule_name"
 done
-link "$pwd/claude/hooks" "$HOME/.claude/hooks"
+link "$dotfiles_dir/claude/hooks" "$HOME/.claude/hooks"
 # Shared skills — whole-directory symlink for ~/.agents/skills
 mkdir -p ~/.agents
-link "$pwd/agents/skills" "$HOME/.agents/skills"
+link "$dotfiles_dir/agents/skills" "$HOME/.agents/skills"
 # Per-skill symlinks for Claude so Claude-only skills can coexist
 mkdir -p ~/.claude/skills
-for skill in "$pwd"/agents/skills/*/; do
+for skill in "$dotfiles_dir"/agents/skills/*/; do
   skill_name="$(basename "$skill")"
   link "$skill" "$HOME/.claude/skills/$skill_name"
 done
 # Claude-only skills (not shared with other agents)
-for skill in "$pwd"/claude/skills/*/; do
+for skill in "$dotfiles_dir"/claude/skills/*/; do
   skill_name="$(basename "$skill")"
   link "$skill" "$HOME/.claude/skills/$skill_name"
 done
