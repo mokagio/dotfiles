@@ -208,10 +208,15 @@ if [[ -d "$qlcolorcode_path" ]]; then
   xattr -cr "$qlcolorcode_path"
 fi
 
-# Open Hammerspoon so macOS surfaces the accessibility permission prompt and
-# any other first-run setup. The `init.lua` symlink is already in place from
-# the do_links phase, so the app loads with the intended config on first run.
-if [[ -d /Applications/Hammerspoon.app ]]; then
+# Open Hammerspoon on first install so macOS surfaces the accessibility
+# permission prompt and any other in-app first-run setup. The `init.lua`
+# symlink is already in place from the do_links phase, so the app loads
+# with the intended config on first launch. `defaults read` returning
+# non-zero means the user defaults domain doesn't exist yet, i.e. the app
+# has never been launched — the right time to open it. Skip on repeat
+# setup runs to avoid stealing focus.
+if [[ -d /Applications/Hammerspoon.app ]] \
+   && ! defaults read org.hammerspoon.Hammerspoon >/dev/null 2>&1; then
   echo "Opening Hammerspoon — grant accessibility permission when prompted."
   open -a Hammerspoon
 fi
