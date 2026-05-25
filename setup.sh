@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 
-set -euo pipefail
-
 # Usage: setup.sh [--links-only] [--ruby-only]
 #
 #   (no args)      Run everything: symlinks + all install steps
@@ -10,6 +8,33 @@ set -euo pipefail
 #
 # Flags can be combined: --links-only --ruby-only runs both but skips
 # the heavy install steps (Homebrew, Node, Vim plugins, etc.).
+
+# Symlink $1 to $2 if $2 doesn't already exist.
+# Fails loud if the source doesn't exist — catches typos in the dotfiles
+# array and stale entries whose source file has since been removed,
+# rather than silently producing a dangling symlink.
+link() {
+  if [[ ! -e "$1" ]]; then
+    printf '\033[1;31mERROR: source %s does not exist, cannot link\033[0m\n' "$1"
+    return 1
+  fi
+  if [[ -h "$2" ]]; then
+    echo "$2 exists already, skipping"
+  elif [[ -e "$2" ]]; then
+    echo "WARNING: $2 exists and is not a symlink, skipping"
+  else
+    echo "Will run: ln -s $1 $2"
+    ln -s "$1" "$2"
+  fi
+}
+
+# Sourceable: when this file is sourced (e.g. by tests), bail out
+# before running the install flow. Functions defined above remain
+# available to the sourcing shell. When invoked as a script,
+# ${BASH_SOURCE[0]} == ${0} and the guard falls through.
+[[ "${BASH_SOURCE[0]}" == "${0}" ]] || return 0
+
+set -euo pipefail
 
 do_links=false
 do_install=false
@@ -32,25 +57,6 @@ else
     esac
   done
 fi
-
-# Symlink $1 to $2 if $2 doesn't already exist.
-# Fails loud if the source doesn't exist — catches typos in the dotfiles
-# array and stale entries whose source file has since been removed,
-# rather than silently producing a dangling symlink.
-link() {
-  if [[ ! -e "$1" ]]; then
-    printf '\033[1;31mERROR: source %s does not exist, cannot link\033[0m\n' "$1"
-    return 1
-  fi
-  if [[ -h "$2" ]]; then
-    echo "$2 exists already, skipping"
-  elif [[ -e "$2" ]]; then
-    echo "WARNING: $2 exists and is not a symlink, skipping"
-  else
-    echo "Will run: ln -s $1 $2"
-    ln -s "$1" "$2"
-  fi
-}
 
 pwd="$(cd "$(dirname "$0")" && pwd)"
 
