@@ -177,6 +177,10 @@ if $do_install; then
 echo ""
 printf '\033[1;36m==> %s\033[0m\n' "Installing tools"
 
+if ! command -v xcodebuild &>/dev/null; then
+  printf "\033[1;31mxcodebuild not found. Run 'xcode-select --install' first to install the Xcode Command Line Tools.\033[0m\n"
+  exit 1
+fi
 if ! xcodebuild -license check &>/dev/null; then
   printf "\033[1;31mXcode CLI tools license not accepted. Run 'sudo xcodebuild -license' first.\033[0m\n"
   exit 1
