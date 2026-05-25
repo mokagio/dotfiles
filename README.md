@@ -8,7 +8,9 @@ These are my dotfiles, in the hope to simplify the transition to any new machine
 1. Accept the Xcode license: `sudo xcodebuild -license` — `setup.sh` aborts otherwise
 1. You'll now have `git`, use it to clone this repo
 1. Install [Homebrew](https://brew.sh/)
-1. Run the `setup.sh` script, which will symlink all the dotfiles to `$HOME` and install the other tools (when running `brew bundle`, it might look unresponsive, but it's actually just installing casks silently)
+1. Run the `setup.sh` script.
+   It symlinks all the dotfiles to `$HOME` and installs the other tools.
+   `brew bundle` may look unresponsive — it's actually just installing casks silently.
 1. Open and configure 1Password
 1. Open and configure Dropbox, as it contains the config folders for other apps
 
@@ -16,8 +18,10 @@ These are my dotfiles, in the hope to simplify the transition to any new machine
 
 1. Set Zsh as the default shell: `chsh -s $(which zsh)` (see [Zsh notes](#zsh) below if this fails)
 1. `gh auth login` so the GitHub CLI extensions installed by `setup.sh` can actually talk to GitHub
-1. Import your GPG private key (`gpg --import secret.key`) so commit signing works — see the [GPG notes](#macos-notes) below for the full setup
-1. Import the bundled iTerm2 preferences: iTerm2 → Preferences → General → Settings → "Load preferences from a custom folder or URL", point at `iterm2/com.googlecode.iterm2.plist` in this repo
+1. Import your GPG private key (`gpg --import secret.key`) so commit signing works.
+   See the [GPG notes](#macos-notes) below for the full setup.
+1. Import the bundled iTerm2 preferences from `iterm2/com.googlecode.iterm2.plist`.
+   iTerm2 → Preferences → General → Settings → "Load preferences from a custom folder or URL".
 1. Grant Hammerspoon the macOS accessibility permission when it opens on first run (`setup.sh` opens it for you)
 
 Apps you'll want to launch and configure next:
@@ -39,11 +43,14 @@ Flags can be combined.
 
 Zsh will be installed through Homebrew, but it needs to be set as the default shell: `chsh -s $(which zsh)`
 
-If the command errors saying `chsh: <# path #>: non-standard shell` make sure that the path is listed in `/etc/shells`, if not `sudo vim /etc/shells` and add it. Now run `chsh` again.
+If the command errors saying `chsh: <# path #>: non-standard shell`, make sure that the path is listed in `/etc/shells`.
+If not, `sudo vim /etc/shells` and add it, then run `chsh` again.
 
-Open a new shell instance and type `echo $SHELL` to make sure zsh is the current shell. If it isn't maybe try logging in and out.
+Open a new shell instance and type `echo $SHELL` to make sure zsh is the current shell.
+If it isn't, try logging in and out.
 
 ## macOS notes
 
 - [How to enable three fingers drag](https://support.apple.com/en-au/HT204609)
-- [How to complete the GPG Git signing setup](https://stackoverflow.com/a/47087248/809944) and makes sure to use `/opt/homebrew/bin/pinentry-mac` instead of `/usr/local/bin/pinentry-mac` on an Apple Silicon machine!
+- [How to complete the GPG Git signing setup](https://stackoverflow.com/a/47087248/809944).
+  On Apple Silicon, use `/opt/homebrew/bin/pinentry-mac` instead of `/usr/local/bin/pinentry-mac`.
