@@ -262,14 +262,14 @@ plug_url="https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim"
 vim_plug_path="$HOME/.vim/autoload/plug.vim"
 if [[ -f "$vim_plug_path" ]]; then
   echo "Looks like you already have Vim-Plug installed for Vim, skipping"
-else
-  curl -fLo "$vim_plug_path" --create-dirs "$plug_url"
+elif ! curl -fLo "$vim_plug_path" --create-dirs "$plug_url"; then
+  printf "\033[1;33mVim-Plug download for Vim failed; PlugInstall will be skipped.\033[0m\n"
 fi
 nvim_plug_path="$HOME/.local/share/nvim/site/autoload/plug.vim"
 if [[ -f "$nvim_plug_path" ]]; then
   echo "Looks like you already have Vim-Plug installed for Neovim, skipping"
-else
-  curl -fLo "$nvim_plug_path" --create-dirs "$plug_url"
+elif ! curl -fLo "$nvim_plug_path" --create-dirs "$plug_url"; then
+  printf "\033[1;33mVim-Plug download for Neovim failed; PlugInstall will be skipped.\033[0m\n"
 fi
 
 # Install Vim and Neovim plugins.
