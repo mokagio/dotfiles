@@ -65,7 +65,6 @@ dotfiles=(
   'ideavimrc'
   'lldbinit'
   'liftoffrc'
-  'luarocks'
   'tigrc'
   'vimrc'
   'vimrc.zettelkasten'
