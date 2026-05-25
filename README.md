@@ -5,17 +5,35 @@ These are my dotfiles, in the hope to simplify the transition to any new machine
 ## Install
 
 1. The starting point is Xcode, and its Command Line Tools which you can install via `xcode-select --install`
+1. Accept the Xcode license: `sudo xcodebuild -license` — `setup.sh` aborts otherwise
 1. You'll now have `git`, use it to clone this repo
 1. Install [Homebrew](https://brew.sh/)
 1. Run the `setup.sh` script, which will symlink all the dotfiles to `$HOME` and install the other tools (when running `brew bundle`, it might look unresponsive, but it's actually just installing casks silently)
 1. Open and configure 1Password
 1. Open and configure Dropbox, as it contains the config folders for other apps
 
+### After `setup.sh`
+
+1. Set Zsh as the default shell: `chsh -s $(which zsh)` (see [Zsh notes](#zsh) below if this fails)
+1. `gh auth login` so the GitHub CLI extensions installed by `setup.sh` can actually talk to GitHub
+1. Import your GPG private key (`gpg --import secret.key`) so commit signing works — see the [GPG notes](#macos-notes) below for the full setup
+1. Import the bundled iTerm2 preferences: iTerm2 → Preferences → General → Settings → "Load preferences from a custom folder or URL", point at `iterm2/com.googlecode.iterm2.plist` in this repo
+1. Grant Hammerspoon the macOS accessibility permission when it opens on first run (`setup.sh` opens it for you)
+
 Apps you'll want to launch and configure next:
 
 - Alfred (wait for its `.preferences` folder to appear in Dropbox)
 - Tadam
-- flux
+- f.lux
+
+### Re-running `setup.sh`
+
+`setup.sh` is idempotent and accepts flags to skip the slow parts:
+
+- `setup.sh --links-only` — only refresh symlinks (skip Homebrew, plugins, fonts, etc.)
+- `setup.sh --ruby-only` — only re-run the Ruby setup (`mise install ruby` + `bundle install`)
+
+Flags can be combined.
 
 ### zsh
 
