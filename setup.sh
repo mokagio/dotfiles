@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-set -eu
+set -euo pipefail
 
 # Usage: setup.sh [--links-only] [--ruby-only]
 #
