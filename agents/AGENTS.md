@@ -108,6 +108,12 @@ Rules for closing the verification loop efficiently — tiering changes by valid
 
 ---
 
+Rules for testing — when to write a permanent test, where it lands, and turning ad-hoc smoke verification into committed coverage — live in:
+
+@~/.config/agents/rules/testing.md
+
+---
+
 Use the Linear GraphQL API over the Linear MCP, unless the API isn't functional.
 The MCP surface is limited (e.g. no comment tool).
 
