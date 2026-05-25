@@ -208,6 +208,14 @@ if [[ -d "$qlcolorcode_path" ]]; then
   xattr -cr "$qlcolorcode_path"
 fi
 
+# Open Hammerspoon so macOS surfaces the accessibility permission prompt and
+# any other first-run setup. The `init.lua` symlink is already in place from
+# the do_links phase, so the app loads with the intended config on first run.
+if [[ -d /Applications/Hammerspoon.app ]]; then
+  echo "Opening Hammerspoon — grant accessibility permission when prompted."
+  open -a Hammerspoon
+fi
+
 # Install the Node version pinned in the global mise config (currently `lts`).
 # Don't `mise use --global` here: the global config is symlinked into this
 # repo, so writing to it would clobber the pinned version.
