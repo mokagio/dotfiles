@@ -286,10 +286,16 @@ else
   echo "Powerline fonts installed"
 fi
 
-# GitHub CLI extensions
+# GitHub CLI extensions — install each independently so one failure
+# (network, rate limit, already-installed error) doesn't skip the rest.
 if command -v gh &>/dev/null; then
-  gh extension install dlvhdr/gh-dash
-  gh extension install meiji163/gh-notify
+  for ext in dlvhdr/gh-dash meiji163/gh-notify; do
+    if gh extension list 2>/dev/null | grep -q "$ext"; then
+      echo "gh extension $ext already installed, skipping"
+    elif ! gh extension install "$ext"; then
+      printf "\033[1;33mgh extension install %s failed; continuing.\033[0m\n" "$ext"
+    fi
+  done
 fi
 
 # Claude Code — install via the native installer rather than the Homebrew
