@@ -36,6 +36,12 @@ fi
 # Xcode build autocompletion, via https://github.com/keith/zsh-xcode-completions
 fpath=($HOMEBREW_PREFIX/share/zsh/site-functions $fpath)
 
+# Dotfiles-local completions directory. Files with the `_name` convention
+# are picked up by compinit via fpath. Files ending in `.zsh` are sourced
+# after compinit (see below) so they can define `_git_<cmd>` dispatch
+# functions that git's completion wrapper looks up at tab time.
+fpath=($DOTFILES_HOME/zsh/completions $fpath)
+
 # Case-insensitive tab completion
 zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z} m:=_ m:=- m:=.'
 
@@ -144,6 +150,13 @@ fi
 # https://stackoverflow.com/questions/24513873/git-tab-completion-not-working-in-zsh-on-mac/58517668#58517668
 # -u: skip insecure-directory check — Homebrew sets group-write on its share dir
 autoload -Uz compinit && compinit -u
+
+# Source dotfiles-local completion helpers (defines functions like
+# `_git_worktree_delete` that git's completion wrapper dispatches to).
+for _f in "$DOTFILES_HOME"/zsh/completions/*.zsh(N); do
+  source "$_f"
+done
+unset _f
 
 # Go
 export GOPATH=$HOME/.go
