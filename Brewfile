@@ -34,9 +34,6 @@ brew 'lua'
 # this is actually called via `gh` and is _another_ tool to work with GitHub
 # from the command line
 brew 'github/gh/gh'
-# Older GitHub CLI that some of the tooling still uses
-# TODO: verify the above and remove if not true
-brew 'hub'
 # EditorConfig is a tool to keep coding styles consistent across IDEs
 brew 'editorconfig'
 # send user notifcations from the terminal
@@ -53,9 +50,7 @@ brew 'pinentry-mac'
 brew 'gpg'
 # Takes any text as input and interactively fuzzy search through it
 brew 'fzf'
-# Another search tool, but optimized for searching through code fast
-brew 'the_silver_searcher'
-# Yet another fast search tool
+# Fast search tool optimized for searching through code
 brew 'ripgrep'
 # Handy tool to repeat a command every n seconds
 brew 'watch'
@@ -88,9 +83,6 @@ brew 'imagemagick'
 brew 'bundletool'
 brew 'awscli'
 cask 'android-studio'
-# Some simple or demo apps run on Heroku
-tap 'heroku/brew'
-brew 'heroku'
 
 # Stuff I need for Automattic
 brew 'php'
@@ -141,10 +133,6 @@ cask 'qlmarkdown'
 cask 'quicklook-json'
 # view .ipa and .mobileprovision files
 cask 'provisionql'
-
-# Calling this last because it asks for the password
-# background app that tracks how you spend your time on the computer
-cask 'rescuetime'
 
 #
 # Stuff beneath here is handy, but not a must have right out the bat. Good to
