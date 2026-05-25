@@ -275,17 +275,25 @@ if command -v nvim &>/dev/null; then
   fi
 fi
 
-# Powerline fonts
+# Powerline fonts. Subshell scopes the EXIT trap so the tmpdir is
+# cleaned up whether the install succeeds or aborts mid-step. `&&`
+# chaining short-circuits: `set -e` is suspended inside `if (...)`, so
+# without it a failed `git clone` would still try to run `install.sh`.
 if ls "$HOME/Library/Fonts/"*owerline* &>/dev/null; then
   echo "Powerline fonts already installed, skipping"
 else
   echo "Installing Powerline fonts..."
-  powerline_tmp=$(mktemp -d)
-  git clone https://github.com/powerline/fonts.git --depth=1 "$powerline_tmp"
-  echo "Running Powerline font installer..."
-  "$powerline_tmp/install.sh"
-  rm -rf "$powerline_tmp"
-  echo "Powerline fonts installed"
+  if (
+    powerline_tmp=$(mktemp -d)
+    trap 'rm -rf "$powerline_tmp"' EXIT
+    git clone https://github.com/powerline/fonts.git --depth=1 "$powerline_tmp" \
+      && echo "Running Powerline font installer..." \
+      && "$powerline_tmp/install.sh"
+  ); then
+    echo "Powerline fonts installed"
+  else
+    printf "\033[1;33mPowerline font install failed; tmpdir cleaned up; continuing.\033[0m\n"
+  fi
 fi
 
 # GitHub CLI extensions — install each independently so one failure
