@@ -102,6 +102,9 @@ cask 'iterm2'
 cask 'google-chrome'
 # a Spotlight replacement, plus many automation features
 cask 'alfred'
+# Password manager — the README install steps reference opening
+# 1Password right after `setup.sh`, so it needs to actually be there.
+cask '1password'
 # Window manager configurable via a script
 cask 'hammerspoon'
 # change the screen temperature according to the time of the day
