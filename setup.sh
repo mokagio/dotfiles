@@ -204,9 +204,24 @@ if ! xcodebuild -license check &>/dev/null; then
   die "Xcode CLI tools license not accepted. Run 'sudo xcodebuild -license' first."
 fi
 
-if ! command -v brew &>/dev/null; then
-  die "Homebrew not found. Install it from https://brew.sh first."
+# Locate Homebrew without relying on PATH being already configured —
+# on a fresh Mac, the `brew shellenv` line lives in `.zprofile` which
+# isn't sourced until the user opens a new shell. Apple Silicon installs
+# under `/opt/homebrew`, Intel under `/usr/local`; probe both, prefer
+# Apple Silicon, fail if neither is present.
+brew_bin=""
+for candidate in /opt/homebrew/bin/brew /usr/local/bin/brew; do
+  if [[ -x "$candidate" ]]; then
+    brew_bin="$candidate"
+    break
+  fi
+done
+if [[ -z "$brew_bin" ]]; then
+  die "Homebrew not found at /opt/homebrew/bin/brew or /usr/local/bin/brew. Install it from https://brew.sh first."
 fi
+# Apply brew's shell setup for the rest of this script so subsequent
+# tools (brew bundle, mise, nvim, gh, ...) are reachable on PATH.
+eval "$("$brew_bin" shellenv)"
 
 if ! brew bundle; then
   warn "brew bundle finished with errors. Some formulae may not have installed."
