@@ -33,8 +33,15 @@ else
   done
 fi
 
-# Symlink $1 to $2 if $2 doesn't already exist
+# Symlink $1 to $2 if $2 doesn't already exist.
+# Fails loud if the source doesn't exist — catches typos in the dotfiles
+# array and stale entries whose source file has since been removed,
+# rather than silently producing a dangling symlink.
 link() {
+  if [[ ! -e "$1" ]]; then
+    printf '\033[1;31mERROR: source %s does not exist, cannot link\033[0m\n' "$1"
+    return 1
+  fi
   if [[ -h "$2" ]]; then
     echo "$2 exists already, skipping"
   elif [[ -e "$2" ]]; then
