@@ -270,7 +270,9 @@ if ! vim -es -u ~/.vimrc -i NONE -c 'PlugInstall! --sync' -c 'qall'; then
   printf "\033[1;33mvim PlugInstall finished with errors. Check the output above for plugin install failures.\033[0m\n"
 fi
 if command -v nvim &>/dev/null; then
-  nvim --headless +PlugInstall +qall
+  if ! nvim --headless +PlugInstall +qall; then
+    printf "\033[1;33mnvim PlugInstall finished with errors. Check the output above for plugin install failures.\033[0m\n"
+  fi
 fi
 
 # Powerline fonts
