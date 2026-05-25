@@ -236,7 +236,15 @@ fi
 # repo, so writing to it would clobber the pinned version.
 if command -v mise &>/dev/null; then
   mise install node
-  echo "Node $(mise exec -- node --version) installed via mise"
+  # Read the version into a variable so a failing `node --version` is
+  # reported instead of producing `Node  installed via mise` (with an
+  # empty version) — command-substitution failures don't propagate
+  # through `echo`.
+  if node_version=$(mise exec -- node --version); then
+    echo "Node $node_version installed via mise"
+  else
+    printf '\033[1;33mNode install completed but reading the version failed.\033[0m\n'
+  fi
 else
   printf "\033[1;31mmise not found, skipping Node setup.\033[0m\n"
 fi
