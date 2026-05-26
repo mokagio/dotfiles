@@ -90,7 +90,6 @@ brew 'composer'
 brew 'git-crypt'
 # Sentry is a mobile monitoring tool
 brew 'getsentry/tools/sentry-cli'
-cask 'zoom'
 # Unfortunately, this is a must have as an app, because "Cmd ." doesn't work in
 # the browser
 cask 'slack'
@@ -109,12 +108,8 @@ cask '1password'
 cask 'hammerspoon'
 # change the screen temperature according to the time of the day
 cask 'flux-app'
-# GTD task manager
-cask 'omnifocus'
 cask 'dropbox'
 cask 'spotify'
-# Listen to podcats like a pro
-cask 'pocket-casts'
 cask 'vlc'
 # For those rare occasions when Vim won't do it
 cask 'visual-studio-code'
