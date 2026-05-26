@@ -223,7 +223,7 @@ fi
 # tools (brew bundle, mise, nvim, gh, ...) are reachable on PATH.
 eval "$("$brew_bin" shellenv)"
 
-if ! brew bundle; then
+if ! HOMEBREW_VERBOSE_USING_DOTS=1 brew bundle --verbose; then
   warn "brew bundle finished with errors. Some formulae may not have installed."
   warn "Run 'brew bundle' manually to retry."
 fi
