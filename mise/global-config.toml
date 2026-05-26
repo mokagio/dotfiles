@@ -11,3 +11,10 @@ node = "lts"
 # without this, the global 3.4.7 pin above overrides them and fastlane
 # 2.225.0 crashes because Ruby 3.4 dropped stdlib gems (abbrev, kconv).
 idiomatic_version_file_enable_tools = ["ruby", "node"]
+
+# Use precompiled Ruby binaries instead of building from source.
+# Source builds on recent macOS (e.g. 26.x) fail at the psych extconf
+# baseline-warning probe with newer Apple Clang. Mise itself announced
+# precompiled binaries will be the default in 2026.8.0; opt in early.
+[settings.ruby]
+compile = false
