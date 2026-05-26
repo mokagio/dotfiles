@@ -118,9 +118,6 @@ cask 'karabiner-elements'
 
 brew 'mas'
 mas 'Tadam', id: 531349534
-# Not the sleekies GIF recorder, but has great features such as text annotation
-# and export to MP4
-mas 'GIF Brewery 3 by Gfycat', id: 1081413713
 
 # Quick Look Plugins
 
