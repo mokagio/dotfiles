@@ -76,13 +76,22 @@ Create the preferred root if needed, then add the new worktree there.
 git -C <main> worktree add ~/Developer/git-worktrees/<repo-name>/<slug> -b <slug> origin/<default>
 ```
 
-### 6. Report
+### 6. Bootstrap
 
-Print the worktree path and confirm it's ready.
+Discover and run any repo-defined bootstrap procedure so the new worktree is ready to build and test.
+
+- Read the new worktree's agent instructions file (`AGENTS.md`, `CLAUDE.md`, etc.) and look for a section titled "Bootstrap" — or an equivalent label.
+- Run the command(s) that section names, in the new worktree, as a background task so the rest of the session can continue in parallel.
+- If no such section exists, surface that to the user as a finding — do not guess.
+
+### 7. Report
+
+Print the worktree path, the branch's upstream, and the bootstrap status.
 Example:
 
 > Worktree created at `/Users/gio/Developer/git-worktrees/my-repo/add-user-auth`.
 > Branch `add-user-auth` tracking `origin/main`.
+> Bootstrap running in background (per `AGENTS.md` § Bootstrap).
 
 ## Constraints
 
