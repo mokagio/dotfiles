@@ -23,6 +23,16 @@ The first meaningful failure tells me whether the dependency surface is sane.
 - Build script: invoke with the env vars CI would set.
 - Type checks, linters, unit tests for touched files.
 
+### Use the project's task runner, not the underlying tool
+
+When the repo wraps its build/test commands in a fastlane lane, a `Makefile` target, a `rake` task, or an npm/yarn script, **invoke the wrapper, not the underlying tool**.
+Example: `bundle exec fastlane test` over `xcodebuild test -workspace <workspace> -scheme <scheme>`.
+
+The wrapper encodes setup the underlying tool doesn't know about, bypassing it risks getting a different result that the golden path.
+
+Discover the runner before improvising: check `fastlane/Fastfile`, `Makefile`, `Rakefile`, `package.json` scripts, `README` "How to test" / "Development" sections.
+If none exists and the tool requires non-trivial flags to invoke correctly, surface that as a finding — adding a one-liner wrapper is usually a small change worth proposing — rather than recommending the raw command to the user.
+
 ## Tier 3 — push and watch
 
 No faithful local equivalent; faking one wastes more time than a CI iteration.
