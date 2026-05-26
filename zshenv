@@ -46,8 +46,11 @@ typeset -gU cdpath fpath mailpath path
 # Set the list of directories that Zsh searches for programs.
 # mise shims go first so managed tools (ruby, node, etc.) win over
 # system copies in /usr/local/bin.
+# `~/.local/bin` is where the Claude Code native installer puts its
+# binary; keep it on PATH so `claude` is findable from any shell.
 path=(
   $HOME/.local/share/mise/shims
+  $HOME/.local/bin
   /usr/local/{bin,sbin}
   $path
 )
