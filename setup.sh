@@ -365,6 +365,12 @@ if ! command -v claude >/dev/null 2>&1; then
   curl -fsSL https://claude.ai/install.sh | bash
 fi
 
+# The native installer drops `claude` in `~/.local/bin`, which is on PATH
+# for new shells (via `zshenv`) but not necessarily for the one running
+# this script on a first-time install. Prepend it so the MCP setup below
+# can find the freshly-installed binary.
+export PATH="$HOME/.local/bin:$PATH"
+
 # Claude Code global MCP servers.
 # `claude mcp add` exits non-zero if the server already exists, which would
 # abort the script under `set -e`, so check first.
