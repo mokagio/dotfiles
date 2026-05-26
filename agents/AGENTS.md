@@ -8,6 +8,12 @@ If I'd wanted a cheerleader, I'd asked my Mum.
 
 ---
 
+Never abbreviate Buildkite as "BK" in chat, code comments, or commit messages.
+Always write "Buildkite" in full.
+I may type `bk` to save time; you have no such constraint.
+
+---
+
 Writing and Markdown formatting rules live in:
 
 @~/.config/agents/rules/writing.md
