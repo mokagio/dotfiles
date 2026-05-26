@@ -32,13 +32,12 @@ Otherwise, a PR description should cover:
 
 **Length target: the whole description fits on one screen.**
 Each section is 1–3 sentences, not paragraphs.
-If a section has nothing important to say, omit it — don't pad with throat-clearing.
+If a section has nothing important to say, omit it.
 Bullets are fine when listing distinct items; prose is fine when explaining one thing. Pick one, don't mix.
 Cut every sentence that doesn't change a reviewer's understanding.
 When in doubt, default to terser.
 
-**Do not explain the implementation** — the diff shows it.
-Phrases like "the change works by …", "this PR introduces a helper that …", "we then iterate over …" describe code the reviewer can read.
+**Do not explain the implementation**.
 Describe the *why* and the *constraints*, not the *how*.
 
 **Do not pre-empt every possible reviewer question.**
@@ -59,6 +58,4 @@ Without a link, drop the reference and explain the technical point directly.
 
 **"How to test" — recommend the project's task runner, not the underlying tool.**
 If the repo has a fastlane lane, a `Makefile` target, a `rake` task, or an npm script that runs the relevant test/build, that is the command to write in the PR.
-Do not recommend `xcodebuild test …` when `bundle exec fastlane test` exists; do not recommend a raw `jest` invocation when `yarn test` is wired up.
-The wrapper encodes the project's expected env, build config, simulator selection, and test filter — bypassing it gives the reviewer (and CI) a different result than the author got.
-Same rule applies to commands you run yourself while preparing the PR — see [`closing-the-loop.md`](closing-the-loop.md) for the local verification rationale.
+For example, do not recommend `xcodebuild test` when `bundle exec fastlane test` exists; do not recommend a raw `jest` invocation when `yarn test` is wired up.
