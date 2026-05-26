@@ -223,6 +223,16 @@ fi
 # tools (brew bundle, mise, nvim, gh, ...) are reachable on PATH.
 eval "$("$brew_bin" shellenv)"
 
+# Some casks (Karabiner-Elements, pinentry-mac, ...) shell out to sudo
+# mid-install. Prime the credential once up front and keep it warm so
+# the bundle doesn't pause for a password partway through. The keep-alive
+# loop exits when this script exits (kill -0 "$$" probe).
+echo ""
+echo "Some Homebrew casks need sudo to install (e.g. Karabiner-Elements, pinentry-mac)."
+echo "Priming sudo now so 'brew bundle' doesn't pause for a password later."
+sudo -v
+while true; do sudo -n true; sleep 50; kill -0 "$$" 2>/dev/null || exit; done 2>/dev/null &
+
 if ! HOMEBREW_VERBOSE_USING_DOTS=1 brew bundle --verbose; then
   warn "brew bundle finished with errors. Some formulae may not have installed."
   warn "Run 'brew bundle' manually to retry."
