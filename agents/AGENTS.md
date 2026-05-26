@@ -73,6 +73,8 @@ Concretely:
 - After editing code → run the relevant tests or build.
 - After a test/build fails → read the output, fix, re-run.
 - After pushing to a remote → check CI (e.g. `/ci-monitor`). Diagnose failures, fix, push, check again.
+  **Start the monitor without asking.** Don't say "want me to watch the build?" — just spawn it (background agent or `/ci-monitor`).
+  I'd rather kill a monitor I don't want than have to tell you to start one.
 - After opening a PR → confirm checks pass before reporting done.
 
 Never hand back work with "I believe this is done" when verification was possible and skipped, or when it was impossible and never raised.
