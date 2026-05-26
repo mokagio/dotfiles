@@ -121,6 +121,30 @@ hs.hotkey.bind(mash, "3", function()
   win:setFrame(f)
 end)
 
+-- Snap the focused window to the left/right edge without resizing it.
+-- Leaves a 32px margin from the screen edge and top.
+local snapMargin = 32
+
+hs.hotkey.bind(mash, "H", function()
+  local win = hs.window.focusedWindow()
+  local f = win:frame()
+  local max = win:screen():frame()
+
+  f.x = max.x + snapMargin
+  f.y = max.y + snapMargin
+  win:setFrame(f)
+end)
+
+hs.hotkey.bind(mash, "L", function()
+  local win = hs.window.focusedWindow()
+  local f = win:frame()
+  local max = win:screen():frame()
+
+  f.x = max.x + max.w - f.w - snapMargin
+  f.y = max.y + snapMargin
+  win:setFrame(f)
+end)
+
 hs.hotkey.bind(powermash, "Right", function()
   local win = hs.window.focusedWindow()
   hs.grid.pushWindowRight(win)
