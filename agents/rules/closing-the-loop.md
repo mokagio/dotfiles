@@ -23,6 +23,23 @@ The first meaningful failure tells me whether the dependency surface is sane.
 - Build script: invoke with the env vars CI would set.
 - Type checks, linters, unit tests for touched files.
 
+### Use the project's task runner, not the underlying tool
+
+When the repo wraps its build/test commands in a fastlane lane, a `Makefile` target, a `rake` task, or an npm/yarn script, **invoke the wrapper, not the underlying tool**.
+
+- iOS: `bundle exec fastlane test` over `xcodebuild test -workspace … -scheme …`.
+- Ruby: `bundle exec rake test` over `bundle exec ruby -Itest test/foo.rb`.
+- C/C++: `make test` over hand-rolled `gcc`/`cmake` invocations.
+- Node: `yarn test` or `npm test` over a raw `jest`/`vitest` call.
+
+The wrapper encodes setup the underlying tool doesn't know about: env vars, build configurations, simulator/device selection, test filtering, retry behavior, code-coverage flags, output formatting CI consumes.
+Bypassing it gets a different result than CI will, and reviewers who try to reproduce the test step using the recommended command will fail.
+
+Discover the runner before improvising: check `fastlane/Fastfile`, `Makefile`, `Rakefile`, `package.json` scripts, `README` "How to test" / "Development" sections.
+If none exists and the tool requires non-trivial flags to invoke correctly, surface that as a finding — adding a one-liner wrapper is usually a small change worth proposing — rather than recommending the raw command to the user.
+
+This rule applies symmetrically to PR descriptions: see the "How to test" guidance in [`github.md`](github.md).
+
 ## Tier 3 — push and watch
 
 No faithful local equivalent; faking one wastes more time than a CI iteration.
