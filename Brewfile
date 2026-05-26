@@ -128,6 +128,5 @@ cask 'qlcolorcode'
 # view plain text files without a file extension
 cask 'qlstephen'
 cask 'qlmarkdown'
-cask 'quicklook-json'
 # view .ipa and .mobileprovision files
 cask 'provisionql'
