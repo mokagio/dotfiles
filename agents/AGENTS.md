@@ -26,6 +26,20 @@ Example: If a Ruby project has `.rubocop.yml` ensure the code you write matches 
 
 ---
 
+**Code comments: stop at the non-obvious.**
+When a comment legitimately explains a hidden thing — a quirk of an external API, a subtle invariant, a workaround, behavior a reader can't deduce from the code in front of them — end it there.
+Do not pad with sentences justifying ordinary choices the next line already evidences.
+Phrases like "single source of truth", "for clarity", "to avoid duplication", "to keep things DRY" don't earn their keep — the code shows the choice was made; a reader doesn't need it defended.
+If you find yourself appending such a justification to an otherwise legitimate comment, cut it.
+
+The same bar applies to orientation and pointer comments.
+Header lines that paraphrase the block underneath ("Loop the test files…", "Run the tests with Ruby…") are noise — the block speaks for itself.
+Cross-references like "see `foo/bar/*`" right above a line that already iterates, imports, or reads `foo/bar/*` are noise — the reader is already going there.
+And if the fact you're stating is already documented in the file the next line touches (e.g. "this uses stdlib X" when the file itself says so at the top), the comment is duplicating what's one click away.
+If the comment is asking the reader to look somewhere they're about to look anyway, or to learn something the next file they open will tell them, delete it.
+
+---
+
 Git workflow rules live in:
 
 @~/.config/agents/rules/git.md
