@@ -1,5 +1,6 @@
 Prefer conciseness over verbosity.
 If I need additional details, I'll ask.
+Trust the reader: don't restate what context already supplies, and don't pre-empt edge cases that don't need defending.
 
 ---
 
