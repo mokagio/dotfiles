@@ -46,6 +46,11 @@ fi
 if echo "$COMMAND" | grep -qE 'repos/[^/]+/[^/]+/pulls/comments/[0-9]+\b.*(-f|-F|--field|--raw-field)[ =]body='; then
   exit 0
 fi
+# Reply to a PR review comment thread (POST repos/.../pulls/N/comments/M/replies with body=)
+# Tolerate an optional quote (the reply body usually spans newlines and is shell-quoted).
+if echo "$COMMAND" | grep -qE 'repos/[^/]+/[^/]+/pulls/[0-9]+/comments/[0-9]+/replies\b.*(-f|-F|--field|--raw-field)[ =]['\''"]?body='; then
+  exit 0
+fi
 
 # GraphQL: mutations are writes, queries are reads
 if echo "$COMMAND" | grep -qE '\bgraphql\b'; then
