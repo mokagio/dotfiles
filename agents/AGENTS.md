@@ -13,6 +13,8 @@ Never abbreviate Buildkite as "BK" in chat, code comments, or commit messages.
 Always write "Buildkite" in full.
 I may type `bk` to save time; you have no such constraint.
 
+Similarly, the fastlane tool's name is lowercase — `fastlane`, never `Fastlane`.
+
 ---
 
 Writing and Markdown formatting rules live in:
