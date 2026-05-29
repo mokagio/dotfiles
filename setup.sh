@@ -30,6 +30,7 @@ link() {
   elif [[ -e "$2" ]]; then
     echo "WARNING: $2 exists and is not a symlink, skipping"
   else
+    mkdir -p "$(dirname "$2")"
     echo "Will run: ln -s $1 $2"
     ln -s "$1" "$2"
   fi
@@ -67,6 +68,10 @@ fi
 
 dotfiles_dir="$(cd "$(dirname "$0")" && pwd)"
 
+# The list of managed symlinks lives here, shared with dotfiles-doctor.
+# shellcheck source=lib/links.sh
+source "$dotfiles_dir/lib/links.sh"
+
 # ---------------------------------------------------------------------------
 # Symlinks and directories
 # ---------------------------------------------------------------------------
@@ -76,118 +81,8 @@ if $do_links; then
 printf '\033[1;36m==> %s\033[0m\n' "Setting up symlinks"
 printf '\033[2m'
 
-dotfiles=(
-  'editorconfig'
-  'gemrc'
-  'gitconfig'
-  'gitignore'
-  'ghci'
-  'ideavimrc'
-  'lldbinit'
-  'liftoffrc'
-  'tigrc'
-  'vimrc'
-  'vimrc.zettelkasten'
-  'vimrc.plugs'
-  'xvimrc'
-  'zshrc'
-  'zshenv'
-  'zshprompt'
-)
+emit_links link "$dotfiles_dir"
 
-for dot in "${dotfiles[@]}"
-do
-  destination="$HOME/.$dot"
-
-  link "$dotfiles_dir/$dot" "$destination"
-done
-
-# Link Vim spellfile.
-# Not sure how to symlink and entire folder yet
-mkdir -p ~/.vim/spell
-# Note that you should not use `_` in the file name, see
-# https://unix.stackexchange.com/questions/85538/how-can-i-create-my-own-spelling-file-for-vim
-vim_spell_path="$dotfiles_dir/vim/spell/custom-spell.utf-8.add"
-if [[ -f $vim_spell_path ]]; then
-  # Interestingly, I had to use $HOME here instead of ~, otherwise, ln would
-  # fail with "No such file or directory". Why does ~ work above but not here?
-  # Is it because there's nested folders in this destination path?
-  destination="$HOME/.vim/spell/custom-spell.utf-8.add"
-  link "$vim_spell_path" "$destination"
-else
-  echo "Could not find $vim_spell_path! Aborting."
-  exit 1
-fi
-
-# NeoVim
-neovim_root=~/.config/nvim
-neovim_init="$dotfiles_dir/neovim_init.vim"
-mkdir -p "$neovim_root"
-if [[ -f $neovim_init ]]; then
-  destination="$neovim_root/init.vim"
-  link "$neovim_init" "$destination"
-else
-  echo "Could not find $neovim_init! Aborting."
-  exit 1
-fi
-# Native LSP configs
-link "$dotfiles_dir/nvim/lsp" "$neovim_root/lsp"
-
-# Hammerspoon window manager
-# http://www.hammerspoon.org/
-mkdir -p ~/.hammerspoon
-link "$dotfiles_dir/hammerspoon_init.lua" "$HOME/.hammerspoon/init.lua"
-
-# mise — needs idiomatic_version_file_enable_tools = ["ruby"] so `.ruby-version`
-# files in repos (pinning 3.2.2 for a8c iOS work) win over the global 3.4.7 pin.
-mkdir -p ~/.config/mise
-link "$dotfiles_dir/mise/global-config.toml" "$HOME/.config/mise/config.toml"
-
-# Karabiner-Elements
-mkdir -p ~/.config/karabiner
-link "$dotfiles_dir/karabiner/karabiner.json" "$HOME/.config/karabiner/karabiner.json"
-
-# Claude Code
-mkdir -p ~/.claude
-for f in claude/settings.json claude/CLAUDE.md claude/statusline.sh; do
-  link "$dotfiles_dir/$f" "$HOME/.${f}"
-done
-# AGENTS.md at both the conventional home location and the XDG location.
-# Keep both so different agent tools can discover the same shared file.
-link "$dotfiles_dir/agents/AGENTS.md" "$HOME/AGENTS.md"
-mkdir -p ~/.codex
-link "$dotfiles_dir/agents/AGENTS.md" "$HOME/.codex/AGENTS.md"
-mkdir -p ~/.config/agents
-link "$dotfiles_dir/agents/AGENTS.md" "$HOME/.config/agents/AGENTS.md"
-# `nullglob` makes unmatched globs expand to nothing rather than to the
-# literal pattern, which would otherwise be passed to `link` and trip
-# the source-existence guard. Scoped to just the rule + skill loops so
-# the later Powerline `*owerline*` glob (which relies on the default
-# pass-literal behavior to make `ls` fail) is unaffected.
-shopt -s nullglob
-mkdir -p ~/.config/agents/rules
-mkdir -p ~/.claude/rules
-for rule in "$dotfiles_dir"/agents/rules/*.md; do
-  rule_name="$(basename "$rule")"
-  link "$rule" "$HOME/.config/agents/rules/$rule_name"
-  link "$rule" "$HOME/.claude/rules/$rule_name"
-done
-link "$dotfiles_dir/claude/hooks" "$HOME/.claude/hooks"
-# Shared skills — whole-directory symlink for ~/.agents/skills
-mkdir -p ~/.agents
-link "$dotfiles_dir/agents/skills" "$HOME/.agents/skills"
-# Per-skill symlinks for Claude so Claude-only skills can coexist
-mkdir -p ~/.claude/skills
-for skill in "$dotfiles_dir"/agents/skills/*/; do
-  skill_name="$(basename "$skill")"
-  link "$skill" "$HOME/.claude/skills/$skill_name"
-done
-# Claude-only skills (not shared with other agents)
-for skill in "$dotfiles_dir"/claude/skills/*/; do
-  skill_name="$(basename "$skill")"
-  link "$skill" "$HOME/.claude/skills/$skill_name"
-done
-shopt -u nullglob
 printf '\033[0m'
 
 fi # do_links
