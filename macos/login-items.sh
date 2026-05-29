@@ -5,8 +5,6 @@ set -euo pipefail
 # Apps to open at login. Names match the .app bundle and the login-item label.
 login_apps=(
   Dropbox
-  Gitify
-  RescueTime
   "Alfred 5"
   BetterDisplay
   Hammerspoon
