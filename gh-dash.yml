@@ -93,5 +93,5 @@ pager:
     diff: ""
 confirmQuit: false
 showAuthorIcons: true
-smartFilteringAtLaunch: false
+smartFilteringAtLaunch: true
 includeReadNotifications: true
