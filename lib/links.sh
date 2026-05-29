@@ -5,6 +5,17 @@
 # so setup.sh can create them and dotfiles-doctor can check them against the
 # same list.
 
+# True when $1 is a symlink whose target is $2. Tolerates a trailing slash,
+# since directory links are created with one. Shared by setup.sh's link and
+# dotfiles-doctor's check_link so both agree on what a healthy link is.
+link_matches() {
+  local dest=$1 src=$2
+  [[ -h "$dest" ]] || return 1
+  local target
+  target="$(readlink "$dest")"
+  [[ "${target%/}" == "${src%/}" ]]
+}
+
 emit_links() {
   local act=$1 d=$2
   local dot f rule rule_name skill skill_name

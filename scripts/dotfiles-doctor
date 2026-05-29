@@ -23,15 +23,14 @@ report() {
 }
 
 check_link() {
-  local src=$1 dest=$2 target
+  local src=$1 dest=$2
   if [[ -h "$dest" ]]; then
-    target="$(readlink "$dest")"
-    if [[ "${target%/}" != "${src%/}" ]]; then
-      report WRONG "$dest" "-> $target (expected $src)"
+    if ! link_matches "$dest" "$src"; then
+      report WRONG "$dest" "-> $(readlink "$dest") (expected $src)"
     elif [[ -e "$dest" ]]; then
       report OK "$dest"
     else
-      report BROKEN "$dest" "-> $target (target missing)"
+      report BROKEN "$dest" "-> $(readlink "$dest") (target missing)"
     fi
   elif [[ -e "$dest" ]]; then
     report NOTLINK "$dest" "(real $([[ -d "$dest" ]] && echo dir || echo file), not a symlink)"

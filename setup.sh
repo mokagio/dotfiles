@@ -26,13 +26,10 @@ link() {
     return 1
   fi
   if [[ -h "$2" ]]; then
-    local target
-    target="$(readlink "$2")"
-    # Tolerate a trailing slash: directory links (skills) are created with one.
-    if [[ "${target%/}" == "${1%/}" ]]; then
+    if link_matches "$2" "$1"; then
       echo "$2 exists already, skipping"
     else
-      echo "WARNING: $2 points to $target, expected $1; skipping"
+      echo "WARNING: $2 points to $(readlink "$2"), expected $1; skipping"
     fi
   elif [[ -e "$2" ]]; then
     echo "WARNING: $2 exists and is not a symlink, skipping"

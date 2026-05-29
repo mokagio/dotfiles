@@ -1,8 +1,9 @@
 #!/usr/bin/env bats
 
-# Tests for the `link()` function in setup.sh.
-# Sources setup.sh (which bails out at the BASH_SOURCE guard) to make
-# `link` callable in isolation.
+# Tests for the `link()` function in setup.sh and the `link_matches`
+# helper it shares with dotfiles-doctor via lib/links.sh.
+# Sources both (setup.sh bails at its BASH_SOURCE guard) so the functions
+# are callable in isolation; link() calls link_matches, so the lib is needed.
 
 SCRIPT_DIR="$(cd "$(dirname "$BATS_TEST_FILENAME")/.." && pwd)"
 
@@ -10,6 +11,8 @@ setup() {
   TMP="$(mktemp -d)"
   # shellcheck source=/dev/null
   source "$SCRIPT_DIR/setup.sh"
+  # shellcheck source=/dev/null
+  source "$SCRIPT_DIR/lib/links.sh"
 }
 
 teardown() {
@@ -82,4 +85,30 @@ teardown() {
   # The real file is untouched.
   [[ ! -h "$TMP/dest" ]]
   [[ "$(cat "$TMP/dest")" == "real-file" ]]
+}
+
+@test "link_matches: symlink pointing at the source matches" {
+  echo content > "$TMP/source"
+  ln -s "$TMP/source" "$TMP/dest"
+  run link_matches "$TMP/dest" "$TMP/source"
+  [[ "$status" -eq 0 ]]
+}
+
+@test "link_matches: symlink pointing elsewhere does not match" {
+  ln -s "$TMP/elsewhere" "$TMP/dest"
+  run link_matches "$TMP/dest" "$TMP/source"
+  [[ "$status" -ne 0 ]]
+}
+
+@test "link_matches: trailing slash on the source is tolerated" {
+  mkdir "$TMP/source-dir"
+  ln -s "$TMP/source-dir/" "$TMP/dest"
+  run link_matches "$TMP/dest" "$TMP/source-dir"
+  [[ "$status" -eq 0 ]]
+}
+
+@test "link_matches: a real file is not a match" {
+  echo real > "$TMP/dest"
+  run link_matches "$TMP/dest" "$TMP/source"
+  [[ "$status" -ne 0 ]]
 }
