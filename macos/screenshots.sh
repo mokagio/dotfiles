@@ -10,14 +10,12 @@ defaults write com.apple.screencapture location -string "$screenshots_dir"
 # Reload the capture service so the new location takes effect.
 killall SystemUIServer
 
-# macOS only auto-assigns special icons to known folders (Downloads,
-# Applications, …), so give the screenshots folder the system Screenshot
-# app's icon ourselves. swift is guaranteed by setup.sh's Xcode CLT requirement.
-icon="/System/Applications/Utilities/Screenshot.app/Contents/Resources/AppIcon.icns"
-if [[ -f "$icon" ]]; then
-  swift - "$icon" "$screenshots_dir" <<'SWIFT'
+# macOS only auto-assigns special icons to known folders (Pictures,
+# Downloads, …), so copy the parent Pictures folder's icon onto Screenshots
+# so it reads as a Pictures subfolder. swift is guaranteed by setup.sh's
+# Xcode CLT requirement.
+swift - "$HOME/Pictures" "$screenshots_dir" <<'SWIFT'
 import Cocoa
-guard let img = NSImage(byReferencingFile: CommandLine.arguments[1]) else { exit(1) }
-NSWorkspace.shared.setIcon(img, forFile: CommandLine.arguments[2], options: [])
+let icon = NSWorkspace.shared.icon(forFile: CommandLine.arguments[1])
+NSWorkspace.shared.setIcon(icon, forFile: CommandLine.arguments[2], options: [])
 SWIFT
-fi
