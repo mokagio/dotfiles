@@ -48,15 +48,26 @@ teardown() {
   [[ -d "$TMP/dest" ]]
 }
 
-@test "dest is an existing symlink: skips, leaves it alone" {
+@test "dest is a symlink to the expected source: skips quietly" {
+  echo "content" > "$TMP/source"
+  ln -s "$TMP/source" "$TMP/dest"
+
+  run link "$TMP/source" "$TMP/dest"
+  [[ "$status" -eq 0 ]]
+  [[ "$output" == *"exists already, skipping"* ]]
+  [[ "$(readlink "$TMP/dest")" == "$TMP/source" ]]
+}
+
+@test "dest is a symlink to the wrong target: warns, leaves it alone" {
   echo "old-content" > "$TMP/old-target"
   ln -s "$TMP/old-target" "$TMP/dest"
   echo "new-content" > "$TMP/source"
 
   run link "$TMP/source" "$TMP/dest"
   [[ "$status" -eq 0 ]]
-  [[ "$output" == *"exists already, skipping"* ]]
-  # Symlink still points at the old target.
+  [[ "$output" == *"WARNING"* ]]
+  [[ "$output" == *"points to"* ]]
+  # The wrong symlink is never clobbered.
   [[ "$(readlink "$TMP/dest")" == "$TMP/old-target" ]]
 }
 
