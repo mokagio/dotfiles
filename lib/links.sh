@@ -36,6 +36,7 @@ emit_links() {
   "$act" "$d/mise/global-config.toml" "$HOME/.config/mise/config.toml"
 
   "$act" "$d/karabiner/karabiner.json" "$HOME/.config/karabiner/karabiner.json"
+  "$act" "$d/starship.toml" "$HOME/.config/starship.toml"
 
   for f in claude/settings.json claude/CLAUDE.md claude/statusline.sh; do
     "$act" "$d/$f" "$HOME/.$f"
