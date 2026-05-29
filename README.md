@@ -26,7 +26,10 @@ These are my dotfiles, in the hope to simplify the transition to any new machine
 
 Apps you'll want to launch and configure next:
 
-- Alfred (wait for its `.preferences` folder to appear in Dropbox)
+- Alfred — once Dropbox has synced, point Alfred at the existing config:
+  Preferences → Advanced → "Set preferences folder" → `~/Dropbox`.
+  Alfred syncs its own settings (including workflows, which can hold secrets) through
+  Dropbox, so they're deliberately not tracked in this public repo.
 - Tadam
 - f.lux
 
