@@ -1,0 +1,58 @@
+#!/usr/bin/env bash
+#
+# Check every symlink the dotfiles manage against lib/links.sh — the same
+# list setup.sh creates — and report any that are missing, point at the
+# wrong place, were replaced by a real file, or dangle. Read-only.
+
+DOCTOR_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+# shellcheck source-path=SCRIPTDIR
+# shellcheck source=../lib/links.sh
+source "$DOCTOR_DIR/lib/links.sh"
+
+problems=0
+
+# Print a status line (suppressing OK unless DOCTOR_VERBOSE is set) and count
+# anything that isn't OK as a problem.
+report() {
+  local status=$1 dest=$2 detail=${3:-}
+  if [[ "$status" != OK || -n "${DOCTOR_VERBOSE:-}" ]]; then
+    printf '%-8s %s%s\n' "$status" "$dest" "${detail:+ $detail}"
+  fi
+  [[ "$status" == OK ]] || problems=$((problems + 1))
+  return 0
+}
+
+check_link() {
+  local src=$1 dest=$2 target
+  if [[ -h "$dest" ]]; then
+    target="$(readlink "$dest")"
+    if [[ "${target%/}" != "${src%/}" ]]; then
+      report WRONG "$dest" "-> $target (expected $src)"
+    elif [[ -e "$dest" ]]; then
+      report OK "$dest"
+    else
+      report BROKEN "$dest" "-> $target (target missing)"
+    fi
+  elif [[ -e "$dest" ]]; then
+    report NOTLINK "$dest" "(real $([[ -d "$dest" ]] && echo dir || echo file), not a symlink)"
+    if [[ -f "$dest" && -f "$src" ]]; then
+      diff -u "$src" "$dest" 2>/dev/null | sed 's/^/    /' || true
+    fi
+  else
+    report MISSING "$dest" "(expected -> $src)"
+  fi
+}
+
+[[ "${BASH_SOURCE[0]}" == "${0}" ]] || return 0
+
+set -euo pipefail
+
+echo "Checking managed symlinks…"
+emit_links check_link "$DOCTOR_DIR"
+
+echo
+if [[ "$problems" -gt 0 ]]; then
+  printf '%d problem(s) found. Re-run setup.sh after resolving, or fix by hand.\n' "$problems"
+  exit 1
+fi
+echo "All managed symlinks OK."
