@@ -43,6 +43,9 @@ _gco_branches() {
   reply=(${(f)"$(git branch --format='%(refname:short)' 2>/dev/null)"})
 }
 compctl -K _gco_branches gco
+# `gh` is such muscle memory for me that `gco` never stuck, so mirror it here.
+ghh() { gco "$@"; }
+compctl -K _gco_branches ghh
 # Worktree-aware branch delete: removes the worktree first if needed.
 # Logic lives in scripts/git-branch-delete (available as `git branch-delete`).
 gbd() {
