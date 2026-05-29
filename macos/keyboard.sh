@@ -9,6 +9,10 @@ defaults write -g ApplePressAndHoldEnabled -bool false
 defaults write -g KeyRepeat -int 2
 defaults write -g InitialKeyRepeat -int 15
 
+# Full keyboard access: Tab moves between every control in a dialog, not
+# just text fields and lists.
+defaults write -g AppleKeyboardUIMode -int 3
+
 # Disable smart-text substitutions so macOS stops mangling code & Markdown
 # with curly quotes, em dashes, autocapitalization, and the like.
 defaults write -g NSAutomaticQuoteSubstitutionEnabled -bool false
