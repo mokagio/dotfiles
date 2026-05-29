@@ -41,6 +41,11 @@ dock_stack() { # path arrangement displayas showas
 PLIST
 }
 
+# A stack pointing at a missing folder renders broken, and this can run
+# before screenshots.sh has created ~/Pictures/Screenshots, so ensure the
+# targets exist first.
+mkdir -p "$HOME/Downloads" "$HOME/Pictures/Screenshots"
+
 # arrangement=2 (Date Added), displayas=0 (Stack), showas=1 (Fan).
 defaults write com.apple.dock persistent-others -array \
   "$(dock_stack "$HOME/Downloads/" 2 0 1)" \
