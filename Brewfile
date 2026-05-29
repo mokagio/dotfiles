@@ -187,3 +187,23 @@ cask 'quicklook-json'           # Quick Look plugin to preview JSON files
 cask 'buildkite-mcp-server'     # Local MCP server exposing Buildkite to AI agents
 cask 'font-open-sans'           # Open Sans font family
 cask 'parallels-virtualization-sdk'  # SDK for scripting Parallels VMs
+
+# Additional App Store apps
+mas 'Spark', id: 1176895641           # Email client
+mas 'Vimari', id: 1480933944          # Vim-style keyboard navigation for Safari
+mas 'Numbers', id: 409203825          # Apple spreadsheets
+mas 'Pages', id: 409201541            # Apple word processor
+mas 'Keynote', id: 409183694          # Apple presentations
+mas 'TestFlight', id: 899247664       # Apple beta-app testing
+mas 'iMovie', id: 408981434           # Video editing
+mas 'GIF Brewery 3', id: 1081413713   # Convert video clips to GIFs
+mas 'Simple Comic', id: 1497435571    # Comic-book (CBR/CBZ) reader
+mas 'Messenger', id: 1480068668       # Facebook Messenger
+mas 'Kindle', id: 302584613           # Amazon e-book reader
+mas 'Kindle Classic', id: 405399194   # Old Kindle
+mas 'Piano', id: 6738069680           # Piano app
+mas 'Simple ZXCV Piano', id: 6743351038  # Piano app
+mas 'Teleprompter', id: 1420515755    # Teleprompter
+mas 'Virtual Teleprompter Lite', id: 1598483936  # Teleprompter (lite)
+mas 'Developer', id: 640199958        # Apple Developer app
+mas '1Password for Safari', id: 1569813296  # 1Password Safari extension
