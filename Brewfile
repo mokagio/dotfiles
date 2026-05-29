@@ -207,3 +207,83 @@ mas 'Teleprompter', id: 1420515755    # Teleprompter
 mas 'Virtual Teleprompter Lite', id: 1598483936  # Teleprompter (lite)
 mas 'Developer', id: 640199958        # Apple Developer app
 mas '1Password for Safari', id: 1569813296  # 1Password Safari extension
+
+# Additional CLI tools (formulae)
+# iOS / Swift toolchain
+brew 'swiftlint'                          # Swift linter
+brew 'swiftformat'                        # SwiftFormat (Nick Lockwood)
+brew 'swift-format'                       # apple/swift-format
+brew 'swift-protobuf'                     # Protocol Buffers for Swift
+brew 'swift-sh'                           # Run Swift scripts with dependencies
+brew 'xcbeautify'                         # Prettify xcodebuild output
+brew 'xclogparser'                        # Parse Xcode build logs
+brew 'xcodegen'                           # Generate .xcodeproj from a spec
+brew 'xcodesorg/made/xcodes'              # Install/switch multiple Xcode versions
+brew 'chargepoint/xcparse/xcparse'        # Extract data/attachments from .xcresult
+brew 'ios-deploy'                         # Install/debug iOS apps from the CLI
+brew 'periphery'                          # Detect unused Swift code
+brew 'carthage'                           # Swift/ObjC dependency manager
+# General dev
+brew 'gh'                                 # GitHub CLI
+brew 'go'                                 # Go language
+brew 'difftastic'                         # Structural (syntax-aware) diff
+brew 'git-filter-repo'                    # Rewrite git history
+brew 'git-flow'                           # git branching-model helper
+brew 'gitleaks'                           # Scan repos for committed secrets
+brew 'fnm'                                # Fast Node version manager
+brew 'rbenv'                              # Ruby version manager
+brew 'hub'                                # Legacy GitHub git wrapper
+brew 'the_silver_searcher'                # ag fast code search
+brew 'ncdu'                               # TUI disk-usage analyzer
+brew 'gnu-sed'                            # GNU sed
+brew 'yq'                                 # YAML/JSON processor
+brew 'yamllint'                           # YAML linter
+brew 'cmake'                              # Cross-platform build-system generator
+brew 'create-dmg'                         # Build macOS .dmg installers
+brew 'zk'                                 # Zettelkasten note CLI
+brew 'watchman'                           # File-watching service (React Native / Jest)
+# Infra / containers / cloud
+brew 'colima'                             # Container runtime on a Lima VM
+brew 'docker'                             # Docker CLI client
+brew 'doctl'                              # DigitalOcean CLI
+brew 'kubeconform'                        # Validate Kubernetes manifests
+brew 'hashicorp/tap/packer'               # Build machine images
+brew 'heroku/brew/heroku'                 # Heroku CLI
+brew 'ansible'                            # IT automation / config management
+brew 'openconnect'                        # VPN client (Cisco/Pulse compatible)
+# Media / docs
+brew 'pandoc'                             # Universal document converter
+brew 'hugo'                               # Static-site generator
+brew 'yt-dlp'                             # Media/video downloader
+brew 'openai-whisper'                     # Speech-to-text (Whisper) CLI
+brew 'aria2'                              # Multi-protocol/multi-source downloader
+brew 'qrencode'                           # Generate QR codes
+brew 'p7zip'                              # 7-Zip CLI
+brew 'mist-cli'                           # Download macOS installers / IPSWs
+# Languages / runtimes
+brew 'openjdk@17'                         # OpenJDK 17 (Java)
+brew 'llvm@16'                            # LLVM toolchain v16
+brew 'redis'                              # In-memory data store
+brew 'postgresql@14'                      # PostgreSQL 14
+brew 'powershell'                         # PowerShell
+brew 'perl'                               # Perl
+brew 'uv'                                 # Fast Python package manager/installer
+brew 'ruff'                               # Python linter/formatter
+brew 'nox'                                # Python test automation
+brew 'python@3.9'                         # Python 3.9
+brew 'python@3.10'                        # Python 3.10
+brew 'python@3.11'                        # Python 3.11
+# Signing / security
+brew 'minisign'                           # Sign/verify files
+brew 'osslsigncode'                       # Sign Windows executables
+brew 'hudochenkov/sshpass/sshpass'        # Non-interactive ssh password
+# Work taps
+brew 'automattic/build-tools/drawtext'    # Automattic drawText CLI
+brew 'buildkite/buildkite/buildkite-agent' # Buildkite CI agent
+brew 'lokalise/cli-2/lokalise2'           # Lokalise localization CLI
+# Verify before relying on these taps (may need access on a fresh machine)
+brew 'anomalyco/tap/opencode'             # OpenCode AI coding agent CLI
+brew 'markmarkoh/lt/lt'                   # unidentified — verify
+brew 'rom-tools'                          # retro-ROM tooling — verify
+brew 'tumblr/tools/tunguard'              # Tumblr internal tool — verify tap access
+brew 'rockymadden/rockymadden/slack-cli'  # Slack CLI
