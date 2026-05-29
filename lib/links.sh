@@ -38,6 +38,7 @@ emit_links() {
   "$act" "$d/karabiner/karabiner.json" "$HOME/.config/karabiner/karabiner.json"
   "$act" "$d/starship.toml" "$HOME/.config/starship.toml"
   "$act" "$d/gh-dash.yml" "$HOME/.config/gh-dash/config.yml"
+  "$act" "$d/vscode/settings.json" "$HOME/Library/Application Support/Code/User/settings.json"
 
   for f in claude/settings.json claude/CLAUDE.md claude/statusline.sh; do
     "$act" "$d/$f" "$HOME/.$f"

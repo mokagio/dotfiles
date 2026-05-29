@@ -1,0 +1,46 @@
+{
+  "editor.inlineSuggest.enabled": true,
+  "editor.fontSize": 20,
+  "lldb.library": "/Applications/Xcode.app/Contents/SharedFrameworks/LLDB.framework/Versions/A/LLDB",
+  "vim.smartRelativeLine": true,
+  "editor.lineNumbers": "relative",
+  "files.insertFinalNewline": true,
+  "files.trimFinalNewlines": true,
+  "files.autoSave": "afterDelay",
+  "files.autoSaveDelay": 500,
+  "files.trimTrailingWhitespace": true,
+  "editor.renderWhitespace": "all",
+  "editor.formatOnPaste": true,
+  "editor.formatOnSave": true,
+  "editor.formatOnType": true,
+  "vim.vimrc.enable": true,
+  "editor.autoIndent": "advanced",
+  "jest.testExplorer": null,
+  "swiftlint.onlyEnableWithConfig": true,
+  "[jsonc]": {
+    "editor.defaultFormatter": null
+  },
+  "git.openRepositoryInParentFolders": "always",
+  "gitlens.codeLens.enabled": false,
+  "gitlens.currentLine.enabled": false,
+  "editor.defaultFormatter": null,
+  "[swift]": {
+    "editor.defaultFormatter": "vknabel.vscode-apple-swift-format"
+  },
+  "apple-swift-format.path": ["/usr/bin/env", "swift-format"],
+  "ruby.rubocop.useBundler": true,
+  "lldb.launch.expressions": "native",
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "vscode.typescript-language-features"
+  },
+  "window.zoomLevel": -1,
+  "git.autofetch": true,
+  "[typescript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "roc-lang.language-server.debug-exe": "~/Developer/roc_lang/roc_nightly-macos_apple_silicon-2024-06-18-41ea2bfbc7d/roc_language_server",
+  "roc-lang.language-server.exe": "~/Developer/roc_lang/roc_nightly-macos_apple_silicon-2024-06-18-41ea2bfbc7d/roc_language_server",
+  "cmake.options.statusBarVisibility": "compact",
+  "makefile.configureOnOpen": true,
+  "github.copilot.nextEditSuggestions.enabled": true
+}
