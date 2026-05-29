@@ -7,6 +7,8 @@ mkdir -p "$screenshots_dir"
 
 # Route screen captures here instead of the Desktop.
 defaults write com.apple.screencapture location -string "$screenshots_dir"
+# Omit the window's drop shadow from window captures.
+defaults write com.apple.screencapture disable-shadow -bool true
 # Reload the capture service so the new location takes effect.
 killall SystemUIServer
 
