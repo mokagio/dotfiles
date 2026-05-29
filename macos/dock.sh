@@ -58,5 +58,11 @@ for folder in "${stack_folders[@]}"; do
 done
 defaults write com.apple.dock persistent-others -array "${stack_tiles[@]}"
 
+# Disable every hot corner (corner action 1 = no-op, modifier 0 = no key).
+for corner in tl tr bl br; do
+  defaults write com.apple.dock "wvous-$corner-corner" -int 1
+  defaults write com.apple.dock "wvous-$corner-modifier" -int 0
+done
+
 # Reload so the changes take effect immediately.
 killall Dock
