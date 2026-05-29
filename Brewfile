@@ -172,3 +172,18 @@ vscode 'vknabel.swift-coverage'
 vscode 'vknabel.vscode-apple-swift-format'
 vscode 'vknabel.vscode-swiftlint'
 vscode 'vscodevim.vim'
+
+# Additional casks
+cask 'discord'                  # Voice/text chat for communities
+cask 'obs'                      # Screen recording and live streaming
+cask 'keycastr'                 # On-screen keystroke visualizer for demos/screencasts
+cask 'db-browser-for-sqlite'    # GUI to create/edit SQLite databases
+cask 'calibre'                  # E-book library manager and converter
+cask 'anki'                     # Spaced-repetition flashcards
+cask 'transmission'             # Lightweight BitTorrent client
+cask 'gimp'                     # Open-source raster image editor
+cask 'sigil'                    # EPUB e-book editor
+cask 'quicklook-json'           # Quick Look plugin to preview JSON files
+cask 'buildkite-mcp-server'     # Local MCP server exposing Buildkite to AI agents
+cask 'font-open-sans'           # Open Sans font family
+cask 'parallels-virtualization-sdk'  # SDK for scripting Parallels VMs
