@@ -143,6 +143,10 @@ link "$dotfiles_dir/hammerspoon_init.lua" "$HOME/.hammerspoon/init.lua"
 mkdir -p ~/.config/mise
 link "$dotfiles_dir/mise/global-config.toml" "$HOME/.config/mise/config.toml"
 
+# Karabiner-Elements
+mkdir -p ~/.config/karabiner
+link "$dotfiles_dir/karabiner/karabiner.json" "$HOME/.config/karabiner/karabiner.json"
+
 # Claude Code
 mkdir -p ~/.claude
 for f in claude/settings.json claude/CLAUDE.md claude/statusline.sh; do
