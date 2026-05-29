@@ -384,6 +384,18 @@ else
   warn "claude not found, skipping MCP server setup."
 fi
 
+echo ""
+printf '\033[1;36m==> %s\033[0m\n' "Applying macOS defaults"
+# Each script runs in its own `bash` so a failing one (set -e) doesn't abort
+# the whole setup, and so it stays runnable standalone.
+for macos_script in "$dotfiles_dir"/macos/*.sh; do
+  [[ -e "$macos_script" ]] || continue
+  echo "Running ${macos_script##*/}..."
+  if ! bash "$macos_script"; then
+    warn "${macos_script##*/} finished with errors; continuing."
+  fi
+done
+
 fi # do_install
 
 # ---------------------------------------------------------------------------
