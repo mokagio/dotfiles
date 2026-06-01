@@ -71,5 +71,5 @@ Plug 'janko/vim-test'
 Plug 'plasticboy/vim-markdown'
 Plug 'jkramer/vim-checkbox'
 Plug 'junegunn/goyo.vim'
-Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app & yarn install' }
+Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && npx --yes yarn install' }
 Plug 'junegunn/limelight.vim'
