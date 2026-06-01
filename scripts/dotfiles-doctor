@@ -10,13 +10,16 @@ DOCTOR_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 # shellcheck source=../lib/links.sh
 source "$DOCTOR_DIR/lib/links.sh"
 
-# Environment variables the dotfiles expect machine-local config (e.g.
-# ~/.zshrc.local) to set. Each entry is "NAME|kind|description"; kind is
-# `dir` (value must be an existing directory) or `any` (just needs a value).
-# The doctor runs as a subprocess, so it only sees variables that were
-# exported — an unexported-but-set var reads as unset here.
+# Environment variables that must be exported and visible to subprocesses —
+# some self-set by the dotfiles (zshenv), some expected from machine-local
+# config (e.g. ~/.zshrc.local). Each entry is "NAME|kind|description"; kind
+# is `dir` (value must be an existing directory) or `any` (just needs a
+# value). The doctor runs as a subprocess, so it sees only exported vars — a
+# set-but-unexported var reads as unset here, which is exactly the slip this
+# catches (e.g. Vim sourcing $DOTFILES_HOME/* with the var unexported).
 expected_env_vars=(
-  "VIMWIKI_HOME|dir|Zettelkasten repo root; enables the ww/tc/wr aliases and Vim wiki"
+  "DOTFILES_HOME|dir|Repo root exported by zshenv; Vim sources \$DOTFILES_HOME/* so it must reach subprocesses"
+  "VIMWIKI_HOME|dir|Zettelkasten repo root from machine-local config; enables the ww/tc/wr aliases and Vim wiki"
 )
 
 problems=0

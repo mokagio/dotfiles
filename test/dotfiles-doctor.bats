@@ -111,3 +111,13 @@ teardown() {
   [[ "$problems" -eq 0 ]]
   [[ "$warnings" -eq 0 ]]
 }
+
+@test "every expected_env_vars entry is well-formed: name|kind|desc" {
+  [[ "${#expected_env_vars[@]}" -gt 0 ]]
+  for spec in "${expected_env_vars[@]}"; do
+    IFS='|' read -r name kind desc <<<"$spec"
+    [[ -n "$name" ]]
+    [[ "$kind" == dir || "$kind" == any ]]
+    [[ -n "$desc" ]]
+  done
+}
