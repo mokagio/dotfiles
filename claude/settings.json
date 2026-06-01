@@ -267,6 +267,16 @@
             "timeout": 5
           }
         ]
+      },
+      {
+        "matcher": "Bash|Read",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$HOME/.claude/hooks/block-paths.sh .a8c-secrets",
+            "timeout": 5
+          }
+        ]
       }
     ],
     "UserPromptSubmit": [
