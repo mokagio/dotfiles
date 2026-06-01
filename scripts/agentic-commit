@@ -3,13 +3,16 @@ set -euo pipefail
 
 usage() {
   cat >&2 <<'EOF'
-Usage: agentic-commit [-C <repo>] [-m <message-file>] [--] <file>...
+Usage: agentic-commit [-C <repo>] [-m <message-file>] [--keep-staged] [--] <file>...
 
 Stage the listed files and commit with the given message.
 
 Options:
   -C <repo>          Repository path (default: cwd)
   -m <message-file>  Path to file containing the commit message
+  --keep-staged      Stage nothing; commit exactly what is already in the index.
+                     <file>... becomes optional and is ignored for staging.
+                     Use for a deliberate `git add -p` partial-authorship commit.
 
 If -m is omitted, the message is read from stdin.
 
@@ -21,6 +24,7 @@ EOF
 
 repo=""
 message_file=""
+keep_staged=0
 
 while [[ $# -gt 0 ]]; do
   case "$1" in
@@ -33,6 +37,10 @@ while [[ $# -gt 0 ]]; do
       [[ $# -lt 2 ]] && usage
       message_file="$2"
       shift 2
+      ;;
+    --keep-staged)
+      keep_staged=1
+      shift
       ;;
     --)
       shift
@@ -47,7 +55,7 @@ while [[ $# -gt 0 ]]; do
   esac
 done
 
-if [[ $# -eq 0 ]]; then
+if [[ $# -eq 0 && $keep_staged -eq 0 ]]; then
   echo "error: no files to stage" >&2
   usage
 fi
@@ -76,14 +84,18 @@ fi
 # fresh macOS.
 git_repo() { git ${git_args[@]+"${git_args[@]}"} "$@"; }
 
-# Files that already have staged hunks are left alone so that partial staging
-# (e.g. via `git add -p`) is preserved.  Only unstaged/untracked files get added.
-staged_files="$(git_repo diff --cached --name-only)"
-for file in "$@"; do
-  if ! echo "$staged_files" | grep -qxF "$file"; then
+# Stage each listed file, then commit. A file is added even when it already has
+# staged hunks: a `git mv` rename or a staged-then-edited new file leaves the
+# path in the index while later edits sit unstaged, and skipping the add would
+# silently drop them.
+#
+# --keep-staged inverts this — stage nothing and commit exactly what is already
+# in the index, for a deliberate `git add -p` / partial-authorship commit.
+if [[ $keep_staged -eq 0 ]]; then
+  for file in "$@"; do
     git_repo add "$file"
-  fi
-done
+  done
+fi
 
 git_repo commit -F "$message_file" >/dev/null
 

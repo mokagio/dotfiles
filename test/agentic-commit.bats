@@ -124,3 +124,53 @@ HOOK
   [[ "$status" -eq 0 ]]
   [[ "$output" =~ ^[0-9a-f]+ ]]
 }
+
+@test "rename then edit captures the new content, not just the rename" {
+  echo "name: OLD" > "$REPO/f.txt"
+  git -C "$REPO" add f.txt
+  git -C "$REPO" commit -m seed --quiet
+  git -C "$REPO" mv f.txt g.txt
+  echo "name: NEW" > "$REPO/g.txt"
+  run "$SCRIPT" -C "$REPO" -m "$MSG_FILE" -- g.txt
+  [[ "$status" -eq 0 ]]
+  [[ "$(git -C "$REPO" show HEAD:g.txt)" == "name: NEW" ]]
+  # No edit left stranded in the working tree.
+  [[ -z "$(git -C "$REPO" status --porcelain)" ]]
+}
+
+@test "staged new file then edited captures the latest content" {
+  echo "first" > "$REPO/n.txt"
+  git -C "$REPO" add n.txt
+  echo "second" > "$REPO/n.txt"
+  run "$SCRIPT" -C "$REPO" -m "$MSG_FILE" -- n.txt
+  [[ "$status" -eq 0 ]]
+  [[ "$(git -C "$REPO" show HEAD:n.txt)" == "second" ]]
+  [[ -z "$(git -C "$REPO" status --porcelain)" ]]
+}
+
+@test "--keep-staged commits only what is already staged" {
+  echo "a" > "$REPO/a.txt"
+  echo "b" > "$REPO/b.txt"
+  git -C "$REPO" add a.txt
+  run "$SCRIPT" -C "$REPO" -m "$MSG_FILE" --keep-staged
+  [[ "$status" -eq 0 ]]
+  committed="$(git -C "$REPO" diff-tree --no-commit-id --name-only -r HEAD)"
+  [[ "$committed" == *"a.txt"* ]]
+  [[ "$committed" != *"b.txt"* ]]
+}
+
+@test "--keep-staged ignores listed files for staging" {
+  echo "a" > "$REPO/a.txt"
+  echo "b" > "$REPO/b.txt"
+  git -C "$REPO" add a.txt
+  run "$SCRIPT" -C "$REPO" -m "$MSG_FILE" --keep-staged -- b.txt
+  [[ "$status" -eq 0 ]]
+  committed="$(git -C "$REPO" diff-tree --no-commit-id --name-only -r HEAD)"
+  [[ "$committed" == *"a.txt"* ]]
+  [[ "$committed" != *"b.txt"* ]]
+}
+
+@test "--keep-staged with an empty index fails" {
+  run "$SCRIPT" -C "$REPO" -m "$MSG_FILE" --keep-staged
+  [[ "$status" -ne 0 ]]
+}
