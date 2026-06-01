@@ -71,15 +71,20 @@ if [[ -n "$repo" ]]; then
   git_args+=(-C "$repo")
 fi
 
+# Applies the optional `-C <repo>` uniformly. The `[@]+` guard keeps an empty
+# git_args from tripping `set -u` on bash 3.2 (pre-4.4) — the system bash on a
+# fresh macOS.
+git_repo() { git ${git_args[@]+"${git_args[@]}"} "$@"; }
+
 # Files that already have staged hunks are left alone so that partial staging
 # (e.g. via `git add -p`) is preserved.  Only unstaged/untracked files get added.
-staged_files="$(git "${git_args[@]}" diff --cached --name-only)"
+staged_files="$(git_repo diff --cached --name-only)"
 for file in "$@"; do
   if ! echo "$staged_files" | grep -qxF "$file"; then
-    git "${git_args[@]}" add "$file"
+    git_repo add "$file"
   fi
 done
 
-git "${git_args[@]}" commit -F "$message_file" >/dev/null
+git_repo commit -F "$message_file" >/dev/null
 
-git "${git_args[@]}" log --oneline -1
+git_repo log --oneline -1
