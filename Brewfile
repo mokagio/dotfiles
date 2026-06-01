@@ -225,6 +225,7 @@ brew 'carthage'                           # Swift/ObjC dependency manager
 # General dev
 brew 'gh'                                 # GitHub CLI
 brew 'go'                                 # Go language
+brew 'rust'                               # Rust language (cargo for fallback builds, e.g. vim-tagquery)
 brew 'difftastic'                         # Structural (syntax-aware) diff
 brew 'git-filter-repo'                    # Rewrite git history
 brew 'git-flow'                           # git branching-model helper
