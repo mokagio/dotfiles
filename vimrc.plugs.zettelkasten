@@ -19,7 +19,7 @@ Plug 'junegunn/fzf.vim'
 " create a link in the current note.
 "
 " Requires ripgrep, Python 3.5+, and of course fzf.
-if isdirectory(expand("$VIMWIKI_HOME/zettelkasten"))
+if isdirectory(expand("$VIMWIKI_ZK_ROOT"))
   Plug 'alok/notational-fzf-vim'
 endif
 

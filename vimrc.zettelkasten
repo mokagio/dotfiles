@@ -35,7 +35,7 @@ nnoremap <silent> <Leader>zr :call RandomZettel()<CR>
 fun! RandomZettel()
 python3<< EOF
 import vim, glob, random, os
-all_zettels = glob.glob(vim.eval("$VIMWIKI_HOME") + '/zettelkasten/*.md')
+all_zettels = glob.glob(vim.eval("$VIMWIKI_ZK_ROOT") + '/*.md')
 random_zettel = random.choice(all_zettels)
 vim.command(':edit ' + random_zettel)
 EOF
@@ -47,7 +47,7 @@ nnoremap <silent> <Leader>zq :call OpenRandomWithQuoteNote()<CR>
 " Courtesy of ChatGPT
 function! OpenRandomWithQuoteNote()
     " Step 1: Get a list of files containing the desired tag
-    let l:files = systemlist('grep -rl ":quote:" $VIMWIKI_HOME/zettelkasten/*.md')
+    let l:files = systemlist('grep -rl ":quote:" $VIMWIKI_ZK_ROOT/*.md')
 
     " Check if any files were found
     if len(l:files) == 0
@@ -73,7 +73,7 @@ endfunction
 " If the current buffer isn't a dated note, ZkPrev starts from the latest.
 
 function! s:ZkNotes() abort
-  return sort(globpath($VIMWIKI_HOME . '/zettelkasten',
+  return sort(globpath($VIMWIKI_ZK_ROOT,
         \ '[0-9][0-9][0-9][0-9][0-9][0-9]-[0-9][0-9][0-9][0-9].md', 0, 1))
 endfunction
 

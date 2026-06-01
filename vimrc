@@ -81,7 +81,7 @@ let g:syntastic_javascript_checkers = ['eslint']
 let g:zettel_wikigrep_command = "rg -l %pattern %path --glob='*%ext'"
 
 let slipbox = {}
-let slipbox.path = '$VIMWIKI_HOME/zettelkasten'
+let slipbox.path = '$VIMWIKI_ZK_ROOT'
 let slipbox.ext = '.md'
 let slipbox.syntax = 'markdown'
 
@@ -100,11 +100,11 @@ else
 endif
 
 " Notational-FZF-Vim settings
-if isdirectory(expand("$VIMWIKI_HOME/zettelkasten"))
-  let g:nv_search_paths = [ "$VIMWIKI_HOME/zettelkasten" ]
+if isdirectory(expand("$VIMWIKI_ZK_ROOT"))
+  let g:nv_search_paths = [ "$VIMWIKI_ZK_ROOT" ]
   let g:zettel_dir = $VIMWIKI_HOME
 else
-  autocmd VimEnter * echom "VIMWIKI_HOME/zettelkasten not found — notational-fzf and vim-zettel disabled"
+  autocmd VimEnter * echom "VIMWIKI_ZK_ROOT not found — notational-fzf and vim-zettel disabled"
 endif
 let g:zettel_synced = 0
 

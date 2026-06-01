@@ -68,7 +68,10 @@ alias ao='open -a /Applications/Android\ Studio.app'
 # https://rubygems.org/gems/ww
 # Using ww because that's the same leader command to bring up the wiki.
 if [[ -d $VIMWIKI_HOME ]]; then # Note that VIMWIKI_HOME should be define in the .zshrc.local
-  alias wr='$EDITOR $(find $VIMWIKI_HOME/zettelkasten -type f -not -path "*/\.*" | shuf -n 1)'
+  # VIMWIKI_HOME is the repo root (holds ./bin scripts); the notes live one level
+  # down. Export the notes dir so Vim configs can share it.
+  export VIMWIKI_ZK_ROOT="$VIMWIKI_HOME/zettelkasten"
+  alias wr='$EDITOR $(find $VIMWIKI_ZK_ROOT -type f -not -path "*/\.*" | shuf -n 1)'
   alias tc='pushd $VIMWIKI_HOME && ./bin/track_changes && popd'
   alias ww='pushd $VIMWIKI_HOME && ./bin/fetch_if_stale && $EDITOR -c VimwikiIndex; ./bin/track_changes; popd'
 else
