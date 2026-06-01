@@ -81,12 +81,31 @@ match = pattern.search(line)
 # --- Single-quote guard -------------------------------------------------------
 if "'" in new:
     in_single = in_double = False
-    for ch in line[:match.start()]:
+    escaped = False
+    in_comment = False
+    i = 0
+    while i < match.start():
+        ch = line[i]
+        if in_comment:
+            break
+        if escaped:
+            escaped = False
+            i += 1
+            continue
+        if ch == "\\":
+            escaped = True
+            i += 1
+            continue
+        if not in_single and not in_double:
+            if line.startswith("//", i) or line.startswith("#", i):
+                in_comment = True
+                break
         if ch == "'" and not in_double:
             in_single = not in_single
         elif ch == '"' and not in_single:
             in_double = not in_double
-    if in_single:
+        i += 1
+    if in_single and not in_comment:
         print(f"SKIP(single-quote) {path}:{idx + 1} '{old}->{new}' sits inside a "
               f"single-quoted string; apostrophe would break it", file=sys.stderr)
         sys.exit(1)
