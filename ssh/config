@@ -1,0 +1,17 @@
+# Generic SSH client config, symlinked to ~/.ssh/config by setup.sh.
+# Work/private host entries live in ~/.ssh/config.local (managed by the
+# A8C-private dotfiles, or hand-edited on machines without it).
+
+# Private overlay. SSH inlines Include directives, so any Host stanzas
+# defined here take precedence over the wildcard defaults below
+# (SSH applies the FIRST matching value per directive across the
+# composed file). A missing file is silently skipped.
+Include ~/.ssh/config.local
+
+# Defaults must come last for the same reason: putting `Host *` first
+# would shadow more specific host stanzas defined in config.local.
+Host *
+  AddKeysToAgent yes
+  UseKeychain yes
+  IdentityFile ~/.ssh/id_ed25519
+  IdentitiesOnly yes

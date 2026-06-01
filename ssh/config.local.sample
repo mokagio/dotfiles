@@ -1,0 +1,11 @@
+# Machine-local and private ssh config, included by the tracked ssh/config
+# ahead of its `Host *` defaults (so entries here win). Put specific Host
+# blocks, tool-generated includes (e.g. colima), and work/private hosts here.
+# Untracked; captured by migrate.sh.
+
+# Include ~/.colima/ssh_config
+
+# Host myserver
+#   HostName 203.0.113.10
+#   User me
+#   IdentityFile ~/.ssh/id_ed25519

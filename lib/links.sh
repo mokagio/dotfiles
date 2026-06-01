@@ -31,6 +31,10 @@ emit_links() {
   "$act" "$d/nvim/lsp" "$HOME/.config/nvim/lsp"
   "$act" "$d/hammerspoon_init.lua" "$HOME/.hammerspoon/init.lua"
 
+  # ssh: generic `Host *` defaults; private/work hosts live in the included
+  # ~/.ssh/config.local. setup.sh ensures ~/.ssh exists at mode 700 first.
+  "$act" "$d/ssh/config" "$HOME/.ssh/config"
+
   # mise — idiomatic_version_file_enable_tools = ["ruby"] lets a repo's
   # .ruby-version win over the global pin.
   "$act" "$d/mise/global-config.toml" "$HOME/.config/mise/config.toml"

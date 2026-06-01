@@ -85,6 +85,11 @@ if $do_links; then
 printf '\033[1;36m==> %s\033[0m\n' "Setting up symlinks"
 printf '\033[2m'
 
+# SSH refuses a config in a dir others can write. link() would create ~/.ssh at
+# the umask default (typically 755); create it at 700 first so the ssh/config
+# symlink lands in a properly-scoped dir.
+[[ -d ~/.ssh ]] || install -d -m 700 ~/.ssh
+
 emit_links link "$dotfiles_dir"
 
 printf '\033[0m'
