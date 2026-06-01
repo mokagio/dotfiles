@@ -20,7 +20,7 @@ min_time = 1_000
 format = "[took $duration]($style) "
 
 [git_branch]
-format = "[$branch(:$remote_branch)]($style) "
+format = "[$branch(:$remote_branch)]($style) "
 style = "purple"
 
 # Git status with counts and thin symbols.
