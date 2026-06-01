@@ -52,6 +52,13 @@ gbd() {
   git branch-delete "$@"
 }
 compctl -K _gco_branches gbd
+# Worktree-aware delete with safety checks: removes the worktree and its branch,
+# but only force-deletes unmerged/dirty/unpushed work after a y/N prompt (-y skips).
+# Logic lives in scripts/git-worktree-delete (available as `git worktree-delete`).
+gwd() {
+  git worktree-delete "$@"
+}
+compctl -K _gco_branches gwd
 # These break the gch pattern, but I already have muscle memory for these shorted alternatives
 alias ghp='git checkout -p'
 alias gnb='git checkout -b'
