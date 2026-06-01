@@ -350,6 +350,8 @@ if command -v mise &>/dev/null; then
     warn "gem install bundler failed; skipping bundle install."
   elif ! mise exec -- bundle install; then
     warn "bundle install failed. Run it manually to retry."
+  elif ! mise exec -- bundle exec fastlane enable_auto_complete; then
+    warn "fastlane enable_auto_complete failed; shell completions not built."
   fi
 else
   warn "mise not found, skipping Ruby setup."

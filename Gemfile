@@ -6,3 +6,7 @@ source 'https://rubygems.org'
 # gem 'desktop'
 
 gem 'ruby-lsp'
+
+# Bundled (not standalone) so setup can build its shell completion via
+# `fastlane enable_auto_complete` after `bundle install`.
+gem 'fastlane'
