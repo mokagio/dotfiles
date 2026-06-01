@@ -64,3 +64,9 @@
 # to conditionally include .gitconfig from subfolders, which you'll likely want to do in the .local version
 [include]
   path = ~/.gitconfig.local
+[credential "https://github.com"]
+  helper =
+  helper = !/opt/homebrew/bin/gh auth git-credential
+[credential "https://gist.github.com"]
+  helper =
+  helper = !/opt/homebrew/bin/gh auth git-credential
