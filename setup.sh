@@ -224,11 +224,14 @@ fi
 # draws to the alt-screen in non-TTY contexts and leaves `[No Name] / buffers`
 # artifacts in setup output. `-i NONE` skips viminfo to keep the run hermetic.
 #
-# `vim-tagquery`'s `install.sh` exits non-zero on every run after the first
-# (https://github.com/matt-snider/vim-tagquery/issues/3), and `PlugInstall!`
-# (with bang) re-runs `do` hooks even when the plugin is already installed.
-# Don't let that abort the whole setup script — match the `brew bundle` pattern.
-if ! vim -es -u ~/.vimrc -i NONE -c 'PlugInstall! --sync' -c 'qall'; then
+# Plain `PlugInstall` (no bang) so `do` hooks only fire on fresh installs.
+# With `!` they re-run every setup, which trips vim-tagquery's broken
+# `cd $name/ || git clone $url && cd $name/` chain on existing checkouts
+# (https://github.com/matt-snider/vim-tagquery/issues/3) and wipes the
+# binary it just built. Use `:PlugUpdate <plugin>` to re-trigger a `do`
+# hook after editing vimrc.plugs.
+# Still wrap in `if !` so genuine fresh-install errors warn but don't abort.
+if ! vim -es -u ~/.vimrc -i NONE -c 'PlugInstall --sync' -c 'qall'; then
   warn "vim PlugInstall finished with errors. Check the output above for plugin install failures."
 fi
 if command -v nvim &>/dev/null; then
