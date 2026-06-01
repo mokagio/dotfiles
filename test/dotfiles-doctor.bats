@@ -11,6 +11,7 @@ setup() {
   # shellcheck source=/dev/null
   source "$SCRIPT_DIR/scripts/dotfiles-doctor"
   problems=0
+  warnings=0
 }
 
 teardown() {
@@ -68,4 +69,45 @@ teardown() {
   ln -s "$TMP/src" "$TMP/dest"
   run check_link "$TMP/src" "$TMP/dest"
   [[ "$output" == *"BROKEN"* ]]
+}
+
+@test "env var set to an existing dir: quiet, no problem, no warning" {
+  export DOCTOR_TEST_VAR="$TMP"
+  run check_env "DOCTOR_TEST_VAR|dir|notes root"
+  [[ "$status" -eq 0 ]]
+  [[ -z "$output" ]]
+  check_env "DOCTOR_TEST_VAR|dir|notes root" >/dev/null
+  [[ "$problems" -eq 0 ]]
+  [[ "$warnings" -eq 0 ]]
+}
+
+@test "env var set to an existing dir: verbose lists OK with value" {
+  export DOCTOR_TEST_VAR="$TMP"
+  DOCTOR_VERBOSE=1 run check_env "DOCTOR_TEST_VAR|dir|notes root"
+  [[ "$output" == *"OK"* ]]
+  [[ "$output" == *"$TMP"* ]]
+}
+
+@test "unset env var: reports WARN and counts a warning, not a problem" {
+  unset DOCTOR_TEST_VAR
+  run check_env "DOCTOR_TEST_VAR|dir|notes root"
+  [[ "$output" == *"WARN"* ]]
+  [[ "$output" == *"unset"* ]]
+  check_env "DOCTOR_TEST_VAR|dir|notes root" >/dev/null
+  [[ "$warnings" -eq 1 ]]
+  [[ "$problems" -eq 0 ]]
+}
+
+@test "dir var pointing at a missing path: reports WARN not a directory" {
+  export DOCTOR_TEST_VAR="$TMP/does-not-exist"
+  run check_env "DOCTOR_TEST_VAR|dir|notes root"
+  [[ "$output" == *"WARN"* ]]
+  [[ "$output" == *"not a directory"* ]]
+}
+
+@test "kind=any: a set value is OK regardless of filesystem" {
+  export DOCTOR_TEST_VAR="anything-goes"
+  check_env "DOCTOR_TEST_VAR|any|freeform value" >/dev/null
+  [[ "$problems" -eq 0 ]]
+  [[ "$warnings" -eq 0 ]]
 }

@@ -1,24 +1,39 @@
 #!/usr/bin/env bash
 #
 # Check every symlink the dotfiles manage against lib/links.sh — the same
-# list setup.sh creates — and report any that are missing, point at the
-# wrong place, were replaced by a real file, or dangle. Read-only.
+# list setup.sh creates — and that the environment variables the dotfiles
+# expect to inherit from machine-local config are present. Report anything
+# missing, mispointed, replaced by a real file, or dangling. Read-only.
 
 DOCTOR_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 # shellcheck source-path=SCRIPTDIR
 # shellcheck source=../lib/links.sh
 source "$DOCTOR_DIR/lib/links.sh"
 
-problems=0
+# Environment variables the dotfiles expect machine-local config (e.g.
+# ~/.zshrc.local) to set. Each entry is "NAME|kind|description"; kind is
+# `dir` (value must be an existing directory) or `any` (just needs a value).
+# The doctor runs as a subprocess, so it only sees variables that were
+# exported — an unexported-but-set var reads as unset here.
+expected_env_vars=(
+  "VIMWIKI_HOME|dir|Zettelkasten repo root; enables the ww/tc/wr aliases and Vim wiki"
+)
 
-# Print a status line (suppressing OK unless DOCTOR_VERBOSE is set) and count
-# anything that isn't OK as a problem.
+problems=0
+warnings=0
+
+# Print a status line (suppressing OK unless DOCTOR_VERBOSE is set). OK is
+# clean; WARN is surfaced but non-fatal; anything else is a hard problem.
 report() {
   local status=$1 dest=$2 detail=${3:-}
   if [[ "$status" != OK || -n "${DOCTOR_VERBOSE:-}" ]]; then
     printf '%-8s %s%s\n' "$status" "$dest" "${detail:+ $detail}"
   fi
-  [[ "$status" == OK ]] || problems=$((problems + 1))
+  case "$status" in
+    OK) ;;
+    WARN) warnings=$((warnings + 1)) ;;
+    *) problems=$((problems + 1)) ;;
+  esac
   return 0
 }
 
@@ -42,6 +57,19 @@ check_link() {
   fi
 }
 
+check_env() {
+  local spec=$1 name kind desc value
+  IFS='|' read -r name kind desc <<<"$spec"
+  value=${!name:-}
+  if [[ -z "$value" ]]; then
+    report WARN "\$$name" "unset — $desc"
+  elif [[ "$kind" == dir && ! -d "$value" ]]; then
+    report WARN "\$$name" "= $value (not a directory) — $desc"
+  else
+    report OK "\$$name" "= $value"
+  fi
+}
+
 [[ "${BASH_SOURCE[0]}" == "${0}" ]] || return 0
 
 set -euo pipefail
@@ -50,8 +78,19 @@ echo "Checking managed symlinks…"
 emit_links check_link "$DOCTOR_DIR"
 
 echo
+echo "Checking expected environment variables…"
+for spec in "${expected_env_vars[@]}"; do
+  check_env "$spec"
+done
+
+echo
 if [[ "$problems" -gt 0 ]]; then
   printf '%d problem(s) found. Re-run setup.sh after resolving, or fix by hand.\n' "$problems"
-  exit 1
 fi
-echo "All managed symlinks OK."
+if [[ "$warnings" -gt 0 ]]; then
+  printf '%d warning(s) — expected environment not fully configured (see above).\n' "$warnings"
+fi
+if [[ "$problems" -eq 0 && "$warnings" -eq 0 ]]; then
+  echo "All checks passed."
+fi
+[[ "$problems" -eq 0 ]] || exit 1
