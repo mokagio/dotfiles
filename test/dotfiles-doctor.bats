@@ -121,3 +121,95 @@ teardown() {
     [[ -n "$desc" ]]
   done
 }
+
+@test "gh_credential_hosts extracts gh-wired hosts, scheme stripped" {
+  cat > "$TMP/cfg" <<'CFG'
+[credential "https://github.com"]
+  helper = !gh auth git-credential
+[credential "https://gist.github.com"]
+  helper = !gh auth git-credential
+CFG
+  run gh_credential_hosts "$TMP/cfg"
+  [[ "$status" -eq 0 ]]
+  [[ "$output" == *"github.com"* ]]
+  [[ "$output" == *"gist.github.com"* ]]
+}
+
+@test "gh_credential_hosts follows [include] imports" {
+  cat > "$TMP/inc" <<'CFG'
+[credential "https://ghe.example.com"]
+  helper = !gh auth git-credential
+CFG
+  cat > "$TMP/cfg" <<CFG
+[include]
+  path = $TMP/inc
+CFG
+  run gh_credential_hosts "$TMP/cfg"
+  [[ "$output" == *"ghe.example.com"* ]]
+}
+
+@test "gh_credential_hosts ignores non-gh credential helpers" {
+  cat > "$TMP/cfg" <<'CFG'
+[credential "https://example.com"]
+  helper = osxkeychain
+[credential "https://github.com"]
+  helper = !gh auth git-credential
+CFG
+  run gh_credential_hosts "$TMP/cfg"
+  [[ "$output" == *"github.com"* ]]
+  [[ "$output" != *"example.com"* ]]
+}
+
+@test "gh_credential_hosts: empty when nothing is gh-wired" {
+  cat > "$TMP/cfg" <<'CFG'
+[credential "https://example.com"]
+  helper = osxkeychain
+CFG
+  run gh_credential_hosts "$TMP/cfg"
+  [[ "$status" -eq 0 ]]
+  [[ -z "$output" ]]
+}
+
+@test "check_gh_auth: authenticated host is OK, no warning" {
+  gh_available() { return 0; }
+  gh_credential_hosts() { echo github.com; }
+  gh_auth_ok() { return 0; }
+  check_gh_auth >/dev/null
+  [[ "$problems" -eq 0 ]]
+  [[ "$warnings" -eq 0 ]]
+}
+
+@test "check_gh_auth: unauthenticated host warns with the login hint" {
+  gh_available() { return 0; }
+  gh_credential_hosts() { echo github.com; }
+  gh_auth_ok() { return 1; }
+  run check_gh_auth
+  [[ "$output" == *"WARN"* ]]
+  [[ "$output" == *"gh:github.com"* ]]
+  [[ "$output" == *"gh auth login"* ]]
+}
+
+@test "check_gh_auth: counts one warning per unauthenticated host" {
+  gh_available() { return 0; }
+  gh_credential_hosts() { printf '%s\n' github.com gist.github.com; }
+  gh_auth_ok() { return 1; }
+  check_gh_auth >/dev/null
+  [[ "$warnings" -eq 2 ]]
+  [[ "$problems" -eq 0 ]]
+}
+
+@test "check_gh_auth: gh missing but wired warns once" {
+  gh_available() { return 1; }
+  gh_credential_hosts() { echo github.com; }
+  run check_gh_auth
+  [[ "$output" == *"WARN"* ]]
+  [[ "$output" == *"not on PATH"* ]]
+}
+
+@test "check_gh_auth: no gh-wired hosts is a clean no-op" {
+  gh_available() { return 0; }
+  gh_credential_hosts() { :; }
+  check_gh_auth >/dev/null
+  [[ "$problems" -eq 0 ]]
+  [[ "$warnings" -eq 0 ]]
+}

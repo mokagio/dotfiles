@@ -1,9 +1,11 @@
 #!/usr/bin/env bash
 #
-# Check every symlink the dotfiles manage against lib/links.sh — the same
-# list setup.sh creates — and that the environment variables the dotfiles
-# expect to inherit from machine-local config are present. Report anything
-# missing, mispointed, replaced by a real file, or dangling. Read-only.
+# Check the dotfiles' machine-side health: every managed symlink against
+# lib/links.sh (the list setup.sh creates), the environment variables that
+# must reach subprocesses, and that gh is authenticated for each GitHub
+# credential endpoint the git config wires it up for. Report anything
+# missing, mispointed, replaced by a real file, dangling, or unauthenticated.
+# Read-only.
 
 DOCTOR_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 # shellcheck source-path=SCRIPTDIR
@@ -73,6 +75,48 @@ check_env() {
   fi
 }
 
+gh_available() { command -v gh >/dev/null 2>&1; }
+
+# Ask gh for a credential the same way git does. Exits 0 only when gh holds a
+# usable token for the host — so it gets gist.github.com (served by the
+# github.com token) right, which `gh auth status --hostname` does not. Local,
+# no network.
+gh_auth_ok() {
+  printf 'protocol=https\nhost=%s\n\n' "$1" | gh auth git-credential get >/dev/null 2>&1
+}
+
+# Hosts wired to `gh auth git-credential` in the git config. Reads the
+# effective config (or $1 if given) with --includes so [include]/[includeIf]
+# imports are followed — future endpoints can live in ~/.gitconfig.local.
+gh_credential_hosts() {
+  local cfg=${1:-} raw
+  if [[ -n "$cfg" ]]; then
+    raw=$(git config --file "$cfg" --includes --get-regexp '^credential\..*\.helper$' 2>/dev/null) || raw=
+  else
+    raw=$(git config --includes --get-regexp '^credential\..*\.helper$' 2>/dev/null) || raw=
+  fi
+  printf '%s\n' "$raw" | { grep -F 'gh auth git-credential' || true; } \
+    | sed -E 's/^credential\.(.*)\.helper .*/\1/; s#^https?://##' | sort -u
+}
+
+check_gh_auth() {
+  local hosts host
+  hosts=$(gh_credential_hosts)
+  [[ -n "$hosts" ]] || return 0
+  if ! gh_available; then
+    report WARN "gh" "wired as a git credential helper but not on PATH — install the GitHub CLI"
+    return 0
+  fi
+  while IFS= read -r host; do
+    [[ -n "$host" ]] || continue
+    if gh_auth_ok "$host"; then
+      report OK "gh:$host"
+    else
+      report WARN "gh:$host" "not authenticated — run: gh auth login"
+    fi
+  done <<< "$hosts"
+}
+
 [[ "${BASH_SOURCE[0]}" == "${0}" ]] || return 0
 
 set -euo pipefail
@@ -87,11 +131,15 @@ for spec in "${expected_env_vars[@]}"; do
 done
 
 echo
+echo "Checking GitHub authentication (gh)…"
+check_gh_auth
+
+echo
 if [[ "$problems" -gt 0 ]]; then
   printf '%d problem(s) found. Re-run setup.sh after resolving, or fix by hand.\n' "$problems"
 fi
 if [[ "$warnings" -gt 0 ]]; then
-  printf '%d warning(s) — expected environment not fully configured (see above).\n' "$warnings"
+  printf '%d warning(s) — environment or credentials need attention (see above).\n' "$warnings"
 fi
 if [[ "$problems" -eq 0 && "$warnings" -eq 0 ]]; then
   echo "All checks passed."
