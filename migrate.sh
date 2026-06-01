@@ -38,3 +38,15 @@ tar -hczf "$archive" -C "$HOME" "${present[@]}"
 echo "Archived ${#present[@]} file(s):"
 printf '  %s\n' "${present[@]}"
 echo "$archive"
+
+# The archive carries the `user.signingkey` reference (in .gitconfig.local) but
+# not the GPG keyring it points at — secret key material doesn't belong in a
+# config tarball. Remind, so signing doesn't silently break on the new machine.
+signingkey=$(git config user.signingkey 2>/dev/null || true)
+if [[ -n "$signingkey" && "$(git config gpg.format 2>/dev/null || true)" != "ssh" ]]; then
+  echo >&2
+  echo "Reminder: git signs with GPG key $signingkey, which is NOT in this archive." >&2
+  echo "Export it separately over a private channel:" >&2
+  echo "  gpg --export-secret-keys --armor $signingkey > gpg-secret-keys.asc" >&2
+  echo "  gpg --export-ownertrust > gpg-ownertrust.txt" >&2
+fi

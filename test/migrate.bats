@@ -54,3 +54,23 @@ teardown() {
   [ "$status" -ne 0 ]
   [[ "$output" == *"nothing to migrate"* ]]
 }
+
+@test "warns that the GPG signing key is not in the archive" {
+  echo gitlocal > "$HOME/.gitconfig.local"
+  git config --file "$HOME/.gitconfig" user.signingkey ABC123DEAD
+
+  run "$SCRIPT" "$OUT"
+  [ "$status" -eq 0 ]
+  [[ "$output" == *"GPG key ABC123DEAD"* ]]
+  [[ "$output" == *"export-secret-keys"* ]]
+}
+
+@test "does not warn when git signs with SSH, not GPG" {
+  echo gitlocal > "$HOME/.gitconfig.local"
+  git config --file "$HOME/.gitconfig" user.signingkey /key.pub
+  git config --file "$HOME/.gitconfig" gpg.format ssh
+
+  run "$SCRIPT" "$OUT"
+  [ "$status" -eq 0 ]
+  [[ "$output" != *"export-secret-keys"* ]]
+}
