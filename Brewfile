@@ -184,7 +184,6 @@ cask 'transmission'             # Lightweight BitTorrent client
 cask 'gimp'                     # Open-source raster image editor
 cask 'sigil'                    # EPUB e-book editor
 cask 'quicklook-json'           # Quick Look plugin to preview JSON files
-cask 'buildkite-mcp-server'     # Local MCP server exposing Buildkite to AI agents
 cask 'font-open-sans'           # Open Sans font family
 cask 'parallels-virtualization-sdk'  # SDK for scripting Parallels VMs
 
