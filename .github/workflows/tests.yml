@@ -1,0 +1,25 @@
+name: Tests
+
+on:
+  push:
+    branches: [trunk]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  bats:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install bats
+        run: brew install bats-core
+
+      - name: Configure git for hermetic tests
+        run: |
+          git config --global user.name CI
+          git config --global user.email ci@example.com
+          git config --global commit.gpgsign false
+
+      - name: Run bats suite
+        run: bats test/
