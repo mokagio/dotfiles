@@ -143,6 +143,6 @@ alias ymlparse="ruby -ryaml -e 'puts YAML::load(STDIN.read, aliases: true)'"
 alias yamlparse=ymlparse
 
 alias cop='gh copilot'
-alias cl='claude --plugin-dir ~/Developer/mokacoding-pty-ltd/engram --plugin-dir ~/Developer/mokacoding-pty-ltd/claude-plugins/plugins/personal-assistant'
+alias cl='claude --plugin-dir ~/Developer/mokacoding-pty-ltd/engram --plugin-dir ~/Developer/mokacoding-pty-ltd/claude-plugins/plugins/chief-of-staff'
 alias cld='cl --dangerously-skip-permissions'
 alias /cld='cld'
