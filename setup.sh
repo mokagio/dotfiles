@@ -292,6 +292,24 @@ else
   warn "claude not found, skipping MCP server setup."
 fi
 
+# Codex CLI — install globally via npm under mise's Node, the channel used on
+# this machine (the Homebrew formula lags, same reason the Claude install above
+# skips the cask).
+#
+# Codex's config (~/.codex/config.toml) is intentionally NOT tracked in these
+# dotfiles. Unlike Claude's settings.json, Codex rewrites it at runtime with
+# machine-specific state — a project trust list full of absolute paths and
+# private repo names, model-migration notices, TUI state — so it can't be
+# shared or symlinked. Only the shared AGENTS.md is linked into ~/.codex (see
+# lib/links.sh).
+if command -v mise &>/dev/null; then
+  if mise exec -- npm ls -g @openai/codex >/dev/null 2>&1; then
+    echo "Codex already installed, skipping"
+  elif ! mise exec -- npm install -g @openai/codex; then
+    warn "npm install -g @openai/codex failed; continuing."
+  fi
+fi
+
 echo ""
 printf '\033[1;36m==> %s\033[0m\n' "Applying macOS defaults"
 # Each script runs in its own `bash` so a failing one (set -e) doesn't abort
