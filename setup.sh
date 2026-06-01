@@ -90,6 +90,10 @@ printf '\033[2m'
 # symlink lands in a properly-scoped dir.
 [[ -d ~/.ssh ]] || install -d -m 700 ~/.ssh
 
+# Same story for ~/.gnupg — gpg refuses to read configs from a world-readable
+# dir and emits a warning every invocation if the perms are looser than 700.
+[[ -d ~/.gnupg ]] || install -d -m 700 ~/.gnupg
+
 emit_links link "$dotfiles_dir"
 
 printf '\033[0m'

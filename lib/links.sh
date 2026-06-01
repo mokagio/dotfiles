@@ -35,6 +35,10 @@ emit_links() {
   # ~/.ssh/config.local. setup.sh ensures ~/.ssh exists at mode 700 first.
   "$act" "$d/ssh/config" "$HOME/.ssh/config"
 
+  # gpg-agent: points pinentry at pinentry-mac. setup.sh ensures ~/.gnupg
+  # exists at mode 700 first (gpg refuses a looser permission).
+  "$act" "$d/gnupg/gpg-agent.conf" "$HOME/.gnupg/gpg-agent.conf"
+
   # mise — idiomatic_version_file_enable_tools = ["ruby"] lets a repo's
   # .ruby-version win over the global pin.
   "$act" "$d/mise/global-config.toml" "$HOME/.config/mise/config.toml"
