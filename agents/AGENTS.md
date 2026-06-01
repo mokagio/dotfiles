@@ -89,8 +89,10 @@ Concretely:
 
 - After editing code → run the relevant tests or build.
 - After a test/build fails → read the output, fix, re-run.
-- After pushing to a remote → check CI (e.g. `/ci-monitor`). Diagnose failures, fix, push, check again.
+- After pushing to a remote or running `gh pr create` → invoke `/ci-monitor` on the affected PR immediately, in the same turn, no asking.
   **Start the monitor without asking.** Don't say "want me to watch the build?" — just spawn it (background agent or `/ci-monitor`).
+  In multi-PR sessions, each push and each `gh pr create` triggers its own monitor — don't batch them or defer to "the end".
+  If `/ci-monitor` reports `danger/pr-check` failures, chain into `/fix-pr-checks` for that PR and keep monitoring until Danger re-runs.
   I'd rather kill a monitor I don't want than have to tell you to start one.
 - After opening a PR → confirm checks pass before reporting done.
 
