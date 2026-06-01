@@ -119,7 +119,9 @@ export FASTLANE_SKIP_ACTION_SUMMARY=1
 # https://github.com/yonaskolb/Mint
 export PATH="$PATH:$HOME/.mint/bin"
 
-DOTFILES_HOME="$HOME/.dotfiles"
+# Exported so subprocesses see it — notably Vim, whose rc does
+# `source $DOTFILES_HOME/...`. Without export it resolves empty there.
+export DOTFILES_HOME="$HOME/.dotfiles"
 
 export PATH="$PATH:$DOTFILES_HOME/scripts"
 
