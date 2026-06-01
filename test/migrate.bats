@@ -23,7 +23,7 @@ teardown() {
   run "$SCRIPT" "$OUT"
   [ "$status" -eq 0 ]
 
-  archive="${lines[-1]}"
+  archive="${lines[${#lines[@]} - 1]}"
   [ -f "$archive" ]
 
   entries=$(tar -tzf "$archive" | sort)
@@ -36,7 +36,7 @@ teardown() {
 
   run "$SCRIPT" "$OUT"
   [ "$status" -eq 0 ]
-  archive="${lines[-1]}"
+  archive="${lines[${#lines[@]} - 1]}"
 
   extract="$TMP_ROOT/extract"
   mkdir -p "$extract"
