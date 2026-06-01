@@ -1,0 +1,5 @@
+# Machine-local interactive shell config, sourced last by ~/.zshrc.
+# For aliases, functions, and prompt tweaks specific to this machine that
+# shouldn't be tracked. Loaded only for interactive shells.
+
+# alias work="cd ~/Developer/some-machine-specific-path"

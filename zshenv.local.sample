@@ -1,0 +1,6 @@
+# Machine-local environment, sourced last by ~/.zshenv.
+# For env vars and PATH additions that shouldn't be tracked: per-machine
+# paths, work-only tooling, secrets. Loaded for every shell, interactive or not.
+
+# export PATH="$HOME/some/machine-specific/bin:$PATH"
+# export SOME_API_TOKEN="..."
