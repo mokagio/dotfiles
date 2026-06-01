@@ -22,8 +22,11 @@ If empty, ask the user via `AskUserQuestion`.
 
 - `typos.txt` — curated misspelling → correction list.
 - `scan.sh` — ripgrep wrapper that scans a directory using `typos.txt`.
-- `apply-fix.py` — line-by-line word-boundary substitution.
-  Refuses to substitute when the word isn't present on the given line, so misalignments fail loudly.
+- `apply-fix.py` — word-boundary substitution with two guards:
+  - **Content match (drift-safe):** pass the scan's matched line text as a 5th arg and the fix lands on the line with that content wherever it moved, skipping (loudly) a line that changed or was already fixed upstream — never guessing.
+  - **Single-quote guard:** refuses an apostrophe correction (`don't`, `today's`, …) that would land inside a single-quoted string literal (`it '...'`, `it('...')`) and break it. Comments and double-quoted strings proceed.
+  - Still refuses when the word isn't present, so misalignments fail loudly.
+  - `test_apply_fix.py` pins these behaviors: `python3 test_apply_fix.py`.
 
 Reference them via `$(dirname "$0")` inside scripts, or via the absolute paths under `~/.claude/skills/typo-sweep/` (or `~/.dotfiles/agents/skills/typo-sweep/`).
 
@@ -103,14 +106,18 @@ Output is `path:line:col:matched line` per finding.
 - `happend` → "happen" or "happened" depending on tense. "Should never happend" wants `happen`, not `happened`.
 - `zeroes` is a valid English plural and a verb — leave it alone.
 - `doesnt` in a Kotlin backticked test name fixes to `doesn't` (apostrophe inside backticks is fine), but verify the rename doesn't break a golden filename or CI test filter.
+- **Apostrophe into a single-quoted string breaks code.** `dont`/`doesnt`/`todays` → `don't`/`doesn't`/`today's` inside a single-quoted Ruby/JS string (RSpec `it '...'`, JS `it('...')`) terminates the string. `apply-fix.py` refuses these, but prefer not to queue them. Comments and double-quoted strings are safe.
+- **Lint runs on changed files.** A comment fix pulls its file into the PR's changed set, surfacing pre-existing lint debt (e.g. TS typecheck, detekt), and adding a char (`today's`) can push a backtick test name past a line-length limit. If CI flags a file you only touched a comment in, drop that file/line from the PR rather than fixing unrelated debt.
 
 When unsure, skip the fix.
 
 #### e. Apply fixes — cap at ~50 substitutions per PR
 
 ```
-python3 $SKILL_DIR/apply-fix.py <worktree>/<file> <line> <old> <new>
+python3 $SKILL_DIR/apply-fix.py <worktree>/<file> <line> <old> <new> "<matched line text>"
 ```
+
+Pass the scan's matched line text (the part after `path:line:col:` in the `scan.sh` output) as the 5th arg. This makes the fix drift-safe — it lands on the line with that content even if line numbers shifted, and skips loudly if the line changed or was already fixed upstream. The 4-arg form (no matched line) still works but addresses by line number only.
 
 After each substitution count, stop adding more fixes for this PR once you hit **50 substitutions** (≈ 50 changed file lines / ≈ 100 diff lines).
 A small follow-up sweep can pick up the remainder later.
