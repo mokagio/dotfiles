@@ -102,7 +102,6 @@ endif
 " Notational-FZF-Vim settings
 if isdirectory(expand("$VIMWIKI_ZK_ROOT"))
   let g:nv_search_paths = [ "$VIMWIKI_ZK_ROOT" ]
-  let g:zettel_dir = $VIMWIKI_HOME
 else
   autocmd VimEnter * echom "VIMWIKI_ZK_ROOT not found — notational-fzf and vim-zettel disabled"
 endif
