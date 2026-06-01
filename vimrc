@@ -1,3 +1,10 @@
+" Turn off vi compatibility before sourcing anything else: vimrc.shared has
+" dict literals and `\`-prefixed line continuations that only parse under
+" nocompatible. Interactive vim flips this automatically on user-vimrc load,
+" but `-es` / batch mode does not — keeping it here ahead of the source means
+" both paths agree.
+set nocompatible
+
 let s:shared_rc = expand("$DOTFILES_HOME") . "/vimrc.shared"
 if filereadable(s:shared_rc)
   execute 'source' fnameescape(s:shared_rc)
@@ -6,9 +13,6 @@ else
   echom "Could not find shared rc at " . s:shared_rc
   echohl None
 endif
-
-" Turn off vi compatibility
-set nocompatible
 
 if filereadable(expand("~/.vimrc.plugs"))
   call plug#begin('~/.vim/plugged')
