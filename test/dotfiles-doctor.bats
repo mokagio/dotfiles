@@ -213,3 +213,63 @@ CFG
   [[ "$problems" -eq 0 ]]
   [[ "$warnings" -eq 0 ]]
 }
+
+@test "check_iterm_prefs: skipped entirely when iTerm2 is not installed" {
+  iterm_installed() { return 1; }
+  iterm_default() { echo "should not be called"; }
+  run check_iterm_prefs
+  [[ "$status" -eq 0 ]]
+  [[ -z "$output" ]]
+  check_iterm_prefs >/dev/null
+  [[ "$problems" -eq 0 ]]
+  [[ "$warnings" -eq 0 ]]
+}
+
+@test "check_iterm_prefs: custom folder off warns to wire it up" {
+  iterm_installed() { return 0; }
+  iterm_default() { :; }  # both keys absent
+  run check_iterm_prefs
+  [[ "$output" == *"WARN"* ]]
+  [[ "$output" == *"iterm2"* ]]
+  [[ "$output" == *"custom folder"* ]]
+  [[ "$output" == *"$DOCTOR_DIR/iterm2"* ]]
+}
+
+@test "check_iterm_prefs: custom folder on but pointed elsewhere warns" {
+  iterm_installed() { return 0; }
+  iterm_default() {
+    case "$1" in
+      LoadPrefsFromCustomFolder) echo 1 ;;
+      PrefsCustomFolder) echo "/somewhere/else" ;;
+    esac
+  }
+  run check_iterm_prefs
+  [[ "$output" == *"WARN"* ]]
+  [[ "$output" == *"/somewhere/else"* ]]
+  [[ "$output" == *"expected"* ]]
+}
+
+@test "check_iterm_prefs: pointed at the repo folder is OK, no warning" {
+  iterm_installed() { return 0; }
+  iterm_default() {
+    case "$1" in
+      LoadPrefsFromCustomFolder) echo 1 ;;
+      PrefsCustomFolder) echo "$DOCTOR_DIR/iterm2" ;;
+    esac
+  }
+  check_iterm_prefs >/dev/null
+  [[ "$problems" -eq 0 ]]
+  [[ "$warnings" -eq 0 ]]
+}
+
+@test "check_iterm_prefs: trailing slash on the folder still matches" {
+  iterm_installed() { return 0; }
+  iterm_default() {
+    case "$1" in
+      LoadPrefsFromCustomFolder) echo 1 ;;
+      PrefsCustomFolder) echo "$DOCTOR_DIR/iterm2/" ;;
+    esac
+  }
+  check_iterm_prefs >/dev/null
+  [[ "$warnings" -eq 0 ]]
+}

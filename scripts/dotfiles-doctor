@@ -119,6 +119,36 @@ check_gh_auth() {
   done <<< "$hosts"
 }
 
+# iTerm2 stores its settings in the tracked iterm2/ folder, loaded at launch
+# via the "Load preferences from a custom folder" mechanism. That mechanism is
+# driven by two keys in iTerm2's *standard* defaults domain (not the tracked
+# plist itself), so it's separate machine state setup.sh can't symlink — and
+# silently reverts to the built-in prefs if it drifts. The README documents
+# wiring it up by hand; this check flags when it isn't pointed at the repo.
+
+# True when iTerm2 is installed; skip the check otherwise so machines without
+# it aren't nagged (mirrors check_gh_auth only firing when gh is wired).
+iterm_installed() { [[ -d /Applications/iTerm.app ]]; }
+
+# Read an iTerm2 default; empty when the key (or the whole domain) is absent.
+# Wrapped so tests can stub it without a real iTerm2 install.
+iterm_default() { defaults read com.googlecode.iterm2 "$1" 2>/dev/null || true; }
+
+check_iterm_prefs() {
+  iterm_installed || return 0
+  local expected load folder
+  expected="$DOCTOR_DIR/iterm2"
+  load=$(iterm_default LoadPrefsFromCustomFolder)
+  folder=$(iterm_default PrefsCustomFolder)
+  if [[ "$load" != 1 ]]; then
+    report WARN "iterm2" "not loading prefs from a custom folder — point it at $expected (iTerm2 → Settings → General → Settings)"
+  elif [[ "${folder%/}" != "${expected%/}" ]]; then
+    report WARN "iterm2" "loads prefs from ${folder:-<unset>} (expected $expected)"
+  else
+    report OK "iterm2" "loading prefs from $expected"
+  fi
+}
+
 [[ "${BASH_SOURCE[0]}" == "${0}" ]] || return 0
 
 set -euo pipefail
@@ -135,6 +165,10 @@ done
 echo
 echo "Checking GitHub authentication (gh)…"
 check_gh_auth
+
+echo
+echo "Checking iTerm2 preferences…"
+check_iterm_prefs
 
 echo
 if [[ "$problems" -gt 0 ]]; then
