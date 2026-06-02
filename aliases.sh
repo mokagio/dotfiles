@@ -146,6 +146,11 @@ alias ymlparse="ruby -ryaml -e 'puts YAML::load(STDIN.read, aliases: true)'"
 alias yamlparse=ymlparse
 
 alias cop='gh copilot'
-alias cl='claude --plugin-dir ~/Developer/mokacoding-pty-ltd/engram --plugin-dir ~/Developer/mokacoding-pty-ltd/claude-plugins/plugins/chief-of-staff'
+
+# ENGRAM_DIR and GIO_CC_PLUGINS_HOME come from machine-local shell config
+# (checked by dotfiles-doctor). Two roots: engram and my plugins are separate
+# repos. --plugin-dir loads one plugin dir (no marketplace discovery), so name
+# chief-of-staff explicitly.
+alias cl='claude --plugin-dir "$ENGRAM_DIR" --plugin-dir "$GIO_CC_PLUGINS_HOME/chief-of-staff"'
 alias cld='cl --dangerously-skip-permissions'
 alias /cld='cld'
