@@ -41,6 +41,9 @@ Cross-references like "see `foo/bar/*`" right above a line that already iterates
 And if the fact you're stating is already documented in the file the next line touches (e.g. "this uses stdlib X" when the file itself says so at the top), the comment is duplicating what's one click away.
 If the comment is asking the reader to look somewhere they're about to look anyway, or to learn something the next file they open will tell them, delete it.
 
+Enumerating the inputs a self-naming command consumes ("Reads `FOO`, `BAR` from the environment" above a `fastlane notarize_app` call) is the same noise dressed up as a dependency contract.
+That contract is declared where the command is defined; the call site doesn't need it restated.
+
 This applies to config and ownership files too, not just code.
 A `CODEOWNERS` line like `Gemfile* @org/team`, or a `dependabot.yml` block, is self-explanatory; a header comment naming what the block does ("Route Dependabot Ruby PRs to the tooling team") is the same paraphrase noise.
 Tacking a ticket reference onto it ("See PROJ-123") does not redeem it — if a reviewer needs the why, it belongs in the PR description or commit body, where it's read once, not as a permanent comment re-explaining a line that already speaks for itself.
