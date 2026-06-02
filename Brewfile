@@ -185,6 +185,7 @@ cask 'gimp'                     # Open-source raster image editor
 cask 'sigil'                    # EPUB e-book editor
 cask 'quicklook-json'           # Quick Look plugin to preview JSON files
 cask 'font-open-sans'           # Open Sans font family
+cask 'font-fira-code-nerd-font' # iTerm/neovim terminal font with Nerd Font icons
 cask 'parallels-virtualization-sdk'  # SDK for scripting Parallels VMs
 
 # Additional App Store apps
