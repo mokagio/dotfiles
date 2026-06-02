@@ -22,6 +22,8 @@ source "$DOCTOR_DIR/lib/links.sh"
 expected_env_vars=(
   "DOTFILES_HOME|dir|Repo root exported by zshenv; Vim sources \$DOTFILES_HOME/* so it must reach subprocesses"
   "VIMWIKI_HOME|dir|Zettelkasten repo root from machine-local config; enables the ww/tc/wr aliases and Vim wiki"
+  "ENGRAM_DIR|dir|Engram memory repo from machine-local config; the cl/cld aliases pass it to claude --plugin-dir"
+  "GIO_CC_PLUGINS_HOME|dir|Claude Code plugins root from machine-local config; cl/cld load chief-of-staff from under it"
 )
 
 problems=0
