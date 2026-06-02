@@ -310,10 +310,18 @@ fi
 # shared or symlinked. Only the shared AGENTS.md is linked into ~/.codex (see
 # lib/links.sh).
 if command -v mise &>/dev/null; then
-  if mise exec -- npm ls -g @openai/codex >/dev/null 2>&1; then
-    echo "Codex already installed, skipping"
-  elif ! mise exec -- npm install -g @openai/codex; then
-    warn "npm install -g @openai/codex failed; continuing."
+  if ! mise exec -- npm ls -g @openai/codex >/dev/null 2>&1; then
+    mise exec -- npm install -g @openai/codex || warn "npm install -g @openai/codex failed."
+    mise reshim || warn "mise reshim failed; the codex shim may be stale."
+  fi
+  # `npm ls` only proves the package is on disk. A half-installed package whose
+  # platform binary never landed, or a stale shim that falls through to a broken
+  # copy elsewhere on PATH, both pass that check yet fail to launch — so confirm
+  # codex actually runs and say so loudly when it doesn't.
+  if mise exec -- codex --version >/dev/null 2>&1; then
+    echo "Codex ready ($(mise exec -- codex --version))"
+  else
+    warn "codex is installed but won't run; check 'codex --version'."
   fi
 fi
 
