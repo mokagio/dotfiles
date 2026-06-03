@@ -166,6 +166,7 @@
       "Skill(ci-monitor)",
       "Skill(fix-pr-checks)",
       "Skill(release-library)",
+      "Skill(typo-sweep)",
       "Skill(worktree)",
       "Task",
       "WebFetch",
@@ -284,7 +285,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "$HOME/.claude/hooks/block-paths.sh .a8c-secrets",
+            "command": "$HOME/.claude/hooks/block-paths.sh .a8c-secrets .gnupg",
             "timeout": 5
           }
         ]
@@ -323,5 +324,6 @@
   "alwaysThinkingEnabled": true,
   "skipDangerousModePermissionPrompt": true,
   "voiceEnabled": true,
-  "agentPushNotifEnabled": true
+  "agentPushNotifEnabled": true,
+  "tui": "fullscreen"
 }
