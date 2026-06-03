@@ -20,8 +20,9 @@ These are my dotfiles, in the hope to simplify the transition to any new machine
 1. `gh auth login` so the GitHub CLI extensions installed by `setup.sh` can actually talk to GitHub
 1. Import your GPG private key (`gpg --import secret.key`) so commit signing works.
    See the [GPG notes](#macos-notes) below for the full setup.
-1. Import the bundled iTerm2 preferences from `iterm2/com.googlecode.iterm2.plist`.
-   iTerm2 → Preferences → General → Settings → "Load preferences from a custom folder or URL".
+1. Once Dropbox has synced, point iTerm2 at its preferences:
+   iTerm2 → Preferences → General → Settings → "Load preferences from a custom folder or URL" → `~/Dropbox`.
+   Like Alfred, iTerm2 syncs its own settings through Dropbox, so they're deliberately not tracked in this public repo.
 1. Grant Hammerspoon the macOS accessibility permission when it opens on first run (`setup.sh` opens it for you)
 
 Apps you'll want to launch and configure next:

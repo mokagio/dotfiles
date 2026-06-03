@@ -1,5 +1,6 @@
 *.swp
 __pycache__/
 mjolnir/mjolnir
+iterm2/
 .claude/settings.local.json
 .claude/CLAUDE.local.md

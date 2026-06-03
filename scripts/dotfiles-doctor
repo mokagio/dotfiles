@@ -119,12 +119,11 @@ check_gh_auth() {
   done <<< "$hosts"
 }
 
-# iTerm2 stores its settings in the tracked iterm2/ folder, loaded at launch
-# via the "Load preferences from a custom folder" mechanism. That mechanism is
-# driven by two keys in iTerm2's *standard* defaults domain (not the tracked
-# plist itself), so it's separate machine state setup.sh can't symlink — and
-# silently reverts to the built-in prefs if it drifts. The README documents
-# wiring it up by hand; this check flags when it isn't pointed at the repo.
+# iTerm2's prefs live in Dropbox (like Alfred's), loaded at launch via the
+# "Load preferences from a custom folder" mechanism. That mechanism is driven
+# by two keys in iTerm2's *standard* defaults domain, separate machine state
+# setup.sh can't symlink — and iTerm2 silently reverts to the built-in prefs if
+# it drifts. This check flags when it isn't pointed at the Dropbox folder.
 
 # True when iTerm2 is installed; skip the check otherwise so machines without
 # it aren't nagged (mirrors check_gh_auth only firing when gh is wired).
@@ -137,7 +136,7 @@ iterm_default() { defaults read com.googlecode.iterm2 "$1" 2>/dev/null || true; 
 check_iterm_prefs() {
   iterm_installed || return 0
   local expected load folder
-  expected="$DOCTOR_DIR/iterm2"
+  expected="$HOME/Dropbox"
   load=$(iterm_default LoadPrefsFromCustomFolder)
   folder=$(iterm_default PrefsCustomFolder)
   if [[ "$load" != 1 ]]; then

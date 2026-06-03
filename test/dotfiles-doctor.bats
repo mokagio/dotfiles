@@ -232,7 +232,7 @@ CFG
   [[ "$output" == *"WARN"* ]]
   [[ "$output" == *"iterm2"* ]]
   [[ "$output" == *"custom folder"* ]]
-  [[ "$output" == *"$DOCTOR_DIR/iterm2"* ]]
+  [[ "$output" == *"$HOME/Dropbox"* ]]
 }
 
 @test "check_iterm_prefs: custom folder on but pointed elsewhere warns" {
@@ -249,12 +249,12 @@ CFG
   [[ "$output" == *"expected"* ]]
 }
 
-@test "check_iterm_prefs: pointed at the repo folder is OK, no warning" {
+@test "check_iterm_prefs: pointed at Dropbox is OK, no warning" {
   iterm_installed() { return 0; }
   iterm_default() {
     case "$1" in
       LoadPrefsFromCustomFolder) echo 1 ;;
-      PrefsCustomFolder) echo "$DOCTOR_DIR/iterm2" ;;
+      PrefsCustomFolder) echo "$HOME/Dropbox" ;;
     esac
   }
   check_iterm_prefs >/dev/null
@@ -267,7 +267,7 @@ CFG
   iterm_default() {
     case "$1" in
       LoadPrefsFromCustomFolder) echo 1 ;;
-      PrefsCustomFolder) echo "$DOCTOR_DIR/iterm2/" ;;
+      PrefsCustomFolder) echo "$HOME/Dropbox/" ;;
     esac
   }
   check_iterm_prefs >/dev/null
