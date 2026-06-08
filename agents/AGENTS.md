@@ -35,6 +35,29 @@ Do not pad with sentences justifying ordinary choices the next line already evid
 Phrases like "single source of truth", "for clarity", "to avoid duplication", "to keep things DRY" don't earn their keep — the code shows the choice was made; a reader doesn't need it defended.
 If you find yourself appending such a justification to an otherwise legitimate comment, cut it.
 
+A comment that earns its place can still be twice as long as it needs to be.
+Once it's staying, tighten it: lead with the actionable point — when to remove it, what to change — then name the cause in one clause.
+Cut the narrative reconstruction: the verbatim error string, the step-by-step account of how you diagnosed it, the transitive-dependency walk.
+An upstream-issue link carries that depth for whoever wants it; the comment carries only what a reader needs in-place.
+
+Padded — six lines replaying the diagnosis:
+
+```ruby
+# fastlane <= 2.235.0 crashes at startup on Ruby 3.3+ with "multi_json is not
+# part of the bundle": Google stopped pulling it transitively and fastlane
+# eagerly loads its Google Play actions, which require it through representable.
+# fastlane re-added it as a direct dep for 2.236.0 — drop once the lock moves there.
+gem 'multi_json'
+```
+
+Tight — same payload, the link holds the depth:
+
+```ruby
+# Workaround: fastlane <= 2.235.0 won't boot on Ruby 3.3+ without multi_json (fastlane/fastlane#30062).
+# Drop once the lock is on fastlane >= 2.236.0.
+gem 'multi_json'
+```
+
 The same bar applies to orientation and pointer comments.
 Header lines that paraphrase the block underneath ("Loop the test files…", "Run the tests with Ruby…") are noise — the block speaks for itself.
 Cross-references like "see `foo/bar/*`" right above a line that already iterates, imports, or reads `foo/bar/*` are noise — the reader is already going there.
