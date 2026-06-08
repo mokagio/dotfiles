@@ -189,6 +189,7 @@ cask 'font-fira-code-nerd-font' # iTerm/neovim terminal font with Nerd Font icon
 cask 'parallels-virtualization-sdk'  # SDK for scripting Parallels VMs
 cask 'claude'                   # Anthropic's official Claude desktop app
 cask 'chatgpt'                  # OpenAI's official ChatGPT desktop app
+cask 'linear-linear'            # Linear's official issue-tracking desktop app
 
 # Additional App Store apps
 mas 'Spark', id: 1176895641           # Email client
