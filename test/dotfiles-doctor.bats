@@ -273,3 +273,18 @@ CFG
   check_iterm_prefs >/dev/null
   [[ "$warnings" -eq 0 ]]
 }
+
+@test "check_iterm_prefs: resolved CloudStorage target matches the Dropbox symlink" {
+  HOME=$(mktemp -d)
+  mkdir -p "$HOME/Library/CloudStorage/Dropbox"
+  ln -s "$HOME/Library/CloudStorage/Dropbox" "$HOME/Dropbox"
+  iterm_installed() { return 0; }
+  iterm_default() {
+    case "$1" in
+      LoadPrefsFromCustomFolder) echo 1 ;;
+      PrefsCustomFolder) echo "$HOME/Library/CloudStorage/Dropbox" ;;
+    esac
+  }
+  check_iterm_prefs >/dev/null
+  [[ "$warnings" -eq 0 ]]
+}
