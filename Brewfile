@@ -187,6 +187,8 @@ cask 'quicklook-json'           # Quick Look plugin to preview JSON files
 cask 'font-open-sans'           # Open Sans font family
 cask 'font-fira-code-nerd-font' # iTerm/neovim terminal font with Nerd Font icons
 cask 'parallels-virtualization-sdk'  # SDK for scripting Parallels VMs
+cask 'claude'                   # Anthropic's official Claude desktop app
+cask 'chatgpt'                  # OpenAI's official ChatGPT desktop app
 
 # Additional App Store apps
 mas 'Spark', id: 1176895641           # Email client
