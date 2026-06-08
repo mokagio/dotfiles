@@ -26,16 +26,19 @@ This gives you prior decisions, gotchas, and where work left off — don't wait 
 
 **When to save a memory:**
 
-After any of these, stop and check if something should be saved:
+Two paths capture memories, and they divide the work:
 
-- A gotcha or surprising behavior is discovered
-- A decision is made (and *why*)
-- A pattern is confirmed across multiple instances
-- A reference to an external system is learned
-- The user gives feedback or a correction
+- **SessionEnd hook** — `hooks/session-end.sh` mines the transcript at exit and commits memories automatically, with no chatter. This is the default net. Trust it to sweep up the long tail; you do not need to inline-save everything you notice.
+- **Inline save** — reserve for the high-value, easy-to-lose cases where waiting for session end is a real risk: a correction or feedback from the user, a sharp gotcha, or an explicit "remember this". Save those immediately, the moment they occur.
 
-Don't wait for session end — save immediately when the insight occurs.
-If unsure whether something is worth saving, save it. Pruning is cheaper than rediscovery.
+If unsure whether an inline save is warranted, save it — pruning is cheaper than rediscovery, and the hook would catch it anyway.
+
+**Save silently. Never announce the intent to save.**
+
+When an inline save is warranted, execute it — do not narrate the decision and do not ask.
+Phrases like "I'd also save this as a memory", "this is worth remembering", "want me to save that?", or "I'll note this for next time" are forbidden: they surface intent instead of acting, which is just permission-seeking in a statement's clothing.
+`/engram:remember` already backgrounds the work and commits it, so saving costs the conversation nothing.
+Either save it (silently, or with a note no longer than "Noted.") or don't — there is no announce-and-defer.
 
 **How to save:**
 
