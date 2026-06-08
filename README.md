@@ -18,6 +18,9 @@ These are my dotfiles, in the hope to simplify the transition to any new machine
 
 1. Set Zsh as the default shell: `chsh -s $(which zsh)` (see [Zsh notes](#zsh) below if this fails)
 1. `gh auth login` so the GitHub CLI extensions installed by `setup.sh` can actually talk to GitHub
+1. Bootstrap access to Automattic's private GitHub Enterprise.
+   The SSH config for GHE lives inside GHE itself, so you can't clone it until you can reach GHE — a chicken-and-egg.
+   Manually copy the GHE `Host` block and its `ProxyJump` `Host` block into `~/.ssh/config` (just enough to connect), fetch the full tracked config, then drop the copied blocks since they're now managed by the repo.
 1. Import your GPG private key (`gpg --import secret.key`) so commit signing works.
    See the [GPG notes](#macos-notes) below for the full setup.
 1. Once Dropbox has synced, point iTerm2 at its preferences:
