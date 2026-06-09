@@ -4,6 +4,7 @@
 [tools]
 ruby = "3.4.7"
 node = "lts"
+"npm:@openai/codex" = "latest"
 
 [settings]
 # Let mise honour `.ruby-version` files in project directories.
