@@ -71,6 +71,11 @@ This applies to config and ownership files too, not just code.
 A `CODEOWNERS` line like `Gemfile* @org/team`, or a `dependabot.yml` block, is self-explanatory; a header comment naming what the block does ("Route Dependabot Ruby PRs to the tooling team") is the same paraphrase noise.
 Tacking a ticket reference onto it ("See PROJ-123") does not redeem it — if a reviewer needs the why, it belongs in the PR description or commit body, where it's read once, not as a permanent comment re-explaining a line that already speaks for itself.
 
+Do not add a comment for tooling that does not exist yet.
+A Makefile `## Run all lint tasks` on a target named `lint`, justified as "ready if you later add a `help` target", is noise twice over: the target name already says it, and the consumer is hypothetical.
+Write the comment when the consumer lands, not in anticipation of it.
+The target/key/variable name is the documentation; a self-documenting-Makefile annotation earns its place only once a `help` target actually greps for it.
+
 ---
 
 Git workflow rules live in:
