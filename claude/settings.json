@@ -322,8 +322,8 @@
     "swift-lsp@claude-plugins-official": true
   },
   "alwaysThinkingEnabled": true,
+  "tui": "fullscreen",
   "skipDangerousModePermissionPrompt": true,
-  "voiceEnabled": true,
   "agentPushNotifEnabled": true,
-  "tui": "fullscreen"
+  "voiceEnabled": true
 }
