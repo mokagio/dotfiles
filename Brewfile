@@ -175,6 +175,7 @@ vscode 'vscodevim.vim'
 
 # Additional casks
 cask 'discord'                  # Voice/text chat for communities
+cask 'whatsapp'                 # WhatsApp messaging desktop app
 cask 'obs'                      # Screen recording and live streaming
 cask 'keycastr'                 # On-screen keystroke visualizer for demos/screencasts
 cask 'db-browser-for-sqlite'    # GUI to create/edit SQLite databases
