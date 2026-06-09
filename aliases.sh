@@ -151,6 +151,6 @@ alias cop='gh copilot'
 # (checked by dotfiles-doctor). Two roots: engram and my plugins are separate
 # repos. --plugin-dir loads one plugin dir (no marketplace discovery), so name
 # chief-of-staff explicitly.
-alias cl='claude --plugin-dir "$ENGRAM_DIR" --plugin-dir "$GIO_CC_PLUGINS_HOME/chief-of-staff"'
+alias cl='claude --plugin-dir "$ENGRAM_DIR" --plugin-dir "$GIO_CC_PLUGINS_HOME/plugins/chief-of-staff"'
 alias cld='cl --dangerously-skip-permissions'
 alias /cld='cld'
