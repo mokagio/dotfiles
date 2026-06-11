@@ -51,6 +51,11 @@ fi
 if echo "$COMMAND" | grep -qE 'repos/[^/]+/[^/]+/pulls/[0-9]+/comments/[0-9]+/replies\b.*(-f|-F|--field|--raw-field)[ =]['\''"]?body='; then
   exit 0
 fi
+# Heart / +1 emoji reactions on issues, PRs, and their comments — other reaction types still prompt
+# The id may be a shell variable (loops over comment ids).
+if echo "$COMMAND" | grep -qE 'repos/[^/]+/[^/]+/(issues|pulls)/(comments/)?([0-9]+|\$\{?[A-Za-z_][A-Za-z0-9_]*\}?)/reactions\b.*(-f|-F|--field|--raw-field)[ =]['\''"]?content=['\''"]?(heart|\+1)\b'; then
+  exit 0
+fi
 
 # GraphQL: mutations are writes, queries are reads
 if echo "$COMMAND" | grep -qE '\bgraphql\b'; then
