@@ -155,6 +155,7 @@ alias cl='claude --plugin-dir "$ENGRAM_DIR" --plugin-dir "$GIO_CC_PLUGINS_HOME/p
 alias cld='cl --dangerously-skip-permissions'
 alias /cld='cld'
 
+alias cdx='codex'
 # codex is managed by mise's npm backend (config.toml: npm:@openai/codex), so
 # its shim runs the mise-managed copy — NOT any Node's global node_modules.
 # `npm i -g @openai/codex` would install a copy the shim never runs. Use this.
