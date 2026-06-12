@@ -64,6 +64,12 @@ Don't wait for me to ask.
 
 ---
 
+Rules for tracking CLI wrapper opportunities live in:
+
+@~/.config/agents/rules/cli-opportunities.md
+
+---
+
 Run builds and test suites as background tasks when possible.
 Continue working while they run; check results when done.
 
