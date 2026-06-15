@@ -3,6 +3,8 @@ name: address-copilot-comments
 description: |
   Walk through Copilot review comments on a PR, auto-address the clear-cut ones,
   and queue subjective ones for the user to decide.
+  If the PR is a draft or Copilot hasn't reviewed it yet, mark it ready for
+  review, wait for Copilot's review, then address it.
   Use when asked to "address Copilot comments", "go through Copilot review",
   or given a PR URL with Copilot feedback.
 user-invocable: true
@@ -51,7 +53,42 @@ Branch-alignment check:
 If the local checkout is not on the PR's head branch, **stop and ask the user**.
 Addressing comments on the wrong branch will produce commits that never reach the PR.
 
-### 2. Fetch Copilot comments
+Also capture the PR's draft state in the same lookup — add `isDraft` (and `headRefName`/`title` if not already fetched) to the `gh pr view` `--json` field list. You need it in step 2.
+
+### 2. Ensure a Copilot review exists
+
+The user invoked this skill to act on Copilot feedback. If there's nothing to act on yet because the PR is a **draft** and/or **Copilot hasn't reviewed it**, the right move is to *get* that review — not to report "no comments" and stop.
+
+Decide based on two facts gathered so far:
+
+- Is the PR a draft? (`isDraft` from step 1)
+- Has Copilot already reviewed? Check `gh api repos/<owner>/<repo>/pulls/<n>/reviews --paginate` and `.../comments --paginate` for any entry whose `user.login` matches `Copilot` or `copilot-*[bot]`.
+
+**If the PR is not a draft AND a Copilot review already exists**, skip this step — go straight to step 3.
+
+Otherwise, trigger a review and wait:
+
+1. **If the PR is a draft, mark it ready for review:**
+   ```
+   gh pr ready <n> --repo <owner>/<repo>
+   ```
+   In most org setups this alone auto-requests a Copilot review.
+
+2. **Ensure Copilot is requested as a reviewer** (no-op / benign error if the ready step already did it):
+   ```
+   gh api repos/<owner>/<repo>/pulls/<n>/requested_reviewers \
+     --method POST -f "reviewers[]=copilot-pull-request-reviewer[bot]"
+   ```
+   If that login is rejected, try `gh pr edit <n> --repo <owner>/<repo> --add-reviewer "Copilot"`.
+   Treat an "already requested" response as success.
+
+3. **Wait for Copilot to post its review.** Poll `.../reviews` and `.../comments` every ~30s until a Copilot review or inline Copilot comment appears, capped at ~10 minutes. Copilot usually responds within 1–3 minutes. Run the wait as a background poll loop so it survives the turn.
+   - If the review lands → fall through to step 3.
+   - If nothing arrives within the cap → report that the review was requested but hasn't landed yet, and stop. Do not fabricate work.
+
+This step is the only place the skill marks a PR ready for review. Do not flip draft state anywhere else.
+
+### 3. Fetch Copilot comments
 
 Copilot leaves two distinct things:
 
@@ -73,7 +110,7 @@ For each top-level Copilot comment, fetch the thread replies to check whether **
 
 If there are zero unhandled Copilot comments, report that and stop.
 
-### 3. Triage each comment
+### 4. Triage each comment
 
 Process comments **in file order, then line order**, not API order.
 Group by file so related fixes can be considered together.
@@ -113,7 +150,7 @@ Anything that:
 
 A wrong auto-address costs a revert + apology. A queued question costs 10 seconds of the user's time.
 
-### 4. Auto-address loop
+### 5. Auto-address loop
 
 For each comment marked auto-address, in sequence:
 
@@ -162,9 +199,9 @@ Pick the second pattern when there are many comments — it's faster and simpler
 
 Default to **batched push**: commit all auto-addresses, push once, then fan out replies in parallel.
 
-Track every background bash ID. You need them in step 7.
+Track every background bash ID. You need them in step 8.
 
-### 5. Present the queued questions
+### 6. Present the queued questions
 
 Once auto-addresses are committed (and pushed/replied, if using the per-comment pattern), present the queue to the user.
 
@@ -178,9 +215,9 @@ For each queued comment, include:
 - A 1-sentence note on why you didn't auto-address (your hesitation).
 - A recommendation if you have one: "I'd lean address" / "I'd lean skip" / "Genuinely unsure".
 
-### 6. Apply user decisions
+### 7. Apply user decisions
 
-For each item the user chose to **address**: same flow as step 4 (edit, commit, queue push/reply).
+For each item the user chose to **address**: same flow as step 5 (edit, commit, queue push/reply).
 
 For each item the user chose to **skip**:
 
@@ -190,14 +227,14 @@ For each item the user chose to **skip**:
 
 For each item the user said to **defer** ("ask me later", "not now"): leave the thread untouched, no reply. List deferrals in the final report.
 
-### 7. Drain background tasks
+### 8. Drain background tasks
 
 Before reporting done:
 
 - For every background bash ID you spawned, confirm it has exited (use the harness's task-status check, or wait for the completion notification).
 - If any push or reply failed, surface the error and ask the user how to proceed. Do not silently retry — a failed reply means the PR thread doesn't reflect what actually happened.
 
-### 8. Final verification
+### 9. Final verification
 
 Re-fetch the PR's comment threads:
 
@@ -209,9 +246,9 @@ For every Copilot comment you intended to handle (auto-addressed, user-addressed
 
 If any expected reply is missing, retry it once. If it still fails, list it under "Outstanding" in the final report.
 
-Cross-check: the count of `addressed + skipped-with-reply + skipped-silently + deferred` must equal the count of Copilot comments triaged in step 3. If not, surface the discrepancy.
+Cross-check: the count of `addressed + skipped-with-reply + skipped-silently + deferred` must equal the count of Copilot comments triaged in step 4. If not, surface the discrepancy.
 
-### 9. Report
+### 10. Report
 
 Print a concise summary:
 
