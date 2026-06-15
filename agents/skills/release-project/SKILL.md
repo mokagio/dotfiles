@@ -30,12 +30,15 @@ Do not assume a language, package registry, release host, tag format, or CI prov
 
 5. Verify locally.
    Run the smallest sufficient tests, builds, linters, or smoke commands described by the repo.
+   Run verification jobs in parallel only when they do not share mutable output directories, simulators, caches, or derived data.
+   If a parallel run fails in a way that suggests shared-state interference, rerun the affected jobs sequentially before treating the failure as product evidence.
    If verification cannot run locally, surface the exact blocker and use available remote checks only when appropriate.
 
 6. Commit, tag, and publish only after verification.
    Create commits and tags using the repo's documented workflow.
    Before pushing a tag, confirm whether CI will publish artifacts or whether manual publish commands remain.
    After pushing or creating a remote release, monitor the affected CI/checks when tools are available.
+   Prefer the CI provider's PR/check watcher or commit status API over stale or ambiguous aggregate check-suite data.
 
 7. Close with evidence.
    Summarize the version, commit, tag, release target, publish result, and verification status.
