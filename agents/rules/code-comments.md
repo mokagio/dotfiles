@@ -54,6 +54,11 @@ This applies to config and ownership files too, not just code.
 A `CODEOWNERS` line like `Gemfile* @org/team`, or a `dependabot.yml` block, is self-explanatory; a header comment naming what the block does ("Route Dependabot Ruby PRs to the tooling team") is the same paraphrase noise.
 Tacking a ticket reference onto it ("See PROJ-123") does not redeem it — if a reviewer needs the why, it belongs in the PR description or commit body, where it's read once, not as a permanent comment re-explaining a line that already speaks for itself.
 
+The exception is a line whose ownership reads as a mistake — an owner-less override sitting inside an owned tree (`fastlane/metadata/` under `fastlane/ @org/team`).
+There one line earns its place: nothing in the line itself explains why a path inside an owned directory has no owner, and a reader will otherwise "fix" it.
+Keep it to the single fact that resolves the surprise — `# Store-listing localization is content, not infra.` — and stop.
+The mechanism (`— disown it`) only restates what the empty owner already does, and the motivation (`to avoid pinging the team on release churn`) is PR-body material; both are the padding this rule keeps warning about.
+
 Do not add a comment for tooling that does not exist yet.
 A Makefile `## Run all lint tasks` on a target named `lint`, justified as "ready if you later add a `help` target", is noise twice over: the target name already says it, and the consumer is hypothetical.
 Write the comment when the consumer lands, not in anticipation of it.
