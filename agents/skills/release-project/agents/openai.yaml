@@ -1,4 +1,0 @@
-interface:
-  display_name: "Release Project"
-  short_description: "Guide generic project releases"
-  default_prompt: "Use $release-project to prepare and verify a project release."
