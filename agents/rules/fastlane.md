@@ -29,3 +29,25 @@ end
 ```
 
 The keyword-arg form gives caller-side clarity (`fastlane foo readonly:false`), self-documents required vs optional inputs, and lets Ruby raise on typos instead of silently swallowing them.
+
+---
+
+Document lanes with a **YARD doc-comment block**, not `desc`.
+This is the convention the Automattic Fastfiles (`studio`, `wpios`, `wcios`, `pcios`) have converged on: unlike `desc`, a YARD block can document the lane's keyword arguments.
+
+Use **name-first** `@param` ordering — `@param name [Type] description` — and open/close the block with a bare `#` line:
+
+```ruby
+# Download and configure code signing certificates and provisioning profiles.
+#
+# @param readonly [Boolean] Use `true` to only fetch existing certificates from S3 via `match`.
+#   Use `false` to create or update them on App Store Connect.
+#
+lane :configure_code_signing do |readonly: true|
+  # ...
+end
+```
+
+For a lane with no arguments, the block is just the description (no `@param`), still in place of `desc`.
+
+Tradeoff to accept knowingly: `desc` feeds the `fastlane lanes`/`list` summaries and YARD comments do not, so the listing blurb is lost in exchange for inline parameter docs.
