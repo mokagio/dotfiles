@@ -99,6 +99,8 @@ cask 'slack'
 # a Terminal.app replacement
 cask 'iterm2'
 cask 'google-chrome'
+# Privacy-focused web browser
+cask 'duckduckgo'
 # a Spotlight replacement, plus many automation features
 cask 'alfred'
 # Password manager — the README install steps reference opening
