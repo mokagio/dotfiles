@@ -36,6 +36,12 @@ Read these global rules when relevant:
 - `~/.config/agents/rules/testing.md`
 - `agents/gh-reference.md` from the dotfiles repo before `gh` commands
 
+If the PR remote is a GitHub Enterprise host, look for local host-specific
+GitHub CLI guidance or a dedicated `gh` wrapper before running commands.
+Use that wrapper consistently in place of bare `gh` for auth, PR reads, API
+calls, replies, pushes, and checks; Enterprise instances often need extra host,
+proxy, or token configuration that bare `gh` will not pick up.
+
 ## Workflow
 
 ### 1. Resolve the PR and branch
