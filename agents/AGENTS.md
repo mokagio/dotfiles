@@ -104,6 +104,12 @@ Merge conflicts in project files often produce silent corruption (truncated entr
 
 ---
 
+iOS and Apple-platform project rules live in:
+
+@~/.config/agents/rules/ios.md
+
+---
+
 When first entering a repo, check for an agent instructions file at its root (e.g., `CLAUDE.md`, `AGENTS.md`).
 If there isn't one, prompt me to create it before doing anything else.
 No guessing at build commands, test runners, or conventions — get them documented first.
