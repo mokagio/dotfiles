@@ -62,6 +62,9 @@ This prevents wasted context from trial-and-error edits.
 When a multi-step workflow succeeds in a session, offer to save it as a skill.
 Don't wait for me to ask.
 
+When I ask to create a global skill, make it cross-agent and track it in the dotfiles repo.
+Do not create only an agent-specific local skill install.
+
 ---
 
 Rules for tracking CLI wrapper opportunities live in:
