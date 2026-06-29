@@ -40,6 +40,23 @@ link() {
   fi
 }
 
+ensure_real_dir() {
+  local dir=$1 old_managed_target=${2:-}
+  if [[ -h "$dir" ]]; then
+    if [[ -n "$old_managed_target" ]] && link_matches "$dir" "$old_managed_target"; then
+      echo "Replacing $dir symlink with a real directory"
+      rm "$dir"
+      mkdir -p "$dir"
+    else
+      echo "WARNING: $dir points to $(readlink "$dir"), expected a real directory; skipping"
+    fi
+  elif [[ -e "$dir" && ! -d "$dir" ]]; then
+    echo "WARNING: $dir exists and is not a directory, skipping"
+  else
+    mkdir -p "$dir"
+  fi
+}
+
 # Sourceable: when this file is sourced (e.g. by tests), bail out
 # before running the install flow. Functions defined above remain
 # available to the sourcing shell. When invoked as a script,
@@ -93,6 +110,9 @@ printf '\033[2m'
 # Same story for ~/.gnupg — gpg refuses to read configs from a world-readable
 # dir and emits a warning every invocation if the perms are looser than 700.
 [[ -d ~/.gnupg ]] || install -d -m 700 ~/.gnupg
+
+ensure_real_dir "$HOME/.agents/skills" "$dotfiles_dir/agents/skills"
+ensure_real_dir "$HOME/.claude/skills"
 
 emit_links link "$dotfiles_dir"
 

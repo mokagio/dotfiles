@@ -112,3 +112,46 @@ teardown() {
   run link_matches "$TMP/dest" "$TMP/source"
   [[ "$status" -ne 0 ]]
 }
+
+@test "ensure_real_dir: replaces old managed directory symlink" {
+  mkdir -p "$TMP/source-dir"
+  ln -s "$TMP/source-dir" "$TMP/dest"
+
+  run ensure_real_dir "$TMP/dest" "$TMP/source-dir"
+  [[ "$status" -eq 0 ]]
+  [[ "$output" == *"Replacing"* ]]
+  [[ -d "$TMP/dest" ]]
+  [[ ! -h "$TMP/dest" ]]
+}
+
+@test "ensure_real_dir: leaves unexpected symlink alone" {
+  mkdir -p "$TMP/other-dir"
+  mkdir -p "$TMP/source-dir"
+  ln -s "$TMP/other-dir" "$TMP/dest"
+
+  run ensure_real_dir "$TMP/dest" "$TMP/source-dir"
+  [[ "$status" -eq 0 ]]
+  [[ "$output" == *"WARNING"* ]]
+  [[ -h "$TMP/dest" ]]
+  [[ "$(readlink "$TMP/dest")" == "$TMP/other-dir" ]]
+}
+
+@test "emit_links: publishes shared skills per-skill to agents and claude" {
+  local fake_dotfiles="$TMP/dotfiles"
+  mkdir -p "$fake_dotfiles/agents/rules"
+  mkdir -p "$fake_dotfiles/agents/skills/ci-monitor"
+  mkdir -p "$fake_dotfiles/claude/skills/claude-only"
+  mkdir -p "$TMP/home"
+
+  run env HOME="$TMP/home" bash -c '
+    source "$1"
+    record_link() { printf "%s -> %s\n" "$1" "$2"; }
+    emit_links record_link "$2"
+  ' _ "$SCRIPT_DIR/lib/links.sh" "$fake_dotfiles"
+
+  [[ "$status" -eq 0 ]]
+  [[ "$output" == *"$fake_dotfiles/agents/skills/ci-monitor -> $TMP/home/.agents/skills/ci-monitor"* ]]
+  [[ "$output" == *"$fake_dotfiles/agents/skills/ci-monitor -> $TMP/home/.claude/skills/ci-monitor"* ]]
+  [[ "$output" == *"$fake_dotfiles/claude/skills/claude-only -> $TMP/home/.claude/skills/claude-only"* ]]
+  [[ "$output" != *"$fake_dotfiles/claude/skills/claude-only -> $TMP/home/.agents/skills/claude-only"* ]]
+}

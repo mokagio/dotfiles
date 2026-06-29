@@ -68,12 +68,13 @@ emit_links() {
   done
 
   "$act" "$d/claude/hooks" "$HOME/.claude/hooks"
-  "$act" "$d/agents/skills" "$HOME/.agents/skills"
 
-  # Per-skill symlinks so Claude-only skills can coexist with the shared set.
+  # Per-skill symlinks so multiple dotfiles repos can publish shared skills
+  # without one repo owning the whole ~/.agents/skills directory.
   for skill in "$d"/agents/skills/*/; do
     [[ -e "$skill" ]] || continue
     skill_name=$(basename "$skill")
+    "$act" "$skill" "$HOME/.agents/skills/$skill_name"
     "$act" "$skill" "$HOME/.claude/skills/$skill_name"
   done
   for skill in "$d"/claude/skills/*/; do
