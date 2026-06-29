@@ -57,6 +57,67 @@ ensure_real_dir() {
   fi
 }
 
+ensure_codex_status_line() {
+  local config=${CODEX_CONFIG:-$HOME/.codex/config.toml}
+  local setting='status_line = ["model", "context-remaining", "current-dir", "git-branch"]'
+  local config_dir tmp
+
+  config_dir=$(dirname "$config")
+  mkdir -p "$config_dir"
+
+  if [[ ! -f "$config" ]]; then
+    printf "[tui]\n%s\n" "$setting" > "$config"
+    return
+  fi
+
+  tmp=$(mktemp "$config_dir/.config.toml.XXXXXX")
+  awk -v setting="$setting" '
+    BEGIN {
+      in_tui = 0
+      saw_tui = 0
+      wrote = 0
+    }
+
+    /^\[[^]]+\]$/ {
+      if (in_tui && !wrote) {
+        print setting
+        wrote = 1
+      }
+      if ($0 == "[tui]") {
+        in_tui = 1
+        saw_tui = 1
+        wrote = 0
+      } else {
+        in_tui = 0
+      }
+      print
+      next
+    }
+
+    in_tui && /^[[:space:]]*status_line[[:space:]]*=/ {
+      if (!wrote) {
+        print setting
+        wrote = 1
+      }
+      next
+    }
+
+    { print }
+
+    END {
+      if (in_tui && !wrote) {
+        print setting
+      }
+      if (!saw_tui) {
+        print ""
+        print "[tui]"
+        print setting
+      }
+    }
+  ' "$config" > "$tmp"
+  mv "$tmp" "$config"
+}
+
 # Sourceable: when this file is sourced (e.g. by tests), bail out
 # before running the install flow. Functions defined above remain
 # available to the sourcing shell. When invoked as a script,
@@ -344,6 +405,7 @@ if command -v mise &>/dev/null; then
     warn "codex is installed but won't run; check 'codex --version'."
   fi
 fi
+ensure_codex_status_line
 
 echo ""
 printf '\033[1;36m==> %s\033[0m\n' "Applying macOS defaults"
