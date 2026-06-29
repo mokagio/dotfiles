@@ -74,6 +74,16 @@ teardown() {
   [[ "$(readlink "$TMP/dest")" == "$TMP/old-target" ]]
 }
 
+@test "dest is a broken symlink: updates it" {
+  ln -s "$TMP/old-missing-target" "$TMP/dest"
+  echo "new-content" > "$TMP/source"
+
+  run link "$TMP/source" "$TMP/dest"
+  [[ "$status" -eq 0 ]]
+  [[ "$output" == *"Updating broken"* ]]
+  [[ "$(readlink "$TMP/dest")" == "$TMP/source" ]]
+}
+
 @test "dest is a real file: warns and leaves it alone" {
   echo "content" > "$TMP/source"
   echo "real-file" > "$TMP/dest"

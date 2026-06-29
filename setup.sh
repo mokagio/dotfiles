@@ -28,6 +28,10 @@ link() {
   if [[ -h "$2" ]]; then
     if link_matches "$2" "$1"; then
       echo "$2 exists already, skipping"
+    elif [[ ! -e "$2" ]]; then
+      echo "Updating broken $2 to point to $1"
+      rm "$2"
+      ln -s "$1" "$2"
     else
       echo "WARNING: $2 points to $(readlink "$2"), expected $1; skipping"
     fi
