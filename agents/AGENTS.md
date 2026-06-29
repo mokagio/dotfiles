@@ -150,6 +150,8 @@ Rules for testing — when to write a permanent test, where it lands, and turnin
 
 Use the Linear GraphQL API over the Linear MCP, unless the API isn't functional.
 The MCP surface is limited (e.g. no comment tool).
+If a direct `issueRelationCreate` call fails because the available Linear token lacks `write` scope, add a comment that links the related Linear issue.
+Linear parses issue links in comments and may still create the related-issue activity/link.
 
 ---
 
