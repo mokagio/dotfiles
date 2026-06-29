@@ -58,6 +58,9 @@ emit_links() {
   "$act" "$d/agents/AGENTS.md" "$HOME/.codex/AGENTS.md"
   "$act" "$d/agents/AGENTS.md" "$HOME/.config/agents/AGENTS.md"
 
+  "$act" "$d/codex/hooks.json" "$HOME/.codex/hooks.json"
+  "$act" "$d/codex/hooks" "$HOME/.codex/hooks"
+
   # Guard each glob with -e so an empty match is skipped, not passed through
   # as a literal `*.md` / `*/`.
   for rule in "$d"/agents/rules/*.md; do

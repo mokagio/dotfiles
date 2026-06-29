@@ -388,8 +388,8 @@ fi
 # dotfiles. Unlike Claude's settings.json, Codex rewrites it at runtime with
 # machine-specific state — a project trust list full of absolute paths and
 # private repo names, model-migration notices, TUI state — so it can't be
-# shared or symlinked. Only the shared AGENTS.md is linked into ~/.codex (see
-# lib/links.sh).
+# shared or symlinked. Shared Codex instructions and hooks are linked into
+# ~/.codex separately (see lib/links.sh).
 if command -v mise &>/dev/null; then
   if ! mise exec -- npm ls -g @openai/codex >/dev/null 2>&1; then
     mise exec -- npm install -g @openai/codex || warn "npm install -g @openai/codex failed."

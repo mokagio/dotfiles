@@ -136,6 +136,27 @@ teardown() {
   [[ "$(readlink "$TMP/dest")" == "$TMP/other-dir" ]]
 }
 
+@test "emit_links: publishes shared Codex assets" {
+  local fake_dotfiles="$TMP/dotfiles"
+  mkdir -p "$fake_dotfiles/agents/rules"
+  mkdir -p "$fake_dotfiles/agents/skills"
+  mkdir -p "$fake_dotfiles/claude/skills"
+  mkdir -p "$fake_dotfiles/codex/hooks"
+  touch "$fake_dotfiles/codex/hooks.json"
+  mkdir -p "$TMP/home"
+
+  run env HOME="$TMP/home" bash -c '
+    source "$1"
+    record_link() { printf "%s -> %s\n" "$1" "$2"; }
+    emit_links record_link "$2"
+  ' _ "$SCRIPT_DIR/lib/links.sh" "$fake_dotfiles"
+
+  [[ "$status" -eq 0 ]]
+  [[ "$output" == *"$fake_dotfiles/agents/AGENTS.md -> $TMP/home/.codex/AGENTS.md"* ]]
+  [[ "$output" == *"$fake_dotfiles/codex/hooks.json -> $TMP/home/.codex/hooks.json"* ]]
+  [[ "$output" == *"$fake_dotfiles/codex/hooks -> $TMP/home/.codex/hooks"* ]]
+}
+
 @test "emit_links: publishes shared skills per-skill to agents and claude" {
   local fake_dotfiles="$TMP/dotfiles"
   mkdir -p "$fake_dotfiles/agents/rules"

@@ -1,0 +1,16 @@
+{
+  "hooks": {
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$HOME/.codex/hooks/log-prompt.sh",
+            "timeout": 5,
+            "statusMessage": "Logging prompt"
+          }
+        ]
+      }
+    ]
+  }
+}
