@@ -1,13 +1,13 @@
 ---
-name: quick-dump
+name: dump-state
 description: |
   Append a timestamped, super-condensed summary of the current session — plus any open loops to close later — to today's dump file at ~/.me/quick-dumps/YYYY-MM-DD.md.
-  Use when asked to "quick dump", "dump the session", "jot this down", "save where we're at", or invokes /quick-dump.
+  Use when asked to "dump state", "dump the session", "jot this down", "save where we're at", or invokes /dump-state.
 allowed-tools: Bash(date *), Bash(mkdir *), Bash(cat *), Bash(test *), Bash(ls *), Read, Write, Edit
 user-invocable: true
 ---
 
-# Quick Dump
+# Dump State
 
 Capture where this session stands in one terse, timestamped block so a future session (or a future you) can pick it back up.
 
