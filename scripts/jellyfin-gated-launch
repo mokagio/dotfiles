@@ -1,0 +1,63 @@
+#!/usr/bin/env bash
+#
+# Launch Jellyfin only once its media volume is mounted, and refuse to launch it
+# at all if the volume never turns up.
+#
+# Jellyfin has no setting to tolerate a temporarily missing library path. If it
+# scans while the volume is absent it can empty the library
+# (jellyfin/jellyfin#1714), and the "Clean up collections and playlists"
+# scheduled task deletes playlists outright.
+#
+# launchd's WatchPaths cannot do this job: mounting a volume fires no
+# file-modification event, so the poll below is the mechanism that actually
+# works.
+
+JELLYFIN_VOLUME="${JELLYFIN_VOLUME:-/Volumes/Extreme SSD}"
+JELLYFIN_SENTINEL="${JELLYFIN_SENTINEL:-Movies}"
+JELLYFIN_WAIT_TIMEOUT="${JELLYFIN_WAIT_TIMEOUT:-600}"
+JELLYFIN_POLL_INTERVAL="${JELLYFIN_POLL_INTERVAL:-2}"
+JELLYFIN_LAUNCH_CMD="${JELLYFIN_LAUNCH_CMD:-open -a Jellyfin}"
+
+log() {
+  printf '%s %s\n' "$(date '+%Y-%m-%dT%H:%M:%S')" "$*"
+}
+
+# Requires a non-empty sentinel directory rather than just the mount point:
+# macOS can leave an empty /Volumes/<name> behind after an unclean eject, and
+# Jellyfin treats an empty library folder exactly as it treats a missing one.
+volume_ready() {
+  local volume=$1 sentinel=$2
+  [[ -d "$volume/$sentinel" ]] || return 1
+  [[ -n "$(ls -A "$volume/$sentinel" 2>/dev/null)" ]]
+}
+
+wait_for_volume() {
+  local volume=$1 sentinel=$2 timeout=$3 interval=$4
+  local waited=0
+
+  while ! volume_ready "$volume" "$sentinel"; do
+    if (( waited >= timeout )); then
+      return 1
+    fi
+    sleep "$interval"
+    waited=$(( waited + interval ))
+  done
+}
+
+main() {
+  if ! wait_for_volume \
+    "$JELLYFIN_VOLUME" "$JELLYFIN_SENTINEL" \
+    "$JELLYFIN_WAIT_TIMEOUT" "$JELLYFIN_POLL_INTERVAL"; then
+    log "gave up after ${JELLYFIN_WAIT_TIMEOUT}s waiting for $JELLYFIN_VOLUME/$JELLYFIN_SENTINEL; not launching"
+    return 1
+  fi
+
+  log "$JELLYFIN_VOLUME is mounted; launching Jellyfin"
+  # shellcheck disable=SC2086 # the command is meant to word-split
+  $JELLYFIN_LAUNCH_CMD
+}
+
+if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
+  set -euo pipefail
+  main "$@"
+fi
