@@ -65,6 +65,24 @@ teardown() {
   [[ "$status" -eq 1 ]]
 }
 
+@test "Waiting polls with a fractional interval rather than failing arithmetic" {
+  run wait_for_volume "$TMP/absent" Movies 1 0.1
+  [[ "$status" -eq 1 ]]
+  [[ "$output" != *"syntax error"* ]]
+  [[ "$output" == *"gave up after 1s"* ]]
+}
+
+@test "Waiting rejects a non-integer timeout instead of dying in arithmetic" {
+  run wait_for_volume "$TMP/absent" Movies 0.5 1
+  [[ "$status" -eq 2 ]]
+  [[ "$output" == *"whole number of seconds"* ]]
+}
+
+@test "Waiting rejects a non-numeric timeout" {
+  run wait_for_volume "$TMP/absent" Movies forever 1
+  [[ "$status" -eq 2 ]]
+}
+
 @test "Main does not launch Jellyfin when the volume never appears" {
   JELLYFIN_VOLUME="$TMP/absent"
   JELLYFIN_SENTINEL=Movies

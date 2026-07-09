@@ -28,19 +28,26 @@ log() {
 volume_ready() {
   local volume=$1 sentinel=$2
   [[ -d "$volume/$sentinel" ]] || return 1
-  [[ -n "$(ls -A "$volume/$sentinel" 2>/dev/null)" ]]
+  find "$volume/$sentinel" -mindepth 1 -print -quit 2>/dev/null | grep -q .
 }
 
+# Elapsed time comes from $SECONDS rather than an accumulator, so a fractional
+# poll interval stays valid: only the timeout has to be a whole number.
 wait_for_volume() {
   local volume=$1 sentinel=$2 timeout=$3 interval=$4
-  local waited=0
+  local start=$SECONDS
+
+  if [[ ! "$timeout" =~ ^[0-9]+$ ]]; then
+    log "timeout must be a whole number of seconds, got '$timeout'"
+    return 2
+  fi
 
   while ! volume_ready "$volume" "$sentinel"; do
-    if (( waited >= timeout )); then
+    if (( SECONDS - start >= timeout )); then
+      log "gave up after ${timeout}s waiting for $volume/$sentinel"
       return 1
     fi
-    sleep "$interval"
-    waited=$(( waited + interval ))
+    sleep "$interval" || return 2
   done
 }
 
@@ -48,7 +55,7 @@ main() {
   if ! wait_for_volume \
     "$JELLYFIN_VOLUME" "$JELLYFIN_SENTINEL" \
     "$JELLYFIN_WAIT_TIMEOUT" "$JELLYFIN_POLL_INTERVAL"; then
-    log "gave up after ${JELLYFIN_WAIT_TIMEOUT}s waiting for $JELLYFIN_VOLUME/$JELLYFIN_SENTINEL; not launching"
+    log "not launching Jellyfin"
     return 1
   fi
 
