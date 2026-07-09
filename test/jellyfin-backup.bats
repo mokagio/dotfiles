@@ -84,6 +84,29 @@ teardown() {
   [[ -d "$TMP/backups/notes" ]]
 }
 
+@test "Pruning spares a directory that merely starts with the century" {
+  mkdir -p "$TMP/backups/2026-tax-receipts" "$TMP/backups/2026-07-01T00-00-00"
+  prune_snapshots "$TMP/backups" 0
+  [[ ! -d "$TMP/backups/2026-07-01T00-00-00" ]]
+  [[ -d "$TMP/backups/2026-tax-receipts" ]]
+}
+
+@test "Database snapshot survives a single quote in the destination path" {
+  local dest="$TMP/gio's backups/data/jellyfin.db"
+  snapshot_database "$SRC/data/jellyfin.db" "$dest"
+  run sqlite3 "$dest" 'SELECT id FROM items;'
+  [[ "$status" -eq 0 ]]
+  [[ "$output" == 42 ]]
+}
+
+@test "Database snapshot survives a double quote in the destination path" {
+  local dest="$TMP/say \"hi\"/data/jellyfin.db"
+  snapshot_database "$SRC/data/jellyfin.db" "$dest"
+  run sqlite3 "$dest" 'SELECT id FROM items;'
+  [[ "$status" -eq 0 ]]
+  [[ "$output" == 42 ]]
+}
+
 @test "Pruning an absent directory is not an error" {
   run prune_snapshots "$TMP/absent" 3
   [[ "$status" -eq 0 ]]

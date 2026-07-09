@@ -12,6 +12,11 @@ JELLYFIN_DATA_DIR="${JELLYFIN_DATA_DIR:-$HOME/Library/Application Support/jellyf
 JELLYFIN_BACKUP_DIR="${JELLYFIN_BACKUP_DIR:-$HOME/Backups/jellyfin}"
 JELLYFIN_BACKUP_KEEP="${JELLYFIN_BACKUP_KEEP:-7}"
 
+# Matches SNAPSHOT_FORMAT below and nothing else, so pruning cannot reach a
+# directory that merely happens to sit under the backup root.
+SNAPSHOT_GLOB='20[0-9][0-9]-[0-9][0-9]-[0-9][0-9]T[0-9][0-9]-[0-9][0-9]-[0-9][0-9]'
+SNAPSHOT_FORMAT='%Y-%m-%dT%H-%M-%S'
+
 # The SQLite files are excluded here and copied by snapshot_database instead:
 # rsync of a database being written to can capture a torn write.
 RSYNC_EXCLUDES=(
@@ -33,12 +38,21 @@ copy_tree() {
   rsync -a "${RSYNC_EXCLUDES[@]}" "$src/" "$dest/"
 }
 
+# A sqlite3 dot-command argument is quoted shell-style, and a double-quoted one
+# honours backslash escapes, so this survives paths containing quotes.
+sqlite_quote() {
+  local value=$1
+  value=${value//\\/\\\\}
+  value=${value//\"/\\\"}
+  printf '"%s"' "$value"
+}
+
 # `.backup` takes a consistent snapshot of a live database; `cp` does not.
 snapshot_database() {
   local src=$1 dest=$2
   [[ -f "$src" ]] || return 0
   mkdir -p "$(dirname "$dest")"
-  sqlite3 "$src" ".backup '$dest'"
+  sqlite3 "$src" ".backup $(sqlite_quote "$dest")"
 }
 
 verify_database() {
@@ -59,11 +73,11 @@ prune_snapshots() {
       rm -rf "$snapshot"
     fi
     index=$(( index + 1 ))
-  done < <(find "$dir" -mindepth 1 -maxdepth 1 -type d -name '20*' | sort -r)
+  done < <(find "$dir" -mindepth 1 -maxdepth 1 -type d -name "$SNAPSHOT_GLOB" | sort -r)
 }
 
 main() {
-  local stamp=${1:-$(date '+%Y-%m-%dT%H-%M-%S')}
+  local stamp=${1:-$(date "+$SNAPSHOT_FORMAT")}
   local dest="$JELLYFIN_BACKUP_DIR/$stamp"
 
   if [[ ! -d "$JELLYFIN_DATA_DIR" ]]; then
