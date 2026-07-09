@@ -288,3 +288,49 @@ CFG
   check_iterm_prefs >/dev/null
   [[ "$warnings" -eq 0 ]]
 }
+
+@test "check_a8c_links: absent repo is a silent no-op" {
+  run check_a8c_links "$TMP/nope"
+  [[ "$status" -eq 0 ]]
+  [[ -z "$output" ]]
+}
+
+@test "check_a8c_links: links.sh without emit_a8c_links warns, does not crash" {
+  mkdir -p "$TMP/a8c/lib"
+  : > "$TMP/a8c/lib/links.sh"
+  run check_a8c_links "$TMP/a8c"
+  [[ "$status" -eq 0 ]]
+  [[ "$output" == *"WARN"* ]]
+  [[ "$output" == *"emit_a8c_links"* ]]
+}
+
+@test "check_a8c_links: reports a missing link from the a8c list" {
+  mkdir -p "$TMP/a8c/lib"
+  echo 'src content' > "$TMP/a8c/thing"
+  cat > "$TMP/a8c/lib/links.sh" <<'LINKS'
+emit_a8c_links() {
+  local act=$1 d=$2
+  "$act" "$d/thing" "$HOME/.thing"
+}
+LINKS
+  HOME="$TMP/home"
+  mkdir -p "$HOME"
+  run check_a8c_links "$TMP/a8c"
+  [[ "$output" == *"MISSING"* ]]
+  [[ "$output" == *".thing"* ]]
+}
+
+@test "check_a8c_links: a correct a8c link is not a problem" {
+  mkdir -p "$TMP/a8c/lib" "$TMP/home"
+  echo 'src content' > "$TMP/a8c/thing"
+  cat > "$TMP/a8c/lib/links.sh" <<'LINKS'
+emit_a8c_links() {
+  local act=$1 d=$2
+  "$act" "$d/thing" "$HOME/.thing"
+}
+LINKS
+  HOME="$TMP/home"
+  ln -s "$TMP/a8c/thing" "$HOME/.thing"
+  check_a8c_links "$TMP/a8c" >/dev/null
+  [[ "$problems" -eq 0 ]]
+}

@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
 #
 # Check the dotfiles' machine-side health: every managed symlink against
-# lib/links.sh (the list setup.sh creates), the environment variables that
-# must reach subprocesses, and that gh is authenticated for each GitHub
-# credential endpoint the git config wires it up for. Report anything
-# missing, mispointed, replaced by a real file, dangling, or unauthenticated.
-# Read-only.
+# lib/links.sh (the list setup.sh creates) and against the A8C-private
+# dotfiles' equivalent when present, the environment variables that must reach
+# subprocesses, and that gh is authenticated for each GitHub credential
+# endpoint the git config wires it up for. Report anything missing, mispointed,
+# replaced by a real file, dangling, or unauthenticated. Read-only.
 
 DOCTOR_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 # shellcheck source-path=SCRIPTDIR
@@ -62,6 +62,25 @@ check_link() {
   else
     report MISSING "$dest" "(expected -> $src)"
   fi
+}
+
+# The A8C-private dotfiles publish their own symlinks (agent docs, per-root
+# config, skills) from a lib/links.sh of the same shape, exposing
+# emit_a8c_links. Check those too when that repo is on this machine: a skill
+# that never got linked should surface here, not as an agent failing to find
+# it. No-op on machines without the repo.
+a8c_dotfiles_dir=${DOTFILES_A8C_HOME:-$HOME/Developer/a8c-enterprise/dotfiles-a8c}
+
+check_a8c_links() {
+  local dir=$1
+  [[ -r "$dir/lib/links.sh" ]] || return 0
+  # shellcheck source=/dev/null
+  source "$dir/lib/links.sh"
+  command -v emit_a8c_links >/dev/null || {
+    report WARN "$dir/lib/links.sh" "readable but defines no emit_a8c_links"
+    return 0
+  }
+  emit_a8c_links check_link "$dir"
 }
 
 check_env() {
@@ -167,6 +186,7 @@ set -euo pipefail
 
 echo "Checking managed symlinks…"
 emit_links check_link "$DOCTOR_DIR"
+check_a8c_links "$a8c_dotfiles_dir"
 
 echo
 echo "Checking expected environment variables…"
