@@ -1,0 +1,90 @@
+#!/usr/bin/env bash
+#
+# Snapshot the Jellyfin server's config, metadata and database to a dated
+# directory, keeping the most recent JELLYFIN_BACKUP_KEEP snapshots.
+#
+# Jellyfin can empty an entire library when its media volume drops off the bus
+# (jellyfin/jellyfin#1714), and rebuilding costs days. Snapshots are the
+# mitigation the maintainers recommend, as there is no way to make Jellyfin
+# tolerate a temporarily missing library path.
+
+JELLYFIN_DATA_DIR="${JELLYFIN_DATA_DIR:-$HOME/Library/Application Support/jellyfin}"
+JELLYFIN_BACKUP_DIR="${JELLYFIN_BACKUP_DIR:-$HOME/Backups/jellyfin}"
+JELLYFIN_BACKUP_KEEP="${JELLYFIN_BACKUP_KEEP:-7}"
+
+# The SQLite files are excluded here and copied by snapshot_database instead:
+# rsync of a database being written to can capture a torn write.
+RSYNC_EXCLUDES=(
+  --exclude cache/
+  --exclude log/
+  --exclude transcodes/
+  --exclude 'data/*.db'
+  --exclude 'data/*.db-wal'
+  --exclude 'data/*.db-shm'
+)
+
+log() {
+  printf '%s %s\n' "$(date '+%Y-%m-%dT%H:%M:%S')" "$*"
+}
+
+copy_tree() {
+  local src=$1 dest=$2
+  mkdir -p "$dest"
+  rsync -a "${RSYNC_EXCLUDES[@]}" "$src/" "$dest/"
+}
+
+# `.backup` takes a consistent snapshot of a live database; `cp` does not.
+snapshot_database() {
+  local src=$1 dest=$2
+  [[ -f "$src" ]] || return 0
+  mkdir -p "$(dirname "$dest")"
+  sqlite3 "$src" ".backup '$dest'"
+}
+
+verify_database() {
+  local db=$1
+  [[ -f "$db" ]] || return 0
+  local result
+  result="$(sqlite3 "$db" 'PRAGMA integrity_check;' 2>&1)" || return 1
+  [[ "$result" == ok ]]
+}
+
+prune_snapshots() {
+  local dir=$1 keep=$2 snapshot index=0
+  [[ -d "$dir" ]] || return 0
+
+  # Snapshot names are ISO-8601-ish, so lexical order is chronological order.
+  while IFS= read -r snapshot; do
+    if (( index >= keep )); then
+      rm -rf "$snapshot"
+    fi
+    index=$(( index + 1 ))
+  done < <(find "$dir" -mindepth 1 -maxdepth 1 -type d -name '20*' | sort -r)
+}
+
+main() {
+  local stamp=${1:-$(date '+%Y-%m-%dT%H-%M-%S')}
+  local dest="$JELLYFIN_BACKUP_DIR/$stamp"
+
+  if [[ ! -d "$JELLYFIN_DATA_DIR" ]]; then
+    log "no Jellyfin data directory at $JELLYFIN_DATA_DIR"
+    return 1
+  fi
+
+  log "snapshotting $JELLYFIN_DATA_DIR -> $dest"
+  copy_tree "$JELLYFIN_DATA_DIR" "$dest"
+  snapshot_database "$JELLYFIN_DATA_DIR/data/jellyfin.db" "$dest/data/jellyfin.db"
+
+  if ! verify_database "$dest/data/jellyfin.db"; then
+    log "integrity check failed for $dest/data/jellyfin.db"
+    return 1
+  fi
+
+  prune_snapshots "$JELLYFIN_BACKUP_DIR" "$JELLYFIN_BACKUP_KEEP"
+  log "done, $(du -sh "$dest" | cut -f1) in $dest"
+}
+
+if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
+  set -euo pipefail
+  main "$@"
+fi
