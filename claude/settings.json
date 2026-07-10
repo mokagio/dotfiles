@@ -285,7 +285,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "$HOME/.claude/hooks/block-paths.sh .a8c-secrets .gnupg .mobile-secrets",
+            "command": "$HOME/.claude/hooks/block-paths.sh .a8c-secrets .gnupg .mobile-secrets .umbrella-network",
             "timeout": 5
           }
         ]
