@@ -24,6 +24,19 @@ Only if the skill and raw recall command are both unavailable or fail should you
 Also check the last few days of `~/Developer/mokacoding-pty-ltd/engram/work-log/` for recent activity on that project.
 This gives you prior decisions, gotchas, and where work left off — don't wait for me to ask.
 
+**Recall before researching how to do something:**
+
+Before reaching for the web, upstream docs, or a wide codebase search to answer "how do I do X here", run an engram recall on the topic first.
+If we've done X before, the answer — including the gotchas the docs won't tell you — is likely already a memory.
+
+Recall by *topic*, not only by project: the memory may have been written while working in a different repo.
+Search the concrete nouns (`a8c-secrets ci`, `match s3 setup`, `notarization keychain`), and try a couple of phrasings before concluding there's nothing.
+
+Triggers: "how do I set up X", "how does X work in CI", "what's the right way to configure X", or any moment you're about to `WebSearch` a tool or workflow that belongs to our stack.
+
+Web research is the fallback, not the first move.
+If recall comes back empty and you end up figuring it out from scratch, that's a memory worth saving when you're done.
+
 **When to save a memory:**
 
 Two paths capture memories, and they divide the work:
