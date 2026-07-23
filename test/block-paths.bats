@@ -122,6 +122,99 @@ invoke() {
   [[ "$status" -eq 2 ]]
 }
 
+# --- writes, moves and deletes ---------------------------------------------
+#
+# These all reached decrypted plaintext while the hook allowlisted content
+# readers (cat, head, jq, ...) and treated everything else as safe.
+
+@test "Bash: path inside a shell assignment blocks" {
+  run invoke '{"tool_name":"Bash","tool_input":{"command":"F=\"$HOME/.fake-secrets/foo\""}}' .fake-secrets
+  [[ "$status" -eq 2 ]]
+}
+
+@test "Bash: copying plaintext out blocks" {
+  run invoke '{"tool_name":"Bash","tool_input":{"command":"cp ~/.fake-secrets/foo /tmp/leak"}}' .fake-secrets
+  [[ "$status" -eq 2 ]]
+}
+
+@test "Bash: clobbering plaintext via redirect blocks" {
+  run invoke '{"tool_name":"Bash","tool_input":{"command":"printf junk > ~/.fake-secrets/foo"}}' .fake-secrets
+  [[ "$status" -eq 2 ]]
+}
+
+@test "Bash: redirecting a safe verb into the path blocks" {
+  run invoke '{"tool_name":"Bash","tool_input":{"command":"ls /tmp > ~/.fake-secrets/listing"}}' .fake-secrets
+  [[ "$status" -eq 2 ]]
+}
+
+@test "Bash: deleting plaintext blocks" {
+  run invoke '{"tool_name":"Bash","tool_input":{"command":"rm ~/.fake-secrets/foo"}}' .fake-secrets
+  [[ "$status" -eq 2 ]]
+}
+
+@test "Bash: moving plaintext blocks" {
+  run invoke '{"tool_name":"Bash","tool_input":{"command":"mv ~/.fake-secrets/foo /tmp/"}}' .fake-secrets
+  [[ "$status" -eq 2 ]]
+}
+
+@test "Bash: comparing contents blocks" {
+  run invoke '{"tool_name":"Bash","tool_input":{"command":"cmp -s ~/.fake-secrets/foo /tmp/other"}}' .fake-secrets
+  [[ "$status" -eq 2 ]]
+}
+
+@test "Bash: encoding contents blocks" {
+  run invoke '{"tool_name":"Bash","tool_input":{"command":"base64 ~/.fake-secrets/foo"}}' .fake-secrets
+  [[ "$status" -eq 2 ]]
+}
+
+@test "Bash: tee into the path blocks" {
+  run invoke '{"tool_name":"Bash","tool_input":{"command":"echo x | tee ~/.fake-secrets/foo"}}' .fake-secrets
+  [[ "$status" -eq 2 ]]
+}
+
+@test "Bash: find -exec blocks" {
+  run invoke '{"tool_name":"Bash","tool_input":{"command":"find ~/.fake-secrets -type f -exec cat {} ;"}}' .fake-secrets
+  [[ "$status" -eq 2 ]]
+}
+
+@test "Bash: env-var prefix fails closed" {
+  run invoke '{"tool_name":"Bash","tool_input":{"command":"FOO=bar ls ~/.fake-secrets/"}}' .fake-secrets
+  [[ "$status" -eq 2 ]]
+}
+
+@test "Bash: executing a script from the path blocks" {
+  run invoke '{"tool_name":"Bash","tool_input":{"command":"~/.fake-secrets/evil.sh"}}' .fake-secrets
+  [[ "$status" -eq 2 ]]
+}
+
+@test "Bash: quoted path blocks" {
+  run invoke "{\"tool_name\":\"Bash\",\"tool_input\":{\"command\":\"cat '~/.fake-secrets/foo'\"}}" .fake-secrets
+  [[ "$status" -eq 2 ]]
+}
+
+@test "Bash: discarding output to /dev/null stays allowed" {
+  run invoke '{"tool_name":"Bash","tool_input":{"command":"ls ~/.fake-secrets/ 2>/dev/null"}}' .fake-secrets
+  [[ "$status" -eq 0 ]]
+}
+
+@test "Bash: redirect to an unrelated file is allowed" {
+  run invoke '{"tool_name":"Bash","tool_input":{"command":"ls ~/.fake-secrets/ > /tmp/listing"}}' .fake-secrets
+  [[ "$status" -eq 0 ]]
+}
+
+@test "Bash: an angle bracket in prose does not read as a redirect" {
+  # `<email>` in a trailer is not a write. The command still blocks on its
+  # verb; this pins that it blocks for that reason and not as a stray redirect.
+  run invoke '{"tool_name":"Bash","tool_input":{"command":"echo x > /tmp/note <<EOF\nsee ~/.fake-secrets/foo\nA B <a@b.com>\nEOF"}}' .fake-secrets
+  [[ "$status" -eq 2 ]]
+  [[ "$output" == *"running 'echo'"* ]]
+}
+
+@test "Bash: heredoc bodies are matched, so a piped script cannot smuggle" {
+  run invoke '{"tool_name":"Bash","tool_input":{"command":"bash <<EOF\ncat ~/.fake-secrets/foo\nEOF"}}' .fake-secrets
+  [[ "$status" -eq 2 ]]
+}
+
 # --- other tools -----------------------------------------------------------
 
 @test "Edit (or any other tool) is passed through unaltered" {
