@@ -66,9 +66,11 @@ That's what I mean with small and atomic.
 
 **Branch names:**
 
-- If a Linear/issue ID is available from context, include it in the branch name.
-- Shared repos: prefix with `mokagio/` so authorship is obvious at a glance.
-- Personal repos: short self-explanatory name, no prefix.
+- If a Linear issue is connected, use Linear's own branch name verbatim: `ainfra-2751-enable-azure-artifact-signing-for-cortex-windows-buildkite`.
+  That is the exact shape — lowercased issue ID, then the kebab-cased title, and **no `mokagio/` prefix**.
+  Never invent `mokagio/ainfra-NUM-...`; the Linear format has no username segment.
+- No Linear issue, shared repo: prefix with `mokagio/` so authorship is obvious at a glance.
+- No Linear issue, personal repo: short self-explanatory name, no prefix.
 
 ---
 
