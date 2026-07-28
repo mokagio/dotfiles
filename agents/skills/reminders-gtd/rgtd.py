@@ -8,9 +8,10 @@ fumbling the attribution footer.
 
 Subcommands:
   resolve  LIST QUERY        find items whose title contains QUERY
-  show-ids LIST              list every item as  ID<tab>title
+  show-ids LIST [--open-only] list every item as ID<tab>title
   note     LIST ID --agent A add a stdin block + footer atop an item's note
 """
+import re
 import sys
 import json
 import subprocess
@@ -19,6 +20,14 @@ from datetime import datetime
 
 # Roughly one phone screen of note before scrolling starts.
 BLOCK_SOFT_LIMIT = 700
+
+# The user's opt-out, written into a note by hand. Agents must never emit
+# either spelling, or they lock the item against their own next run.
+NFR_RE = re.compile(r"\bNFR\b|no further research", re.IGNORECASE)
+
+
+def _nfr(item):
+    return bool(NFR_RE.search(item.get("notes") or ""))
 
 
 def _show(list_name):
@@ -52,8 +61,11 @@ def cmd_resolve(args):
 
 def cmd_show_ids(args):
     for r in _show(args.list):
-        flag = " [+notes]" if r.get("notes") else ""
-        print("%s\t%s%s" % (r["externalId"], r["title"], flag))
+        if args.open_only and _nfr(r):
+            continue
+        flags = " [+notes]" if r.get("notes") else ""
+        flags += " [NFR]" if _nfr(r) else ""
+        print("%s\t%s%s" % (r["externalId"], r["title"], flags))
 
 
 def cmd_note(args):
@@ -63,6 +75,13 @@ def cmd_note(args):
             "id %s not in list %r — it may have synced away; re-resolve before writing"
             % (args.id, args.list)
         )
+    if _nfr(r) and not args.force:
+        sys.exit(
+            "REFUSED: %r is marked NFR — the user has said no further research.\n"
+            "Nothing was written. Use --force only if the user asked for this write."
+            % r["title"]
+        )
+
     block = sys.stdin.read().rstrip("\n")
     if not block.strip():
         sys.exit("empty block on stdin")
@@ -102,6 +121,8 @@ def main():
 
     ps = sub.add_parser("show-ids", help="list every item as ID<tab>title")
     ps.add_argument("list")
+    ps.add_argument("--open-only", action="store_true",
+                    help="hide items the user marked NFR")
     ps.set_defaults(func=cmd_show_ids)
 
     pa = sub.add_parser("note", help="add a stdin block + footer atop a note")
@@ -109,6 +130,8 @@ def main():
     pa.add_argument("id")
     pa.add_argument("--agent", default="claude/opus-5",
                     help="attribution label, e.g. claude/opus-5")
+    pa.add_argument("--force", action="store_true",
+                    help="write even if the item is marked NFR")
     pa.set_defaults(func=cmd_note)
 
     args = p.parse_args()

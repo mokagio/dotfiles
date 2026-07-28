@@ -137,6 +137,22 @@ Two fields upgrade an item to research on their own:
   Find the phone number, email, or booking form and the opening hours, then draft the short message in the note so the user only has to send it.
   Mark every placeholder the user must fill (`[rego]`, `[preferred days]`), and call out any part of the title too vague to send as-is.
 
+## The stop signal: NFR
+
+The user closes an item to further agent work by writing **`NFR`** — or the long form **`No Further Research`** — anywhere in its note, in any case.
+It means *the thinking is done*, not that the task is done: the reminder stays open, the agent stays out.
+
+The guard lives in the tool rather than in an agent's memory.
+`note` refuses to write into a marked item and exits non-zero; `show-ids --open-only` drops them from the work list.
+So a run that never checks still cannot spam an item the user has closed.
+
+**Never write `NFR` or `no further research` into a block yourself** — it locks the item against your own next run.
+Say "closed" or "handled" in prose instead.
+
+Prose stop signals are *not* honoured.
+"I'll take it from here" reads as a stop to a person and is a coin flip to an unattended run, which will eventually drop an item the user wanted worked on.
+When the user says stop in conversation, write the marker on their say-so or ask them to add it — do not infer it from the note's tone.
+
 ## Running unattended
 
 Assume no chat. This skill is built to run from cron, so a question asked in a chat transcript is a question nobody reads.

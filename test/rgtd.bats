@@ -117,6 +117,75 @@ print(next(r for r in items if r["externalId"] == sys.argv[1]).get("notes", ""))
   [[ "$output" == *"empty block"* ]]
 }
 
+# --- NFR: the user's stop signal ---
+
+mark_nfr() {
+  python3 -c '
+import json, os, sys
+path = os.environ["STATE"]
+items = json.load(open(path))
+for r in items:
+    if r["externalId"] == sys.argv[1]:
+        r["notes"] = sys.argv[2]
+json.dump(items, open(path, "w"))
+' "$1" "$2"
+}
+
+@test "note refuses to write into an NFR item" {
+  mark_nfr BBB-222 "NFR"
+  run bash -c "printf 'research\n' | python3 '$SCRIPT' note 'One-off Inbox' BBB-222 --agent claude/test"
+  [ "$status" -ne 0 ]
+  [[ "$output" == *"REFUSED"* ]]
+  [ "$(notes_of BBB-222)" = "NFR" ]
+}
+
+@test "the long-form phrase stops it too, in any case" {
+  mark_nfr BBB-222 "no further research needed, I have this"
+  run bash -c "printf 'research\n' | python3 '$SCRIPT' note 'One-off Inbox' BBB-222 --agent claude/test"
+  [ "$status" -ne 0 ]
+  [[ "$output" == *"REFUSED"* ]]
+}
+
+@test "NFR is matched inline, not just at line start" {
+  mark_nfr BBB-222 "budget 100-150. NFR - I'll take it from here"
+  run bash -c "printf 'research\n' | python3 '$SCRIPT' note 'One-off Inbox' BBB-222 --agent claude/test"
+  [ "$status" -ne 0 ]
+}
+
+@test "a word merely containing nfr does not trigger it" {
+  mark_nfr BBB-222 "confirm the NFRX part number with the shop"
+  run bash -c "printf 'research\n' | python3 '$SCRIPT' note 'One-off Inbox' BBB-222 --agent claude/test"
+  [ "$status" -eq 0 ]
+  [ "$(notes_of BBB-222 | head -1)" = "research" ]
+}
+
+@test "--force overrides the refusal" {
+  mark_nfr BBB-222 "NFR"
+  run bash -c "printf 'research\n' | python3 '$SCRIPT' note 'One-off Inbox' BBB-222 --agent claude/test --force"
+  [ "$status" -eq 0 ]
+  [ "$(notes_of BBB-222 | head -1)" = "research" ]
+}
+
+@test "marking an item NFR is itself allowed" {
+  run bash -c "printf 'NFR - handled offline\n' | python3 '$SCRIPT' note 'One-off Inbox' BBB-222 --agent claude/test"
+  [ "$status" -eq 0 ]
+  [[ "$(notes_of BBB-222)" == "NFR - handled offline"* ]]
+}
+
+@test "show-ids flags NFR items" {
+  mark_nfr BBB-222 "NFR"
+  run python3 "$SCRIPT" show-ids "One-off Inbox"
+  [[ "$output" == *"Buy new mouse [+notes] [NFR]"* ]]
+  [[ "$output" == *"Electrician for outside plug [+notes]"* ]]
+}
+
+@test "show-ids --open-only hides NFR items" {
+  mark_nfr BBB-222 "NFR"
+  run python3 "$SCRIPT" show-ids "One-off Inbox" --open-only
+  [[ "$output" != *"Buy new mouse"* ]]
+  [[ "$output" == *"Electrician for outside plug"* ]]
+}
+
 # --- resolve ---
 
 @test "resolve matches on a title substring, case-insensitively" {
