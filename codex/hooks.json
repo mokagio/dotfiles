@@ -1,5 +1,18 @@
 {
   "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash|apply_patch|Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/usr/bin/env bash \"$HOME/.codex/hooks/block-paths.sh\" .a8c-secrets .gnupg .mobile-secrets",
+            "timeout": 5,
+            "statusMessage": "Checking secret path access"
+          }
+        ]
+      }
+    ],
     "UserPromptSubmit": [
       {
         "hooks": [
