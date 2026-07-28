@@ -106,6 +106,27 @@ Filter hard:
 - **A title is not a scope.** `Amex`, `Handles`, `Share with MPAS` read as 2-minute but hide unknowns only the user can resolve. If it hides a decision, it is not a 2-minute item.
 - Good 2-minute items: send one message, follow an account, rename a thing, book one appointment, a physical stopgap.
 
+## Triage: research or reminder
+
+Classify on the **verb**, not the topic.
+`Pay home insurance with AAMI` and `Home insurance` are the same topic and opposite items — one is a payment with a due date, the other is a shopping exercise.
+A noun-only title is not a weak research candidate, it is unclassifiable: ask which verb it is instead of picking the more interesting reading.
+
+Two fields upgrade an item to research on their own:
+
+- **A note carrying constraints is a research brief.** `Buy new mouse` + "must have a USB receiver so it follows the monitor's input switch" is a spec, and specs are there to be researched against.
+- **An attached `location`/`locationTitle` is a research handle** — opening hours, whether a booking is required, what to bring, parking. Confirm first whether the pin is the destination or a geofence trigger (Reminders uses the same field for "remind me when I leave home").
+
+### What to put in the note
+
+- **Contractors and things to buy → 3 options.**
+  Each with the name, phone/email, licence or credential where one exists, a one-line why-this-one, and an indicative price with its basis.
+  Say what makes the job cheap or expensive so the user can steer the quote.
+  (`amazon-au-research` already defaults to 3 for products; this is the same default for trades and services.)
+- **`Book …` / `Call …` items → the contact plus a draft.**
+  Find the phone number, email, or booking form and the opening hours, then draft the short message in the note so the user only has to send it.
+  Mark every placeholder the user must fill (`[rego]`, `[preferred days]`), and call out any part of the title too vague to send as-is.
+
 ## Finding the inbox
 
 Do not trust list names or the EventKit default list to find the capture point — both mislead (a default list of `Writing`, a `Reminders` list that is actually a beach-packing list).
