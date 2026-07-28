@@ -24,6 +24,18 @@
           }
         ]
       }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$HOME/Developer/mokacoding-pty-ltd/engram/hooks/codex-stop.sh",
+            "timeout": 30,
+            "statusMessage": "Scheduling engram extraction"
+          }
+        ]
+      }
     ]
   }
 }
