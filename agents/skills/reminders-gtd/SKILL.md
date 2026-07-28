@@ -137,6 +137,27 @@ Two fields upgrade an item to research on their own:
   Find the phone number, email, or booking form and the opening hours, then draft the short message in the note so the user only has to send it.
   Mark every placeholder the user must fill (`[rego]`, `[preferred days]`), and call out any part of the title too vague to send as-is.
 
+## Running unattended
+
+Assume no chat. This skill is built to run from cron, so a question asked in a chat transcript is a question nobody reads.
+
+**The note is the channel.**
+When an item is blocked on something only the user knows, write the question into the note and move on to the next item — never stall the run waiting for an answer.
+Open the block with a bare `NEEDS FROM YOU` line so a later run can find it with a string match:
+
+```
+NEEDS FROM YOU
+- LG monitor model number (label on the back).
+
+Decides whether this works at all: the dongle only follows the
+active input if that monitor's USB hub is upstream-switched.
+```
+
+Ask only what changes the outcome, one or two lines of why, and never more than three questions on one item.
+Questions the user cannot answer from memory — anything needing a document or a measurement — belong in the note as the *task*, not as a question.
+
+A run that finds an existing `NEEDS FROM YOU` block with the answer written under it treats that as its input, and supersedes the block rather than asking again.
+
 ## Finding the inbox
 
 Do not trust list names or the EventKit default list to find the capture point — both mislead (a default list of `Writing`, a `Reminders` list that is actually a beach-packing list).
