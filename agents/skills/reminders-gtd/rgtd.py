@@ -2,20 +2,23 @@
 """Helpers for the reminders-gtd skill.
 
 Wraps the two error-prone operations against keith/reminders-cli:
-resolving an item to its stable externalId, and appending a block to a
+resolving an item to its stable externalId, and adding a block atop a
 note without clobbering existing content, mangling curly quotes, or
 fumbling the attribution footer.
 
 Subcommands:
   resolve  LIST QUERY        find items whose title contains QUERY
   show-ids LIST              list every item as  ID<tab>title
-  append   LIST ID --agent A append a stdin block + footer to an item's note
+  note     LIST ID --agent A add a stdin block + footer atop an item's note
 """
 import sys
 import json
 import subprocess
 import argparse
 from datetime import datetime
+
+# Roughly one phone screen of note before scrolling starts.
+BLOCK_SOFT_LIMIT = 700
 
 
 def _show(list_name):
@@ -53,7 +56,7 @@ def cmd_show_ids(args):
         print("%s\t%s%s" % (r["externalId"], r["title"], flag))
 
 
-def cmd_append(args):
+def cmd_note(args):
     r = _find(_show(args.list), args.id)
     if r is None:
         sys.exit(
@@ -67,7 +70,7 @@ def cmd_append(args):
     stamp = datetime.now().astimezone().strftime("%Y-%m-%d %H:%M %Z")
     footer = "[agent: %s | %s]" % (args.agent, stamp)
     existing = (r.get("notes") or "").rstrip("\n")
-    new = (existing + "\n\n" if existing else "") + block + "\n" + footer
+    new = block + "\n" + footer + ("\n\n" + existing if existing else "")
 
     w = subprocess.run(
         ["reminders", "edit", args.list, args.id, "--notes", new],
@@ -77,9 +80,14 @@ def cmd_append(args):
         sys.exit("reminders edit failed: %s" % w.stderr.strip())
 
     r2 = _find(_show(args.list), args.id)
-    if r2 is None or block.splitlines()[0] not in (r2.get("notes") or ""):
-        sys.exit("VERIFY FAILED: block not present after write")
-    print("OK: appended to %r (%d chars, footer %s)"
+    if r2 is None or not (r2.get("notes") or "").startswith(block.splitlines()[0]):
+        sys.exit("VERIFY FAILED: block not on top after write")
+    if len(block) > BLOCK_SOFT_LIMIT:
+        sys.stderr.write(
+            "WARNING: block is %d chars — it is read on a phone, aim for under %d\n"
+            % (len(block), BLOCK_SOFT_LIMIT)
+        )
+    print("OK: noted on %r (%d chars, footer %s)"
           % (r2["title"], len(r2.get("notes") or ""), stamp))
 
 
@@ -96,12 +104,12 @@ def main():
     ps.add_argument("list")
     ps.set_defaults(func=cmd_show_ids)
 
-    pa = sub.add_parser("append", help="append a stdin block + footer to a note")
+    pa = sub.add_parser("note", help="add a stdin block + footer atop a note")
     pa.add_argument("list")
     pa.add_argument("id")
-    pa.add_argument("--agent", default="claude/opus-4.8",
-                    help="attribution label, e.g. claude/opus-4.8")
-    pa.set_defaults(func=cmd_append)
+    pa.add_argument("--agent", default="claude/opus-5",
+                    help="attribution label, e.g. claude/opus-5")
+    pa.set_defaults(func=cmd_note)
 
     args = p.parse_args()
     args.func(args)

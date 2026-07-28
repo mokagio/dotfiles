@@ -13,7 +13,7 @@ user-invocable: true
 Apple Reminders is EventKit-backed, so the `reminders` CLI is a real read/write interface that syncs through iCloud safely — unlike Notes, which has no API.
 This skill is how to drive it without the two things that bite: **stale list positions** and a **store that changes underneath you**.
 
-`rgtd.py` sits next to this file and wraps the two fiddly operations (resolve-to-ID and append-to-note).
+`rgtd.py` sits next to this file and wraps the two fiddly operations (resolve-to-ID and write-into-note).
 Everything else is plain `reminders` subcommands.
 
 ## The three golden rules
@@ -84,18 +84,28 @@ Re-resolve those IDs immediately before acting anyway — the table can go stale
 
 ### Write research / notes into an item
 
-Use `append`, not `edit` — it read-modify-writes so it never clobbers existing content, preserves curly quotes and apostrophes byte-for-byte, and stamps the attribution footer for you:
+Use `note`, not `edit` — it read-modify-writes so it never clobbers existing content, preserves curly quotes and apostrophes byte-for-byte, and stamps the attribution footer for you:
 
 ```bash
-python3 "$SKILL_DIR/rgtd.py" append "Stuff" 939B911B-... --agent claude/opus-4.8 <<'EOF'
+python3 "$SKILL_DIR/rgtd.py" note "Stuff" 939B911B-... --agent claude/opus-5 <<'EOF'
 Best everyday card for Woolworths points, no travel.
 1. Amex Membership Rewards — $108/yr — 2,500 MR = 2,000 EDR pts = $10.
 Bottom line: it's a 2% play; treat the points as a rounding error.
 EOF
 ```
 
-The footer it appends is `[agent: <label> | YYYY-MM-DD HH:MM AEST]`.
-Keep note blocks tight — they are read on a phone: short lines, plain text, no markdown tables.
+**The new block goes on top**, above whatever is already there, each with its own `[agent: <label> | YYYY-MM-DD HH:MM AEST]` footer.
+Newest-first is what makes the note readable from the list view — the latest answer is the first thing on screen, and stale rounds sink.
+
+**Be brief.**
+A note is a phone screen, not a document: the whole block should fit without scrolling.
+Aim under ~700 characters — `note` warns past that but still writes.
+
+- Lead with the answer or the recommendation, not the method.
+- One line per option; drop the second sentence of justification.
+- Bare URLs, no link text.
+- One caveat, the one that could sink the decision. Cut the rest.
+- No markdown tables, no nested bullets — they wrap badly on a phone.
 
 ## Triage: the 2-minute rule
 
@@ -142,9 +152,9 @@ The correct fix is an EventKit-direct helper (Swift or PyObjC): `EKReminder.cale
 Until that helper exists, tell the user these operations are manual in the app rather than faking them.
 
 **Notes grow unbounded.**
-`append` stacks a new block + footer each round; there is no length guard.
-Fine for a couple of passes, awkward on a phone after that.
-If a note is being revised repeatedly, prefer superseding the stale block over appending yet another.
+`note` stacks another block + footer each round, and the soft limit only warns.
+Newest-first keeps the top of the note useful, but the tail still accumulates.
+On the third pass over the same item, rewrite the note with `reminders edit` to supersede the stale blocks instead of stacking yet another.
 
 ## Permissions
 
