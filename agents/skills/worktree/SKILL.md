@@ -96,7 +96,7 @@ Example:
 ## Constraints
 
 - **Never** use `git --git-dir` or `cd path &&` — use `git -C` for all operations.
-- **Never** work directly on the main branch — always create a worktree first.
+- Whether a task warrants a worktree at all is decided by the branching rules in `agents/rules/git.md`, not here.
 - If already inside a worktree for a different task, resolve back to the main checkout before creating.
 - New worktrees go in `~/Developer/git-worktrees/<repo-name>/`.
 - `.git-worktrees/` is legacy fallback only.

@@ -77,12 +77,12 @@ That's what I mean with small and atomic.
 Always use the `/worktree` skill when creating Git worktrees.
 Never run `git worktree add` directly.
 
-Always use Git worktrees for branch work — never work directly on the main branch.
-**Every new task gets its own worktree**, even if you're already inside one.
-A worktree is scoped to a single piece of work; unrelated changes must not land there.
+On personal projects, work directly on `main` by default — commit and push straight to it — and only create a worktree when I explicitly ask for one.
+On work projects, every new task gets its own worktree, even if you're already inside one.
+When you can't tell which kind of project you're in, ask me.
 
-At the start of a feature, project, or plan, create a worktree.
-Once the work is merged or abandoned, remove it.
+Either way, a worktree is scoped to a single piece of work; unrelated changes must not land there.
+Create it at the start of the feature, project, or plan, and remove it once the work is merged or abandoned.
 
 Place worktrees in `.git-worktrees/` inside the repo root:
 
