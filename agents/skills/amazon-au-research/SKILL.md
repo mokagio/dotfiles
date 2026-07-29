@@ -81,6 +81,29 @@ Resolve more ASINs than you need (8–12 for a shortlist of 3) and pick on fit, 
 Search order reflects Amazon's advertising and sales signals, not the user's brief.
 Read the titles for the attributes the brief actually asked about — size, material, capacity, compatibility.
 
+### Verify hard constraints against the full page, not the resolved title
+
+When the brief has a pass/fail requirement — a bundled accessory, a port, a capacity, a compatibility — the TSV row is not enough to clear it.
+`resolve_asin.py` truncates titles at ~100 characters, and AU listings put the disqualifying clause at the *end* of a long title, where it gets cut.
+AU listings also sell stripped variants under a name that otherwise reads identical to the full product.
+Fetch the page and grep the feature bullets and the manufacturer copy for the constraint before shortlisting:
+
+```bash
+curl -s --compressed -A "$UA" -H "Accept-Language: en-AU,en" --max-time 30 "https://www.amazon.com.au/dp/$A" \
+| python3 -c '
+import sys,re,html
+h=re.sub(r"\s+"," ",html.unescape(re.sub(r"<[^>]+>"," ",sys.stdin.read())))
+for m in re.finditer(r"(?i).{80}(logi bolt|usb receiver).{80}",h): print(" *",m.group(0).strip()[:190])
+' | sort -u | head -6
+```
+
+Measured, Jul 2026: the "MX Master 3S – Bluetooth Edition" (`B0FNV6GP6K`) declares *"Logi Bolt receiver not included"* — in its bullets and in the tail of its own title, past the truncation point.
+AU buyers of the MX Anywhere 3S (`B0C6K2DH73`) report the receiver missing there too, with nothing in the listing saying so.
+The standard 3S (`B0B11LJ69K`) confirms it ships.
+Three near-identical resolved titles, opposite answers to the actual brief.
+
+Reviews are usable as corroboration for this and nothing else: a constraint denied by several buyers is worth flagging even when the official copy is silent.
+
 ## Output contract
 
 Return **N options (default 3)**, each with:
