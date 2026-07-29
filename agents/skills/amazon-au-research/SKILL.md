@@ -34,10 +34,12 @@ Four failure modes make the obvious approaches produce confidently wrong answers
 
 ```bash
 UA="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120 Safari/537.36"
-curl -s -A "$UA" -H "Accept-Language: en-AU,en" --max-time 30 \
+curl -s --compressed -A "$UA" -H "Accept-Language: en-AU,en" --max-time 30 \
   "https://www.amazon.com.au/s?k=tech+pouch" \
   | python3 -c 'import sys,re; h=sys.stdin.read(); seen=[]; [seen.append(a) for a in re.findall(r"data-asin=\"([A-Z0-9]{10})\"",h) if a not in seen]; print("\n".join(seen[:15]))'
 ```
+
+Keep `--compressed`: Amazon gzips regardless, so without it Python dies on `UnicodeDecodeError: invalid start byte` at position 1.
 
 URL-encode the query (spaces as `+`).
 Run two or three differently-phrased searches when the brief is loose — one query's top hits are not a survey.
@@ -50,7 +52,7 @@ Run two or three differently-phrased searches when the brief is loose — one qu
 UA="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120 Safari/537.36"
 SKILL_DIR="$HOME/.agents/skills/amazon-au-research"   # or ~/.claude/skills/amazon-au-research
 for A in B0FCVLH4XS B0DPQPGXBK; do
-  curl -s -A "$UA" -H "Accept-Language: en-AU,en" --max-time 30 "https://www.amazon.com.au/dp/$A" \
+  curl -s --compressed -A "$UA" -H "Accept-Language: en-AU,en" --max-time 30 "https://www.amazon.com.au/dp/$A" \
     | python3 "$SKILL_DIR/resolve_asin.py" "$A"
   sleep 2
 done
