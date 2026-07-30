@@ -44,6 +44,13 @@ Keep `--compressed`: Amazon gzips regardless, so without it Python dies on `Unic
 URL-encode the query (spaces as `+`).
 Run two or three differently-phrased searches when the brief is loose — one query's top hits are not a survey.
 
+**An empty ASIN list is usually throttling, not a niche.**
+Amazon answers a throttled search with a 200 and a full-size page that carries no results, so the extractor prints nothing and the category looks unstocked.
+Measured 30 Jul 2026: three consecutive searches returned nothing, then the same queries returned 70+ ASINs each once the requests were spaced out.
+Before concluding a category is empty, re-run a query that worked earlier as a control.
+If the control still works, the empty result is real; if it has also gone quiet, back off ~30s and retry.
+Do not go rewriting the extractor — an empty result is about pacing, not parsing.
+
 ### 2. Resolve each ASIN to a title, price, and stock
 
 `resolve_asin.py` sits next to this file. Pipe a product page into it:
@@ -67,6 +74,12 @@ B0CZ4ZZZZZ	INVALID	Page Not Found
 
 **Discard every `INVALID` row.** Never include one in the output, and never report a link you did not resolve.
 Keep the `sleep 2` — this is human browsing volume, not a crawl.
+
+**A stock column reading `unknown` means the page shipped no availability block — report it as unknown.**
+Roughly half of AU product pages omit the block, and the temptation is to go find "In stock" somewhere else in the HTML.
+Don't: the frequently-bought-together widget renders its own "In stock" for a *different* ASIN, so that grep confidently reports the wrong product's availability.
+Measured 30 Jul 2026 on `B07VGX52C7` (Salomon Adv Hydra Vest 4).
+Either open the page and read the buy box, or say stock could not be determined.
 
 Amazon throttles bursts, and a throttled response yields a blank or partial row rather than an error.
 If a row comes back empty or a batch that previously worked starts failing, wait and retry that ASIN before concluding it is invalid — `sleep 3` between requests clears it.
