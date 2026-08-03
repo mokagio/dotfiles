@@ -180,9 +180,11 @@ teardown() {
     emit_links record_link "$2"
   ' _ "$SCRIPT_DIR/lib/links.sh" "$fake_dotfiles"
 
+  # Sources keep the trailing slash the `*/` glob gives them; link_matches
+  # strips it on both sides, so the links still compare equal.
   [[ "$status" -eq 0 ]]
-  [[ "$output" == *"$fake_dotfiles/agents/skills/ci-monitor -> $TMP/home/.agents/skills/ci-monitor"* ]]
-  [[ "$output" == *"$fake_dotfiles/agents/skills/ci-monitor -> $TMP/home/.claude/skills/ci-monitor"* ]]
-  [[ "$output" == *"$fake_dotfiles/claude/skills/claude-only -> $TMP/home/.claude/skills/claude-only"* ]]
-  [[ "$output" != *"$fake_dotfiles/claude/skills/claude-only -> $TMP/home/.agents/skills/claude-only"* ]]
+  [[ "$output" == *"$fake_dotfiles/agents/skills/ci-monitor/ -> $TMP/home/.agents/skills/ci-monitor"* ]]
+  [[ "$output" == *"$fake_dotfiles/agents/skills/ci-monitor/ -> $TMP/home/.claude/skills/ci-monitor"* ]]
+  [[ "$output" == *"$fake_dotfiles/claude/skills/claude-only/ -> $TMP/home/.claude/skills/claude-only"* ]]
+  [[ "$output" != *"$fake_dotfiles/claude/skills/claude-only/ -> $TMP/home/.agents/skills/claude-only"* ]]
 }
