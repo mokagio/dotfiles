@@ -61,6 +61,67 @@ ensure_real_dir() {
   fi
 }
 
+# 1Password holds the credentials every later step needs — the GPG signing key,
+# GHE SSH access, `gh auth login` — so it goes in and gets unlocked up front
+# instead of landing somewhere in the middle of a long `brew bundle` cask run.
+# The app/CLI handshake can't be scripted: "Integrate with 1Password CLI" is a
+# GUI toggle and biometric unlock needs a signed-in app, so this installs the
+# pair, opens the app, then waits on the user.
+bootstrap_1password() {
+  if op whoami >/dev/null 2>&1; then
+    echo "1Password CLI already signed in, skipping bootstrap"
+    return 0
+  fi
+
+  # `--adopt` because 1Password is often already in /Applications from a manual
+  # download; without it brew aborts on the existing app instead of taking it over.
+  local cask
+  for cask in 1password 1password-cli; do
+    if brew list --cask "$cask" >/dev/null 2>&1; then
+      echo "$cask already installed"
+    elif ! brew install --cask --adopt "$cask"; then
+      warn "brew install --cask $cask failed; continuing."
+    fi
+  done
+
+  open -a 1Password || warn "Could not open 1Password; open it manually."
+
+  echo ""
+  echo "1Password, in order:"
+  echo "  1. Sign in to your account in the app that just opened"
+  echo "  2. Settings > Developer > enable 'Integrate with 1Password CLI'"
+  echo "  3. Settings > Developer > enable 'Use the SSH agent' if you keep SSH keys here"
+  echo ""
+
+  if [[ ! -t 0 ]]; then
+    warn "Not an interactive shell, so not waiting for the 1Password sign-in."
+    warn "Do the steps above, then re-run setup.sh."
+    return 0
+  fi
+
+  wait_for_1password_cli \
+    || warn "Continuing without a working 'op'. Re-run setup.sh once 1Password is configured."
+  return 0
+}
+
+# Re-prompt instead of trusting the first enter: the Developer-settings toggle
+# is easy to skip, and an `op` that only fails three steps later is far more
+# confusing to debug than one caught here.
+wait_for_1password_cli() {
+  local attempt=1
+  while [[ $attempt -le 3 ]]; do
+    read -r -p "Press enter once signed in and the CLI integration is on... " _ || return 1
+    if op whoami >/dev/null 2>&1; then
+      echo "1Password CLI ready."
+      return 0
+    fi
+    warn "'op whoami' still fails — the CLI can't reach the app yet. ($attempt/3)"
+    attempt=$((attempt + 1))
+  done
+  warn "Giving up on the 1Password check after 3 tries."
+  return 1
+}
+
 ensure_codex_status_line() {
   local config=${CODEX_CONFIG:-$HOME/.codex/config.toml}
   local setting='status_line = ["model", "context-remaining", "current-dir", "git-branch"]'
@@ -230,6 +291,11 @@ echo "Priming sudo now so 'brew bundle' doesn't pause for a password later."
 sudo -v
 while true; do sudo -n true; sleep 50; kill -0 "$$" 2>/dev/null || exit; done 2>/dev/null &
 
+echo ""
+printf '\033[1;36m==> %s\033[0m\n' "Bootstrapping 1Password"
+bootstrap_1password
+
+echo ""
 if ! HOMEBREW_VERBOSE_USING_DOTS=1 brew bundle --verbose; then
   warn "brew bundle finished with errors. Some formulae may not have installed."
   warn "Run 'brew bundle' manually to retry."
