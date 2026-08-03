@@ -11,7 +11,9 @@ These are my dotfiles, in the hope to simplify the transition to any new machine
 1. Run the `setup.sh` script.
    It symlinks all the dotfiles to `$HOME` and installs the other tools.
    `brew bundle` may look unresponsive — it's actually just installing casks silently.
-1. Open and configure 1Password
+1. Early on, `setup.sh` installs 1Password and the `op` CLI, opens the app, and waits.
+   Sign in, then turn on Settings → Developer → "Integrate with 1Password CLI", then press enter.
+   Everything below that needs a credential — the GPG key, GHE access, `gh auth login` — comes from there.
 1. Open and configure Dropbox, as it contains the config folders for other apps
 
 ### After `setup.sh`

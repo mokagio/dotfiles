@@ -106,8 +106,8 @@ cask 'alfred'
 # Password manager — the README install steps reference opening
 # 1Password right after `setup.sh`, so it needs to actually be there.
 cask '1password'
-# 1Password CLI, invoked as `op`. Needs "Integrate with 1Password CLI" enabled
-# in the desktop app's Developer settings to unlock via Touch ID.
+# 1Password CLI, invoked as `op`. `setup.sh` installs this pair ahead of the
+# bundle and waits for sign-in; the entries here keep a plain `brew bundle` whole.
 cask '1password-cli'
 # Window manager configurable via a script
 cask 'hammerspoon'
