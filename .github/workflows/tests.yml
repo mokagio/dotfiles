@@ -8,12 +8,34 @@ on:
 
 jobs:
   bats:
+    name: bats (${{ matrix.bash }} bash)
     runs-on: macos-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        bash: [system, brew]
     steps:
       - uses: actions/checkout@v5
 
       - name: Install bats
         run: brew install bats-core
+
+      - name: Install bash 5
+        if: matrix.bash == 'brew'
+        run: brew install bash
+
+      # bats starts each test file with `env bash`, so PATH order picks the
+      # bash the suite runs under. Both matter, for different reasons: under
+      # 3.2 bats only reports a test's *last* command, so a mid-test assertion
+      # that fails is silently swallowed — 5.x is what actually enforces them.
+      # 3.2 stays because it's what the scripts themselves run under on macOS.
+      - name: Put the chosen bash first on PATH
+        run: |
+          if [[ "${{ matrix.bash }}" == system ]]; then
+            echo /bin >> "$GITHUB_PATH"
+          else
+            echo "$(brew --prefix)/bin" >> "$GITHUB_PATH"
+          fi
 
       - name: Configure git for hermetic tests
         run: |
@@ -22,4 +44,6 @@ jobs:
           git config --global commit.gpgsign false
 
       - name: Run bats suite
-        run: bats test/
+        run: |
+          bash --version | head -1
+          bats test/
