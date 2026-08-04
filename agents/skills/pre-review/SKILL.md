@@ -91,7 +91,8 @@ Read, don't summarize:
 
 For very large diffs or many PRs, review PRs in parallel by launching a subagent
 per PR (each writes its own file); keep per-PR analysis in one context so
-cross-file duplication is visible.
+cross-file duplication is visible. Have each subagent return its verdict line and
+the PR title, so the index in step 5 needs no second round of `gh` calls.
 
 ### 3. Make the go / no-go call
 
@@ -166,12 +167,16 @@ Rules for the file:
 ### 5. Report back in chat
 
 After all files are written, print a compact index — one line per PR — as
-clickable Markdown links, verdict first:
+clickable Markdown links, verdict first, then the PR title:
 
 ```
-- NO-GO — [woocommerce/woocommerce-ios#12345](url) — <file>
-- GO — [Automattic/pocket-casts-ios#678](url) — <file>
+- NO-GO — [woocommerce/woocommerce-ios#12345](url) — Add build warning increase guard
+- GO — [Automattic/pocket-casts-ios#678](url) — Realign the release branch on its remote during checkout
 ```
+
+Use the PR's own title, verbatim. Do **not** print the findings file name — it is
+derivable from `owner`/`repo`/`number` and tells the reader nothing the link
+doesn't. Sort NO-GO before GO.
 
 Nothing else. The detail lives in the files.
 
