@@ -12,15 +12,18 @@ setup() {
   PATH="$MOCK_DIR:$PATH"
   : > "$MOCK_DIR/calls"
 
-  # How many `op whoami` calls fail before one succeeds. 0 = already signed in,
+  # How many readiness probes fail before one succeeds. 0 = already signed in,
   # a big number = never works. Lets a test flip `op` mid-run without touching
   # stdin, which the prompt loop owns.
   echo 999 > "$MOCK_DIR/op-fails"
 
+  # `whoami` always fails, mirroring op 2.34.1, where it reports "account is not
+  # signed in" no matter how healthy the CLI is.
   cat > "$MOCK_DIR/op" <<'MOCK'
 #!/usr/bin/env bash
 dir="$(cd "$(dirname "$0")" && pwd)"
 echo "op $*" >> "$dir/calls"
+[[ "$1" == whoami ]] && exit 1
 remaining=$(cat "$dir/op-fails")
 if [[ "$remaining" -gt 0 ]]; then
   echo $((remaining - 1)) > "$dir/op-fails"
@@ -67,6 +70,14 @@ calls() {
   [[ "$output" == *"already signed in"* ]]
   [[ "$(calls)" != *"brew install"* ]]
   [[ "$(calls)" != *"open"* ]]
+}
+
+@test "a broken 'op whoami' does not mask a working CLI" {
+  echo 0 > "$MOCK_DIR/op-fails"
+  run bootstrap_1password < /dev/null
+  [[ "$status" -eq 0 ]]
+  [[ "$output" == *"already signed in"* ]]
+  [[ "$(calls)" != *"op whoami"* ]]
 }
 
 @test "not signed in: installs both the app and the CLI" {
@@ -130,7 +141,7 @@ MOCK
 
 # --- wait_for_1password_cli ---
 
-@test "returns 0 as soon as op whoami succeeds" {
+@test "returns 0 as soon as the readiness probe succeeds" {
   echo 0 > "$MOCK_DIR/op-fails"
   run wait_for_1password_cli <<< $'\n'
   [[ "$status" -eq 0 ]]
@@ -149,7 +160,7 @@ MOCK
   run wait_for_1password_cli <<< $'\n\n\n'
   [[ "$status" -eq 1 ]]
   [[ "$output" == *"Giving up"* ]]
-  [[ "$(grep -c 'op whoami' "$MOCK_DIR/calls")" -eq 3 ]]
+  [[ "$(grep -c 'op account get' "$MOCK_DIR/calls")" -eq 3 ]]
 }
 
 @test "EOF on stdin returns non-zero rather than looping" {

@@ -68,7 +68,7 @@ ensure_real_dir() {
 # GUI toggle and biometric unlock needs a signed-in app, so this installs the
 # pair, opens the app, then waits on the user.
 bootstrap_1password() {
-  if op whoami >/dev/null 2>&1; then
+  if op_ready; then
     echo "1Password CLI already signed in, skipping bootstrap"
     return 0
   fi
@@ -104,6 +104,13 @@ bootstrap_1password() {
   return 0
 }
 
+# Not `op whoami`: on 2.34.1 it reports "account is not signed in" while every
+# other command works against that same account, so it would fail this check on
+# a perfectly configured machine.
+op_ready() {
+  op account get >/dev/null 2>&1
+}
+
 # Re-prompt instead of trusting the first enter: the Developer-settings toggle
 # is easy to skip, and an `op` that only fails three steps later is far more
 # confusing to debug than one caught here.
@@ -111,11 +118,11 @@ wait_for_1password_cli() {
   local attempt=1
   while [[ $attempt -le 3 ]]; do
     read -r -p "Press enter once signed in and the CLI integration is on... " _ || return 1
-    if op whoami >/dev/null 2>&1; then
+    if op_ready; then
       echo "1Password CLI ready."
       return 0
     fi
-    warn "'op whoami' still fails — the CLI can't reach the app yet. ($attempt/3)"
+    warn "'op account get' still fails — the CLI can't reach the app yet. ($attempt/3)"
     attempt=$((attempt + 1))
   done
   warn "Giving up on the 1Password check after 3 tries."
