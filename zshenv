@@ -144,6 +144,9 @@ export HOMEBREW_NO_AUTO_UPDATE=1
 # gh-dash config lives in dotfiles instead of ~/.config/gh-dash/
 export GH_DASH_CONFIG="$DOTFILES_HOME/gh-dash.yml"
 
+# In zshenv, not zshrc, so scripts and cron jobs get the wrapper too.
+source "$DOTFILES_HOME/zsh/functions/claude.zsh"
+
 # Machine-local overrides (not tracked in dotfiles)
 LOCAL_ZSHENV="${HOME}/.zshenv.local"
 [[ -f "$LOCAL_ZSHENV" ]] && source "$LOCAL_ZSHENV"
