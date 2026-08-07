@@ -88,13 +88,16 @@ TMPPREFIX="${TMPDIR%/}/zsh"
 # Android dev stuff
 #
 export ANDROID_HOME=~/Library/Android/sdk
-# Notice how this depends on Android Studio. So far, it seems the best way
-# to make sure I have consistent Gradle behaviour between the IDE and the CLI
-#
-# See also: https://stackoverflow.com/a/43237101/809944
-#
-# Was jre before, but became jbr with Android Studio Giraffe
-export JAVA_HOME="/Applications/Android Studio.app/Contents/jbr/Contents/Home"
+# Gradle 8.13 refuses to run on JDK 24+, and Android Studio's bundled JBR is
+# on 25. Falls back to the JBR so a machine without Temurin still gets a JDK.
+# Drop this once the Android projects are on Gradle 9.1+, which runs on 25.
+JAVA_21_HOME=$(/usr/libexec/java_home -v 21 2>/dev/null)
+if [[ -n "$JAVA_21_HOME" ]]; then
+  export JAVA_HOME="$JAVA_21_HOME"
+else
+  export JAVA_HOME="/Applications/Android Studio.app/Contents/jbr/Contents/Home"
+fi
+unset JAVA_21_HOME
 # Add the platform-tools to the PATH to call them easily. Also, Fastlane looks
 # for them in PATH, it doesn't look in $ANDROID_HOME
 export PATH="$PATH:$ANDROID_HOME/platform-tools/"
